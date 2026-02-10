@@ -1,0 +1,31 @@
+name: Deploy Website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy to VM
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Clone or pull latest code
+            if [ -d ~/projects/website/.git ]; then
+              cd ~/projects/website && git pull origin main
+            else
+              rm -rf ~/projects/website
+              git clone https://github.com/uris/website.git ~/projects/website
+            fi
+            
+            # Rebuild container
+            cd ~/projects
+            docker-compose up -d --build website
+            docker image prune -f
