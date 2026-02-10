@@ -17,12 +17,15 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # Clone or pull latest code
+            # Add GitHub to known hosts if not already there
+            ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>/dev/null || true
+            
+            # Clone or pull latest code using SSH
             if [ -d ~/projects/website/.git ]; then
               cd ~/projects/website && git pull origin main
             else
               rm -rf ~/projects/website
-              git clone https://github.com/uris/website.git ~/projects/website
+              GIT_SSH_COMMAND='ssh -i ~/.ssh/github_actions -o StrictHostKeyChecking=no' git clone git@github.com:uris/website.git ~/projects/website
             fi
             
             # Rebuild container
