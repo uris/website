@@ -22,7 +22,9 @@ jobs:
             
             # Clone or pull latest code using SSH
             if [ -d ~/projects/website/.git ]; then
-              cd ~/projects/website && git pull origin main
+              cd ~/projects/website
+              git config pull.rebase false
+              GIT_SSH_COMMAND='ssh -i ~/.ssh/github_actions -o StrictHostKeyChecking=no' git pull origin main
             else
               rm -rf ~/projects/website
               GIT_SSH_COMMAND='ssh -i ~/.ssh/github_actions -o StrictHostKeyChecking=no' git clone git@github.com:uris/website.git ~/projects/website
@@ -30,5 +32,5 @@ jobs:
             
             # Rebuild container
             cd ~/projects
-            docker-compose up -d --build website
+            docker compose up -d --build website
             docker image prune -f
