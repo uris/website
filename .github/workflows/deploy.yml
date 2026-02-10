@@ -30,7 +30,7 @@ jobs:
               GIT_SSH_COMMAND='ssh -i ~/.ssh/github_actions -o StrictHostKeyChecking=no' git clone git@github.com:uris/website.git ~/projects/website
             fi
             
-            # Rebuild container
+            # Rebuild container (using docker-compose with hyphen)
             cd ~/projects
-            docker compose up -d --build website
+            docker-compose up -d --build website
             docker image prune -f
