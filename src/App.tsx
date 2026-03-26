@@ -1,17 +1,15 @@
-import { FlexDiv, ProgressIndicator, useWindow } from '@apple-pie/slice';
-import './App.css';
+import { FlexDiv, useWindow } from '@apple-pie/slice';
 
 function App() {
-	const win = useWindow();
+	const { height } = useWindow();
 	return (
 		<FlexDiv
 			width={'viewport'}
-			height={win.height}
+			height={height}
 			alignItems={'center'}
 			justify={'center'}
 		>
-			<ProgressIndicator show inline size={24} stroke={1.5} />
-			arriving soon.
+			<h1>👋 Welcome.</h1>
 		</FlexDiv>
 	);
 }
