@@ -6,11 +6,12 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
-		"lint": "biome check .",
+		"lint": "biome format --write . &&  biome check .",
 		"format": "biome format --write .",
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@apple-pie/slice": "^0.1.19",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0"
 	},
