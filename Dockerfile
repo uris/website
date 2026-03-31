@@ -1,13 +1,18 @@
-# Build stage
-FROM node:20-alpine as build
+FROM node:20-alpine AS base
 WORKDIR /app
+
+FROM base AS deps
 COPY package*.json ./
-RUN npm install
+RUN npm ci
+
+FROM base AS build
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
-# Production stage
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM base AS runner
+ENV NODE_ENV=production
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+EXPOSE 3000
+CMD ["node", "server.js"]
