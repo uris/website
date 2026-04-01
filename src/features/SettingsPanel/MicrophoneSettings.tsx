@@ -1,4 +1,4 @@
-import { DropDown, Slider } from '@apple-pie/slice';
+import {DropDown, Slider} from '@apple-pie/slice';
 import {
 	useMicMuted,
 	useMicOptions,
@@ -17,11 +17,12 @@ export function MicrophoneSettings() {
 	const isRequesting = useMicRequesting();
 	const muted = useMicMuted();
 	const label = muted ? 'muted' : undefined;
+	const micIcon = muted ? 'mic muted' : 'mic';
 
 	return (
 		<div className={styles.settingsBlock}>
 			<SettingsSectionTitle title={'Microphone'} label={label} working={isRequesting} />
-			<SettingsOption icon={'mic'} gap={12}>
+			<SettingsOption icon={micIcon} gap={12}>
 				<DropDown
 					disabled={!micSupported}
 					backgroundColor={'transparent'}

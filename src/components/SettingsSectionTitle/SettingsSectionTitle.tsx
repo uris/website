@@ -17,7 +17,7 @@ export function SettingsSectionTitle(props: Readonly<SettingsSectionTitleProps>)
 					<Icon name={icon} size={18} />
 				</div>
 			)}
-			<Label borderSize={0} className={'body-l-bold'}>
+			<Label borderSize={0} className={'body-m-medium'}>
 				{title}
 			</Label>
 			{label && <Label className={'body-s-bold'}>{label}</Label>}

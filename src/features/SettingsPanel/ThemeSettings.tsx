@@ -1,41 +1,34 @@
 import { useTheme } from '@apple-pie/slice';
-import { useState } from 'react';
 import styles from '@/features/SettingsPanel/SettingsPanel.module.css';
 import { SettingsSectionTitle } from '@/src/components/SettingsSectionTitle/SettingsSectionTitle';
 import { ToggleButton } from '@/src/components/ToggleButton/ToggleButton';
 
 export function ThemeSettings() {
-	const [selected, setSelected] = useState<string>('system');
-	const theme = useTheme();
-
-	const handleSelect = (selection: string) => {
-		setSelected(selection);
-		theme.set(selection);
-	};
+	const { systemTheme, current, set: setTheme } = useTheme();
 
 	return (
 		<div className={styles.settingsBlock}>
 			<SettingsSectionTitle title={'Theme'} />
 			<ToggleButton
 				unselect={false}
-				selected={selected === 'system'}
+				selected={systemTheme}
 				label={'System'}
 				icon={'keyboard'}
-				onSelect={() => handleSelect('system')}
+				onSelect={() => setTheme('system')}
 			/>
 			<ToggleButton
 				unselect={false}
-				selected={selected === 'lightMode'}
+				selected={!systemTheme && current.name === 'lightMode'}
 				label={'Light'}
 				icon={'circle'}
-				onChange={() => handleSelect('lightMode')}
+				onSelect={() => setTheme('lightMode')}
 			/>
 			<ToggleButton
 				unselect={false}
-				selected={selected === 'darkMode'}
+				selected={!systemTheme && current.name === 'darkMode'}
 				label={'Dark'}
 				icon={'target'}
-				onChange={() => handleSelect('darkMode')}
+				onSelect={() => setTheme('darkMode')}
 			/>
 		</div>
 	);

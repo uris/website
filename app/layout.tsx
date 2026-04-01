@@ -16,12 +16,15 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: Readonly<PropsWithChildren>) {
 	const cookieStore = await cookies();
 	const cookieTheme = cookieStore.get('slice-theme')?.value;
+	const systemTheme = cookieStore.get('slice-system-theme')?.value === 'true';
 	const initialTheme = resolveInitialTheme({ cookieTheme });
 
 	return (
 		<html lang="en" {...getThemeHtmlAttributes(initialTheme)}>
 			<body>
-				<Providers initialTheme={initialTheme}>{children}</Providers>
+				<Providers initialTheme={initialTheme} systemTheme={systemTheme}>
+					{children}
+				</Providers>
 			</body>
 		</html>
 	);
