@@ -22,8 +22,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 			</p>
 			<h1 style={{ marginBottom: 8 }}>{slug}</h1>
 			<p style={{ marginTop: 0, maxWidth: 720 }}>
-				This route is a server-rendered content page stub for project goals,
-				scope, team, and supporting context.
+				This route is a server-rendered content page stub for project goals, scope, team, and
+				supporting context.
 			</p>
 		</article>
 	);

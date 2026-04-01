@@ -13,9 +13,7 @@ export const metadata: Metadata = {
 	description: 'AI workflows and project content.',
 };
 
-export default async function RootLayout({
-	children,
-}: Readonly<PropsWithChildren>) {
+export default async function RootLayout({ children }: Readonly<PropsWithChildren>) {
 	const cookieStore = await cookies();
 	const cookieTheme = cookieStore.get('slice-theme')?.value;
 	const initialTheme = resolveInitialTheme({ cookieTheme });
