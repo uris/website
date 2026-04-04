@@ -6,10 +6,10 @@ import { ThemeSettings } from '@/features/SettingsPanel/ThemeSettings';
 
 export function SettingsPanel() {
 	return (
-		<FlexDiv preset={Preset.FillScroll} padding={'0 20px 0 24px'} style={{ minWidth: 260 }}>
-			<AISettings />
+		<FlexDiv preset={Preset.FillScroll} padding={'0 12px 0 16px'}>
 			<SoundSettings />
 			<MicrophoneSettings />
+			<AISettings />
 			<ThemeSettings />
 		</FlexDiv>
 	);

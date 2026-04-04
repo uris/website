@@ -1,7 +1,7 @@
-import { useTheme } from '@apple-pie/slice';
+import { ToggleButton, useTheme } from '@apple-pie/slice';
 import styles from '@/features/SettingsPanel/SettingsPanel.module.css';
+import { SettingsOption } from '@/src/components/SettingsOption/SettingsOption';
 import { SettingsSectionTitle } from '@/src/components/SettingsSectionTitle/SettingsSectionTitle';
-import { ToggleButton } from '@/src/components/ToggleButton/ToggleButton';
 
 export function ThemeSettings() {
 	const { systemTheme, current, set: setTheme } = useTheme();
@@ -9,27 +9,36 @@ export function ThemeSettings() {
 	return (
 		<div className={styles.settingsBlock}>
 			<SettingsSectionTitle title={'Theme'} />
-			<ToggleButton
-				unselect={false}
-				selected={systemTheme}
-				label={'System'}
-				icon={'keyboard'}
-				onSelect={() => setTheme('system')}
-			/>
-			<ToggleButton
-				unselect={false}
-				selected={!systemTheme && current.name === 'lightMode'}
-				label={'Light'}
-				icon={'circle'}
-				onSelect={() => setTheme('lightMode')}
-			/>
-			<ToggleButton
-				unselect={false}
-				selected={!systemTheme && current.name === 'darkMode'}
-				label={'Dark'}
-				icon={'target'}
-				onSelect={() => setTheme('darkMode')}
-			/>
+			<SettingsOption>
+				<ToggleButton
+					unselect={false}
+					selected={systemTheme}
+					label={'System'}
+					icon={'laptop'}
+					fill
+					onSelect={() => setTheme('system')}
+				/>
+			</SettingsOption>
+			<SettingsOption>
+				<ToggleButton
+					unselect={false}
+					selected={!systemTheme && current.name === 'lightMode'}
+					label={'Morning people'}
+					icon={'sun'}
+					fill
+					onSelect={() => setTheme('lightMode')}
+				/>
+			</SettingsOption>
+			<SettingsOption>
+				<ToggleButton
+					unselect={false}
+					selected={!systemTheme && current.name === 'darkMode'}
+					label={'Night shifters'}
+					icon={'moon full'}
+					fill
+					onSelect={() => setTheme('darkMode')}
+				/>
+			</SettingsOption>
 		</div>
 	);
 }

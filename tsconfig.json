@@ -13,7 +13,9 @@
 		"paths": {
 			"@/*": ["./*"],
 			"@/src/*": ["./src/*"],
-			"@/features/*": ["./src/features/*"]
+			"@/features/*": ["./src/features/*"],
+			"@/assets/*": ["./src/assets/*"],
+			"@/utils/*": ["./src/utils/*"]
 		},
 		"resolveJsonModule": true,
 		"isolatedModules": true,

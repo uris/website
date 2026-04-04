@@ -13,6 +13,7 @@ const useAILayoutStore = create<AILayoutStore>((set, get) => ({
 		toggleSettings: (open) => {
 			const settingsOpen = open === undefined ? !get().settingsOpen : open;
 			const sidebarOpen = settingsOpen ? false : get().sidebarOpen;
+			console.log('toggleSettings', { settingsOpen, sidebarOpen });
 			set({ settingsOpen, sidebarOpen });
 		},
 	},

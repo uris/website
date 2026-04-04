@@ -1,42 +1,38 @@
 'use client';
 
-import { AudioBubble, FlexDiv, Preset } from '@apple-pie/slice';
-import { useMicrophone } from '@apple-pie/slice/hooks';
-import {
-	useMicActive,
-	useMicMuted,
-	useMicRequesting,
-	useMicrophoneStoreActions,
-	useMicStream,
-	useSyncMicrophoneStore,
-} from '@apple-pie/slice/stores';
-import { useEffect, useRef } from 'react';
+import { Spacer } from '@apple-pie/slice';
+import { useEffect } from 'react';
+import { useAILayout, useSettingsOpen } from '@/app/(ai)/store/layout-store';
+import { ProfilePic } from '@/src/components/ProfilePic/ProfilePic';
+import { introMessageMd } from '@/src/content/intro/intro';
+import { useStreamSimulator } from '@/src/hooks/streamSimulator/streamSimulator';
+import { MarkdownRenderer } from '@/src/renderers/markdown/MarkdownRenderer';
+import styles from './AIPanel.module.css';
 
 export function AIPanelBody() {
-	const microphone = useMicrophone(false, '', false);
-	const micActions = useMicrophoneStoreActions();
-	const micStream = useMicStream();
-	const micActive = useMicActive();
-	const micMuted = useMicMuted();
-	const micRequesting = useMicRequesting();
-	const timer = useRef<NodeJS.Timeout>(null);
-	useSyncMicrophoneStore(microphone);
+	const showSidebar = useAILayout().toggleSideBar;
+	const settingsOpen = useSettingsOpen();
+	// set up the initial message as simulated
+	const { healthy, startStream } = useStreamSimulator(introMessageMd, handleMessageEnd);
 
-	// note: need to wait to request the mic since chrome appears to "freeze" animation frames
-	// when Macs try to connect to iPhones as an audio/video source
-	useEffect(() => {
-		if (micActive || micRequesting) return;
-		timer.current = setTimeout(async () => {
-			await micActions.requestMicrophone();
-		}, 1000);
-		return () => {
-			if (timer.current) clearTimeout(timer.current);
-		};
-	}, [micActive, micRequesting, micActions]);
+	// trigger the sidebar on the message end
+	function handleMessageEnd() {
+		console.log('message end', settingsOpen);
+		if (!settingsOpen) showSidebar(true);
+	}
+
+	// kick off the first on-screen message
+	useEffect(() => startStream(), [startStream]);
 
 	return (
-		<FlexDiv preset={Preset.FillCenter} padding={24} gap={16}>
-			<AudioBubble audioStream={micStream.current} playing={micActive && !micMuted} />
-		</FlexDiv>
+		<div className={styles.body}>
+			<div className={styles.content}>
+				<ProfilePic />
+				<Spacer size={8} />
+				<MarkdownRenderer content={healthy} />
+			</div>
+		</div>
 	);
 }
+
+// <AudioBubble audioStream={processedMicStream.current} playing={micActive && !micMuted} />

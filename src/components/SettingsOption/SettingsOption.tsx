@@ -8,24 +8,28 @@ interface SettingsOptionProps {
 	icon?: string;
 	gap?: number;
 	disabled?: boolean;
+	highlight?: boolean;
 }
 
 export function SettingsOption(props: Readonly<SettingsOptionProps>) {
-	const { children, icon, gap = 8, disabled = false } = props;
+	const { children, icon, gap = 0, disabled = false, highlight = false } = props;
 
 	const pointerEvents = useMemo(() => (disabled ? 'none' : 'auto'), [disabled]);
 	const opacity = useMemo(() => (disabled ? 0.5 : 1), [disabled]);
 
 	return (
-		<FlexDiv preset={Preset.Row} gap={gap}>
+		<div className={styles.wrapper} style={{ gap }}>
 			{icon && (
-				<div className={styles.icon} style={{ pointerEvents, opacity }}>
-					<Icon name={icon} />
+				<div
+					className={`${styles.icon} ${highlight ? styles.highlight : ''}`}
+					style={{ pointerEvents, opacity }}
+				>
+					<Icon name={icon} fill />
 				</div>
 			)}
 			<FlexDiv preset={Preset.Row} gap={8} style={{ pointerEvents, opacity }}>
 				{children}
 			</FlexDiv>
-		</FlexDiv>
+		</div>
 	);
 }

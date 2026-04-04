@@ -1,17 +1,8 @@
 'use client';
 
-import {
-	DraggablePanel,
-	FlexDiv,
-	Preset,
-	Tip,
-	Toast,
-	useTheme,
-	useToolTip,
-} from '@apple-pie/slice';
+import { DraggablePanel, FlexDiv, Preset, Tip, Toast, useToolTip } from '@apple-pie/slice';
 import { useWindow } from '@apple-pie/slice/hooks';
 import { useTip, useToast } from '@apple-pie/slice/stores';
-import { tintFromColor } from '@apple-pie/slice/utils';
 import { useRef } from 'react';
 import { SETTINGS_CONSTRAINTS, SIDEBAR_CONSTRAINTS } from '@/app/(ai)/_defaults';
 import { useSettingsOpen, useSidebarOpen } from '@/app/(ai)/store/layout-store';
@@ -20,12 +11,9 @@ import { SettingsPanel } from '@/features/SettingsPanel/SettingsPanel';
 
 export default function AiWorkspacePage() {
 	const { height } = useWindow();
-	const { current, isDark } = useTheme();
 	const tipRef = useRef<HTMLDivElement>(null);
 	const tip = useTip();
 	const coords = useToolTip(tip, tipRef);
-	const surface = current.colors['core-surface-primary'];
-	const tinted = tintFromColor(surface, isDark ? -20 : -1.1);
 	const sideBarOpen = useSidebarOpen();
 	const settingsOpen = useSettingsOpen();
 	const toast = useToast();
@@ -39,13 +27,19 @@ export default function AiWorkspacePage() {
 					isClosed={!settingsOpen}
 					dragHandle={false}
 				>
-					<FlexDiv preset={Preset.FillStart} scrollBox background={tinted}>
+					<FlexDiv
+						preset={Preset.FillStart}
+						scrollBox
+						background={'var(--core-surface-primary-tint)'}
+						style={{ minWidth: 280 }}
+					>
 						<SettingsPanel />
 					</FlexDiv>
 				</DraggablePanel>
 			</FlexDiv>
 			<FlexDiv preset={Preset.FillCenter} style={{ minWidth: 360 }}>
 				<AIPanel />
+				<Toast {...toast} container={'parent'} />
 			</FlexDiv>
 			<FlexDiv preset={Preset.Draggable}>
 				<DraggablePanel
@@ -56,7 +50,7 @@ export default function AiWorkspacePage() {
 					<FlexDiv
 						preset={Preset.FillStart}
 						scrollBox
-						background={tinted}
+						background={'var(--core-surface-primary-tint)'}
 						style={{ maxWidth: 'calc(100vw - 360px)' }}
 					>
 						Side Panel
@@ -64,7 +58,6 @@ export default function AiWorkspacePage() {
 				</DraggablePanel>
 			</FlexDiv>
 			<Tip tip={tip} coords={coords} ref={tipRef} />
-			<Toast {...toast} />
 		</FlexDiv>
 	);
 }

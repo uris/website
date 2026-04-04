@@ -1,34 +1,53 @@
 'use client';
 
-import { FlexDiv, IconButton, Preset } from '@apple-pie/slice';
+import { FlexDiv, Preset, ToggleButton, useTheme } from '@apple-pie/slice';
 import { useTipActions } from '@apple-pie/slice/stores';
-import { useAILayout } from '@/app/(ai)/store/layout-store';
+import type React from 'react';
+import { useMemo } from 'react';
+import { useAILayout, useSettingsOpen, useSidebarOpen } from '@/app/(ai)/store/layout-store';
+import { gradientCover } from '@/utils/styles/styles';
+import styles from './AIPanel.module.css';
 
 export function AIPanelHeader() {
+	const { current } = useTheme();
+	const surfaceColor = current.colors['core-surface-primary'];
 	const toggleSideBar = useAILayout().toggleSideBar;
 	const toggleSettings = useAILayout().toggleSettings;
+	const settingsOpen = useSettingsOpen();
+	const sidebarOpen = useSidebarOpen();
 	const setTip = useTipActions().push;
 
+	// memo dynamic css variables
+	const cssVars = useMemo(() => {
+		return {
+			'--header-gradient': gradientCover(surfaceColor, 'bottom'),
+		} as React.CSSProperties;
+	}, [surfaceColor]);
+
 	return (
-		<FlexDiv preset={Preset.RowBetween} padding={24}>
+		<div className={styles.header} style={cssVars}>
 			<FlexDiv preset={Preset.Row} gap={16}>
-				<IconButton
-					icon={'settings'}
+				<ToggleButton
 					buttonSize={'l'}
-					onClick={() => toggleSettings()}
+					icon={'settings'}
+					onChange={toggleSettings}
 					tooltip={'Settings'}
 					onToolTip={setTip}
+					fill
+					selected={settingsOpen}
 				/>
 			</FlexDiv>
 			<FlexDiv preset={Preset.Row} justify={'end'} gap={16}>
-				<IconButton
-					icon={'sidebar'}
+				<ToggleButton
 					buttonSize={'l'}
-					onClick={() => toggleSideBar()}
+					icon={'sidebar split'}
+					onChange={toggleSideBar}
 					tooltip={'Sidebar'}
 					onToolTip={setTip}
+					fill
+					selected={sidebarOpen}
 				/>
 			</FlexDiv>
-		</FlexDiv>
+		</div>
 	);
 }
