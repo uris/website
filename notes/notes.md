@@ -19,3 +19,5 @@
 - Connect
 - Disconnect
 - Set Mode (talk/type)
+- 
+  "@apple-pie/slice": "file:../uikit/pack/apple-pie-slice-0.1.28.tgz",
