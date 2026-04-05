@@ -1,6 +1,6 @@
 'use client';
 
-import { IconButton, ToggleButton, useTheme } from '@apple-pie/slice';
+import {IconButton, ToggleButton, useTheme} from '@apple-pie/slice';
 import {
 	useMicActive,
 	useMicMuted,

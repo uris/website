@@ -48,7 +48,7 @@
 }
 
 .content {
-	composes: body-xl-regular from "../../utils/css-helpers/type.module.css";
+	composes: body-l-regular from "../../utils/css-helpers/type.module.css";
 	padding: 0 64px;
 	color: var(--core-text-secondary);
 	position: relative;
@@ -77,4 +77,8 @@
 	right: 10px;
 	z-index: var(--elevation-float);
 	background: var(--footer-gradient);
+}
+
+.body .content :global(h1) {
+	line-height: 1.2em;
 }

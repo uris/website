@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import type React from 'react';
-import { useMemo } from 'react';
 import profilePic from '../../assets/profile-pic.png';
 import styles from './ProfilePic.module.css';
 
@@ -18,19 +17,17 @@ export function ProfilePic(props: Readonly<ProfilePicProps>) {
 		borderColor = 'var(--core-outline-primary)',
 	} = props;
 
-	const cssVars = useMemo(() => {
-		return {
-			'--profile-pic-border-color': borderColor,
-			'--profile-pic-border-size': `${borderSize}px`,
-			'--profile-pic-bg-color': bgColor,
-			'--profile-pic-size': `${size}px`,
-			'--profile-pic-padding-top': `${borderSize * 3}px`,
-		} as React.CSSProperties;
-	}, [borderColor, borderSize, bgColor, size]);
+	const cssVars = {
+		'--profile-pic-border-color': borderColor,
+		'--profile-pic-border-size': `${borderSize}px`,
+		'--profile-pic-bg-color': bgColor,
+		'--profile-pic-size': `${size}px`,
+		'--profile-pic-padding-top': `${borderSize * 3}px`,
+	} as React.CSSProperties;
 
 	return (
 		<div className={styles.profile} style={cssVars}>
-			<Image src={profilePic} width={size - borderSize * 2} alt={'Uris Da Costa'} />
+			<Image src={profilePic} fill alt={'Uris Da Costa'} />
 		</div>
 	);
 }

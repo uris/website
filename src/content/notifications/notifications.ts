@@ -37,3 +37,32 @@ export const micConnectNotification = (connected: boolean) => {
 		position: 'top',
 	} as Toast;
 };
+
+export const viConnectionNotification = (
+	state: 'Connecting' | 'Connected' | 'Disconnecting' | 'Disconnected',
+) => {
+	const messageMap = {
+		Connecting: 'Connecting to Vi ...',
+		Connected: 'Connected to Vi',
+		Disconnecting: 'Disconnecting from Vi ...',
+		Disconnected: 'Disconnected from Vi',
+	};
+	const typeMap = {
+		Connecting: ToastType.Info,
+		Connected: ToastType.Success,
+		Disconnecting: ToastType.Info,
+		Disconnected: ToastType.Warning,
+	};
+	const durationMap = {
+		Connecting: 'Infinite',
+		Connected: 2000,
+		Disconnecting: 'Infinite',
+		Disconnected: 2000,
+	};
+	return {
+		message: messageMap[state],
+		type: typeMap[state],
+		duration: durationMap[state],
+		position: 'top',
+	} as Toast;
+};

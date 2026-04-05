@@ -1,6 +1,14 @@
 'use client';
 
-import { DraggablePanel, FlexDiv, Preset, Tip, Toast, useToolTip } from '@apple-pie/slice';
+import {
+	DraggablePanel,
+	FlexDiv,
+	ModalController,
+	Preset,
+	Tip,
+	Toast,
+	useToolTip,
+} from '@apple-pie/slice';
 import { useWindow } from '@apple-pie/slice/hooks';
 import { useTip, useToast } from '@apple-pie/slice/stores';
 import { useRef } from 'react';
@@ -11,6 +19,7 @@ import { SettingsPanel } from '@/features/SettingsPanel/SettingsPanel';
 
 export default function AiWorkspacePage() {
 	const { height } = useWindow();
+	const viewRef = useRef<HTMLDivElement>(null);
 	const tipRef = useRef<HTMLDivElement>(null);
 	const tip = useTip();
 	const coords = useToolTip(tip, tipRef);
@@ -19,7 +28,13 @@ export default function AiWorkspacePage() {
 	const toast = useToast();
 
 	return (
-		<FlexDiv preset={Preset.Window} height={height}>
+		<FlexDiv
+			preset={Preset.Window}
+			height={height}
+			justify={'center'}
+			align={'center'}
+			ref={viewRef}
+		>
 			<FlexDiv preset={Preset.Draggable}>
 				<DraggablePanel
 					drags={'right'}
@@ -58,6 +73,7 @@ export default function AiWorkspacePage() {
 				</DraggablePanel>
 			</FlexDiv>
 			<Tip tip={tip} coords={coords} ref={tipRef} />
+			<ModalController dragConstraintsRef={viewRef} draggable={true} />
 		</FlexDiv>
 	);
 }

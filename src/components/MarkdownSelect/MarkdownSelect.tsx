@@ -1,7 +1,4 @@
-'use client';
-
 import { DropDown } from '@apple-pie/slice';
-import { useMemo } from 'react';
 
 interface MarkdownSelectProps {
 	options?: unknown;
@@ -34,12 +31,10 @@ function normalizeOptions(options: unknown): string[] {
 }
 
 export function MarkdownSelect(props: Readonly<MarkdownSelectProps>) {
-	const normalizedOptions = useMemo(() => normalizeOptions(props.options), [props.options]);
+	const normalizedOptions = normalizeOptions(props.options);
 
-	// memo options into drop down options ready for slice dropdown
-	const dropDownOptions = useMemo(() => {
-		return normalizedOptions.map((option) => ({ label: option, value: option }));
-	}, [normalizedOptions]);
+	// map options into dropdown options ready for slice dropdown
+	const dropDownOptions = normalizedOptions.map((option) => ({ label: option, value: option }));
 
 	// guard for actual options
 	if (dropDownOptions.length === 0) return null;
@@ -51,9 +46,9 @@ export function MarkdownSelect(props: Readonly<MarkdownSelectProps>) {
 			width={'auto'}
 			selectedIndex={0}
 			options={dropDownOptions}
-			paddingBottom={4}
-			paddingTop={4}
-			textColor={'var(--core-link-primary)'}
+			paddingBottom={2}
+			paddingTop={2}
+			size={'l'}
 			iconColor={'var(--core-link-primary)'}
 		/>
 	);

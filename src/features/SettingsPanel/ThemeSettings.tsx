@@ -1,3 +1,5 @@
+'use client';
+
 import { ToggleButton, useTheme } from '@apple-pie/slice';
 import styles from '@/features/SettingsPanel/SettingsPanel.module.css';
 import { SettingsOption } from '@/src/components/SettingsOption/SettingsOption';

@@ -1,4 +1,5 @@
 .profile {
+	position: relative;
 	border-radius: 100%;
 	border: var(--profile-pic-border-size) solid var(--profile-pic-border-color);
 	background-color: var(--profile-pic-bg-color);

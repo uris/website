@@ -1,3 +1,5 @@
+'use client';
+
 import { Slider, ToggleButton } from '@apple-pie/slice';
 import {
 	useMuted,

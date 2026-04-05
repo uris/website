@@ -1,3 +1,5 @@
+'use client';
+
 import { FlexDiv, Icon, IconButton, Preset } from '@apple-pie/slice';
 import { useTipActions } from '@apple-pie/slice/stores';
 import { useAILayout } from '@/app/(ai)/store/layout-store';

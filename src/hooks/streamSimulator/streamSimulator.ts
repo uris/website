@@ -33,8 +33,8 @@ export const useStreamSimulator = (
 	const interval = useRef<ReturnType<typeof setInterval> | null>(null);
 	const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const [chunk, setChunk] = useState<string | null>(null);
-	const [cummulative, setCummulative] = useState<string | null>(null);
-	const cummulativeRef = useRef<string | null>(null);
+	const [cumulative, setCumulative] = useState<string | null>(null);
+	const cumulativeRef = useRef<string | null>(null);
 	const [streaming, setStreaming] = useState<boolean>(false);
 	const [complete, setComplete] = useState<boolean>(false);
 
@@ -56,12 +56,12 @@ export const useStreamSimulator = (
 		if (timeout.current) clearTimeout(timeout.current);
 		if (!endDelay.current) {
 			setComplete(true);
-			didEndRef.current(cummulativeRef.current);
+			didEndRef.current(cumulativeRef.current);
 			return;
 		}
 		timeout.current = setTimeout(() => {
 			setComplete(true);
-			didEndRef.current(cummulativeRef.current);
+			didEndRef.current(cumulativeRef.current);
 		}, endDelay.current);
 	}, []);
 
@@ -72,11 +72,11 @@ export const useStreamSimulator = (
 		currentIndex.current = 0;
 		resetBuffer();
 		setChunk(null);
-		setCummulative(null);
+		setCumulative(null);
 		setComplete(false);
 	};
 
-	// core handler of incremntal chunks off raw
+	// core handler of incremental chunks off raw
 	const processNextChunk = () => {
 		// get next chunk
 		const nextChunk = buffer.current.slice(
@@ -91,13 +91,13 @@ export const useStreamSimulator = (
 			return;
 		}
 
-		// set chunk and cummulative
+		// set chunk and cumulative
 		append(nextChunk);
 		setChunk(nextChunk);
-		setCummulative((prev) => {
-			const nextCummulative = prev ? prev + nextChunk : nextChunk;
-			cummulativeRef.current = nextCummulative;
-			return nextCummulative;
+		setCumulative((prev) => {
+			const nextCumulative = prev ? prev + nextChunk : nextChunk;
+			cumulativeRef.current = nextCumulative;
+			return nextCumulative;
 		});
 
 		// increment index
@@ -110,7 +110,7 @@ export const useStreamSimulator = (
 		}
 	};
 
-	// trigger start of stream
+	// trigger the start of a stream
 	const startStream = () => {
 		// starts the stream
 		if (interval.current || currentIndex.current >= buffer.current.length) return;
@@ -129,8 +129,8 @@ export const useStreamSimulator = (
 		pauseStream();
 		resetBuffer();
 		setChunk(null);
-		setCummulative(null);
-		cummulativeRef.current = null;
+		setCumulative(null);
+		cumulativeRef.current = null;
 		setComplete(false);
 		buffer.current = raw;
 		const { chunkSize: cs, chunkGap: cg, didEndDelay: ed } = options ?? {};
@@ -148,11 +148,11 @@ export const useStreamSimulator = (
 		};
 	}, []);
 
-	// if complete return the raw cummulative
+	// if complete, return the raw cumulative
 	return {
 		chunk,
-		cummulative,
-		healthy: complete ? cummulative : healthy,
+		cumulative,
+		healthy: complete ? cumulative : healthy,
 		streaming,
 		startStream,
 		pauseStream,
