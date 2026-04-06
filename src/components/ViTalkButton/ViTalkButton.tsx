@@ -3,7 +3,7 @@
 import { IconButton, ProgressIndicator, useLocalStore } from '@apple-pie/slice';
 import { useModalActions, useTipActions } from '@apple-pie/slice/stores';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { viTalkModal } from '@/src/components/ViTalkButton/ViTalkModal';
+import { ViTalkModal } from '@/src/components/ViTalkModal/ViTalkModal';
 import { useViActions, useViConnected, useViConnecting, useViTalk } from '@/src/stores/ai/viStore';
 import styles from './ViTalkButton.module.css';
 
@@ -58,7 +58,8 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 		if (viTalkConfirm) return true;
 		return await modalResponse<boolean>({
 			id: 'vi-intro',
-			component: viTalkModal,
+			component: ViTalkModal,
+			props: { connect: true },
 		}).catch(() => false);
 	};
 

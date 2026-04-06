@@ -10,12 +10,14 @@ import { Providers } from './providers';
 import './globals.css';
 import '@apple-pie/slice/styles.css';
 
+// setup for funnel sans google font
 const funnelSans = Funnel_Sans({
 	subsets: ['latin'],
 	display: 'swap',
 	variable: '--font-funnel-sans',
 });
 
+// setup page meta
 export const metadata: Metadata = {
 	title: 'Uris Design',
 	description: 'AI workflows and project content.',
@@ -23,18 +25,14 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: Readonly<PropsWithChildren>) {
 	const cookieStore = await cookies();
-	const cookieTheme = cookieStore.get('slice-theme')?.value;
+	const activeTheme = cookieStore.get('slice-theme')?.value;
 	const systemTheme = cookieStore.get('slice-system-theme')?.value === 'true';
-	const initialTheme = resolveInitialTheme({ cookieTheme });
+	const { initialTheme, initialSystem } = resolveInitialTheme({ activeTheme, systemTheme });
 
 	return (
-		<html
-			lang="en"
-			className={funnelSans.variable}
-			{...getThemeHtmlAttributes(initialTheme)}
-		>
+		<html lang="en" className={funnelSans.variable} {...getThemeHtmlAttributes(initialTheme)}>
 			<body>
-				<Providers initialTheme={initialTheme} systemTheme={systemTheme}>
+				<Providers initialTheme={initialTheme} initialSystem={initialSystem}>
 					{children}
 				</Providers>
 			</body>

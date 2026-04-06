@@ -4,14 +4,15 @@ import styles from './SettingsOption.module.css';
 
 interface SettingsOptionProps {
 	children?: React.ReactNode;
-	icon?: string;
 	gap?: number;
 	disabled?: boolean;
 	highlight?: boolean;
+	icon?: string;
+	onIconClick?: (e: React.MouseEvent<SVGElement, MouseEvent>) => void;
 }
 
 export function SettingsOption(props: Readonly<SettingsOptionProps>) {
-	const { children, icon, gap = 0, disabled = false, highlight = false } = props;
+	const { children, icon, gap = 0, disabled = false, highlight = false, onIconClick } = props;
 
 	const pointerEvents = disabled ? 'none' : 'auto';
 	const opacity = disabled ? 0.5 : 1;
@@ -23,7 +24,7 @@ export function SettingsOption(props: Readonly<SettingsOptionProps>) {
 					className={`${styles.icon} ${highlight ? styles.highlight : ''}`}
 					style={{ pointerEvents, opacity }}
 				>
-					<Icon name={icon} fill />
+					<Icon name={icon} fill onClick={onIconClick} />
 				</div>
 			)}
 			<FlexDiv preset={Preset.Row} gap={8} style={{ pointerEvents, opacity }}>

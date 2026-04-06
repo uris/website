@@ -26,7 +26,6 @@
 	overflow: hidden;
 	overflow-y: auto;
 	padding: 92px 0;
-	margin-right: 4px;
 	&::-webkit-scrollbar {
 		background-color: var(--core-surface-primary);
 		width: 6px;

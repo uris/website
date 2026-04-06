@@ -1,16 +1,8 @@
 'use client';
 
-import {
-	FlexDiv,
-	Icon,
-	IconButton,
-	Label,
-	LabelBackground,
-	Preset,
-	ProgressIndicator,
-} from '@apple-pie/slice';
+import { FlexDiv, Icon, IconButton, Label, Preset, ProgressIndicator } from '@apple-pie/slice';
 import { useTipActions } from '@apple-pie/slice/stores';
-import { EAction } from '@/utils/consts/consts';
+import type { EAction } from '@/utils/consts/consts';
 import styles from './SettingsSectionTitle.module.css';
 
 export interface SettingsSectionTitleProps {
@@ -19,14 +11,15 @@ export interface SettingsSectionTitleProps {
 	icon?: string;
 	working?: boolean;
 	info?: { tip: string; action: EAction };
+	infoClick?: (action: EAction | undefined) => void;
 }
 
 export function SettingsSectionTitle(props: Readonly<SettingsSectionTitleProps>) {
-	const { title, icon, label, working = false, info } = props;
+	const { title, icon, label, working = false, info, infoClick } = props;
 	const toolTip = useTipActions().push;
 
 	const handleInfoClick = () => {
-		if (info?.action === EAction.TalkToVi) console.log('talk to vi');
+		infoClick?.(info?.action);
 	};
 
 	return (
@@ -40,11 +33,7 @@ export function SettingsSectionTitle(props: Readonly<SettingsSectionTitleProps>)
 				{title}
 			</Label>
 			{label && (
-				<Label
-					backgroundColor={LabelBackground.lightGrey}
-					className={'body-s-bold'}
-					padding={'2px 8px'}
-				>
+				<Label borderSize={0} className={'body-s-bold feedback-attention'}>
 					{label}
 				</Label>
 			)}

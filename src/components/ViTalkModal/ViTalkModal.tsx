@@ -1,7 +1,8 @@
 import { Modal, type ModalAction, type ModalProps } from '@apple-pie/slice';
-import css from './ViTalkButton.module.css';
+import css from './ViTalkModal.module.css';
 
-const modalActions: ModalAction<boolean>[] = [
+// confirm connection modal
+const confirmConnectActions: ModalAction<boolean>[] = [
 	{
 		id: 'cancel',
 		label: `Don't connect`,
@@ -16,15 +17,31 @@ const modalActions: ModalAction<boolean>[] = [
 	},
 ];
 
-export const viTalkModal = (props: ModalProps<boolean>) => {
+// info modal actions
+const infoActions: ModalAction<boolean>[] = [
+	{
+		id: 'cancel',
+		label: `Got it`,
+		value: false,
+		primary: true,
+	},
+];
+
+interface ViTalkModalProps extends ModalProps<boolean> {
+	connect?: boolean;
+}
+
+// show info options / connect options
+export function ViTalkModal(props: Readonly<ViTalkModalProps>) {
+	const { connect = true, ...rest } = props;
 	return (
 		<Modal<boolean>
-			{...props}
+			{...rest}
 			titleIcon={'talk'}
-			actions={modalActions}
+			actions={connect ? confirmConnectActions : infoActions}
 			title={'About Vi Talk'}
-			padding={'24px'}
 			borderRadius={16}
+			maxHeight={300}
 		>
 			<p className={css.p}>
 				Vi is an ai assistant you can talk to about my work and background. Keep in mind:
@@ -41,4 +58,4 @@ export const viTalkModal = (props: ModalProps<boolean>) => {
 			</ol>
 		</Modal>
 	);
-};
+}

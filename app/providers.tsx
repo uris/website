@@ -5,12 +5,12 @@ import type { PropsWithChildren } from 'react';
 
 type ProvidersProps = PropsWithChildren<{
 	initialTheme: 'lightMode' | 'darkMode';
-	systemTheme: boolean;
+	initialSystem: boolean;
 }>;
 
-export function Providers({ children, initialTheme, systemTheme }: ProvidersProps) {
+export function Providers({ children, initialTheme, initialSystem }: ProvidersProps) {
 	return (
-		<ThemeProvider initialTheme={initialTheme} global system={systemTheme}>
+		<ThemeProvider initialTheme={initialTheme} initialSystem={initialSystem} global system>
 			{children}
 		</ThemeProvider>
 	);
