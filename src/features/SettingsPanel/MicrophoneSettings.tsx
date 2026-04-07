@@ -29,7 +29,7 @@ export function MicrophoneSettings() {
 	const microphone = useMicrophone(false, '', false);
 	useSyncMicrophoneStore(microphone);
 	const micOptions = useMicOptions();
-	const mivInputVolume = useMicInputVolume();
+	const micInputVolume = useMicInputVolume();
 	const selectedMicId = useCurrentMicDeviceId() ?? '';
 	const setSelectedMic = useMicrophoneStoreActions().setMicrophone;
 	const requestMic = useMicrophoneStoreActions().requestMicrophone;
@@ -66,6 +66,7 @@ export function MicrophoneSettings() {
 		if (active || isRequesting) return;
 		await requestMic()
 			.then(() => {
+				setInputVolume(0.75);
 				notify(micConnectNotification(true));
 			})
 			.catch((err) => {
@@ -114,7 +115,7 @@ export function MicrophoneSettings() {
 					<Slider
 						scaleMin={0}
 						scaleMax={1}
-						value={mivInputVolume}
+						value={micInputVolume}
 						width={'100%'}
 						height={4}
 						progressColor={'var(--core-text-tertiary)'}

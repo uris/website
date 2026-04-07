@@ -81,3 +81,28 @@
 .body .content :global(h1) {
 	line-height: 1.2em;
 }
+
+.response {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+	box-sizing: border-box;
+	position: relative;
+	border-top: 1px solid var(--core-outline-secondary);
+	padding: 16px 0 16px 0;
+	margin: 0;
+	width: 100%;
+	overflow: visible;
+}
+
+.responseAvatar {
+	position: absolute;
+	top: 10px;
+	left: 0;
+	transform: translateX(-150%);
+}
+
+.response p:last-child {
+	margin: 0;
+}

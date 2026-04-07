@@ -2,6 +2,7 @@
 
 import { FlexDiv, Icon, IconButton, Label, Preset, ProgressIndicator } from '@apple-pie/slice';
 import { useTipActions } from '@apple-pie/slice/stores';
+import { MicLevel } from '@/src/components/MicLevel/MicLevel';
 import type { EAction } from '@/utils/consts/consts';
 import styles from './SettingsSectionTitle.module.css';
 
@@ -17,6 +18,7 @@ export interface SettingsSectionTitleProps {
 export function SettingsSectionTitle(props: Readonly<SettingsSectionTitleProps>) {
 	const { title, icon, label, working = false, info, infoClick } = props;
 	const toolTip = useTipActions().push;
+	const isMicrophone = title.toLowerCase().includes('microphone');
 
 	const handleInfoClick = () => {
 		infoClick?.(info?.action);
@@ -52,6 +54,7 @@ export function SettingsSectionTitle(props: Readonly<SettingsSectionTitleProps>)
 					onClick={handleInfoClick}
 				/>
 			)}
+			{isMicrophone && <MicLevel />}
 		</FlexDiv>
 	);
 }

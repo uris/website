@@ -1,12 +1,12 @@
-import { Label, TextField } from '@apple-pie/slice';
+import { Label, TextField, useLocalStore } from '@apple-pie/slice';
 import { useModalActions } from '@apple-pie/slice/stores';
 import styles from '@/features/SettingsPanel/SettingsPanel.module.css';
 import { SettingsOption } from '@/src/components/SettingsOption/SettingsOption';
 import { SettingsSectionTitle } from '@/src/components/SettingsSectionTitle/SettingsSectionTitle';
 import { ViTalkButton } from '@/src/components/ViTalkButton/ViTalkButton';
 import { ViTalkModal } from '@/src/components/ViTalkModal/ViTalkModal';
+import { useViConnected, useViConnecting, useViTalk } from '@/src/stores/ai/viStore';
 import { EAction } from '@/utils/consts/consts';
-import {useViConnected, useViConnecting, useViTalk} from "@/src/stores/ai/viStore";
 
 export function AISettings() {
 	const showModal = useModalActions().show;
@@ -14,7 +14,8 @@ export function AISettings() {
 	const connecting = useViConnecting();
 	const talk = useViTalk();
 	const baseLabel = connected && talk ? 'Vi Talk Active' : 'Connect with Vi';
-	const label = connecting && talk ? 'Connecting with Vi' : baseLabel
+	const label = connecting && talk ? 'Connecting with Vi' : baseLabel;
+	const [userName, setUserName] = useLocalStore<string>('userName', '');
 
 	// trigger info modal
 	const handleInfoClick = async () => {
@@ -23,6 +24,10 @@ export function AISettings() {
 			component: ViTalkModal,
 			props: { connect: false },
 		});
+	};
+
+	const handleUserNameChange = (value: string) => {
+		setUserName(value);
 	};
 
 	return (
@@ -37,10 +42,15 @@ export function AISettings() {
 				{label}
 			</SettingsOption>
 			<Label borderSize={0} className={'core-text-secondary'} style={{ marginTop: 8 }}>
-				Tell Vi your name (optional)
+				What can Vi call you? (optional)
 			</Label>
 			<SettingsOption>
-				<TextField name={'name'} placeholder={'Your first name'} />
+				<TextField
+					name={'first_name'}
+					value={userName}
+					placeholder={'Your name / nickname'}
+					onChange={handleUserNameChange}
+				/>
 			</SettingsOption>
 			<p
 				className={`${styles.disclaimer} body-xs-regular core-text-disabled`}

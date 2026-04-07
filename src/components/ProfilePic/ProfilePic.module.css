@@ -10,5 +10,4 @@
 	width: var(--profile-pic-size);
 	height: var(--profile-pic-size);
 	overflow: hidden;
-	padding-top: var(--profile-pic-padding-top);
 }

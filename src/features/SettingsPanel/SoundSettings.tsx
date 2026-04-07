@@ -8,18 +8,21 @@ import {
 	useToastActions,
 	useVolume,
 	useVolumeActions,
+	useWebRTCActions,
 } from '@apple-pie/slice/stores';
 import { useEffect, useMemo } from 'react';
 import styles from '@/features/SettingsPanel/SettingsPanel.module.css';
 import { SettingsOption } from '@/src/components/SettingsOption/SettingsOption';
 import { SettingsSectionTitle } from '@/src/components/SettingsSectionTitle/SettingsSectionTitle';
 import { volumeMuteNotification } from '@/src/content/notifications/notifications';
+import { CONN_NAME } from '@/src/stores/ai/_data';
 
 export function SoundSettings() {
 	const volume = useVolume();
 	const storedVolume = useStoredVolume();
 	const muted = useMuted();
 	const actions = useVolumeActions();
+	const setRTCVolume = useWebRTCActions.setVolume;
 	const playFeedback = actions.playFeedback;
 	const setTip = useTipActions().push;
 	const notify = useToastActions().push;
@@ -38,7 +41,7 @@ export function SoundSettings() {
 		return 'speaker high';
 	}, [isMuted, volume]);
 
-	// toggle mute on / off emiting notification
+	// toggle mute on / off emitting notification
 	const handleMuteToggle = (state: boolean) => {
 		notify(volumeMuteNotification(state));
 		state ? actions.mute() : actions.unmute();
@@ -50,6 +53,7 @@ export function SoundSettings() {
 			notify(volumeMuteNotification(true));
 			void actions.mute();
 		}
+		setRTCVolume(CONN_NAME, value);
 		actions.setVolume(value);
 	};
 
@@ -61,6 +65,12 @@ export function SoundSettings() {
 			if (feedbackElement) actions.detachFeedbackElement(feedbackElement);
 		};
 	}, [actions, feedbackElement]);
+
+	// set initial volume
+	// biome-ignore lint/correctness/useExhaustiveDependencies: set once on mount
+	useEffect(() => {
+		actions.setVolume(0.75);
+	}, []);
 
 	return (
 		<div className={styles.settingsBlock}>

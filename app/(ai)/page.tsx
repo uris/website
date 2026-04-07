@@ -54,7 +54,7 @@ export default function AiWorkspacePage() {
 			</FlexDiv>
 			<FlexDiv preset={Preset.FillCenter} scrollBox style={{ minWidth: 360 }}>
 				<AIPanel />
-				<Toast {...toast} container={'parent'} />
+				<Toast key={toast?.notifId} {...toast} container={'parent'} />
 			</FlexDiv>
 			<FlexDiv preset={Preset.Draggable}>
 				<DraggablePanel

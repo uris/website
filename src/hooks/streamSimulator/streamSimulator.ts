@@ -154,6 +154,7 @@ export const useStreamSimulator = (
 		cumulative,
 		healthy: complete ? cumulative : healthy,
 		streaming,
+		source: raw,
 		startStream,
 		pauseStream,
 		resetStream,

@@ -17,17 +17,25 @@ export function ProfilePic(props: Readonly<ProfilePicProps>) {
 		borderColor = 'var(--core-outline-primary)',
 	} = props;
 
+	const imageSize = Math.ceil(size - borderSize * 2);
+
 	const cssVars = {
 		'--profile-pic-border-color': borderColor,
 		'--profile-pic-border-size': `${borderSize}px`,
 		'--profile-pic-bg-color': bgColor,
 		'--profile-pic-size': `${size}px`,
-		'--profile-pic-padding-top': `${borderSize * 3}px`,
 	} as React.CSSProperties;
 
 	return (
 		<div className={styles.profile} style={cssVars}>
-			<Image src={profilePic} fill alt={'Uris Da Costa'} />
+			<Image
+				quality={100}
+				src={profilePic}
+				height={imageSize}
+				width={imageSize}
+				alt={'Uris Da Costa'}
+				loading={'eager'}
+			/>
 		</div>
 	);
 }

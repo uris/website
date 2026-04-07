@@ -1,4 +1,4 @@
-export const introMessageMd = `# Designer, developer, maker of things
+export const introMessageMd = `# Designer, developer, maker & leader.
 
 👋 Welcome!
 
@@ -6,6 +6,6 @@ I'm Uris, a $$Developer$$Product designer$$Maker$$Craftsman$$Coder$$Leader$$Foll
 
 What's fun? Working with teams to bring digital ideas to life, and crafting the details that make them human.
 
-Feel free to [browse](/action?actionType=toggle-sidebar&actionValue=true&actionFocus=work) some of my work, [talk to Vi](/action?actionType=info&actionValue=vi) (my ai assistant), or [get in touch](/action?actionType=toggle-sidebar&actionValue=true&actionFocus=contact).
+Feel free to [browse](/action?actionType=toggle-sidebar&actionValue=true&actionFocus=work) some of my work, [talk to Vi](/action?actionType=talk-to-vi&actionValue=vi) (my ai assistant), or [get in touch](/action?actionType=toggle-sidebar&actionValue=true&actionFocus=contact).
 
 Let's make something great together?`;

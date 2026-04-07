@@ -44,16 +44,16 @@ export function ViTalkModal(props: Readonly<ViTalkModalProps>) {
 			maxHeight={300}
 		>
 			<p className={css.p}>
-				Vi is an ai assistant you can talk to about my work and background. Keep in mind:
+				Vi is an ai assistant you can talk to about my work and background. Two rules:
 			</p>
 			<ol className={css.ol}>
 				<li className={css.li}>
-					<strong className={css.b}>Privacy:</strong> I don't record, save, share, or analyze any
-					conversations. They are yours, they are private. Period.
+					<strong className={css.b}>Privacy:</strong> I don't record, save, share, or analyze
+					conversations. They are yours, they are private. End of story.
 				</li>
 				<li className={css.li}>
-					<strong className={css.b}>Vi's positive:</strong> She mostly says great things - because
-					they are true ;) but mostly because that's what I asked her to do
+					<strong className={css.b}>Vi exaggerates:</strong> tends to say great things about me (all
+					true of course 😉)... and probably because I told her to.
 				</li>
 			</ol>
 		</Modal>
