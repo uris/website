@@ -9,6 +9,8 @@ import styles from './ViTalkButton.module.css';
 
 interface ViTalkButtonProps {
 	size?: 'xl' | 'l' | 'm' | 's';
+	background?: string;
+	border?: boolean;
 }
 
 export enum ViTalkState {
@@ -19,7 +21,7 @@ export enum ViTalkState {
 }
 
 export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
-	const { size = 'm' } = props;
+	const { size = 'm', background = 'var(--core-surface-secondary)', border = false } = props;
 	const modalResponse = useModalActions().modalResponse;
 	const connecting = useViConnecting();
 	const connected = useViConnected();
@@ -77,7 +79,7 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 			case ViTalkState.Disconnected: {
 				const confirmation = await confirmViTalk();
 				setViTalkConfirm(!!confirmation);
-				if (confirmation) connect(true);
+				if (confirmation) await connect(true);
 				break;
 			}
 		}
@@ -96,13 +98,10 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 				tooltip={setToolTip}
 				onToolTip={setTip}
 				isToggled={viState === ViTalkState.Active}
-				bgColor={
-					viState === ViTalkState.Connecting
-						? 'var(--core-outline-primary)'
-						: 'var(--core-surface-secondary)'
-				}
+				bgColor={viState === ViTalkState.Connecting ? 'var(--core-outline-primary)' : background}
 				bgColorOn={'var(--core-link-primary)'}
 				iconColorOn={'var(--core-surface-primary)'}
+				border={border}
 				onClick={handleClick}
 				iconFill={true}
 			/>

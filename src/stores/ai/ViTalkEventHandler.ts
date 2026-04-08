@@ -3,7 +3,7 @@ import type { ViStoreState } from '@/src/stores/ai/_types';
 import { sendCreateIntroMessage } from '@/src/stores/ai/ViTalkResponseCreateFactory';
 import { viNotification } from '@/src/stores/ai/viStore';
 import { ResponseType } from '@/src/stores/responses/_types';
-import { viResponsesActions } from '@/src/stores/responses/responsesStore';
+import { useViResponsesStore, viResponsesActions } from '@/src/stores/responses/responsesStore';
 
 export function realtimeDataEventHandler(
 	event: MessageEvent<any> | Event | RTCErrorEvent,
@@ -35,10 +35,16 @@ export function realtimeDataEventHandler(
 export function handleMessageEvent(data: any): Partial<ViStoreState> | undefined {
 	if (!('type' in data) && typeof data.type !== 'string') return;
 	switch (data.type) {
+		// signals the start of a new voice session
 		case 'session.created': {
-			// signals start of session
-			sendCreateIntroMessage();
+			// create a response trigger for an initial welcome message
+			const responses = useViResponsesStore.getState().responses;
+			sendCreateIntroMessage(responses.length === 0);
+
+			// send the connected notification
 			viNotification('Connected');
+
+			// return state updates to be processed
 			return { connected: true, connecting: false };
 		}
 		case 'response.output_item.added': {

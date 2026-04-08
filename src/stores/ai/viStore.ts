@@ -96,10 +96,7 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			// handle message events and console others
 			if (event === 'message') {
 				const updates = realtimeDataEventHandler(eventData);
-				if (updates) {
-					console.log({ updates });
-					set(updates);
-				}
+				if (updates) set(updates);
 				return;
 			}
 
@@ -121,7 +118,6 @@ async function createRealtimeSession() {
 	// best guess noise reduction
 	const micLabel = getCurrentMicDeviceLabel() ?? 'Unknown';
 	const noiseReduction = bestGuessNoiseReduction(micLabel);
-	console.log({ micLabel, noiseReduction });
 
 	// get a client secret key for realtime api
 	const response = await fetch('/api/openai/realtime/session/request', {

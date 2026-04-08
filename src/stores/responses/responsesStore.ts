@@ -15,8 +15,8 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			const currentLastResponse = get().lastResponse;
 			const currentResponses = get().responses;
 
-			// start of the new response pushes last response to the response history
-			const updatedResposnes = currentLastResponse
+			// the start of the new response pushes the last response to the response history
+			const updatedResponses = currentLastResponse
 				? [...currentResponses, currentLastResponse]
 				: currentResponses;
 
@@ -32,7 +32,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			};
 
 			// updates state
-			set({ responses: updatedResposnes, lastResponse });
+			set({ responses: updatedResponses, lastResponse });
 		},
 		handleResponseDelta: (id: string, delta: string) => {
 			// get current delta / last response
@@ -87,4 +87,4 @@ export const useViResponsesActions = () => useViResponsesStore((state) => state.
 // direct exports
 export const viResponsesActions = useViResponsesStore.getState().actions;
 export const viResponses = useViResponsesStore.getState().responses;
-export const viActiveResponse = useViResponsesStore.getState().lastResponse;
+export const viLastResponse = useViResponsesStore.getState().lastResponse;

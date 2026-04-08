@@ -31,7 +31,7 @@ export default function AiWorkspacePage() {
 		<FlexDiv
 			preset={Preset.Window}
 			height={height}
-			justify={'center'}
+			justify={'start'}
 			align={'center'}
 			ref={viewRef}
 		>

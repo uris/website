@@ -9,65 +9,76 @@ import {
 } from '@/src/stores/responses/responsesStore';
 
 const DEFAULT_MARKER = ' [[END-MARKER]]';
-export function useActiveResponse(onReset?: () => void, endMarker?: string) {
-	const lastResponse = useViLastResponse();
-	const responses = useViResponses();
+export function useActiveResponse(options: {
+	onEnd?: () => void;
+	onStart?: () => void;
+	endMarker?: string;
+}) {
+	const { onEnd, onStart, endMarker } = options;
+	const nextResponse = useViLastResponse();
+	const previousResponses = useViResponses();
 	const responsesActions = useViResponsesActions();
 	const connected = useViConnected();
-	const streamEnd = lastResponse?.delta === undefined && lastResponse?.active === false;
+	const streamEnd = nextResponse?.delta === undefined && nextResponse?.active === false;
 	const addMarker = endMarker || endMarker === undefined;
 	const marker = addMarker ? DEFAULT_MARKER : undefined;
-	const [combined, setCombined] = useState<ViResponse[]>(responses);
+	const [combined, setCombined] = useState<ViResponse[]>(previousResponses);
 
 	const { healthy, append, reset, raw, pendingCharacters } = useMDStreamBuffer({
 		healthyEndMarker: marker,
 		includeLinksAndImages: true,
-		paceDelayMs: 50,
+		paceDelayMs: 60,
 		paceChunkSize: 1,
 	});
 
+	// trigger response start callback if the response is active but has no deltas
+	useEffect(() => {
+		if (nextResponse?.active === true && nextResponse.delta === undefined) onStart?.();
+	}, [nextResponse, onStart]);
+
 	// append deltas - if disconnected don't append
 	useEffect(() => {
-		if (connected && lastResponse?.delta) append(lastResponse.delta);
-	}, [lastResponse, append, connected]);
+		if (connected && nextResponse?.delta) append(nextResponse.delta);
+	}, [nextResponse, append, connected]);
 
-	// update the responses when healthy markdown updates
+	// update the responses when healthy Markdown updates
 	useEffect(() => {
-		if (!healthy || !lastResponse) return;
-		const streamResponse = { ...lastResponse, value: healthy };
-		setCombined(responses ? [...responses, streamResponse] : [streamResponse]);
-	}, [healthy, lastResponse, responses]);
+		if (!healthy || !nextResponse) return;
+		const streamResponse = { ...nextResponse, value: healthy };
+		setCombined(previousResponses ? [...previousResponses, streamResponse] : [streamResponse]);
+	}, [healthy, nextResponse, previousResponses]);
 
 	// reset when not streaming, the buffer is fully flushed, but raw content is still present
 	useEffect(() => {
 		if (streamEnd && pendingCharacters === 0 && raw !== '') {
-			const streamResponse = { ...lastResponse, value: raw };
-			setCombined(responses ? [...responses, streamResponse] : [streamResponse]);
+			const streamResponse = { ...nextResponse, value: raw };
+			setCombined(previousResponses ? [...previousResponses, streamResponse] : [streamResponse]);
 			reset();
-			onReset?.();
+			onEnd?.();
 		}
-	}, [streamEnd, reset, pendingCharacters, onReset, raw, lastResponse, responses]);
+	}, [streamEnd, reset, pendingCharacters, onEnd, raw, nextResponse, previousResponses]);
 
 	// clean up on disconnect
 	useEffect(() => {
-		if (pendingCharacters !== 0 && !connected && lastResponse) {
-			const streamResponse = { ...lastResponse, value: `${raw} ...`, disconnected: true };
-			setCombined(responses ? [...responses, streamResponse] : [streamResponse]);
+		if (pendingCharacters !== 0 && !connected && nextResponse) {
+			const streamResponse = { ...nextResponse, value: `${raw} ...`, disconnected: true };
+			setCombined(previousResponses ? [...previousResponses, streamResponse] : [streamResponse]);
 			responsesActions.handleUpdateLastResponse(streamResponse);
 			reset();
-			onReset?.();
+			onEnd?.();
 		}
 	}, [
 		connected,
 		pendingCharacters,
-		lastResponse,
-		onReset,
+		nextResponse,
+		onEnd,
 		raw,
 		reset,
-		responses,
+		previousResponses,
 		responsesActions,
 	]);
 
-	// return health Markdown or null
-	return combined;
+	// return a full response stack including then active response
+	// as well as the is buffering state
+	return { responses: combined, active: pendingCharacters !== 0 };
 }
