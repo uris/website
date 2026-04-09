@@ -16,8 +16,18 @@ import {
 	EVENTS_DATA_CHANNEL,
 	INITIAL_MIC_VOLUME,
 } from '@/src/stores/ai/_data';
-import type { MessageType, ViStore } from '@/src/stores/ai/_types';
+import {
+	CallbackEvent,
+	type MessageType,
+	type ViEventCallback,
+	type ViStore,
+} from '@/src/stores/ai/_types';
+import { sendUserMessage } from '@/src/stores/ai/ViTalkCreateConvoItemFactory';
 import { realtimeDataEventHandler } from '@/src/stores/ai/ViTalkEventHandler';
+import {
+	requestResponseStop,
+	sendResponseRequest,
+} from '@/src/stores/ai/ViTalkResponseCreateFactory';
 import { viResponsesActions } from '@/src/stores/responses/responsesStore';
 import { bestGuessNoiseReduction } from '@/utils/misc';
 
@@ -26,6 +36,7 @@ export const useAIStore = create<ViStore>((set, get) => ({
 	connecting: false,
 	live: false,
 	talk: false,
+	eventCallbacks: new Map<string, ViEventCallback[]>(),
 	actions: {
 		setTalk: (state: boolean) => {
 			set({ talk: state ?? !get().talk });
@@ -73,6 +84,11 @@ export const useAIStore = create<ViStore>((set, get) => ({
 				set({ connected: false, connecting: false });
 				viNotification('Failed');
 			}
+
+			// IMPORTANT
+			// don't mutate the response store responses directly - let active stream logic do that
+			// by handling the callbacks
+			processEventCallbacks(CallbackEvent.ViConnect);
 		},
 		disconnect: () => {
 			// if already disconnecting or not connected, return
@@ -82,8 +98,10 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			disconnectRTC();
 			stopMicrophone();
 
-			// wrap up any pending streaming response
-			viResponsesActions.handleDisconnectCleanUp();
+			// IMPORTANT
+			// don't mutate the response store responses directly - let active stream logic do that
+			// by handling the callbacks
+			processEventCallbacks(CallbackEvent.ViDisconnect);
 
 			// set connecting false, connected false
 			set({ connected: false, connecting: false });
@@ -93,15 +111,44 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			// filter out non data events
 			if (!channel.includes(EVENTS_DATA_CHANNEL)) return;
 
-			// handle message events and console others
+			// handle message events
+			// use return value to updated state and process relevant event callbacks
 			if (event === 'message') {
 				const updates = realtimeDataEventHandler(eventData);
-				if (updates) set(updates);
+				const { event, state } = updates ?? {};
+				if (state) set(state);
+				if (event) processEventCallbacks(event);
 				return;
 			}
 
 			// console log other events
 			console.log({ event, eventData });
+		},
+		/**
+		 * Send a user message and send a response request from the model
+		 */
+		handleUserMessage: (message: string) => {
+			requestResponseStop(); // stop a current response
+			sendUserMessage(message); // create the user conversation item
+			sendResponseRequest(); // request a response to the user conversation item
+			viResponsesActions.handleAddUserMessage(message); // add message to the response stack
+		},
+		/**
+		 * Attach event callbacks
+		 */
+		attachCallback: (name: string, callback: ViEventCallback | ViEventCallback[]) => {
+			const newCallbacks = Array.isArray(callback) ? callback : [callback];
+			const eventCallbacks = get().eventCallbacks;
+			eventCallbacks.set(name, newCallbacks);
+			set({ eventCallbacks });
+		},
+		/**
+		 * Clean up event callbacks
+		 */
+		clearCallback: (name: string) => {
+			const eventCallbacks = get().eventCallbacks;
+			eventCallbacks.delete(name);
+			set({ eventCallbacks });
 		},
 	},
 }));
@@ -110,6 +157,7 @@ export const useViTalk = () => useAIStore((state) => state.talk);
 export const useViConnected = () => useAIStore((state) => state.connected);
 export const useViConnecting = () => useAIStore((state) => state.connecting);
 export const useViActions = () => useAIStore((state) => state.actions);
+export const useViEventCallbacks = () => useAIStore((state) => state.eventCallbacks);
 
 /**
  * gets a realtime session client secret key
@@ -226,4 +274,16 @@ export function viNotification(type: MessageType) {
 	const push = useToastStore.getState().actions.push;
 	const message = viConnectionNotification;
 	push(message(type));
+}
+
+/**
+ * Process all callbacks registered against a specific event
+ */
+function processEventCallbacks(event: CallbackEvent) {
+	const callbackMap = useAIStore.getState().eventCallbacks;
+	const callbacks = Array.from(callbackMap.values()).flat();
+	const call = callbacks.filter((item) => item.event === event);
+	for (const item of call) {
+		item.callback();
+	}
 }

@@ -1,8 +1,16 @@
 'use client';
 
-import { Button, DropDown, type MicOption, Slider, ToggleButton } from '@apple-pie/slice';
+import {
+	Button,
+	DropDown,
+	type DropDownOption,
+	type MicOption,
+	Slider,
+	ToggleButton,
+} from '@apple-pie/slice';
 import { useMicrophone } from '@apple-pie/slice/hooks';
 import {
+	getMicrophoneState,
 	useCurrentMicDeviceId,
 	useMicActive,
 	useMicInputVolume,
@@ -14,6 +22,7 @@ import {
 	useSyncMicrophoneStore,
 	useTipActions,
 	useToastActions,
+	useWebRTC,
 } from '@apple-pie/slice/stores';
 import { useMemo } from 'react';
 import styles from '@/features/SettingsPanel/SettingsPanel.module.css';
@@ -24,6 +33,7 @@ import {
 	micMuteNotification,
 	micNotSupportedNotification,
 } from '@/src/content/notifications/notifications';
+import { CONN_NAME } from '@/src/stores/ai/_data';
 
 export function MicrophoneSettings() {
 	const microphone = useMicrophone(false, '', false);
@@ -32,6 +42,7 @@ export function MicrophoneSettings() {
 	const micInputVolume = useMicInputVolume();
 	const selectedMicId = useCurrentMicDeviceId() ?? '';
 	const setSelectedMic = useMicrophoneStoreActions().setMicrophone;
+	const setRTCMicStream = useWebRTC().setMicStream;
 	const requestMic = useMicrophoneStoreActions().requestMicrophone;
 	const mute = useMicrophoneStoreActions().muteMic;
 	const unmute = useMicrophoneStoreActions().unmuteMic;
@@ -49,11 +60,13 @@ export function MicrophoneSettings() {
 		return isMuted ? 'muted' : undefined;
 	}, [active, isMuted, isRequesting]);
 
+	// mute/unmute with notification
 	const handleMicToggle = (state: boolean) => {
 		notify(micMuteNotification(state));
 		state ? mute() : unmute();
 	};
 
+	// uses built in audio node to adjust input going into other apps / webTRC
 	const handleAdjustMicInput = (value: number, _: number) => {
 		if (value <= 0 && !muted) {
 			notify(micMuteNotification(true));
@@ -62,6 +75,13 @@ export function MicrophoneSettings() {
 		setInputVolume(value);
 	};
 
+	// change selected mic and re-bind to the RTC store
+	const handleChangeMic = async (option: DropDownOption<MicOption>) => {
+		await setSelectedMic(option);
+		await setRTCMicStream(CONN_NAME, getMicrophoneState().processedMicStream.current);
+	};
+
+	// connects to the selected microphone
 	const handleConnectMic = async () => {
 		if (active || isRequesting) return;
 		await requestMic()
@@ -96,7 +116,7 @@ export function MicrophoneSettings() {
 						options={micOptions}
 						valueKey={'id'}
 						selectedValue={{ id: selectedMicId }}
-						onOption={setSelectedMic}
+						onOption={handleChangeMic}
 						placeholder={false}
 					/>
 				</SettingsOption>

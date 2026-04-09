@@ -49,11 +49,12 @@ export function ViTalkModal(props: Readonly<ViTalkModalProps>) {
 			<ol className={css.ol}>
 				<li className={css.li}>
 					<strong className={css.b}>Privacy:</strong> I don't record, save, share, or analyze
-					conversations. They are yours, they are private. End of story.
+					conversations. They are yours, they are private. End of story. Hit refresh and they are
+					gone for good.
 				</li>
 				<li className={css.li}>
 					<strong className={css.b}>Vi exaggerates:</strong> tends to say great things about me (all
-					true of course 😉)... and probably because I told her to.
+					true of course 😉)... probably because that what I asked her to do.
 				</li>
 			</ol>
 		</Modal>

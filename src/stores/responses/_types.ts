@@ -1,11 +1,13 @@
 export enum ResponseType {
 	Text = 'text',
 	Audio = 'audio',
+	SessionStart = 'session start',
 }
 
 export enum Role {
 	Assistant = 'assistant',
 	User = 'user',
+	System = 'system',
 }
 
 export type ViResponse = {
@@ -17,16 +19,23 @@ export type ViResponse = {
 	active: boolean;
 	delta?: string;
 	disconnected?: boolean;
+	interrupted?: boolean;
 };
 
 export type ViResponsesStore = {
 	responses: ViResponse[];
 	lastResponse: ViResponse | null;
+	bufferStreaming: boolean;
+	autoScrollStream: boolean;
 	actions: {
+		handleSessionStart: (id: string) => void;
 		handleResponseStart: (id: string, type: ResponseType) => void;
 		handleResponseDelta: (id: string, delta: string) => void;
 		handleResponseEnd: (id: string) => void;
-		handleDisconnectCleanUp: () => void;
+		handleDisconnectCleanUp: (streamed?: string) => void;
 		handleUpdateLastResponse: (lastResponse: ViResponse) => void;
+		handleAddUserMessage: (message: string) => void;
+		setBufferStreaming: (streaming: boolean) => void;
+		setAutoScrollStream: (autoScrollStream: boolean) => void;
 	};
 };

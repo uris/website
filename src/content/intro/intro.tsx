@@ -2,7 +2,7 @@ export const introMessageMd = `# Designer, developer, maker & leader.
 
 👋 Welcome!
 
-I'm Uris, a $$Developer$$Product designer$$Maker$$Craftsman$$Coder$$Leader$$Follower$$Diver$$Motard$$ with a passion for making things people use to $$Connect$$Be productive$$Have fun$$GSD$$Live life$$Be better$$Learn$$Be healthy$$.
+I'm Uris, a$$Developer$$Product designer$$Maker$$Craftsman$$Coder$$Leader$$Follower$$Diver$$Motard$$ with a passion for making intuitive digital products people use to$$Connect$$Be productive$$Have fun$$GSD$$Live life$$Be better$$Learn$$Be healthy$$.
 
 What's fun? Working with teams to bring digital ideas to life, and crafting the details that make them human.
 

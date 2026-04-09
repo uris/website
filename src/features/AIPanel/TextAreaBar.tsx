@@ -1,4 +1,11 @@
-import { PromptInput, ToggleButton, useObserveResize, useTheme } from '@apple-pie/slice';
+import {
+	IconButton,
+	PromptInput,
+	ToggleButton,
+	useObserveResize,
+	useTheme,
+} from '@apple-pie/slice';
+import type { FileItem } from '@apple-pie/slice/components/FileList';
 import {
 	useMicActive,
 	useMicMuted,
@@ -9,10 +16,11 @@ import {
 import type { Transition, Variants } from 'motion';
 import { motion } from 'motion/react';
 import React, { useEffect, useMemo, useRef } from 'react';
-import { useAILayout } from '@/app/(ai)/store/layout-store';
+import { useAILayout, useUserName } from '@/app/(ai)/store/layout-store';
 import styles from '@/features/AIPanel/AIPanel.module.css';
-import { ViTalkButton } from '@/src/components/ViTalkButton/ViTalkButton';
 import { micMuteNotification } from '@/src/content/notifications/notifications';
+import { useViActions } from '@/src/stores/ai/viStore';
+import { useViBufferStreaming } from '@/src/stores/responses/responsesStore';
 import { gradientCover } from '@/utils/styles/styles';
 
 // interface for text area input bar
@@ -39,6 +47,9 @@ const TextAreaBarBase = (props: Readonly<TextAreaBarProps>) => {
 	const notify = useToastActions().push;
 	const mute = useMicrophoneStoreActions().muteMic;
 	const unmute = useMicrophoneStoreActions().unmuteMic;
+	const sendMessage = useViActions().handleUserMessage;
+	const streamActive = useViBufferStreaming();
+	const userName = useUserName();
 
 	// memo dynamic css variables
 	const cssVars = useMemo(() => {
@@ -47,16 +58,24 @@ const TextAreaBarBase = (props: Readonly<TextAreaBarProps>) => {
 		} as React.CSSProperties;
 	}, [surfaceColor]);
 
+	// handle muting/unmuting mic
 	const handleMicToggle = (state: boolean) => {
 		notify(micMuteNotification(state));
 		state ? mute() : unmute();
 	};
 
+	// handle sending the user message to model
+	const handleUserMessage = (message: string | undefined, _: FileItem[] | undefined) => {
+		if (message) sendMessage(message);
+	};
+
+	const placeHolder = useMemo(() => {
+		if (userName !== '') return `Hi ${userName}, ask me anything about Uris`;
+		else return 'Hi, ask me anything about Uris';
+	}, [userName]);
+
 	// set footer size based on observed height
-	useEffect(() => {
-		console.log('hi');
-		setFooterSize(height);
-	}, [height, setFooterSize]);
+	useEffect(() => setFooterSize(height), [height, setFooterSize]);
 
 	return (
 		<motion.div
@@ -69,30 +88,42 @@ const TextAreaBarBase = (props: Readonly<TextAreaBarProps>) => {
 			animate={animate}
 			exit={exit}
 		>
-			<PromptInput borderRadius={16} attachButton={false} maxWidth={520}>
-				<ViTalkButton background={'var(--core-surface-primary)'} border={true} />
-				<ToggleButton
-					unselect={true}
-					selected={true}
-					icon={'keyboard'}
-					tooltip={'Hide keyboard'}
-					onChange={() => toggleInputBar(false)}
-					bgColor={'var(--core-surface-primary)'}
-					border={true}
-				/>
-				{active && (
-					<ToggleButton
-						unselect={true}
-						selected={isMuted}
-						icon={isMuted ? 'mic muted' : 'mic'}
-						tooltip={isMuted ? 'Unmute' : 'Mute'}
+			<PromptInput
+				borderRadius={16}
+				attachButton={false}
+				maxWidth={520}
+				onSubmit={handleUserMessage}
+				working={streamActive}
+				placeholderWorking={'Vi is talking ...'}
+				placeholder={placeHolder}
+			>
+				<div className={styles.textInputButtonsLeft}>
+					<IconButton
+						round
+						buttonSize={'m'}
+						icon={'chevron down'}
+						tooltip={'Hide Text Field'}
 						onToolTip={setTip}
-						fill
-						onChange={handleMicToggle}
 						bgColor={'var(--core-surface-primary)'}
 						border={true}
+						onClick={() => toggleInputBar(false)}
 					/>
-				)}
+				</div>
+				<div className={styles.textInputButtonsRight}>
+					{active && (
+						<ToggleButton
+							unselect={true}
+							selected={isMuted}
+							icon={isMuted ? 'mic muted' : 'mic'}
+							tooltip={isMuted ? 'Unmute' : 'Mute'}
+							onToolTip={setTip}
+							fill
+							onChange={handleMicToggle}
+							bgColor={'var(--core-surface-primary)'}
+							border={true}
+						/>
+					)}
+				</div>
 			</PromptInput>
 		</motion.div>
 	);

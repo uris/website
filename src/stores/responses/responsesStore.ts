@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import {
-	type ResponseType,
+	ResponseType,
 	Role,
 	type ViResponse,
 	type ViResponsesStore,
@@ -9,7 +9,31 @@ import {
 export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 	responses: [],
 	lastResponse: null,
+	bufferStreaming: false,
+	autoScrollStream: true,
 	actions: {
+		/**
+		 * Called once per session on session start
+		 */
+		handleSessionStart: (id: string) => {
+			const currentResponses = get().responses;
+			const sessionStart = {
+				id,
+				type: ResponseType.SessionStart,
+				role: Role.System,
+				timestamp: Date.now(),
+				value: '',
+				delta: undefined,
+				active: false,
+				disconnected: undefined,
+				interrupted: undefined,
+			};
+			const responses = [...currentResponses, sessionStart];
+			set({ responses });
+		},
+		/**
+		 * Called automatically from Vi Event Handlers when a a conversation is about to start
+		 */
 		handleResponseStart: (id: string, type: ResponseType) => {
 			// get current state
 			const currentLastResponse = get().lastResponse;
@@ -29,11 +53,17 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 				value: '',
 				delta: undefined,
 				active: true,
+				disconnected: undefined,
+				interrupted: undefined,
 			};
 
 			// updates state
 			set({ responses: updatedResponses, lastResponse });
 		},
+		/**
+		 * Called automatically from Vi Event Handlers when a transcript delta arrives
+		 * Note: Transcripts deltas are streamed more quickly than the adio
+		 */
 		handleResponseDelta: (id: string, delta: string) => {
 			// get current delta / last response
 			const lastResponseCurrent = get().lastResponse;
@@ -49,6 +79,10 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			// set state
 			set({ lastResponse });
 		},
+		/**
+		 * Called automatically from Vi Event Handlers when a transcript completes
+		 * Note: Transcripts complete well before the audio finishes
+		 */
 		handleResponseEnd: (id: string) => {
 			// get current delta / last response
 			const lastResponseCurrent = get().lastResponse;
@@ -60,19 +94,57 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			// set state
 			set({ lastResponse });
 		},
-		handleDisconnectCleanUp: () => {
+		/**
+		 * Call when the UI triggers a ViTalk disconnect to clean up pending active last responses.
+		 */
+		handleDisconnectCleanUp: (streamed?: string) => {
 			// get current delta / last response
 			const lastResponseCurrent = get().lastResponse;
 			if (!lastResponseCurrent?.active) return;
 
-			// update last response to inactive
-			const lastResponse = { ...lastResponseCurrent, active: false, delta: undefined };
+			// update last response to inactive with the optional parameter of streamed value
+			const value = streamed ?? lastResponseCurrent.value;
+			const lastResponse = { ...lastResponseCurrent, value, active: false, delta: undefined };
 
 			// set state
 			set({ lastResponse });
 		},
+		/**
+		 * Updates the last response object replacing it with the new one.
+		 */
 		handleUpdateLastResponse: (lastResponse: ViResponse) => {
 			set({ lastResponse });
+		},
+		/**
+		 * Add a user message to the responses stack
+		 */
+		handleAddUserMessage: (message: string) => {
+			const responses = get().responses;
+			const userMessage: ViResponse = {
+				id: crypto.randomUUID(),
+				timestamp: Date.now(),
+				role: Role.User,
+				type: ResponseType.Text,
+				value: message,
+				active: false,
+				delta: undefined,
+				disconnected: undefined,
+				interrupted: undefined,
+			};
+			const updated = [...responses, userMessage];
+			set({ responses: updated });
+		},
+		/**
+		 * Store global state on if the current buffer is still streaming content
+		 */
+		setBufferStreaming: (bufferStreaming: boolean) => {
+			set({ bufferStreaming });
+		},
+		/**
+		 * Auto scroll setter
+		 */
+		setAutoScrollStream: (autoScrollStream: boolean) => {
+			set({ autoScrollStream });
 		},
 	},
 }));
@@ -82,6 +154,8 @@ export const useViResponses = () => useViResponsesStore((state) => state.respons
 export const useViLastResponse = () => useViResponsesStore((state) => state.lastResponse);
 export const useViActive = () =>
 	useViResponsesStore((state) => state.lastResponse?.active ?? false);
+export const useViBufferStreaming = () => useViResponsesStore((state) => state.bufferStreaming);
+export const useAutoScrollStream = () => useViResponsesStore((state) => state.autoScrollStream);
 export const useViResponsesActions = () => useViResponsesStore((state) => state.actions);
 
 // direct exports

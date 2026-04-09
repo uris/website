@@ -1,6 +1,7 @@
 import { useMDStreamBuffer } from '@apple-pie/slice';
-import { useEffect, useState } from 'react';
-import { useViConnected } from '@/src/stores/ai/viStore';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { CallbackEvent } from '@/src/stores/ai/_types';
+import { useViActions, useViConnected } from '@/src/stores/ai/viStore';
 import type { ViResponse } from '@/src/stores/responses/_types';
 import {
 	useViLastResponse,
@@ -9,12 +10,24 @@ import {
 } from '@/src/stores/responses/responsesStore';
 
 const DEFAULT_MARKER = ' [[END-MARKER]]';
+
+// sort responses by timestamp
+const sortedResponses = (responses: ViResponse[]) => {
+	return responses.sort((a, b) => {
+		if (a.timestamp && b.timestamp) {
+			return a.timestamp - b.timestamp;
+		}
+		return 0;
+	});
+};
+
 export function useActiveResponse(options: {
 	onEnd?: () => void;
 	onStart?: () => void;
+	onAppend?: (delta: string | null | undefined) => void;
 	endMarker?: string;
 }) {
-	const { onEnd, onStart, endMarker } = options;
+	const { onEnd, onStart, onAppend, endMarker } = options;
 	const nextResponse = useViLastResponse();
 	const previousResponses = useViResponses();
 	const responsesActions = useViResponsesActions();
@@ -23,6 +36,9 @@ export function useActiveResponse(options: {
 	const addMarker = endMarker || endMarker === undefined;
 	const marker = addMarker ? DEFAULT_MARKER : undefined;
 	const [combined, setCombined] = useState<ViResponse[]>(previousResponses);
+	const attachViEventCallbacks = useViActions().attachCallback;
+	const clearViEventCallbacks = useViActions().clearCallback;
+	const setBufferStreaming = useViResponsesActions().setBufferStreaming;
 
 	const { healthy, append, reset, raw, pendingCharacters } = useMDStreamBuffer({
 		healthyEndMarker: marker,
@@ -30,6 +46,25 @@ export function useActiveResponse(options: {
 		paceDelayMs: 60,
 		paceChunkSize: 1,
 	});
+
+	// if disconnected or interrupted, set response stack with last response set to current healthy stream value
+	// then reset the buffer, etc. to get ready for the next active response
+	const handleInterrupt = useCallback(
+		(type: 'interrupt' | 'disconnect') => {
+			if (pendingCharacters !== 0 && nextResponse) {
+				const healthyNoMarker = healthy.replace(DEFAULT_MARKER, '');
+				const value = `${healthyNoMarker} ...`;
+				const disconnected = type === 'disconnect';
+				const interrupted = type === 'interrupt';
+				const streamResponse = { ...nextResponse, value, disconnected, interrupted };
+				setCombined(previousResponses ? [...previousResponses, streamResponse] : [streamResponse]);
+				responsesActions.handleUpdateLastResponse(streamResponse);
+				reset();
+				onEnd?.();
+			}
+		},
+		[nextResponse, onEnd, pendingCharacters, previousResponses, reset, responsesActions, healthy],
+	);
 
 	// trigger response start callback if the response is active but has no deltas
 	useEffect(() => {
@@ -46,7 +81,8 @@ export function useActiveResponse(options: {
 		if (!healthy || !nextResponse) return;
 		const streamResponse = { ...nextResponse, value: healthy };
 		setCombined(previousResponses ? [...previousResponses, streamResponse] : [streamResponse]);
-	}, [healthy, nextResponse, previousResponses]);
+		onAppend?.(nextResponse.delta);
+	}, [healthy, nextResponse, previousResponses, onAppend]);
 
 	// reset when not streaming, the buffer is fully flushed, but raw content is still present
 	useEffect(() => {
@@ -58,27 +94,23 @@ export function useActiveResponse(options: {
 		}
 	}, [streamEnd, reset, pendingCharacters, onEnd, raw, nextResponse, previousResponses]);
 
-	// clean up on disconnect
+	// register the interrupt callbacks on mount for triggering disconnect and interrupt handling
 	useEffect(() => {
-		if (pendingCharacters !== 0 && !connected && nextResponse) {
-			const streamResponse = { ...nextResponse, value: `${raw} ...`, disconnected: true };
-			setCombined(previousResponses ? [...previousResponses, streamResponse] : [streamResponse]);
-			responsesActions.handleUpdateLastResponse(streamResponse);
-			reset();
-			onEnd?.();
-		}
-	}, [
-		connected,
-		pendingCharacters,
-		nextResponse,
-		onEnd,
-		raw,
-		reset,
-		previousResponses,
-		responsesActions,
-	]);
+		attachViEventCallbacks('stream', [
+			{ event: CallbackEvent.AudioInterrupt, callback: () => handleInterrupt('interrupt') },
+			{ event: CallbackEvent.ViDisconnect, callback: () => handleInterrupt('disconnect') },
+		]);
+		return () => {
+			clearViEventCallbacks('stream');
+		};
+	}, [attachViEventCallbacks, clearViEventCallbacks, handleInterrupt]);
+
+	// store global state of the current buffered stream state
+	useLayoutEffect(() => {
+		setBufferStreaming(pendingCharacters !== 0);
+	}, [pendingCharacters, setBufferStreaming]);
 
 	// return a full response stack including then active response
 	// as well as the is buffering state
-	return { responses: combined, active: pendingCharacters !== 0 };
+	return sortedResponses(combined);
 }

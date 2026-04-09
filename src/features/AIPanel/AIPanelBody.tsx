@@ -1,53 +1,78 @@
 'use client';
 
-import { Avatar, Spacer, useLocalStore } from '@apple-pie/slice';
+import { Spacer, useLocalStore } from '@apple-pie/slice';
 import type React from 'react';
-import { useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useAILayout, useFooterSize, useSettingsOpen } from '@/app/(ai)/store/layout-store';
+import { MessagesThread } from '@/features/AIPanel/MessagesThread';
 import { ProfilePic } from '@/src/components/ProfilePic/ProfilePic';
-import { ResponseActionBar } from '@/src/components/ResponseActionBar/ResponseActionBar';
 import { introMessageMd } from '@/src/content/intro/intro';
 import { useStreamSimulator } from '@/src/hooks/streamSimulator/streamSimulator';
-import { useActiveResponse } from '@/src/hooks/useActiveResponse/useActiveResonse';
 import { MarkdownRenderer } from '@/src/renderers/markdown/MarkdownRenderer';
+import { useAutoScrollStream, useViBufferStreaming } from '@/src/stores/responses/responsesStore';
 import styles from './AIPanel.module.css';
 
 export function AIPanelBody() {
-	const { responses, active } = useActiveResponse({ onStart: handleScrollToBottom });
 	const [showIntro, setShowIntro, hydrated] = useLocalStore('showIntro', true);
 	const showSidebar = useAILayout().toggleSideBar;
 	const settingsOpen = useSettingsOpen();
 	const ref = useRef<HTMLDivElement>(null);
-	const { healthy, startStream, source } = useStreamSimulator(introMessageMd, handleMessageEnd);
-	const [userName] = useLocalStore('userName', '');
+	const { healthy, startStream, source } = useStreamSimulator(introMessageMd, handleIntroEnd);
 	const timeout = useRef<NodeJS.Timeout | null>(null);
 	const footerSize = useFooterSize();
+	const autoScroll = useAutoScrollStream();
+	const streaming = useViBufferStreaming();
+	const lastScrollTop = useRef<number | undefined>(undefined);
+	const pauseAutoScroll = useRef<boolean>(false);
 
 	// trigger the sidebar on the message end
-	function handleMessageEnd() {
+	function handleIntroEnd() {
 		setShowIntro(false);
 		if (!settingsOpen) showSidebar(true);
 	}
 
-	function handleScrollToBottom() {
-		// scroll to the bottom of the chat at the end of a stream
+	// scroll to the bottom at stream start, reset auto stream
+	function handleStreamStart() {
 		if (timeout.current) clearTimeout(timeout.current);
+		pauseAutoScroll.current = false;
 		timeout.current = setTimeout(() => {
 			if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
 		}, 100);
 	}
 
-	// kick off intro message on mount
-	useEffect(() => {
-		if (showIntro && hydrated) startStream();
-	}, [startStream, showIntro, hydrated]);
-
-	// clean up timers
-	useEffect(() => {
-		return () => {
+	// auto scroll to bottom while streaming
+	function handleStreamAppend() {
+		if (autoScroll && !pauseAutoScroll.current && ref.current) {
 			if (timeout.current) clearTimeout(timeout.current);
-		};
-	}, []);
+			if (ref.current.scrollTop === ref.current.scrollHeight) return;
+			ref.current.scrollTop = ref.current.scrollHeight;
+		}
+	}
+
+	// set pause auto scroll when scrolling up
+	const handleBodyScroll = useCallback(
+		(e: Event) => {
+			// get scroll delta
+			const currentEl = e.currentTarget as HTMLDivElement;
+			const height = currentEl.offsetHeight;
+			const scrollHeight = currentEl.scrollHeight;
+			const next = currentEl.scrollTop;
+			const prev = lastScrollTop.current;
+			if (!prev || !next) return;
+
+			// update tracked last scroll position
+			lastScrollTop.current = next;
+
+			// determine values for pausing
+			const isAtBottom = next + height >= scrollHeight - 20; // small buffer
+			const scrolledUp = prev && next < prev;
+
+			// if at bottom reset pause, if scroll up pause auto scroll
+			if (isAtBottom) pauseAutoScroll.current = false;
+			else if (streaming && scrolledUp) pauseAutoScroll.current = true;
+		},
+		[streaming],
+	);
 
 	const cssVars = useMemo(() => {
 		return {
@@ -55,35 +80,28 @@ export function AIPanelBody() {
 		} as React.CSSProperties;
 	}, [footerSize]);
 
+	// kick off intro message on mount
+	useEffect(() => {
+		if (showIntro && hydrated) startStream();
+	}, [startStream, showIntro, hydrated]);
+
+	// listeners and timers - set up and clean up
+	useEffect(() => {
+		ref.current?.addEventListener('scroll', handleBodyScroll);
+		return () => {
+			ref.current?.removeEventListener('scroll', handleBodyScroll);
+			if (timeout.current) clearTimeout(timeout.current);
+		};
+	}, [handleBodyScroll]);
+
 	return (
 		<div className={styles.body} ref={ref} style={cssVars}>
 			<div className={styles.content}>
 				<ProfilePic />
 				<Spacer size={8} />
 				{hydrated && <MarkdownRenderer content={showIntro ? healthy : source} />}
-				{responses.map((response, index) => {
-					const userInitial = userName ? userName.charAt(0).toUpperCase() : 'U';
-					const avatarName = response.role === 'assistant' ? 'V' : userInitial;
-					const last = index === responses.length - 1;
-					return (
-						<div key={`${response.id}_${index}`} className={styles.response}>
-							<div className={styles.responseAvatar}>
-								<Avatar
-									name={avatarName}
-									borderWidth={2}
-									bgColor={'var(--array-magenta)'}
-									borderColor={'var(--array-magenta-label)'}
-									textColor={'var(--array-magenta-label)'}
-								/>
-							</div>
-							<MarkdownRenderer content={response.value} />
-							<ResponseActionBar response={response} active={active} last={last} />
-						</div>
-					);
-				})}
+				<MessagesThread handleStart={handleStreamStart} handleAppend={handleStreamAppend} />
 			</div>
 		</div>
 	);
 }
-
-// <AudioBubble audioStream={processedMicStream.current} playing={micActive && !micMuted} />

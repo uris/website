@@ -12,19 +12,21 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { useAILayout } from '@/app/(ai)/store/layout-store';
 import { ViTalkButton } from '@/src/components/ViTalkButton/ViTalkButton';
 import { micMuteNotification } from '@/src/content/notifications/notifications';
-import { useViConnected, useViTalk } from '@/src/stores/ai/viStore';
 import { gradientCover } from '@/utils/styles/styles';
 import styles from './AIPanel.module.css';
 
 // button animation variants
-const animateButton: Variants = {
-	initial: { opacity: 0, width: 0, scale: 0 },
-	animate: { opacity: 1, width: 'auto', scale: 1 },
-	exit: { opacity: 0, width: 0, scale: 0 },
+const animateButton = (side: 'left' | 'right') => {
+	const xValue = side === 'left' ? -64 : 64;
+	return {
+		initial: { opacity: 0, x: 0 },
+		animate: { opacity: 1, x: xValue },
+		exit: { opacity: 0, x: 0 },
+	} as Variants;
 };
 
 // button default transition
-const transitionButton: Transition = { duration: 0.2, ease: 'easeInOut' };
+const transitionButton: Transition = { duration: 1, type: 'spring', bounce: 0.3 };
 
 // interface for bar in out
 export type ButtonBarProps = {
@@ -39,8 +41,6 @@ const ButtonBarBase = (props: Readonly<ButtonBarProps>) => {
 	const { initial = 'initial', animate = 'animate', exit = 'exit', transition, variants } = props;
 	const { current } = useTheme();
 	const surfaceColor = current.colors['core-surface-primary'];
-	const talk = useViTalk();
-	const connected = useViConnected();
 	const muted = useMicMuted();
 	const micActive = useMicActive();
 	const micIcon = muted ? 'mic muted' : 'mic';
@@ -81,27 +81,40 @@ const ButtonBarBase = (props: Readonly<ButtonBarProps>) => {
 			exit={exit}
 			ref={ref}
 		>
-			<ViTalkButton size={'xl'} />
 			<AnimatePresence initial={false} mode={'sync'}>
-				{micActive && talk && connected && (
+				{micActive && (
 					<motion.div
-						className={styles.buttonContainer}
+						className={styles.keyboard}
 						transition={transitionButton}
-						variants={animateButton}
+						variants={animateButton('left')}
 						initial={'initial'}
 						animate={'animate'}
 						exit={'exit'}
 					>
 						<IconButton
 							round
-							buttonSize={'xl'}
-							icon={'keyboard'}
-							tooltip={'Type to Vi'}
+							buttonSize={'l'}
+							icon={'character beam'}
+							tooltip={'Type messages'}
 							onToolTip={setTip}
 							onClick={() => toggleInputBar(true)}
 						/>
+					</motion.div>
+				)}
+			</AnimatePresence>
+			<ViTalkButton size={'xl'} toggle />
+			<AnimatePresence initial={false} mode={'sync'}>
+				{micActive && (
+					<motion.div
+						className={styles.microphone}
+						transition={transitionButton}
+						variants={animateButton('right')}
+						initial={'initial'}
+						animate={'animate'}
+						exit={'exit'}
+					>
 						<ToggleButton
-							buttonSize={'xl'}
+							buttonSize={'l'}
 							icon={micIcon}
 							disabled={!micActive}
 							onChange={handleMicToggle}

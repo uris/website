@@ -3,6 +3,7 @@
 import { IconButton, ProgressIndicator, useLocalStore } from '@apple-pie/slice';
 import { useModalActions, useTipActions } from '@apple-pie/slice/stores';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useAILayout } from '@/app/(ai)/store/layout-store';
 import { ViTalkModal } from '@/src/components/ViTalkModal/ViTalkModal';
 import { useViActions, useViConnected, useViConnecting, useViTalk } from '@/src/stores/ai/viStore';
 import styles from './ViTalkButton.module.css';
@@ -11,6 +12,7 @@ interface ViTalkButtonProps {
 	size?: 'xl' | 'l' | 'm' | 's';
 	background?: string;
 	border?: boolean;
+	toggle?: boolean;
 }
 
 export enum ViTalkState {
@@ -21,7 +23,12 @@ export enum ViTalkState {
 }
 
 export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
-	const { size = 'm', background = 'var(--core-surface-secondary)', border = false } = props;
+	const {
+		size = 'm',
+		background = 'var(--core-surface-secondary)',
+		border = false,
+		toggle = false,
+	} = props;
 	const modalResponse = useModalActions().modalResponse;
 	const connecting = useViConnecting();
 	const connected = useViConnected();
@@ -32,6 +39,7 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 	const setTip = useTipActions().push;
 	const [viState, setViState] = useState<ViTalkState>(ViTalkState.Disconnected);
 	const [viTalkConfirm, setViTalkConfirm] = useLocalStore<boolean>('viTalkConfirm', false);
+	const setTextinput = useAILayout().toggleInputBar;
 
 	// helper state calculator
 	const getViState = useCallback(() => {
@@ -46,7 +54,8 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 	// memo tip based on button state
 	const setToolTip = useMemo(() => {
 		if (viState === ViTalkState.Connecting) return 'Connecting with Vi';
-		if (viState === ViTalkState.NotEnabled) return 'Talk to Vi active';
+		if (viState === ViTalkState.NotEnabled) return 'Talk to Vi disabled';
+		if (viState === ViTalkState.Active) return 'Disconnect';
 		return 'Talk to Vi';
 	}, [viState]);
 
@@ -70,6 +79,7 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 		switch (viState) {
 			case ViTalkState.Active:
 				disconnect();
+				setTextinput(false);
 				break;
 			case ViTalkState.NotEnabled:
 				setTalk(true);
@@ -93,7 +103,7 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 			<IconButton
 				toggle={false}
 				buttonSize={size}
-				icon={'talk'}
+				icon={toggle && connected ? 'x' : 'talk'}
 				disabled={false}
 				tooltip={setToolTip}
 				onToolTip={setTip}
