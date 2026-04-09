@@ -42,10 +42,10 @@ export const realtimeSessionRequests = (noiseReduction = 'far_field') => {
 					eagerness: 'medium',
 				},
 				// Enable for input audio transcriptions
-				// transcription: {
-				// 	model: "gpt-4o-transcribe",
-				// 	language: "en"
-				// }
+				transcription: {
+					model: 'gpt-4o-transcribe',
+					language: 'en',
+				},
 			},
 			output: {
 				voice: 'marin',

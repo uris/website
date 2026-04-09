@@ -1,4 +1,4 @@
-import { Avatar, useLocalStore } from '@apple-pie/slice';
+import { Avatar, ProgressIndicator, useLocalStore } from '@apple-pie/slice';
 import styles from '@/features/AIPanel/AIPanel.module.css';
 import { ResponseActionBar } from '@/src/components/ResponseActionBar/ResponseActionBar';
 import { useActiveResponse } from '@/src/hooks/useActiveResponse/useActiveResonse';
@@ -29,6 +29,9 @@ export function MessagesThread(props: Readonly<MessageThreadProps>) {
 		const avatarName = response.role === 'user' ? userInitial : 'Vi';
 		const colors = avatarColor(response.role);
 		const last = index === responses.length - 1;
+		const transcribing =
+			response.type === ResponseType.Audio && response.active && response.value === '';
+
 		if (response.type === ResponseType.SessionStart) {
 			const label = index === 0 ? 'Connected' : 'Re-connected';
 			const styleName = index === 0 ? 'sessionStart' : 'sessionReconnect';
@@ -56,8 +59,14 @@ export function MessagesThread(props: Readonly<MessageThreadProps>) {
 							textColor={colors.textColor}
 						/>
 					</div>
+					{transcribing && (
+						<div className={styles.transcribing}>
+							<ProgressIndicator inline show color={'var(--core-text-disabled)'} />
+							Transcribing
+						</div>
+					)}
 					<MarkdownRenderer content={response.value} />
-					<ResponseActionBar response={response} active={active} last={last} />
+					{!transcribing && <ResponseActionBar response={response} active={active} last={last} />}
 				</div>
 			);
 		}

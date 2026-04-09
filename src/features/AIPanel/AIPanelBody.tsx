@@ -52,24 +52,26 @@ export function AIPanelBody() {
 	// set pause auto scroll when scrolling up
 	const handleBodyScroll = useCallback(
 		(e: Event) => {
-			// get scroll delta
+			// get current scroll / container values
 			const currentEl = e.currentTarget as HTMLDivElement;
 			const height = currentEl.offsetHeight;
 			const scrollHeight = currentEl.scrollHeight;
 			const next = currentEl.scrollTop;
 			const prev = lastScrollTop.current;
-			if (!prev || !next) return;
 
 			// update tracked last scroll position
 			lastScrollTop.current = next;
+			
+			// if no values return
+			if (!prev || !next) return;
 
-			// determine values for pausing
-			const isAtBottom = next + height >= scrollHeight - 20; // small buffer
+			// derive values to set pause in auto scroll
+			const isAtBottom = next + height >= scrollHeight - 24; // a little padding
 			const scrolledUp = prev && next < prev;
 
 			// if at bottom reset pause, if scroll up pause auto scroll
-			if (isAtBottom) pauseAutoScroll.current = false;
-			else if (streaming && scrolledUp) pauseAutoScroll.current = true;
+			if (streaming && scrolledUp) pauseAutoScroll.current = true;
+			else if (isAtBottom) pauseAutoScroll.current = false;
 		},
 		[streaming],
 	);

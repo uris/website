@@ -11,7 +11,6 @@ export function realtimeDataEventHandler(
 	const eventType = event.type;
 	switch (eventType) {
 		case 'open': {
-			console.log('session open');
 			return;
 		}
 		case 'message': {
@@ -21,11 +20,10 @@ export function realtimeDataEventHandler(
 			return;
 		}
 		case 'error': {
-			console.log('error');
+			console.log('error', event);
 			return;
 		}
 		case 'close': {
-			console.log('close');
 			return;
 		}
 	}
@@ -36,7 +34,7 @@ export function handleMessageEvent(
 ): { event?: CallbackEvent; state?: Partial<ViStoreState> } | undefined {
 	if (!('type' in data) && typeof data.type !== 'string') return;
 	switch (data.type) {
-		// signals the start of a new voice session
+		// *** signals the start of a new voice session
 		case CallbackEvent.SessionCreated: {
 			// add session start response to the response stack
 			viResponsesActions.handleSessionStart(data.session.id);
@@ -51,27 +49,65 @@ export function handleMessageEvent(
 			// return state updates to be processed
 			return { event: CallbackEvent.SessionCreated, state: { connected: true, connecting: false } };
 		}
+
+		// *** start of assistant response
 		case 'response.output_item.added': {
 			// sets the id for a response and tags all following related events with this id
 			viResponsesActions.handleResponseStart(data.response_id, ResponseType.Audio);
 			return { event: CallbackEvent.ResponseStart };
 		}
+
+		// *** assistant audio - transcription delta
 		case 'response.output_audio_transcript.delta': {
 			// provides each token of the streaming audio transcript
 			viResponsesActions.handleResponseDelta(data.response_id, data.delta);
 			return { event: CallbackEvent.TranscriptDelta };
 		}
+
+		// *** assistant audio - transcription done
 		case 'response.output_audio_transcript.done': {
 			// signals the end of the audio transcript providing the complete transcript
 			viResponsesActions.handleResponseEnd(data.response_id);
 			return { event: CallbackEvent.TranscriptEnd };
 		}
+		// *** assistant audio - interrupted
 		case 'conversation.item.truncated': {
 			// signals conversation items truncated due to some type of interruption
 			return { event: CallbackEvent.AudioInterrupt };
 		}
+
+		// *** conversation items added by the user via text or via audio
+		case 'conversation.item.added': {
+			// get base message info - protect for user messages
+			const { id, role, type, content } = data.item ?? {};
+
+			// handle only user messages that are created
+			if (type !== 'message' || role !== 'user') return;
+			const { type: content_type, text, transcript } = content[0];
+
+			// trigger new message creation in stack with the new conversation item
+			viResponsesActions.handleNewUserMessage({ id, text, transcript, content_type });
+
+			return;
+		}
+
+		// *** transcription of user input audio increments
+		case 'conversation.item.input_audio_transcription.delta': {
+			// for now, we ignore. not a good user experience to "stream this in"
+			return;
+		}
+
+		// *** transcription of user input audio done
+		case 'conversation.item.input_audio_transcription.completed': {
+			// get the transcript info
+			const { item_id: id, transcript } = data;
+
+			// update the user message with the transcript
+			viResponsesActions.handleUpdateUserMessage({ id, transcript });
+
+			return;
+		}
 		default: {
-			console.log(data.type);
 			return;
 		}
 	}

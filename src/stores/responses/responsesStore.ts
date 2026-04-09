@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import {
 	ResponseType,
 	Role,
+	type UserMessage,
+	UserMessageType,
 	type ViResponse,
 	type ViResponsesStore,
 } from '@/src/stores/responses/_types';
@@ -31,6 +33,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			const responses = [...currentResponses, sessionStart];
 			set({ responses });
 		},
+
 		/**
 		 * Called automatically from Vi Event Handlers when a a conversation is about to start
 		 */
@@ -60,6 +63,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			// updates state
 			set({ responses: updatedResponses, lastResponse });
 		},
+
 		/**
 		 * Called automatically from Vi Event Handlers when a transcript delta arrives
 		 * Note: Transcripts deltas are streamed more quickly than the adio
@@ -79,6 +83,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			// set state
 			set({ lastResponse });
 		},
+
 		/**
 		 * Called automatically from Vi Event Handlers when a transcript completes
 		 * Note: Transcripts complete well before the audio finishes
@@ -94,6 +99,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			// set state
 			set({ lastResponse });
 		},
+
 		/**
 		 * Call when the UI triggers a ViTalk disconnect to clean up pending active last responses.
 		 */
@@ -109,37 +115,61 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			// set state
 			set({ lastResponse });
 		},
+
 		/**
 		 * Updates the last response object replacing it with the new one.
 		 */
 		handleUpdateLastResponse: (lastResponse: ViResponse) => {
 			set({ lastResponse });
 		},
+
 		/**
 		 * Add a user message to the responses stack
+		 * Note: for audio messages this is a placeholder that will receive updates
 		 */
-		handleAddUserMessage: (message: string) => {
-			const responses = get().responses;
+		handleNewUserMessage: (message: UserMessage) => {
+			const { id, content_type, text, transcript } = message;
+			if (!id || !content_type) return;
+			const type = content_type === UserMessageType.Text ? ResponseType.Text : ResponseType.Audio;
+			const value = content_type === UserMessageType.Text ? (text ?? '') : (transcript ?? '');
+			const active = content_type === UserMessageType.Audio && !transcript;
 			const userMessage: ViResponse = {
-				id: crypto.randomUUID(),
+				id,
 				timestamp: Date.now(),
 				role: Role.User,
-				type: ResponseType.Text,
-				value: message,
-				active: false,
+				type,
+				value,
+				active,
 				delta: undefined,
 				disconnected: undefined,
 				interrupted: undefined,
 			};
+			const responses = get().responses;
 			const updated = [...responses, userMessage];
 			set({ responses: updated });
 		},
+
+		/**
+		 * Update a user message with transcript information
+		 */
+		handleUpdateUserMessage: (message: Partial<UserMessage>) => {
+			const { id, transcript } = message;
+			if (!id || !transcript) return;
+			const current = get().responses;
+			const responses = current.map((response) => {
+				if (response.id === id) return { ...response, value: transcript, active: false };
+				return response;
+			});
+			set({ responses });
+		},
+
 		/**
 		 * Store global state on if the current buffer is still streaming content
 		 */
 		setBufferStreaming: (bufferStreaming: boolean) => {
 			set({ bufferStreaming });
 		},
+
 		/**
 		 * Auto scroll setter
 		 */

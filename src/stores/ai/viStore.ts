@@ -28,7 +28,6 @@ import {
 	requestResponseStop,
 	sendResponseRequest,
 } from '@/src/stores/ai/ViTalkResponseCreateFactory';
-import { viResponsesActions } from '@/src/stores/responses/responsesStore';
 import { bestGuessNoiseReduction } from '@/utils/misc';
 
 export const useAIStore = create<ViStore>((set, get) => ({
@@ -125,13 +124,12 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			console.log({ event, eventData });
 		},
 		/**
-		 * Send a user message and send a response request from the model
+		 * Send a user message and request a response request from the model
 		 */
 		handleUserMessage: (message: string) => {
 			requestResponseStop(); // stop a current response
 			sendUserMessage(message); // create the user conversation item
 			sendResponseRequest(); // request a response to the user conversation item
-			viResponsesActions.handleAddUserMessage(message); // add message to the response stack
 		},
 		/**
 		 * Attach event callbacks

@@ -34,8 +34,21 @@ export type ViResponsesStore = {
 		handleResponseEnd: (id: string) => void;
 		handleDisconnectCleanUp: (streamed?: string) => void;
 		handleUpdateLastResponse: (lastResponse: ViResponse) => void;
-		handleAddUserMessage: (message: string) => void;
+		handleNewUserMessage: (message: UserMessage) => void;
+		handleUpdateUserMessage: (message: Partial<UserMessage>) => void;
 		setBufferStreaming: (streaming: boolean) => void;
 		setAutoScrollStream: (autoScrollStream: boolean) => void;
 	};
 };
+
+export type UserMessage = {
+	id: string;
+	content_type: UserMessageType;
+	text: string | null | undefined;
+	transcript: string | null | undefined;
+};
+
+export enum UserMessageType {
+	Audio = 'input_audio',
+	Text = 'input_text',
+}

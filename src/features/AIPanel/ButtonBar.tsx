@@ -14,6 +14,7 @@ import { ViTalkButton } from '@/src/components/ViTalkButton/ViTalkButton';
 import { micMuteNotification } from '@/src/content/notifications/notifications';
 import { gradientCover } from '@/utils/styles/styles';
 import styles from './AIPanel.module.css';
+import {useViConnected} from "@/src/stores/ai/viStore";
 
 // button animation variants
 const animateButton = (side: 'left' | 'right') => {
@@ -51,6 +52,7 @@ const ButtonBarBase = (props: Readonly<ButtonBarProps>) => {
 	const notify = useToastActions().push;
 	const toggleInputBar = useAILayout().toggleInputBar;
 	const setFooterSize = useAILayout().setFooterSize;
+	const viConnected = useViConnected();
 	const ref = useRef<HTMLDivElement>(null);
 	const { height } = useObserveResize(ref, { ignore: 'width' });
 
@@ -82,7 +84,7 @@ const ButtonBarBase = (props: Readonly<ButtonBarProps>) => {
 			ref={ref}
 		>
 			<AnimatePresence initial={false} mode={'sync'}>
-				{micActive && (
+				{viConnected && micActive && (
 					<motion.div
 						className={styles.keyboard}
 						transition={transitionButton}
@@ -104,7 +106,7 @@ const ButtonBarBase = (props: Readonly<ButtonBarProps>) => {
 			</AnimatePresence>
 			<ViTalkButton size={'xl'} toggle />
 			<AnimatePresence initial={false} mode={'sync'}>
-				{micActive && (
+				{micActive && viConnected && (
 					<motion.div
 						className={styles.microphone}
 						transition={transitionButton}

@@ -166,6 +166,18 @@
 	margin: 16px 0;
 }
 
+.transcribing {
+	user-select: none;
+	-webkit-user-select: none;
+	composes: body-s-regular from "../../utils/css-helpers/type.module.css";
+	color: var(--core-text-disabled);
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	position: relative;
+	gap: 4px;
+}
+
 .assistant {
 	position: absolute;
 	top: 10px;
