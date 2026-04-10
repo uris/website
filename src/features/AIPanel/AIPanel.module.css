@@ -125,7 +125,7 @@
 	max-height: 1px;
 	width: 100%;
 	border-top: 1px solid var(--core-outline-secondary);
-	margin-bottom: 8px;
+	margin: 24px 0;
 }
 
 .sessionReconnect {

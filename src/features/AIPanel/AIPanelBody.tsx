@@ -61,7 +61,7 @@ export function AIPanelBody() {
 
 			// update tracked last scroll position
 			lastScrollTop.current = next;
-			
+
 			// if no values return
 			if (!prev || !next) return;
 
@@ -70,8 +70,8 @@ export function AIPanelBody() {
 			const scrolledUp = prev && next < prev;
 
 			// if at bottom reset pause, if scroll up pause auto scroll
-			if (streaming && scrolledUp) pauseAutoScroll.current = true;
-			else if (isAtBottom) pauseAutoScroll.current = false;
+			if (isAtBottom) pauseAutoScroll.current = false;
+			else if (streaming && scrolledUp) pauseAutoScroll.current = true;
 		},
 		[streaming],
 	);
@@ -84,8 +84,11 @@ export function AIPanelBody() {
 
 	// kick off intro message on mount
 	useEffect(() => {
-		if (showIntro && hydrated) startStream();
-	}, [startStream, showIntro, hydrated]);
+		if (hydrated) {
+			if (showIntro) startStream();
+			else showSidebar(true);
+		}
+	}, [startStream, showIntro, hydrated, showSidebar]);
 
 	// listeners and timers - set up and clean up
 	useEffect(() => {

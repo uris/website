@@ -10,7 +10,7 @@
 		"format": "biome format --write ."
 	},
 	"dependencies": {
-		"@apple-pie/slice": "file:../uikit/pack/apple-pie-slice-0.1.32.tgz",
+		"@apple-pie/slice": "file:../uikit/pack/apple-pie-slice-0.1.33.tgz",
 		"motion": "^12.38.0",
 		"next": "^16.2.1",
 		"react": "^19.2.0",

@@ -41,7 +41,7 @@ export function handleMessageEvent(
 
 			// create a response trigger for an initial welcome message
 			const responses = useViResponsesStore.getState().responses;
-			sendCreateIntroMessage(responses.length === 0);
+			sendCreateIntroMessage(responses.length === 1);
 
 			// send the connected notification
 			viNotification('Connected');
@@ -51,27 +51,39 @@ export function handleMessageEvent(
 		}
 
 		// *** start of assistant response
-		case 'response.output_item.added': {
+		case CallbackEvent.ResponseStart: {
 			// sets the id for a response and tags all following related events with this id
 			viResponsesActions.handleResponseStart(data.response_id, ResponseType.Audio);
 			return { event: CallbackEvent.ResponseStart };
 		}
 
+		// *** start of assistant audio buffer
+		case CallbackEvent.AssistantSpeechStart: {
+			// set state of vi talking
+			return { event: CallbackEvent.AssistantSpeechStart, state: { viTalking: true } };
+		}
+
+		// *** end of assistant audio buffer
+		case CallbackEvent.AssistantSpeechEnd: {
+			// set state of vi talking
+			return { event: CallbackEvent.AssistantSpeechEnd, state: { viTalking: false } };
+		}
+
 		// *** assistant audio - transcription delta
-		case 'response.output_audio_transcript.delta': {
+		case CallbackEvent.TranscriptDelta: {
 			// provides each token of the streaming audio transcript
 			viResponsesActions.handleResponseDelta(data.response_id, data.delta);
 			return { event: CallbackEvent.TranscriptDelta };
 		}
 
 		// *** assistant audio - transcription done
-		case 'response.output_audio_transcript.done': {
+		case CallbackEvent.TranscriptEnd: {
 			// signals the end of the audio transcript providing the complete transcript
 			viResponsesActions.handleResponseEnd(data.response_id);
 			return { event: CallbackEvent.TranscriptEnd };
 		}
 		// *** assistant audio - interrupted
-		case 'conversation.item.truncated': {
+		case CallbackEvent.AudioInterrupt: {
 			// signals conversation items truncated due to some type of interruption
 			return { event: CallbackEvent.AudioInterrupt };
 		}
@@ -88,24 +100,28 @@ export function handleMessageEvent(
 			// trigger new message creation in stack with the new conversation item
 			viResponsesActions.handleNewUserMessage({ id, text, transcript, content_type });
 
+			// return event type in case listeners set
+			if (content_type === 'input_audio') return { event: CallbackEvent.UserAudioMessageAdded };
+			if (content_type === 'input_text') return { event: CallbackEvent.UserTextMessageAdded };
+
 			return;
 		}
 
 		// *** transcription of user input audio increments
-		case 'conversation.item.input_audio_transcription.delta': {
+		case CallbackEvent.UserMessageTranscriptDelta: {
 			// for now, we ignore. not a good user experience to "stream this in"
-			return;
+			return { event: CallbackEvent.UserMessageTranscriptDelta };
 		}
 
 		// *** transcription of user input audio done
-		case 'conversation.item.input_audio_transcription.completed': {
+		case CallbackEvent.UserMessageTranscriptDone: {
 			// get the transcript info
 			const { item_id: id, transcript } = data;
 
 			// update the user message with the transcript
 			viResponsesActions.handleUpdateUserMessage({ id, transcript });
 
-			return;
+			return { event: CallbackEvent.UserMessageTranscriptDone };
 		}
 		default: {
 			return;

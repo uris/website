@@ -1,0 +1,35 @@
+.wrapper {
+	position: relative;
+	composes: body-m-regular from "../../utils/css-helpers/type.module.css";
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: 8px 8px;
+	border-radius: 8px;
+	border: 1px solid var(--core-outline-secondary);
+	background: var(--core-surface-primary-tint);
+	box-shadow: var(--surface-shadow-soft);
+	overflow: visible;
+	white-space: nowrap;
+	gap: 8px;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.caret {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	min-height: 10px;
+	min-width: 10px;
+	max-height: 10px;
+	max-width: 10px;
+	box-sizing: border-box;
+	transform: translateX(-50%) translateY(50%) rotate(45deg);
+	z-index: 1;
+	background: var(--core-surface-primary-tint);
+	border-right: 1px solid var(--core-outline-secondary);
+	border-bottom: 1px solid var(--core-outline-secondary);
+}

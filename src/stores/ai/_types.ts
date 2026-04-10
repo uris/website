@@ -3,12 +3,14 @@ export type ViStoreState = {
 	connecting: boolean;
 	live: boolean;
 	talk: boolean;
+	viTalking: boolean;
 	eventCallbacks: Map<string, ViEventCallback[]>;
 };
 
 export type ViStore = ViStoreState & {
 	actions: {
 		setTalk: (state: boolean) => void;
+		setViTalking: (state: boolean) => void;
 		connect: (talk?: boolean) => Promise<void>;
 		disconnect: () => void;
 		handleDataEvents: (
@@ -44,6 +46,10 @@ export enum CallbackEvent {
 	UserSpeechStart = 'input_audio_buffer.speech_started', // user started talking
 	UserSpeechStop = 'input_audio_buffer.speech_stopped', // user stopped talking
 	UserSpeechSent = 'input_audio_buffer.committed', // user audio sent to model
+	UserTextMessageAdded = 'conversation.item.added[text]', // user text message
+	UserAudioMessageAdded = 'conversation.item.added[audio]', // user audio message
+	UserMessageTranscriptDelta = 'conversation.item.input_audio_transcription.delta', // audio transcript incremental update
+	UserMessageTranscriptDone = 'conversation.item.input_audio_transcription.completed', // user transcript done
 	// internal event types affecting ViTalk
 	ViDisconnect = 'vi.disconnect',
 	ViConnect = 'vi.connect',

@@ -12,9 +12,9 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { useAILayout } from '@/app/(ai)/store/layout-store';
 import { ViTalkButton } from '@/src/components/ViTalkButton/ViTalkButton';
 import { micMuteNotification } from '@/src/content/notifications/notifications';
+import { useViConnected } from '@/src/stores/ai/viStore';
 import { gradientCover } from '@/utils/styles/styles';
 import styles from './AIPanel.module.css';
-import {useViConnected} from "@/src/stores/ai/viStore";
 
 // button animation variants
 const animateButton = (side: 'left' | 'right') => {
@@ -104,7 +104,7 @@ const ButtonBarBase = (props: Readonly<ButtonBarProps>) => {
 					</motion.div>
 				)}
 			</AnimatePresence>
-			<ViTalkButton size={'xl'} toggle />
+			<ViTalkButton size={'xl'} hasLabel toggle />
 			<AnimatePresence initial={false} mode={'sync'}>
 				{micActive && viConnected && (
 					<motion.div

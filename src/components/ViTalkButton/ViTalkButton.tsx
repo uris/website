@@ -1,10 +1,10 @@
 'use client';
 
-import { IconButton, ProgressIndicator, useLocalStore } from '@apple-pie/slice';
-import { useModalActions, useTipActions } from '@apple-pie/slice/stores';
+import { IconButton, ProgressIndicator } from '@apple-pie/slice';
+import { useTipActions } from '@apple-pie/slice/stores';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAILayout } from '@/app/(ai)/store/layout-store';
-import { ViTalkModal } from '@/src/components/ViTalkModal/ViTalkModal';
+import { useAILayout, useShowTalkToViLabel } from '@/app/(ai)/store/layout-store';
+import { TalkToViLabel } from '@/src/components/TalkToViLabel/TalkToViLabel';
 import { useViActions, useViConnected, useViConnecting, useViTalk } from '@/src/stores/ai/viStore';
 import styles from './ViTalkButton.module.css';
 
@@ -13,6 +13,7 @@ interface ViTalkButtonProps {
 	background?: string;
 	border?: boolean;
 	toggle?: boolean;
+	hasLabel?: boolean;
 }
 
 export enum ViTalkState {
@@ -28,8 +29,8 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 		background = 'var(--core-surface-secondary)',
 		border = false,
 		toggle = false,
+		hasLabel = false,
 	} = props;
-	const modalResponse = useModalActions().modalResponse;
 	const connecting = useViConnecting();
 	const connected = useViConnected();
 	const talk = useViTalk();
@@ -38,8 +39,9 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 	const setTalk = useViActions().setTalk;
 	const setTip = useTipActions().push;
 	const [viState, setViState] = useState<ViTalkState>(ViTalkState.Disconnected);
-	const [viTalkConfirm, setViTalkConfirm] = useLocalStore<boolean>('viTalkConfirm', false);
-	const setTextinput = useAILayout().toggleInputBar;
+	const setTextInput = useAILayout().toggleInputBar;
+	const showTalkToViLabel = useShowTalkToViLabel();
+	const showLabel = showTalkToViLabel && hasLabel;
 
 	// helper state calculator
 	const getViState = useCallback(() => {
@@ -64,22 +66,12 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 		return size === 'xl' ? 0.5 : 0.55;
 	}, [size]);
 
-	// trigger initial vi talk modal to confirm continue
-	const confirmViTalk = async () => {
-		if (viTalkConfirm) return true;
-		return await modalResponse<boolean>({
-			id: 'vi-intro',
-			component: ViTalkModal,
-			props: { connect: true },
-		}).catch(() => false);
-	};
-
 	// handle talk to vi button
 	const handleClick = async () => {
 		switch (viState) {
 			case ViTalkState.Active:
 				disconnect();
-				setTextinput(false);
+				setTextInput(false);
 				break;
 			case ViTalkState.NotEnabled:
 				setTalk(true);
@@ -87,15 +79,13 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 			case ViTalkState.Connecting:
 				break;
 			case ViTalkState.Disconnected: {
-				const confirmation = await confirmViTalk();
-				setViTalkConfirm(!!confirmation);
-				if (confirmation) await connect(true);
+				await connect(true);
 				break;
 			}
 		}
 	};
 
-	// set state based on store values
+	// set a state based on store values
 	useEffect(() => setViState(getViState()), [getViState]);
 
 	return (
@@ -106,7 +96,7 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 				icon={toggle && connected ? 'x' : 'talk'}
 				disabled={false}
 				tooltip={setToolTip}
-				onToolTip={setTip}
+				onToolTip={(tip) => (showLabel ? null : setTip(tip))}
 				isToggled={viState === ViTalkState.Active}
 				bgColor={viState === ViTalkState.Connecting ? 'var(--core-outline-primary)' : background}
 				bgColorOn={'var(--core-link-primary)'}
@@ -118,6 +108,11 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 			{viState === ViTalkState.Connecting && (
 				<div className={styles.ring}>
 					<ProgressIndicator inline show size={'100%'} stroke={strokeSize} inset={false} />
+				</div>
+			)}
+			{showLabel && (
+				<div className={styles.label}>
+					<TalkToViLabel />
 				</div>
 			)}
 		</div>

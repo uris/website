@@ -8,6 +8,7 @@ import {
 	useWebRTCActions,
 } from '@apple-pie/slice/stores';
 import { create } from 'zustand';
+import { useAILayoutStore } from '@/app/(ai)/store/layout-store';
 import { viConnectionNotification } from '@/src/content/notifications/notifications';
 import type { BaseResponse } from '@/src/lib/shared/types';
 import {
@@ -35,10 +36,14 @@ export const useAIStore = create<ViStore>((set, get) => ({
 	connecting: false,
 	live: false,
 	talk: false,
+	viTalking: false,
 	eventCallbacks: new Map<string, ViEventCallback[]>(),
 	actions: {
 		setTalk: (state: boolean) => {
 			set({ talk: state ?? !get().talk });
+		},
+		setViTalking: (state: boolean) => {
+			set({ viTalking: state });
 		},
 		connect: async (talk?: boolean) => {
 			// if already connected or connecting return
@@ -88,6 +93,9 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			// don't mutate the response store responses directly - let active stream logic do that
 			// by handling the callbacks
 			processEventCallbacks(CallbackEvent.ViConnect);
+
+			// set vi label display to false as already connected
+			useAILayoutStore.getState().actions.setShowTalkToViLabel(false);
 		},
 		disconnect: () => {
 			// if already disconnecting or not connected, return
@@ -152,6 +160,8 @@ export const useAIStore = create<ViStore>((set, get) => ({
 }));
 
 export const useViTalk = () => useAIStore((state) => state.talk);
+export const useViLive = () => useAIStore((state) => state.live);
+export const useViTalking = () => useAIStore((state) => state.viTalking);
 export const useViConnected = () => useAIStore((state) => state.connected);
 export const useViConnecting = () => useAIStore((state) => state.connecting);
 export const useViActions = () => useAIStore((state) => state.actions);

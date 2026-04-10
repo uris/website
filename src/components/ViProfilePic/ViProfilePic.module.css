@@ -1,0 +1,13 @@
+.profile {
+	position: relative;
+	border-radius: 100%;
+	border: var(--profile-pic-border-size) solid var(--profile-pic-border-color);
+	background-color: var(--profile-pic-bg-color);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	width: var(--profile-pic-size);
+	height: var(--profile-pic-size);
+	overflow: hidden;
+}

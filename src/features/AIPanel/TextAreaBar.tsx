@@ -19,7 +19,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { useAILayout, useUserName } from '@/app/(ai)/store/layout-store';
 import styles from '@/features/AIPanel/AIPanel.module.css';
 import { micMuteNotification } from '@/src/content/notifications/notifications';
-import { useViActions } from '@/src/stores/ai/viStore';
+import { useViActions, useViTalking } from '@/src/stores/ai/viStore';
 import { useViBufferStreaming } from '@/src/stores/responses/responsesStore';
 import { gradientCover } from '@/utils/styles/styles';
 
@@ -49,6 +49,7 @@ const TextAreaBarBase = (props: Readonly<TextAreaBarProps>) => {
 	const unmute = useMicrophoneStoreActions().unmuteMic;
 	const sendMessage = useViActions().handleUserMessage;
 	const streamActive = useViBufferStreaming();
+	const viTalking = useViTalking();
 	const userName = useUserName();
 
 	// memo dynamic css variables
@@ -60,8 +61,8 @@ const TextAreaBarBase = (props: Readonly<TextAreaBarProps>) => {
 
 	// handle muting/unmuting mic
 	const handleMicToggle = (state: boolean) => {
-		notify(micMuteNotification(state));
 		state ? mute() : unmute();
+		notify(micMuteNotification(state));
 	};
 
 	// handle sending the user message to model
@@ -69,9 +70,10 @@ const TextAreaBarBase = (props: Readonly<TextAreaBarProps>) => {
 		if (message) sendMessage(message);
 	};
 
+	// personalize placeholder
 	const placeHolder = useMemo(() => {
-		if (userName !== '') return `Hi ${userName}, ask me anything about Uris`;
-		else return 'Hi, ask me anything about Uris';
+		const nameString = userName ? ` ${userName}` : '';
+		return `Hi${nameString}, ask me anything about Uris`;
 	}, [userName]);
 
 	// set footer size based on observed height
@@ -93,7 +95,7 @@ const TextAreaBarBase = (props: Readonly<TextAreaBarProps>) => {
 				attachButton={false}
 				maxWidth={520}
 				onSubmit={handleUserMessage}
-				working={streamActive}
+				working={streamActive || viTalking}
 				placeholderWorking={'Vi is talking ...'}
 				placeholder={placeHolder}
 			>

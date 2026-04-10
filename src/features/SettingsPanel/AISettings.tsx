@@ -69,7 +69,7 @@ export function AISettings() {
 			<SettingsOption>
 				<TextField
 					name={'first_name'}
-					value={userName}
+					value={userName ?? ''}
 					placeholder={'Your name / nickname'}
 					onChange={handleUserNameChange}
 				/>
