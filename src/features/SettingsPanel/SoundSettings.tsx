@@ -16,6 +16,7 @@ import { SettingsOption } from '@/src/components/SettingsOption/SettingsOption';
 import { SettingsSectionTitle } from '@/src/components/SettingsSectionTitle/SettingsSectionTitle';
 import { volumeMuteNotification } from '@/src/content/notifications/notifications';
 import { CONN_NAME } from '@/src/stores/ai/_data';
+import { useViTalking } from '@/src/stores/ai/viStore';
 
 export function SoundSettings() {
 	const volume = useVolume();
@@ -23,10 +24,10 @@ export function SoundSettings() {
 	const muted = useMuted();
 	const actions = useVolumeActions();
 	const setRTCVolume = useWebRTCActions.setVolume;
-	const playFeedback = actions.playFeedback;
 	const setTip = useTipActions().push;
 	const notify = useToastActions().push;
 	const isMuted = muted || volume <= 0;
+	const viTalking = useViTalking();
 
 	// memo audio feedback element on mount - plays as affordance of volume level
 	const feedbackElement = useMemo(() => {
@@ -43,18 +44,19 @@ export function SoundSettings() {
 
 	// toggle mute on / off emitting notification
 	const handleMuteToggle = (state: boolean) => {
-		notify(volumeMuteNotification(state));
+		setRTCVolume(CONN_NAME, state ? 0 : storedVolume);
 		state ? actions.mute() : actions.unmute();
+		notify(volumeMuteNotification(state));
 	};
 
 	// treat 0 as mute
-	const handleAdjustVolume = (value: number, _: number) => {
+	const handleAdjustVolume = async (value: number, play: boolean) => {
 		if (value <= 0 && !muted) {
 			notify(volumeMuteNotification(true));
-			void actions.mute();
+			await actions.mute();
 		}
 		setRTCVolume(CONN_NAME, value);
-		actions.setVolume(value);
+		actions.setVolume(value, { playFeedback: play && !viTalking }).then(() => null);
 	};
 
 	// bind audio feedback element to store
@@ -69,7 +71,7 @@ export function SoundSettings() {
 	// set initial volume
 	// biome-ignore lint/correctness/useExhaustiveDependencies: set once on mount
 	useEffect(() => {
-		actions.setVolume(0.75);
+		actions.setVolume(0.75, { playFeedback: false }).then(() => null);
 	}, []);
 
 	return (
@@ -92,8 +94,8 @@ export function SoundSettings() {
 					width={'100%'}
 					height={4}
 					trackHeadSize={16}
-					onChange={handleAdjustVolume}
-					onDragChange={(v, _p) => playFeedback(v)}
+					onDragChange={(v, _) => handleAdjustVolume(v, true)}
+					onChange={(v, _) => handleAdjustVolume(v, false)}
 				/>
 			</SettingsOption>
 		</div>

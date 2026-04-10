@@ -1,6 +1,6 @@
 // default config for the realtime voice session on open ai
 
-const instructions = `# Language
+export const viVoiceInstructions = `# Language
 
 **ALWAYS START IN ENGLISH - NEVER START IN ANOTHER LANGUAGE**
 
@@ -30,7 +30,7 @@ export const realtimeSessionRequests = (noiseReduction = 'far_field') => {
 	return {
 		type: 'realtime',
 		model: 'gpt-realtime',
-		instructions,
+		instructions: viVoiceInstructions,
 		output_modalities: ['audio'],
 		audio: {
 			input: {
@@ -42,10 +42,10 @@ export const realtimeSessionRequests = (noiseReduction = 'far_field') => {
 					eagerness: 'medium',
 				},
 				// Enable for input audio transcriptions
-				// transcription: {
-				// 	model: "gpt-4o-transcribe",
-				// 	language: "en"
-				// }
+				transcription: {
+					model: 'gpt-4o-transcribe',
+					language: 'en',
+				},
 			},
 			output: {
 				voice: 'marin',

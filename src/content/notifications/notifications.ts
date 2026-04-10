@@ -77,3 +77,13 @@ export function viConnectionNotification(
 		position: 'top',
 	} as Toast;
 }
+
+export const copyToClipboardNotification = (success?: boolean) => {
+	return {
+		notifId: crypto.randomUUID(),
+		message: success ? 'Copied to clipboard' : 'Unable to copy to clipboard',
+		type: success ? ToastType.Success : ToastType.Warning,
+		duration: 2500,
+		position: 'top',
+	} as Toast;
+};

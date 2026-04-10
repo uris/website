@@ -16,6 +16,7 @@ import { SETTINGS_CONSTRAINTS, SIDEBAR_CONSTRAINTS } from '@/app/(ai)/_defaults'
 import { useSettingsOpen, useSidebarOpen } from '@/app/(ai)/store/layout-store';
 import { AIPanel } from '@/features/AIPanel/AIPanel';
 import { SettingsPanel } from '@/features/SettingsPanel/SettingsPanel';
+import { Sidebar } from '@/features/SidebarPanel/Sidebar';
 
 export default function AiWorkspacePage() {
 	const { height } = useWindow();
@@ -31,7 +32,7 @@ export default function AiWorkspacePage() {
 		<FlexDiv
 			preset={Preset.Window}
 			height={height}
-			justify={'center'}
+			justify={'start'}
 			align={'center'}
 			ref={viewRef}
 		>
@@ -68,7 +69,7 @@ export default function AiWorkspacePage() {
 						background={'var(--core-surface-primary-tint)'}
 						style={{ maxWidth: 'calc(100vw - 360px)' }}
 					>
-						Side Panel
+						<Sidebar />
 					</FlexDiv>
 				</DraggablePanel>
 			</FlexDiv>

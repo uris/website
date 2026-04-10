@@ -10,7 +10,7 @@ type ProvidersProps = PropsWithChildren<{
 
 export function Providers({ children, initialTheme, initialSystem }: ProvidersProps) {
 	return (
-		<ThemeProvider initialTheme={initialTheme} initialSystem={initialSystem} global system>
+		<ThemeProvider initialTheme={initialTheme} initialSystem={initialSystem} global>
 			{children}
 		</ThemeProvider>
 	);

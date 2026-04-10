@@ -1,5 +1,5 @@
 .p {
-	composes: body-m-regular from "../../utils/css-helpers/type.module.css";
+	composes: body-l-regular from "../../utils/css-helpers/type.module.css";
 }
 
 .ul,
@@ -14,7 +14,7 @@
 }
 
 .li {
-	composes: body-l-regular from "../../utils/css-helpers/type.module.css";
+	composes: body-s-regular from "../../utils/css-helpers/type.module.css";
 	margin: 0 0 1em 1em;
 	padding: 0;
 }

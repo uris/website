@@ -25,7 +25,7 @@ export function ThemeSettings() {
 				<ToggleButton
 					unselect={false}
 					selected={!systemTheme && current.name === 'lightMode'}
-					label={'Morning people'}
+					label={'Rise and shine'}
 					icon={'sun'}
 					fill
 					onSelect={() => setTheme('lightMode')}
@@ -35,7 +35,7 @@ export function ThemeSettings() {
 				<ToggleButton
 					unselect={false}
 					selected={!systemTheme && current.name === 'darkMode'}
-					label={'Night shifters'}
+					label={'Focus time'}
 					icon={'moon full'}
 					fill
 					onSelect={() => setTheme('darkMode')}

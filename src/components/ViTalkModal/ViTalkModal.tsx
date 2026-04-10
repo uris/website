@@ -41,21 +41,18 @@ export function ViTalkModal(props: Readonly<ViTalkModalProps>) {
 			actions={connect ? confirmConnectActions : infoActions}
 			title={'About Vi Talk'}
 			borderRadius={16}
-			maxHeight={300}
 		>
 			<p className={css.p}>
-				Vi is an ai assistant you can talk to about my work and background. Two rules:
+				Vi is a voice enabled ai assistant you can talk to about my work, background and skills.
 			</p>
-			<ol className={css.ol}>
-				<li className={css.li}>
-					<strong className={css.b}>Privacy:</strong> I don't record, save, share, or analyze
-					conversations. They are yours, they are private. End of story.
-				</li>
-				<li className={css.li}>
-					<strong className={css.b}>Vi exaggerates:</strong> tends to say great things about me (all
-					true of course 😉)... and probably because I told her to.
-				</li>
-			</ol>
+			<p className={css.p}>
+				Conversations are not recorded, saved, shared, or analyzed / used by me in any way. If you
+				hit refresh... Poof! They're gone.
+			</p>
+			<p className={css.p}>
+				Also, Vi tends to only say great things about me (all true of course 😉)... Probably because
+				that's what I asked her to do ...
+			</p>
 		</Modal>
 	);
 }

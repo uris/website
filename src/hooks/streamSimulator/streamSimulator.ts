@@ -66,7 +66,7 @@ export const useStreamSimulator = (
 	}, []);
 
 	// reset the stream state calling pause (rest intervals/timeouts)
-	const resetStream = () => {
+	const resetStream = useCallback(() => {
 		// stops and resets the stream
 		pauseStream();
 		currentIndex.current = 0;
@@ -74,10 +74,10 @@ export const useStreamSimulator = (
 		setChunk(null);
 		setCumulative(null);
 		setComplete(false);
-	};
+	}, [pauseStream, resetBuffer]);
 
 	// core handler of incremental chunks off raw
-	const processNextChunk = () => {
+	const processNextChunk = useCallback(() => {
 		// get next chunk
 		const nextChunk = buffer.current.slice(
 			currentIndex.current,
@@ -108,16 +108,16 @@ export const useStreamSimulator = (
 			pauseStream();
 			emitDidEnd();
 		}
-	};
+	}, [append, emitDidEnd, pauseStream]);
 
 	// trigger the start of a stream
-	const startStream = () => {
+	const startStream = useCallback(() => {
 		// starts the stream
 		if (interval.current || currentIndex.current >= buffer.current.length) return;
 		interval.current = setInterval(processNextChunk, chunkGap.current);
 		setStreaming(true);
 		setComplete(false);
-	};
+	}, [processNextChunk]);
 
 	// update refs on input change
 	useEffect(() => {
