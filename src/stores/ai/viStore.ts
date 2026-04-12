@@ -8,7 +8,6 @@ import {
 	useWebRTCActions,
 } from '@apple-pie/slice/stores';
 import { create } from 'zustand';
-import { useAILayoutStore } from '@/app/(ai)/store/layout-store';
 import { viConnectionNotification } from '@/src/content/notifications/notifications';
 import type { BaseResponse } from '@/src/lib/shared/types';
 import {
@@ -29,6 +28,7 @@ import {
 	requestResponseStop,
 	sendResponseRequest,
 } from '@/src/stores/ai/ViTalkResponseCreateFactory';
+import { useHomeLayoutStore } from '@/stores/home-layout/homeLayoutStore';
 import { bestGuessNoiseReduction } from '@/utils/misc';
 
 export const useAIStore = create<ViStore>((set, get) => ({
@@ -95,7 +95,7 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			processEventCallbacks(CallbackEvent.ViConnect);
 
 			// set vi label display to false as already connected
-			useAILayoutStore.getState().actions.setShowTalkToViLabel(false);
+			useHomeLayoutStore.getState().actions.setShowTalkToViLabel(false);
 		},
 		disconnect: () => {
 			// if already disconnecting or not connected, return
@@ -113,6 +113,9 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			// set connecting false, connected false
 			set({ connected: false, connecting: false });
 			viNotification('Disconnected');
+
+			// set vi label display to true
+			useHomeLayoutStore.getState().actions.setShowTalkToViLabel(true);
 		},
 		handleDataEvents: (channel, event, eventData) => {
 			// filter out non data events

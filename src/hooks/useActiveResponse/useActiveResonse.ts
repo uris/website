@@ -8,8 +8,7 @@ import {
 	useViResponses,
 	useViResponsesActions,
 } from '@/src/stores/responses/responsesStore';
-
-const DEFAULT_MARKER = ' [[END-MARKER]]';
+import { DEFAULT_MARKER } from '@/utils/consts/consts';
 
 // sort responses by timestamp
 const sortedResponses = (responses: ViResponse[]) => {
@@ -78,8 +77,8 @@ export function useActiveResponse(options: {
 
 	// update the responses when healthy Markdown updates
 	useEffect(() => {
-		if (!healthy || !nextResponse) return;
-		const streamResponse = { ...nextResponse, value: healthy };
+		if (!nextResponse) return;
+		const streamResponse = { ...nextResponse, value: healthy || nextResponse.value };
 		setCombined(previousResponses ? [...previousResponses, streamResponse] : [streamResponse]);
 		onAppend?.(nextResponse.delta);
 	}, [healthy, nextResponse, previousResponses, onAppend]);

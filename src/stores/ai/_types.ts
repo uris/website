@@ -37,6 +37,7 @@ export type MessageType =
  */
 export enum CallbackEvent {
 	SessionCreated = 'session.created', // signals start of a voice session
+	ResponseCreated = 'response.created', // when a response item was created but not yet started
 	ResponseStart = 'response.output_item.added', // signals start of response providing ID for response
 	AudioInterrupt = 'conversation.item.truncated', // the output audio buffer was interrupted
 	TranscriptDelta = 'response.output_audio_transcript.delta', // transcript incremental update

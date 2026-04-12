@@ -1,4 +1,4 @@
-export type AILayoutStore = {
+export type HomeLayoutStore = {
 	sidebarOpen: boolean;
 	storedSidebarOpen: true | null;
 	settingsOpen: boolean;
@@ -7,6 +7,7 @@ export type AILayoutStore = {
 	userName: string | null;
 	didAnimateProjects: boolean;
 	showTalkToViLabel: boolean;
+	projects: any[];
 	actions: {
 		toggleSideBar: (open?: boolean) => void;
 		toggleSettings: (open?: boolean) => void;
@@ -15,5 +16,6 @@ export type AILayoutStore = {
 		setUserName: (name: string) => void;
 		setDidAnimateProjects: (didAnimateProjects: boolean) => void;
 		setShowTalkToViLabel: (showTalkToViLabel: boolean) => void;
+		setProjects: (projects: any[]) => void;
 	};
 };

@@ -16,10 +16,12 @@
 	border-radius: 4px;
 	overflow: hidden;
 	cursor: pointer;
-	transform: scale(1) translateY(var(--project-tile-translate-y));
+	transform: scale(1) translateY(var(--project-tile-translate-y))
+		translateX(var(--project-tile-translate-x));
 	transition: var(--project-tile-transition);
 	&:hover {
-		transform: scale(1.02) translateY(var(--project-tile-translate-y));
+		transform: scale(1.1) translateY(var(--project-tile-translate-y))
+			translateX(var(--project-tile-translate-x));
 		box-shadow: var(--surface-shadow-soft);
 	}
 }

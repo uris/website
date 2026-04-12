@@ -13,3 +13,10 @@ export function gradientCover(surfaceHex: string, to: 'top' | 'bottom') {
 	const styleValues = stops.map((stop) => `${stop.color} ${stop.amount}%`).join(', ');
 	return `linear-gradient(to ${to}, ${styleValues})`;
 }
+
+/**
+ * Join an array of styles in single string for class name
+ */
+export function classNames(styles: string[]) {
+	return styles.join(' ');
+}

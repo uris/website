@@ -33,6 +33,7 @@ export function handleMessageEvent(
 	data: any,
 ): { event?: CallbackEvent; state?: Partial<ViStoreState> } | undefined {
 	if (!('type' in data) && typeof data.type !== 'string') return;
+	console.log(data.type, { data });
 	switch (data.type) {
 		// *** signals the start of a new voice session
 		case CallbackEvent.SessionCreated: {
@@ -50,10 +51,15 @@ export function handleMessageEvent(
 			return { event: CallbackEvent.SessionCreated, state: { connected: true, connecting: false } };
 		}
 
-		// *** start of assistant response
+		// *** model generated a response yet to be piped
+		case CallbackEvent.ResponseCreated: {
+			const id = data.response.id;
+			viResponsesActions.handleResponseStart(id, ResponseType.Audio);
+			return { event: CallbackEvent.ResponseCreated };
+		}
+
+		// *** model added the response item
 		case CallbackEvent.ResponseStart: {
-			// sets the id for a response and tags all following related events with this id
-			viResponsesActions.handleResponseStart(data.response_id, ResponseType.Audio);
 			return { event: CallbackEvent.ResponseStart };
 		}
 

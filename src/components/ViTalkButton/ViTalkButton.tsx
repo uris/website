@@ -1,11 +1,12 @@
 'use client';
 
-import { IconButton, ProgressIndicator } from '@apple-pie/slice';
+import { AnimationPreset, IconButton, ProgressIndicator } from '@apple-pie/slice';
 import { useTipActions } from '@apple-pie/slice/stores';
+import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAILayout, useShowTalkToViLabel } from '@/app/(ai)/store/layout-store';
 import { TalkToViLabel } from '@/src/components/TalkToViLabel/TalkToViLabel';
 import { useViActions, useViConnected, useViConnecting, useViTalk } from '@/src/stores/ai/viStore';
+import { useHomeLayout, useShowTalkToViLabel } from '@/stores/home-layout/homeLayoutStore';
 import styles from './ViTalkButton.module.css';
 
 interface ViTalkButtonProps {
@@ -39,7 +40,7 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 	const setTalk = useViActions().setTalk;
 	const setTip = useTipActions().push;
 	const [viState, setViState] = useState<ViTalkState>(ViTalkState.Disconnected);
-	const setTextInput = useAILayout().toggleInputBar;
+	const setTextInput = useHomeLayout().toggleInputBar;
 	const showTalkToViLabel = useShowTalkToViLabel();
 	const showLabel = showTalkToViLabel && hasLabel;
 
@@ -104,17 +105,27 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 				border={border}
 				onClick={handleClick}
 				iconFill={true}
+				presetAnimations={AnimationPreset.Rotate}
 			/>
 			{viState === ViTalkState.Connecting && (
 				<div className={styles.ring}>
 					<ProgressIndicator inline show size={'100%'} stroke={strokeSize} inset={false} />
 				</div>
 			)}
-			{showLabel && (
-				<div className={styles.label}>
-					<TalkToViLabel />
-				</div>
-			)}
+			<AnimatePresence initial={true}>
+				{showLabel && (
+					<motion.div
+						key={'talk-vi-label'}
+						transition={{ ease: 'easeInOut', duration: 0.25 }}
+						initial={{ opacity: 0, y: -10 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -10 }}
+						className={styles.label}
+					>
+						<TalkToViLabel />
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</div>
 	);
 }

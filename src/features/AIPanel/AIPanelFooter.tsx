@@ -2,9 +2,9 @@
 
 import { AnimatePresence } from 'framer-motion';
 import type { Transition, Variants } from 'motion';
-import { useTextInputBar } from '@/app/(ai)/store/layout-store';
 import { ButtonBar } from '@/features/AIPanel/ButtonBar';
 import { TextAreaBar } from '@/features/AIPanel/TextAreaBar';
+import { useTextInputBar } from '@/stores/home-layout/homeLayoutStore';
 
 // animation variants
 const barVariants: Variants = {

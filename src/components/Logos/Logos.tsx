@@ -1,6 +1,19 @@
 export interface LogosProps {
+	name?: 'ringcentral' | 'slice';
 	size?: number;
 	color?: string;
+}
+
+export function Logo(props: Readonly<LogosProps>) {
+	const { name, size, color } = props;
+	switch (name) {
+		case 'ringcentral':
+			return <RcLogo size={size} color={color} />;
+		case 'slice':
+			return <SliceLogo size={size} color={color} />;
+		default:
+			return null;
+	}
 }
 
 export function RcLogo(props: Readonly<LogosProps>) {

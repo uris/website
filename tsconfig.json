@@ -16,7 +16,9 @@
 			"@/features/*": ["./src/features/*"],
 			"@/assets/*": ["./src/assets/*"],
 			"@/utils/*": ["./src/utils/*"],
-			"@/projects/*": ["./src/projects/*"]
+			"@/projects/*": ["./src/projects/*"],
+			"@/data/*": ["./src/data/*"],
+			"@/stores/*": ["./src/stores/*"]
 		},
 		"resolveJsonModule": true,
 		"isolatedModules": true,

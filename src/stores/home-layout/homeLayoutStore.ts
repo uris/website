@@ -1,26 +1,27 @@
 import { create } from 'zustand';
-import type { AILayoutStore } from './_types';
+import type { HomeLayoutStore } from './_types';
 
 // check the local store exists before server side rendering
 const hasLocalStore = typeof localStorage !== 'undefined';
 
-export const useAILayoutStore = create<AILayoutStore>((set, get) => ({
-	sidebarOpen: false,
+export const useHomeLayoutStore = create<HomeLayoutStore>((set, get) => ({
+	sidebarOpen: true,
 	storedSidebarOpen: null,
 	settingsOpen: false,
 	textInputBar: false,
 	footerSize: undefined,
 	didAnimateProjects: false,
 	userName: hasLocalStore ? localStorage.getItem('userName') : null,
-	showTalkToViLabel: true,
+	showTalkToViLabel: false,
+	projects: [],
 	actions: {
 		toggleSideBar: (open) => {
-			const sidebarOpen = open === undefined ? !get().sidebarOpen : open;
+			const sidebarOpen = open ?? !get().sidebarOpen;
 			const settingsOpen = sidebarOpen ? false : get().settingsOpen;
 			set({ sidebarOpen, settingsOpen });
 		},
 		toggleSettings: (open) => {
-			const settingsOpen = open === undefined ? !get().settingsOpen : open;
+			const settingsOpen = open ?? !get().settingsOpen;
 			// if opening settings, store the sidebar value
 			if (settingsOpen) {
 				const storedSidebarOpen = get().sidebarOpen ? true : null;
@@ -32,7 +33,7 @@ export const useAILayoutStore = create<AILayoutStore>((set, get) => ({
 		},
 		toggleInputBar: (open) => {
 			const current = get().textInputBar;
-			const newValue = open === undefined ? !current : open;
+			const newValue = open ?? !current;
 			set({ textInputBar: newValue });
 		},
 		setFooterSize: (size) => {
@@ -48,15 +49,19 @@ export const useAILayoutStore = create<AILayoutStore>((set, get) => ({
 		setDidAnimateProjects: (didAnimateProjects: boolean) => {
 			set({ didAnimateProjects });
 		},
+		setProjects: (projects: any[]) => {
+			set({ projects });
+		},
 	},
 }));
 
 // prefer atomic selectors
-export const useAILayout = () => useAILayoutStore((state) => state.actions);
-export const useSidebarOpen = () => useAILayoutStore((state) => state.sidebarOpen);
-export const useSettingsOpen = () => useAILayoutStore((state) => state.settingsOpen);
-export const useTextInputBar = () => useAILayoutStore((state) => state.textInputBar);
-export const useUserName = () => useAILayoutStore((state) => state.userName);
-export const useFooterSize = () => useAILayoutStore((state) => state.footerSize);
-export const useDidAnimateProjects = () => useAILayoutStore((state) => state.didAnimateProjects);
-export const useShowTalkToViLabel = () => useAILayoutStore((state) => state.showTalkToViLabel);
+export const useHomeLayout = () => useHomeLayoutStore((state) => state.actions);
+export const useSidebarOpen = () => useHomeLayoutStore((state) => state.sidebarOpen);
+export const useSettingsOpen = () => useHomeLayoutStore((state) => state.settingsOpen);
+export const useTextInputBar = () => useHomeLayoutStore((state) => state.textInputBar);
+export const useUserName = () => useHomeLayoutStore((state) => state.userName);
+export const useFooterSize = () => useHomeLayoutStore((state) => state.footerSize);
+export const useDidAnimateProjects = () => useHomeLayoutStore((state) => state.didAnimateProjects);
+export const useShowTalkToViLabel = () => useHomeLayoutStore((state) => state.showTalkToViLabel);
+export const useProjects = () => useHomeLayoutStore((state) => state.projects);

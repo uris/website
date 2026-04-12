@@ -119,17 +119,25 @@
 
 .responseSeparator {
 	display: flex;
+	box-sizing: border-box;
 	justify-content: center;
 	align-items: center;
 	min-height: 1px;
 	max-height: 1px;
 	width: 100%;
-	border-top: 1px solid var(--core-outline-secondary);
+	border-top: 2px solid var(--core-outline-primary);
 	margin: 24px 0;
+	z-index: 100;
 }
 
 .sessionReconnect {
 	margin-top: 24px;
+	border-width: 1px;
+}
+
+.sticky {
+	position: sticky;
+	top: 0;
 }
 
 .response {
@@ -164,6 +172,7 @@
 	align-self: flex-end;
 	padding: 16px;
 	margin: 16px 0;
+	z-index: 2;
 }
 
 .transcribing {

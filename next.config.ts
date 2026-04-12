@@ -2,10 +2,10 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
 	output: 'standalone',
-	reactStrictMode: true,
+	reactStrictMode: false,
 	images: {
 		qualities: [50, 60, 70, 80, 90, 100],
-		minimumCacheTTL: 0, // TODO: reset
+		minimumCacheTTL: 0,
 		localPatterns: [
 			{
 				pathname: '/projects/**',

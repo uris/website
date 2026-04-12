@@ -1,10 +1,11 @@
-import type { IconProps } from '@apple-pie/slice';
 import type React from 'react';
+
+export type AnimationValue = { [key: string]: number };
 
 export interface ProjectTileProps {
 	title?: string;
 	type?: string;
-	logo?: React.ReactNode | IconProps | string;
+	logo?: string | { type: 'icon' | 'logo'; props?: any };
 	image?: React.ReactNode | string;
 	width?: number;
 	height?: number;
@@ -14,4 +15,8 @@ export interface ProjectTileProps {
 	listGap?: number;
 	heavy?: boolean;
 	stagger?: number;
+	animate?: { start: AnimationValue; end: AnimationValue };
+	borderColor?: string;
+	onAnimationEnd?: (index: number) => void;
+	index?: number;
 }

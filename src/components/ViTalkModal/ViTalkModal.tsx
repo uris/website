@@ -5,13 +5,13 @@ import css from './ViTalkModal.module.css';
 const confirmConnectActions: ModalAction<boolean>[] = [
 	{
 		id: 'cancel',
-		label: `Don't connect`,
+		label: `Got it`,
 		value: false,
 		position: 'left',
 	},
 	{
 		id: 'continue',
-		label: `Got it`,
+		label: `Connect To Vi`,
 		value: true,
 		primary: true,
 	},

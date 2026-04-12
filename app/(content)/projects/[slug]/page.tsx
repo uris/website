@@ -1,5 +1,5 @@
 import { projectMap } from '@/app/(content)/projects/[slug]/_projectsMap';
-import { ProjectDetails } from './ProjectDetails';
+import { ProjectDetails } from '@/src/workspaces/project-details';
 
 // map of all params - let's next generate static pages for each
 export function generateStaticParams() {

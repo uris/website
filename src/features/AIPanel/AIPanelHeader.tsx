@@ -1,20 +1,18 @@
 'use client';
 
-import { FlexDiv, Preset, ToggleButton, useTheme } from '@apple-pie/slice';
+import { AnimationPreset, FlexDiv, Preset, ToggleButton, useTheme } from '@apple-pie/slice';
 import { useTipActions } from '@apple-pie/slice/stores';
 import type React from 'react';
 import { useMemo } from 'react';
-import { useAILayout, useSettingsOpen, useSidebarOpen } from '@/app/(ai)/store/layout-store';
+import { useHomeLayout, useSettingsOpen } from '@/stores/home-layout/homeLayoutStore';
 import { gradientCover } from '@/utils/styles/styles';
 import styles from './AIPanel.module.css';
 
 export function AIPanelHeader() {
 	const { current } = useTheme();
 	const surfaceColor = current.colors['core-surface-primary'];
-	const toggleSideBar = useAILayout().toggleSideBar;
-	const toggleSettings = useAILayout().toggleSettings;
+	const toggleSettings = useHomeLayout().toggleSettings;
 	const settingsOpen = useSettingsOpen();
-	const sidebarOpen = useSidebarOpen();
 	const setTip = useTipActions().push;
 
 	// memo dynamic css variables
@@ -29,25 +27,16 @@ export function AIPanelHeader() {
 			<FlexDiv preset={Preset.Row} gap={16}>
 				<ToggleButton
 					buttonSize={'l'}
-					icon={'settings'}
+					icon={settingsOpen ? 'x' : 'settings'}
 					onChange={toggleSettings}
 					tooltip={'Settings'}
 					onToolTip={setTip}
 					fill
 					selected={settingsOpen}
+					presetAnimations={AnimationPreset.Rotate}
 				/>
 			</FlexDiv>
-			<FlexDiv preset={Preset.Row} justify={'end'} gap={16}>
-				<ToggleButton
-					buttonSize={'l'}
-					icon={'sidebar split'}
-					onChange={toggleSideBar}
-					tooltip={'Sidebar'}
-					onToolTip={setTip}
-					fill
-					selected={sidebarOpen}
-				/>
-			</FlexDiv>
+			<div />
 		</div>
 	);
 }

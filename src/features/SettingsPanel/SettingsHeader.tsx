@@ -2,7 +2,7 @@
 
 import { FlexDiv, Icon, IconButton, Preset } from '@apple-pie/slice';
 import { useTipActions } from '@apple-pie/slice/stores';
-import { useAILayout } from '@/app/(ai)/store/layout-store';
+import { useAILayout } from '@/src/stores/ai/layout-store';
 import styles from './SettingsPanel.module.css';
 
 export function SettingsHeader() {

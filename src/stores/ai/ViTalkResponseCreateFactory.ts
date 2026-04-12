@@ -1,7 +1,7 @@
 import { getWebRTCConnections } from '@apple-pie/slice/stores';
-import { useAILayoutStore } from '@/app/(ai)/store/layout-store';
 import { viVoiceInstructions } from '@/src/lib/openai/_settings';
 import { CONN_NAME, EVENTS_DATA_CHANNEL } from '@/src/stores/ai/_data';
+import { useHomeLayoutStore } from '@/stores/home-layout/homeLayoutStore';
 
 export function requestResponseStop() {
 	const connection = getWebRTCConnections(CONN_NAME);
@@ -58,7 +58,7 @@ export function sendCreateIntroMessage(firstTime = true) {
  * Define greeting based on first time connecting or already has message history
  */
 export function pickInitialMessage(firstTime = true) {
-	const userName = useAILayoutStore.getState().userName;
+	const userName = useHomeLayoutStore.getState().userName;
 	const nameString = userName ? `, ${userName}` : '';
 
 	if (firstTime) {

@@ -1,3 +1,5 @@
+'use client';
+
 import {
 	IconButton,
 	PromptInput,
@@ -16,11 +18,11 @@ import {
 import type { Transition, Variants } from 'motion';
 import { motion } from 'motion/react';
 import React, { useEffect, useMemo, useRef } from 'react';
-import { useAILayout, useUserName } from '@/app/(ai)/store/layout-store';
 import styles from '@/features/AIPanel/AIPanel.module.css';
 import { micMuteNotification } from '@/src/content/notifications/notifications';
 import { useViActions, useViTalking } from '@/src/stores/ai/viStore';
 import { useViBufferStreaming } from '@/src/stores/responses/responsesStore';
+import { useHomeLayout, useUserName } from '@/stores/home-layout/homeLayoutStore';
 import { gradientCover } from '@/utils/styles/styles';
 
 // interface for text area input bar
@@ -36,10 +38,10 @@ const TextAreaBarBase = (props: Readonly<TextAreaBarProps>) => {
 	const { initial = 'initial', animate = 'animate', exit = 'exit', transition, variants } = props;
 	const { current } = useTheme();
 	const surfaceColor = current.colors['core-surface-primary'];
-	const setFooterSize = useAILayout().setFooterSize;
+	const setFooterSize = useHomeLayout().setFooterSize;
 	const ref = useRef<HTMLDivElement>(null);
 	const { height } = useObserveResize(ref, { ignore: 'width' });
-	const toggleInputBar = useAILayout().toggleInputBar;
+	const toggleInputBar = useHomeLayout().toggleInputBar;
 	const setTip = useTipActions().push;
 	const muted = useMicMuted();
 	const active = useMicActive();

@@ -1,3 +1,5 @@
+'use client';
+
 import { IconButton, ToggleButton, useObserveResize, useTheme } from '@apple-pie/slice';
 import {
 	useMicActive,
@@ -9,10 +11,10 @@ import {
 import type { Transition, Variants } from 'motion';
 import { AnimatePresence, motion } from 'motion/react';
 import React, { useEffect, useMemo, useRef } from 'react';
-import { useAILayout } from '@/app/(ai)/store/layout-store';
 import { ViTalkButton } from '@/src/components/ViTalkButton/ViTalkButton';
 import { micMuteNotification } from '@/src/content/notifications/notifications';
 import { useViConnected } from '@/src/stores/ai/viStore';
+import { useHomeLayout } from '@/stores/home-layout/homeLayoutStore';
 import { gradientCover } from '@/utils/styles/styles';
 import styles from './AIPanel.module.css';
 
@@ -50,8 +52,8 @@ const ButtonBarBase = (props: Readonly<ButtonBarProps>) => {
 	const toggleMute = useMicrophoneStoreActions().toggleMute;
 	const setTip = useTipActions().push;
 	const notify = useToastActions().push;
-	const toggleInputBar = useAILayout().toggleInputBar;
-	const setFooterSize = useAILayout().setFooterSize;
+	const toggleInputBar = useHomeLayout().toggleInputBar;
+	const setFooterSize = useHomeLayout().setFooterSize;
 	const viConnected = useViConnected();
 	const ref = useRef<HTMLDivElement>(null);
 	const { height } = useObserveResize(ref, { ignore: 'width' });
