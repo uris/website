@@ -7,7 +7,7 @@ import { MarkdownRenderer } from '@/src/renderers/markdown/MarkdownRenderer';
 import { useViConnected } from '@/src/stores/ai/viStore';
 import { ResponseType, Role, type ViResponse } from '@/src/stores/responses/_types';
 import { useViBufferStreaming } from '@/src/stores/responses/responsesStore';
-import { THINKING_PLACEHOLDER } from '@/utils/consts/consts';
+import { THINKING_PLACEHOLDER } from '@/stores/responses/_defaults';
 import { classNames } from '@/utils/styles/styles';
 
 interface MessageThreadProps {
@@ -59,8 +59,12 @@ export function SystemMessage(props: Readonly<SystemMessageProps>) {
 	const showVi = connected && first;
 	const styleNames = [styles.responseSeparator];
 	styleNames.push(first ? styles.sessionStart : styles.sessionReconnect);
+	if (connected && first) styleNames.push(styles.connected);
 	if (showVi) styleNames.push(styles.sticky);
-	return <div className={classNames(styleNames)}>{showVi && <ViProfilePic />}</div>;
+
+	return (
+		<div className={classNames(styleNames)}>{showVi && <ViProfilePic connected={connected} />}</div>
+	);
 }
 
 interface AssistantMessageProps {

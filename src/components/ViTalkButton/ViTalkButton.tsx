@@ -1,12 +1,13 @@
 'use client';
 
-import { AnimationPreset, IconButton, ProgressIndicator } from '@apple-pie/slice';
+import { IconButton, ProgressIndicator } from '@apple-pie/slice';
 import { useTipActions } from '@apple-pie/slice/stores';
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { TalkToViLabel } from '@/src/components/TalkToViLabel/TalkToViLabel';
 import { useViActions, useViConnected, useViConnecting, useViTalk } from '@/src/stores/ai/viStore';
 import { useHomeLayout, useShowTalkToViLabel } from '@/stores/home-layout/homeLayoutStore';
+import { viTalkButtonAnimation } from '@/utils/consts/consts';
 import styles from './ViTalkButton.module.css';
 
 interface ViTalkButtonProps {
@@ -105,7 +106,7 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 				border={border}
 				onClick={handleClick}
 				iconFill={true}
-				presetAnimations={AnimationPreset.Rotate}
+				customAnimations={viTalkButtonAnimation}
 			/>
 			{viState === ViTalkState.Connecting && (
 				<div className={styles.ring}>

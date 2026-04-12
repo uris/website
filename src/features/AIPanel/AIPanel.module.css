@@ -135,9 +135,13 @@
 	border-width: 1px;
 }
 
+.connected {
+	border-color: var(--core-text-special);
+}
+
 .sticky {
 	position: sticky;
-	top: 0;
+	top: -48px;
 }
 
 .response {

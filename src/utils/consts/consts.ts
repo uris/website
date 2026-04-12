@@ -1,15 +1,4 @@
 import { AnimationType, type ButtonAnimation } from '@apple-pie/slice';
-import type { Role } from '@/src/stores/responses/_types';
-
-/**
- * Default marker for end-of-response to show blinking cursor
- */
-export const DEFAULT_MARKER = ' [[END-MARKER]]';
-
-/**
- * Thinking placeholder message for awaiting response streams
- */
-export const THINKING_PLACEHOLDER = 'Thinking... [[END-MARKER]]';
 
 /**
  * Actions for link renderer
@@ -21,21 +10,23 @@ export enum EAction {
 }
 
 /**
- * Color map schemes for avatars
+ * Button rotate used in toggle buttons
  */
-export const avatarColor = (role: Role) => {
-	return {
-		bgColor: role === 'assistant' ? 'var(--array-magenta)' : 'var(--array-land)',
-		borderColor: role === 'assistant' ? 'var(--array-magenta-label)' : 'var(--array-land-label)',
-		textColor: role === 'assistant' ? 'var(--array-magenta-label)' : 'var(--array-land-label)',
-	};
+export const buttonRotateAnimation: ButtonAnimation = {
+	animation: { type: AnimationType.Rotate, value: { on: 0, off: 180 } },
+	transition: {
+		on: { duration: 0.25, ease: 'linear', delay: 0.25 },
+		off: { duration: 0.25, ease: 'linear', delay: 0 },
+	},
 };
 
 /**
  * Button rotate used in toggle buttons
  */
-export const buttonRotateAnimation: ButtonAnimation = {
-	type: AnimationType.Rotate,
-	value: { start: 0, end: 180 },
-	transition: { duration: 0.25, ease: 'linear', delay: 0.25 },
+export const viTalkButtonAnimation: ButtonAnimation = {
+	animation: { type: AnimationType.Rotate, value: { on: 180, off: 0 } },
+	transition: {
+		on: { duration: 0.25, ease: 'linear' },
+		off: { duration: 0, ease: 'linear' },
+	},
 };

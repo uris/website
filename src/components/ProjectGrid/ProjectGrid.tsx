@@ -10,6 +10,8 @@ import {
 	useHomeLayout,
 	useProjects,
 } from '@/src/stores/home-layout/homeLayoutStore';
+import { Project } from '@/stores/sidebar/_types';
+import { useSidebarActions } from '@/stores/sidebar/sidebarStore';
 import styles from './ProjectGrid.module.css';
 
 export interface ProjectGridProps {
@@ -24,6 +26,8 @@ export function ProjectGrid(props: Readonly<ProjectGridProps>) {
 	const projects = useProjects();
 	const didAnimate = useDidAnimateProjects();
 	const setDidAnimate = useHomeLayout().setDidAnimateProjects;
+	const setProject = useSidebarActions().setProject;
+	console.log({ didAnimate });
 
 	// memo dynamic css vars
 	const cssVars = useMemo(() => {
@@ -38,6 +42,11 @@ export function ProjectGrid(props: Readonly<ProjectGridProps>) {
 		[projects.length, setDidAnimate],
 	);
 
+	// handle project selectin
+	const handleProjectClick = useCallback(() => {
+		setProject(Project.Slice);
+	}, [setProject]);
+
 	return (
 		<FlexDiv preset={Preset.FillScroll} scrollY={true} padding={64}>
 			<div className={styles.grid} style={cssVars}>
@@ -51,6 +60,8 @@ export function ProjectGrid(props: Readonly<ProjectGridProps>) {
 							stagger={didAnimate ? 0 : rounded}
 							animate={resolveAnimation(index)}
 							onAnimationEnd={handleAnimationEnd}
+							onClick={handleProjectClick}
+							index={index}
 							{...project}
 						/>
 					);

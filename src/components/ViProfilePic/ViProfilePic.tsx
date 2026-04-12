@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import type React from 'react';
 import { useMemo } from 'react';
-import { useViConnected } from '@/src/stores/ai/viStore';
 import profilePic from '../../assets/vi-profile.png';
 import styles from './ViProfilePic.module.css';
 
@@ -14,6 +13,8 @@ export interface ProfilePicProps {
 	borderColor?: string;
 	avatarBorderSize?: number;
 	avatarBorderColor?: string;
+	avatarConnectedColor?: string;
+	connected?: boolean;
 }
 export function ViProfilePic(props: Readonly<ProfilePicProps>) {
 	const {
@@ -23,19 +24,29 @@ export function ViProfilePic(props: Readonly<ProfilePicProps>) {
 		borderColor = 'var(--core-surface-primary)',
 		avatarBorderSize = 2,
 		avatarBorderColor = 'var(--core-outline-primary)',
+		avatarConnectedColor = 'var(--core-text-special)',
+		connected = false,
 	} = props;
-	const connected = useViConnected();
 
 	const cssVars = useMemo(() => {
 		return {
 			'--profile-pic-border-color': borderColor,
 			'--profile-pic-border-size': `${borderSize}px`,
-			'--profile-pic-avatar-border-color': avatarBorderColor,
+			'--profile-pic-avatar-border-color': connected ? avatarConnectedColor : avatarBorderColor,
 			'--profile-pic-avatar-border-size': `${connected ? avatarBorderSize : 0}px`,
 			'--profile-pic-bg-color': bgColor,
 			'--profile-pic-size': `${size}px`,
 		} as React.CSSProperties;
-	}, [borderColor, borderSize, bgColor, size, avatarBorderColor, avatarBorderSize, connected]);
+	}, [
+		borderColor,
+		borderSize,
+		bgColor,
+		size,
+		avatarBorderColor,
+		avatarBorderSize,
+		connected,
+		avatarConnectedColor,
+	]);
 
 	return (
 		<div className={styles.profile} style={cssVars}>

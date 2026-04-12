@@ -5,6 +5,7 @@ import Image from 'next/image';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Logo } from '@/src/components/Logos/Logos';
 import type { ProjectTileProps } from '@/src/components/ProjectTile/_types';
+import { useDidAnimateProjects } from '@/stores/home-layout/homeLayoutStore';
 import { classNames } from '@/utils/styles/styles';
 import styles from './ProjectTile.module.css';
 
@@ -25,9 +26,11 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 		animate = { start: { y: 50 }, end: { y: 0 } },
 		index = 0,
 		onAnimationEnd,
+		onClick,
 	} = props;
 	const [hasEntered, setHasEntered] = useState<boolean>(false);
 	const [delay, setDelay] = useState<number>(stagger);
+	const didAnimate = useDidAnimateProjects();
 	const timer = useRef<NodeJS.Timeout | null>(null);
 
 	// memo tile size - shouldn't really change, but just in case
@@ -78,13 +81,13 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 	const transform = useMemo(() => {
 		let transforms = { y: 0, x: 0 };
 		if ('y' in animate.start && 'y' in animate.end) {
-			transforms = { ...transforms, y: hasEntered ? animate.end.y : animate.start.y };
+			transforms = { ...transforms, y: didAnimate || hasEntered ? animate.end.y : animate.start.y };
 		}
 		if ('x' in animate.start && 'x' in animate.end) {
-			transforms = { ...transforms, x: hasEntered ? animate.end.x : animate.start.x };
+			transforms = { ...transforms, x: didAnimate || hasEntered ? animate.end.x : animate.start.x };
 		}
 		return transforms;
-	}, [animate, hasEntered]);
+	}, [animate, hasEntered, didAnimate]);
 
 	// memo dynamic css variables
 	const cssVars = useMemo(() => {
@@ -95,9 +98,10 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 			'--project-tile-type-color': typeColor,
 			'--project-tile-translate-y': `${transform.y}px`,
 			'--project-tile-translate-x': `${transform.x}px`,
+			'--project-tile-opacity': didAnimate || hasEntered ? '1' : '0',
 			'--project-tile-transition': `all 0.25s ease-in-out ${delay}s`,
 		} as React.CSSProperties;
-	}, [resolvedSize, titleColor, typeColor, delay, transform]);
+	}, [resolvedSize, titleColor, typeColor, delay, transform, hasEntered, didAnimate]);
 
 	// memo styles
 	const styleNames = useMemo(() => {
@@ -122,11 +126,17 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 	}, [stagger]);
 
 	return (
-		<div className={classNames(styleNames)} style={cssVars} onTransitionEnd={handleAnimationEnd}>
+		<button
+			type={'button'}
+			className={classNames(styleNames)}
+			style={cssVars}
+			onTransitionEnd={handleAnimationEnd}
+			onClick={onClick}
+		>
 			{logo && <div className={styles.logo}>{resolvedLogo}</div>}
 			{type && <div className={styles.subtitle}>{type}</div>}
 			{title && <div className={`${styles.title} ${heavy ? styles.heavy : ''}`}>{title}</div>}
 			{image && <div className={styles.image}>{resolvedImage}</div>}
-		</div>
+		</button>
 	);
 }

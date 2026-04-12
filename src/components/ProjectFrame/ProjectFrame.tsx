@@ -1,11 +1,11 @@
 'use client';
 
+import { useTheme } from '@apple-pie/slice';
 import { useCallback, useEffect, useRef } from 'react';
 
 export interface ProjectIframeProps {
-	projectSlug: string;
-	projectName: string;
-	theme: string;
+	projectSlug?: string | null;
+	projectName?: string | null;
 }
 
 export enum FrameEvent {
@@ -16,8 +16,9 @@ export enum FrameEvent {
 
 const hasWindow = globalThis.window !== undefined;
 
-export function ProjectIframe(props: Readonly<ProjectIframeProps>) {
-	const { projectSlug, projectName, theme } = props;
+export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
+	const { projectSlug, projectName } = props;
+	const theme = useTheme().current.name;
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 
 	// post state based on tracked theme (add other state items as needed)
@@ -25,7 +26,7 @@ export function ProjectIframe(props: Readonly<ProjectIframeProps>) {
 		(event?: FrameEvent) => {
 			if (!hasWindow) return;
 			iframeRef.current?.contentWindow?.postMessage(
-				{ event: event ?? FrameEvent.STATE_CHANGE, theme },
+				{ event: event ?? FrameEvent.STATE_CHANGE, theme: theme },
 				globalThis.location.origin,
 			);
 		},
@@ -49,6 +50,7 @@ export function ProjectIframe(props: Readonly<ProjectIframeProps>) {
 	// Post state change updates from parent to child
 	useEffect(() => postState(), [postState]);
 
+	if (!projectSlug) return null;
 	return (
 		<iframe
 			ref={iframeRef}

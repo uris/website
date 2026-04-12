@@ -18,5 +18,6 @@ export interface ProjectTileProps {
 	animate?: { start: AnimationValue; end: AnimationValue };
 	borderColor?: string;
 	onAnimationEnd?: (index: number) => void;
+	onClick?: () => void;
 	index?: number;
 }

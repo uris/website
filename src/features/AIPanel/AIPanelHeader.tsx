@@ -1,10 +1,11 @@
 'use client';
 
-import { AnimationPreset, FlexDiv, Preset, ToggleButton, useTheme } from '@apple-pie/slice';
+import { FlexDiv, Preset, ToggleButton, useTheme } from '@apple-pie/slice';
 import { useTipActions } from '@apple-pie/slice/stores';
 import type React from 'react';
 import { useMemo } from 'react';
 import { useHomeLayout, useSettingsOpen } from '@/stores/home-layout/homeLayoutStore';
+import { buttonRotateAnimation } from '@/utils/consts/consts';
 import { gradientCover } from '@/utils/styles/styles';
 import styles from './AIPanel.module.css';
 
@@ -33,7 +34,7 @@ export function AIPanelHeader() {
 					onToolTip={setTip}
 					fill
 					selected={settingsOpen}
-					presetAnimations={AnimationPreset.Rotate}
+					customAnimations={buttonRotateAnimation}
 				/>
 			</FlexDiv>
 			<div />

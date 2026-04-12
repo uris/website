@@ -8,7 +8,7 @@ import {
 	useViResponses,
 	useViResponsesActions,
 } from '@/src/stores/responses/responsesStore';
-import { DEFAULT_MARKER } from '@/utils/consts/consts';
+import { DEFAULT_MARKER } from '@/stores/responses/_defaults';
 
 // sort responses by timestamp
 const sortedResponses = (responses: ViResponse[]) => {

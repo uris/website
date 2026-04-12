@@ -12,10 +12,10 @@ import {
 import { useWindow } from '@apple-pie/slice/hooks';
 import { useTip, useToast } from '@apple-pie/slice/stores';
 import { useEffect, useRef } from 'react';
-import { SETTINGS_CONSTRAINTS, SIDEBAR_CONSTRAINTS } from '@/app/(ai)/_defaults';
 import { AIPanel } from '@/features/AIPanel/AIPanel';
 import { SettingsPanel } from '@/features/SettingsPanel/SettingsPanel';
 import { Sidebar } from '@/features/SidebarPanel/Sidebar';
+import { SETTINGS_CONSTRAINTS, SIDEBAR_CONSTRAINTS } from '@/stores/home-layout/_defaults';
 import {
 	useHomeLayout,
 	useSettingsOpen,

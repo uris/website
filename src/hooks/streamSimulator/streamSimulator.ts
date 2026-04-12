@@ -1,6 +1,6 @@
 import { useMDStreamBuffer } from '@apple-pie/slice';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { DEFAULT_MARKER } from '@/utils/consts/consts';
+import { DEFAULT_MARKER } from '@/stores/responses/_defaults';
 
 export const useStreamSimulator = (
 	raw: string,
