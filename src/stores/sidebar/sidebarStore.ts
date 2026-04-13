@@ -10,6 +10,7 @@ export const useSidebarContentStore = create<SidebarStore>((set, get) => ({
 	surface: SidebarSurface.Projects,
 	direction: Direction.Forward,
 	project: null,
+	showProject: false,
 	actions: {
 		setSurface: (surface: SidebarSurface) => {
 			if (surface === get().surface) return;
@@ -23,6 +24,9 @@ export const useSidebarContentStore = create<SidebarStore>((set, get) => ({
 		closeProject: () => {
 			set({ project: null });
 		},
+		setShowProject: (showProject: boolean) => {
+			set({ showProject });
+		},
 	},
 }));
 
@@ -30,3 +34,4 @@ export const useSidebarActions = () => useSidebarContentStore((state) => state.a
 export const useSurface = () => useSidebarContentStore((state) => state.surface);
 export const useProject = () => useSidebarContentStore((state) => state.project);
 export const useDirection = () => useSidebarContentStore((state) => state.direction);
+export const useShowProject = () => useSidebarContentStore((state) => state.showProject);

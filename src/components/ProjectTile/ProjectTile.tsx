@@ -111,10 +111,10 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 		return names;
 	}, [layout]);
 
-	// emit transition end to parent
+	// emit transition end to parent if no flag yet
 	const handleAnimationEnd = useCallback(() => {
-		onAnimationEnd?.(index);
-	}, [index, onAnimationEnd]);
+		if (!didAnimate) onAnimationEnd?.(index);
+	}, [index, didAnimate, onAnimationEnd]);
 
 	// set up the initial transition if needed
 	useEffect(() => {

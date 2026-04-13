@@ -2,24 +2,25 @@ export interface LogosProps {
 	name?: 'ringcentral' | 'slice';
 	size?: number;
 	color?: string;
+	margin?: number | string;
 }
 
 export function Logo(props: Readonly<LogosProps>) {
-	const { name, size, color } = props;
+	const { name, size, color, margin } = props;
 	switch (name) {
 		case 'ringcentral':
-			return <RcLogo size={size} color={color} />;
+			return <RcLogo size={size} color={color} margin={margin} />;
 		case 'slice':
-			return <SliceLogo size={size} color={color} />;
+			return <SliceLogo size={size} color={color} margin={margin} />;
 		default:
 			return null;
 	}
 }
 
 export function RcLogo(props: Readonly<LogosProps>) {
-	const { size = 28, color = 'black' } = props;
+	const { size = 28, color = 'black', margin } = props;
 	return (
-		<div style={{ width: size, height: size }}>
+		<div style={{ height: size, margin }}>
 			<svg xmlns="http://www.w3.org/2000/svg" height={size} width={size} viewBox="0 0 127.8 127.8">
 				<title>RC Logo</title>
 				<path
@@ -36,9 +37,9 @@ export function RcLogo(props: Readonly<LogosProps>) {
 }
 
 export function SliceLogo(props: Readonly<LogosProps>) {
-	const { size = 28, color = 'black' } = props;
+	const { size = 28, color = 'black', margin } = props;
 	return (
-		<div style={{ width: size, height: size }}>
+		<div style={{ height: size, margin }}>
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 277.63 121.92" height={size}>
 				<title>Slice Logo</title>
 				<path

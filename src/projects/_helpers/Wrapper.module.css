@@ -1,0 +1,35 @@
+.content {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	box-sizing: border-box;
+	max-width: 768px;
+	min-width: 520px;
+	overflow: visible;
+	width: 100%;
+}
+
+.wrapper h1 {
+	font-family: var(--font-family), sans-serif;
+	font-weight: 500;
+	font-size: 42px;
+	line-height: 128.57%;
+	text-decoration: none;
+	letter-spacing: 0.2px;
+}
+
+.wrapper .subtitle {
+	font-family: var(--font-family), sans-serif;
+	font-weight: var(--font-weight-regular);
+	font-size: var(--font-size-xl);
+	line-height: 162.5%;
+	text-decoration: none;
+	letter-spacing: 0.1px;
+	text-align: center;
+	color: var(--core-text-tertiary);
+}
+
+:global([data-slice-theme-scope]) .wrapper p + p {
+	margin-top: 1rem;
+}

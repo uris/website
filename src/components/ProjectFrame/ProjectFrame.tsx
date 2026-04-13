@@ -1,24 +1,30 @@
 'use client';
 
 import { useTheme } from '@apple-pie/slice';
-import { useCallback, useEffect, useRef } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useDraggingSidebar } from '@/stores/home-layout/homeLayoutStore';
+import styles from './ProjectFrame.module.css';
 
 export interface ProjectIframeProps {
 	projectSlug?: string | null;
 	projectName?: string | null;
 }
 
+// event types for intra frame communication
 export enum FrameEvent {
 	INIT = 'INIT',
 	STATE_CHANGE = 'STATE_CHANGE',
 	CHILD_EVENT = 'CHILD_EVENT',
 }
 
+// check for client browser
 const hasWindow = globalThis.window !== undefined;
 
 export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	const { projectSlug, projectName } = props;
 	const theme = useTheme().current.name;
+	const dragging = useDraggingSidebar();
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 
 	// post state based on tracked theme (add other state items as needed)
@@ -41,25 +47,39 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 		}
 	}, []);
 
+	// memo dynamic styles
+	const cssVars = useMemo(() => {
+		return {
+			'--pointer-events': dragging ? 'none' : 'auto',
+		} as React.CSSProperties;
+	}, [dragging]);
+
 	// set listener for child events
 	useEffect(() => {
 		window.addEventListener('message', handleChildEvents);
 		return () => window.removeEventListener('message', handleChildEvents);
 	}, [handleChildEvents]);
 
-	// Post state change updates from parent to child
+	// handle frame finished loading
+	const handleOnLoad = useCallback(() => {
+		postState(FrameEvent.INIT);
+		// setShouldReload(false)
+	}, [postState]);
+
+	// post state updates automatically
 	useEffect(() => postState(), [postState]);
 
 	if (!projectSlug) return null;
 	return (
 		<iframe
+			className={styles.frame}
+			title={`Project Summary: ${projectName}`}
+			style={cssVars}
 			ref={iframeRef}
 			src={`/projects/${projectSlug}?theme=${theme}`}
-			onLoad={() => postState(FrameEvent.INIT)}
+			onLoad={handleOnLoad}
 			width="100%"
 			height="100%"
-			style={{ border: 'none' }}
-			title={`Project Summary: ${projectName}`}
 		/>
 	);
 }

@@ -223,7 +223,7 @@ async function createRTCConnection(bearerToken: string, connectionName = CONN_NA
 		// initialize the connection
 		await useWebRTCActions.initializeConnection(connectionName, undefined, bearerToken);
 
-		// initialize the connection
+		// return the connection
 		return {
 			success: true,
 			data: { connection: getWebRTCConnections(connectionName) },

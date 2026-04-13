@@ -5,3 +5,10 @@ export function bestGuessNoiseReduction(deviceName: string) {
 	if (deviceName.toLowerCase().includes('buds')) return 'near_field';
 	return 'far_field';
 }
+
+export function textToParagraphs(text: string) {
+	return text
+		.split(/\n\s*\n/) // blank line = new paragraph
+		.map((p) => p.trim())
+		.filter(Boolean);
+}

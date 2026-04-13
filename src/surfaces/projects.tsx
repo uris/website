@@ -1,18 +1,20 @@
 import { FlexDiv, Preset, useObserveResize } from '@apple-pie/slice';
 import { AnimatePresence, motion, type Transition } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ProjectDetails } from '@/src/surfaces/project-details';
 import { ProjectList } from '@/src/surfaces/project-list';
 import { ProjectsFooter } from '@/src/surfaces/projects-footer';
 import { Direction } from '@/stores/sidebar/_types';
-import { useProject } from '@/stores/sidebar/sidebarStore';
+import { useShowProject, useSidebarActions } from '@/stores/sidebar/sidebarStore';
 import styles from './Surfaces.module.css';
 
 const transition: Transition = { duration: 0.5, ease: 'easeInOut' };
 
+// note: use 'show project' to avoid removing iframe from dom while animating it's presence state
 export function Projects() {
-	const project = useProject();
-	const key = project ? 'project.details' : 'project.list';
+	const showProject = useShowProject();
+	const setProject = useSidebarActions().setProject;
+	const key = showProject ? 'project.details' : 'project.list';
 	const ref = useRef<HTMLDivElement>(null);
 	const { height } = useObserveResize(ref, { ignore: 'width' });
 	const [direction, setDirection] = useState<Direction>(Direction.Forward);
@@ -28,8 +30,16 @@ export function Projects() {
 		},
 	};
 
+	// set project null once the project list is back up
+	const handleAnimationEnd = useCallback(() => {
+		if (key === 'project.list') setProject(null);
+	}, [key, setProject]);
+
 	// set direction up/down
-	useEffect(() => setDirection(project ? Direction.Backward : Direction.Forward), [project]);
+	useEffect(
+		() => setDirection(showProject ? Direction.Backward : Direction.Forward),
+		[showProject],
+	);
 
 	return (
 		<FlexDiv
@@ -40,7 +50,12 @@ export function Projects() {
 			align={'start'}
 			ref={ref}
 		>
-			<AnimatePresence initial={false} mode={'sync'} custom={direction}>
+			<AnimatePresence
+				initial={false}
+				mode={'sync'}
+				custom={direction}
+				onExitComplete={handleAnimationEnd}
+			>
 				<motion.div
 					transition={transition}
 					variants={variants}
@@ -51,7 +66,7 @@ export function Projects() {
 					className={styles.projectsWrapper}
 					key={key}
 				>
-					{project ? <ProjectDetails /> : <ProjectList />}
+					{showProject ? <ProjectDetails /> : <ProjectList />}
 				</motion.div>
 			</AnimatePresence>
 			<ProjectsFooter />

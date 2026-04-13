@@ -1,11 +1,13 @@
 export interface SidebarStore {
 	surface: SidebarSurface;
 	project: Project | null;
+	showProject: boolean;
 	direction: Direction;
 	actions: {
 		setSurface: (surface: SidebarSurface) => void;
 		setProject: (project: Project | null) => void;
 		closeProject: () => void;
+		setShowProject: (showProject: boolean) => void;
 	};
 }
 

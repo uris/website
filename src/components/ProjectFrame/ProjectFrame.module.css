@@ -1,0 +1,4 @@
+.frame {
+	border: none;
+	pointer-events: var(--pointer-events);
+}

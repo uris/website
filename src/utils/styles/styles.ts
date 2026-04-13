@@ -15,6 +15,20 @@ export function gradientCover(surfaceHex: string, to: 'top' | 'bottom') {
 }
 
 /**
+ * Create a gradient cover-up for images with a harder transition from 100%
+ */
+export function hardGradientCover(surfaceHex: string, to: 'top' | 'bottom') {
+	const rgb = hexToRgb(surfaceHex) ?? 'rgb(0,0,0)';
+	const stops = [
+		{ color: addOpacity(rgb, 1), amount: 0 },
+		{ color: addOpacity(rgb, 1), amount: 25 },
+		{ color: addOpacity(rgb, 0), amount: 100 },
+	];
+	const styleValues = stops.map((stop) => `${stop.color} ${stop.amount}%`).join(', ');
+	return `linear-gradient(to ${to}, ${styleValues})`;
+}
+
+/**
  * Join an array of styles in single string for class name
  */
 export function classNames(styles: string[]) {

@@ -1,5 +1,6 @@
-import { FlexDiv, Preset } from '@apple-pie/slice';
+import { FlexDiv } from '@apple-pie/slice';
 import type React from 'react';
+import styles from './Wrapper.module.css';
 
 interface WrapperProps {
 	children: React.ReactNode;
@@ -8,14 +9,17 @@ export function Wrapper(props: Readonly<WrapperProps>) {
 	const { children } = props;
 	return (
 		<FlexDiv
-			preset={Preset.Window}
+			width={'fill'}
+			height={'fill'}
 			justify={'start'}
-			align={'start'}
+			align={'center'}
+			direction={'column'}
 			scrollY={true}
 			padding={'64px 64px 104px 64px'}
 			background={'var(--core-surface-primary-tint)'}
+			className={styles.wrapper}
 		>
-			{children}
+			<div className={styles.content}>{children}</div>
 		</FlexDiv>
 	);
 }

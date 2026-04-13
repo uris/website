@@ -27,7 +27,7 @@ export function ProjectGrid(props: Readonly<ProjectGridProps>) {
 	const didAnimate = useDidAnimateProjects();
 	const setDidAnimate = useHomeLayout().setDidAnimateProjects;
 	const setProject = useSidebarActions().setProject;
-	console.log({ didAnimate });
+	const setShowProject = useSidebarActions().setShowProject;
 
 	// memo dynamic css vars
 	const cssVars = useMemo(() => {
@@ -45,7 +45,8 @@ export function ProjectGrid(props: Readonly<ProjectGridProps>) {
 	// handle project selectin
 	const handleProjectClick = useCallback(() => {
 		setProject(Project.Slice);
-	}, [setProject]);
+		setShowProject(true);
+	}, [setProject, setShowProject]);
 
 	return (
 		<FlexDiv preset={Preset.FillScroll} scrollY={true} padding={64}>

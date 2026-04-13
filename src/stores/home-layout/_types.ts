@@ -8,6 +8,7 @@ export type HomeLayoutStore = {
 	didAnimateProjects: boolean;
 	showTalkToViLabel: boolean;
 	projects: any[];
+	draggingSidebar: boolean;
 	actions: {
 		toggleSideBar: (open?: boolean) => void;
 		toggleSettings: (open?: boolean) => void;
@@ -17,5 +18,6 @@ export type HomeLayoutStore = {
 		setDidAnimateProjects: (didAnimateProjects: boolean) => void;
 		setShowTalkToViLabel: (showTalkToViLabel: boolean) => void;
 		setProjects: (projects: any[]) => void;
+		setDraggingSidebar: (draggingSidebar: boolean) => void;
 	};
 };

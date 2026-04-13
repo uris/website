@@ -37,6 +37,7 @@ export default function Home(props: Readonly<HomeProps>) {
 	const settingsOpen = useSettingsOpen();
 	const toast = useToast();
 	const loadProjects = useHomeLayout().setProjects;
+	const setDraggingSidebar = useHomeLayout().setDraggingSidebar;
 
 	// set initial projects data
 	useEffect(() => loadProjects(projects), [loadProjects, projects]);
@@ -76,6 +77,8 @@ export default function Home(props: Readonly<HomeProps>) {
 					sizeConstraints={SIDEBAR_CONSTRAINTS}
 					isClosed={!sideBarOpen}
 					containerRef={viewRef}
+					onResizeStart={() => setDraggingSidebar(true)}
+					onResizeEnd={() => setDraggingSidebar(false)}
 				>
 					<FlexDiv
 						preset={Preset.FillStart}

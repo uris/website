@@ -14,6 +14,7 @@ export const useHomeLayoutStore = create<HomeLayoutStore>((set, get) => ({
 	userName: hasLocalStore ? localStorage.getItem('userName') : null,
 	showTalkToViLabel: false,
 	projects: [],
+	draggingSidebar: false,
 	actions: {
 		toggleSideBar: (open) => {
 			const sidebarOpen = open ?? !get().sidebarOpen;
@@ -52,6 +53,9 @@ export const useHomeLayoutStore = create<HomeLayoutStore>((set, get) => ({
 		setProjects: (projects: any[]) => {
 			set({ projects });
 		},
+		setDraggingSidebar: (draggingSidebar: boolean) => {
+			set({ draggingSidebar });
+		},
 	},
 }));
 
@@ -65,3 +69,4 @@ export const useFooterSize = () => useHomeLayoutStore((state) => state.footerSiz
 export const useDidAnimateProjects = () => useHomeLayoutStore((state) => state.didAnimateProjects);
 export const useShowTalkToViLabel = () => useHomeLayoutStore((state) => state.showTalkToViLabel);
 export const useProjects = () => useHomeLayoutStore((state) => state.projects);
+export const useDraggingSidebar = () => useHomeLayoutStore((state) => state.draggingSidebar);

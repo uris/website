@@ -4,8 +4,8 @@ import { AnimationType, type ButtonAnimation, IconButton, useTheme } from '@appl
 import type { AnimationDefinition, Transition, Variants } from 'motion/react';
 import { AnimatePresence, motion } from 'motion/react';
 import type React from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useProject, useSidebarActions } from '@/stores/sidebar/sidebarStore';
+import { useMemo, useState } from 'react';
+import { useProject, useShowProject, useSidebarActions } from '@/stores/sidebar/sidebarStore';
 import { gradientCover } from '@/utils/styles/styles';
 import styles from './Surfaces.module.css';
 
@@ -19,20 +19,19 @@ const variants: Variants = {
 const closeAnimation = {
 	animation: { type: AnimationType.Rotate, value: { off: 0, on: 180 } },
 	transition: {
-		on: { duration: 0.35, ease: 'linear', delay: 0.75 },
+		on: { duration: 0.35, ease: 'linear', delay: 0.25 },
 		off: { duration: 0.25, ease: 'linear', delay: 0 },
 	},
 } as ButtonAnimation;
 
 export function ProjectsFooter() {
-	const closeProject = useSidebarActions().closeProject;
 	const { current } = useTheme();
 	const surfaceColor = current.colors['core-surface-primary-tint'];
 	const project = useProject();
+	const showProject = useShowProject();
+	const setShowProject = useSidebarActions().setShowProject;
 	const [toggled, setToggled] = useState(false);
-	const [show, setShow] = useState<boolean>(false);
-	const timer = useRef<null | NodeJS.Timeout>(null);
-	const delay = project ? 0.75 : 0.1;
+	const delay = project ? 0.35 : 0.1;
 	const transition: Transition = { duration: 0.25, ease: 'easeInOut', delay };
 
 	// memo dynamic css variables
@@ -51,22 +50,12 @@ export function ProjectsFooter() {
 	// toggle button animation off when closing a project
 	const handleCloseProject = () => {
 		setToggled(false);
-		closeProject();
+		setShowProject(false);
 	};
-
-	// introduce a slight delay before hiding/showing the footer when a project selected state changes
-	useEffect(() => {
-		if (timer.current) clearTimeout(timer.current);
-		if (project) setShow(true);
-		else timer.current = setTimeout(() => setShow(false), 150);
-		return () => {
-			if (timer.current) clearTimeout(timer.current);
-		};
-	}, [project]);
 
 	return (
 		<AnimatePresence initial={true}>
-			{show && (
+			{showProject && (
 				<motion.div
 					className={styles.footer}
 					style={cssVars}
