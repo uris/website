@@ -3,7 +3,7 @@ import {
 	resolveInitialTheme,
 } from '@apple-pie/slice/providers/themeServer';
 import type { Metadata } from 'next';
-import { Funnel_Sans } from 'next/font/google';
+import { Funnel_Sans, Google_Sans_Code } from 'next/font/google';
 import { cookies } from 'next/headers';
 import type { PropsWithChildren } from 'react';
 import { Providers } from './providers';
@@ -15,6 +15,14 @@ const funnelSans = Funnel_Sans({
 	subsets: ['latin'],
 	display: 'swap',
 	variable: '--font-funnel-sans',
+});
+
+// setup for google sans code
+const googleSansCode = Google_Sans_Code({
+	subsets: ['latin'],
+	display: 'swap',
+	variable: '--font-google-sans-code',
+	adjustFontFallback: false,
 });
 
 // setup page meta
@@ -30,7 +38,11 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
 	const { initialTheme, initialSystem } = resolveInitialTheme({ activeTheme, systemTheme });
 
 	return (
-		<html lang="en" className={funnelSans.variable} {...getThemeHtmlAttributes(initialTheme)}>
+		<html
+			lang="en"
+			className={`${funnelSans.variable} ${googleSansCode.variable}`}
+			{...getThemeHtmlAttributes(initialTheme)}
+		>
 			<body>
 				<Providers initialTheme={initialTheme} initialSystem={initialSystem}>
 					{children}

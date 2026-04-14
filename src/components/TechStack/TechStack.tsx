@@ -12,8 +12,9 @@ export function TechStack({ children }: Readonly<TechStackProps>) {
 		const label = child as React.ReactElement<LabelProps>;
 
 		return React.cloneElement(label, {
-			padding: '4px 8px',
 			bgColor: 'var(--core-surface-primary)',
+			borderRadius: 16,
+			padding: '4px 12px',
 			style: { display: 'flex' },
 		});
 	});
