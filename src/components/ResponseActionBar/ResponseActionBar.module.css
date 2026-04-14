@@ -4,17 +4,22 @@
 	align-items: center;
 	flex-direction: row;
 	box-sizing: border-box;
+	overflow: hidden;
 	padding: 0;
 	margin: 0;
 	gap: 8px;
+	width: 100%;
 }
 
 .infoLabel {
 	composes: body-s-regular from "../../utils/css-helpers/type.module.css";
-	display: inline-flex;
-	justify-content: flex-start;
-	align-items: center;
-	line-height: 01.2em;
+	line-height: 1.2em;
+	overflow: hidden;
+	word-break: break-all;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
 	gap: 4px;
 	&:before {
 		content: "";
@@ -24,6 +29,7 @@
 		border-radius: 100%;
 		background: var(--core-text-disabled);
 		margin-right: 4px;
+		margin-bottom: 2px;
 		color: var(--core-text-disabled);
 	}
 	&:first-child {

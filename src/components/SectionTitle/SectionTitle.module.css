@@ -1,0 +1,22 @@
+.wrapper {
+	position: relative;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	width: 100%;
+	margin: 5em 0 1em 0;
+	padding: 0;
+	gap: 8px;
+}
+
+.title {
+	font-family: var(--font-family), sans-serif;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 116.67%;
+	text-decoration: none;
+	letter-spacing: 0.2px;
+	color: var(--core-text-primary);
+}

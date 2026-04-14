@@ -31,8 +31,6 @@
 	flex-direction: row;
 	width: 100%;
 	margin: 5em 0 1em 0;
-	text-transform: uppercase;
-	color: var(--core-text-disabled);
 }
 
 :global([data-slice-theme-scope]) .wrapper .subtitle {
@@ -54,7 +52,13 @@
 	line-height: 162.5%;
 	text-decoration: none;
 	letter-spacing: 0.1px;
-	color: var(--core-text-secondary);
+	color: var(--core-text-tertiary);
+	display: flex;
+	box-sizing: border-box;
+	justify-content: flex-start;
+	align-items: center;
+	flex-direction: row;
+	width: 100%;
 }
 
 :global([data-slice-theme-scope]) .wrapper p + p {
@@ -62,7 +66,7 @@
 }
 
 :global([data-slice-theme-scope]) .wrapper p.figureTitle {
-	color: var(--core-text-tertiary);
+	color: var(--core-text-secondary);
 	margin-top: 1.5em;
 	display: flex;
 	box-sizing: border-box;

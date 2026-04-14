@@ -1,0 +1,140 @@
+[data-slice-theme="darkMode"] pre {
+	display: block;
+	box-sizing: border-box;
+	font-family: var(--font-mono), monospace;
+	font-weight: 400;
+	width: 100%;
+	max-width: 100%;
+	border: 1px solid var(--core-outline-secondary);
+	border-radius: 16px;
+	padding: 24px;
+	overflow-x: auto;
+	background-color: var(--core-surface-primary);
+	margin: 1em 0 0 0;
+	color: var(--core-text-primary);
+}
+
+[data-slice-theme="darkMode"] code.hljs {
+	display: block;
+	box-sizing: border-box;
+	font-family: var(--font-mono), monospace;
+	font-size: 13px;
+	line-height: 1.5em;
+	white-space: pre-wrap;
+	background: none;
+	border: none;
+	outline: none;
+	margin: 0;
+	padding: 0;
+	color: var(--core-text-primary);
+}
+
+/*!
+  Theme: GitHub Dark
+  Description: Dark theme as seen on github.com
+  Author: github.com
+  Maintainer: @Hirse
+  Updated: 2021-05-15
+
+  Outdated base version: https://github.com/primer/github-syntax-dark
+  Current colors taken from GitHub's CSS
+*/
+[data-slice-theme="darkMode"] .hljs {
+	color: #c9d1d9;
+	background: #0d1117;
+}
+[data-slice-theme="darkMode"] .hljs-doctag,
+[data-slice-theme="darkMode"] .hljs-keyword,
+[data-slice-theme="darkMode"] .hljs-meta .hljs-keyword,
+[data-slice-theme="darkMode"] .hljs-template-tag,
+[data-slice-theme="darkMode"] .hljs-template-variable,
+[data-slice-theme="darkMode"] .hljs-type,
+[data-slice-theme="darkMode"] .hljs-variable.language_ {
+	/* prettylights-syntax-keyword */
+	color: #ff7b72;
+}
+[data-slice-theme="darkMode"] .hljs-title,
+[data-slice-theme="darkMode"] .hljs-title.class_,
+[data-slice-theme="darkMode"] .hljs-title.class_.inherited__,
+[data-slice-theme="darkMode"] .hljs-title.function_ {
+	/* prettylights-syntax-entity */
+	color: #d2a8ff;
+}
+[data-slice-theme="darkMode"] .hljs-attr,
+[data-slice-theme="darkMode"] .hljs-attribute,
+[data-slice-theme="darkMode"] .hljs-literal,
+[data-slice-theme="darkMode"] .hljs-meta,
+[data-slice-theme="darkMode"] .hljs-number,
+[data-slice-theme="darkMode"] .hljs-operator,
+[data-slice-theme="darkMode"] .hljs-variable,
+[data-slice-theme="darkMode"] .hljs-selector-attr,
+[data-slice-theme="darkMode"] .hljs-selector-class,
+[data-slice-theme="darkMode"] .hljs-selector-id {
+	/* prettylights-syntax-constant */
+	color: #79c0ff;
+}
+[data-slice-theme="darkMode"] .hljs-regexp,
+[data-slice-theme="darkMode"] .hljs-string,
+[data-slice-theme="darkMode"] .hljs-meta .hljs-string {
+	/* prettylights-syntax-string */
+	color: #a5d6ff;
+}
+[data-slice-theme="darkMode"] .hljs-built_in,
+[data-slice-theme="darkMode"] .hljs-symbol {
+	/* prettylights-syntax-variable */
+	color: #ffa657;
+}
+[data-slice-theme="darkMode"] .hljs-comment,
+[data-slice-theme="darkMode"] .hljs-code,
+[data-slice-theme="darkMode"] .hljs-formula {
+	/* prettylights-syntax-comment */
+	color: #8b949e;
+}
+[data-slice-theme="darkMode"] .hljs-name,
+[data-slice-theme="darkMode"] .hljs-quote,
+[data-slice-theme="darkMode"] .hljs-selector-tag,
+[data-slice-theme="darkMode"] .hljs-selector-pseudo {
+	/* prettylights-syntax-entity-tag */
+	color: #7ee787;
+}
+[data-slice-theme="darkMode"] .hljs-subst {
+	/* prettylights-syntax-storage-modifier-import */
+	color: #c9d1d9;
+}
+[data-slice-theme="darkMode"] .hljs-section {
+	/* prettylights-syntax-markup-heading */
+	color: #1f6feb;
+	font-weight: bold;
+}
+[data-slice-theme="darkMode"] .hljs-bullet {
+	/* prettylights-syntax-markup-list */
+	color: #f2cc60;
+}
+[data-slice-theme="darkMode"] .hljs-emphasis {
+	/* prettylights-syntax-markup-italic */
+	color: #c9d1d9;
+	font-style: italic;
+}
+[data-slice-theme="darkMode"] .hljs-strong {
+	/* prettylights-syntax-markup-bold */
+	color: #c9d1d9;
+	font-weight: bold;
+}
+[data-slice-theme="darkMode"] .hljs-addition {
+	/* prettylights-syntax-markup-inserted */
+	color: #aff5b4;
+	background-color: #033a16;
+}
+[data-slice-theme="darkMode"] .hljs-deletion {
+	/* prettylights-syntax-markup-deleted */
+	color: #ffdcd7;
+	background-color: #67060c;
+}
+[data-slice-theme="darkMode"] .hljs-char.escape_,
+[data-slice-theme="darkMode"] .hljs-link,
+[data-slice-theme="darkMode"] .hljs-params,
+[data-slice-theme="darkMode"] .hljs-property,
+[data-slice-theme="darkMode"] .hljs-punctuation,
+[data-slice-theme="darkMode"] .hljs-tag {
+	/* purposely ignored */
+}

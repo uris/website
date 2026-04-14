@@ -1,16 +1,21 @@
 import { Button, Label, Spacer } from '@apple-pie/slice';
 import Highlight from 'react-highlight';
 import cameraDemo from '@/assets//projects/slice/slice-camera-demo.png';
-import cameraDocs from '@/assets//projects/slice/slice-camera-docs.png';
+import cameraDemoLight from '@/assets//projects/slice/slice-camera-demo-light.png';
+import sliceCode from '@/assets/projects/slice/slice-mic-code.png';
+import sliceRollupCode from '@/assets/projects/slice/slice-rollup-code.png';
+import sliceSSR from '@/assets/projects/slice/slice-ssr-provider-code.png';
+import themeColors from '@/assets/projects/slice/slice-theme-colors.png';
+import themeColorsLight from '@/assets/projects/slice/slice-theme-colors-light.png';
 import { Wrapper } from '@/projects/_helpers/Wrapper';
 import { addMic, granularExports } from '@/projects/slice/code-examples';
+import { DataButton, DataButtonGrid } from '@/src/components/DataButtons/DataButtons';
 import { LinkList } from '@/src/components/LinkList/LinkList';
 import { Logo } from '@/src/components/Logos/Logos';
 import ProjectImage, { ImageItem } from '@/src/components/ProjectImage/ProjectImage';
+import { SectionTitle } from '@/src/components/SectionTitle/SectionTitle';
 import { TechStack } from '@/src/components/TechStack/TechStack';
 import styles from '../_helpers/Wrapper.module.css';
-import '../_helpers/github-dark.css';
-import { DataButton, DataButtonGrid } from '@/src/components/DataButtons/DataButtons';
 
 export default function Slice() {
 	return (
@@ -22,9 +27,16 @@ export default function Slice() {
 				piecing together multiple libraries to ship one feature stopped making sense."
 			</p>
 			<TechStack>
-				<Label>React</Label>
+				<Label>React 18/19</Label>
 				<Label>TypeScript</Label>
 				<Label>npm</Label>
+				<Label>Storybook</Label>
+				<Label>Rollup</Label>
+				<Label>PostCSS</Label>
+				<Label>Vitest + Playwright</Label>
+				<Label>Zustand</Label>
+				<Label>Motion</Label>
+				<Label>Biome</Label>
 				<Label>SSR + client</Label>
 				<Label>WebRTC</Label>
 				<Label>Open source</Label>
@@ -44,40 +56,50 @@ export default function Slice() {
 					GitHub
 				</Button>
 			</LinkList>
+
 			<Spacer size={32} />
-			<ProjectImage maxImageHeight={313}>
-				<ImageItem imagePos={'left'} title={'Complete design system'} image={cameraDemo}>
+			<ProjectImage maxImageHeight={325}>
+				<ImageItem
+					imagePos={'left'}
+					title={'Complete design system'}
+					image={themeColors}
+					imageLight={themeColorsLight}
+				>
 					<p>
 						A design language built into a single React provider. Fully customizable token system
 						across colors, spacing, motion, typography, icons, and more.
 					</p>
 				</ImageItem>
-				<ImageItem title={'Realtime right out-of-the box'} image={cameraDemo}>
+				<ImageItem
+					title={'Realtime right out-of-the box'}
+					image={cameraDemo}
+					imageLight={cameraDemoLight}
+				>
 					<p>
 						Production-ready abstractions over WebRTC, WebSocket, and SSE — video, audio, screen
 						sharing, and live data streams without the boilerplate.
 					</p>
 				</ImageItem>
-				<ImageItem imagePos={'left'} title={'Everything composes'} image={cameraDocs}>
+				<ImageItem title={'Everything composes'} image={sliceCode}>
 					<p>
 						Types flow between layers so the pieces fit together. Hooks return types the components
 						already expect — less wiring, less glue code, more product.
 					</p>
 				</ImageItem>
-				<ImageItem title={'Built to be lean'} image={cameraDemo}>
+				<ImageItem title={'Built to be lean'} image={sliceRollupCode}>
 					<p>
 						98 granular export paths mean your bundle only includes what you actually use. Import
 						from the root or go granular — tree-shaking handles the rest.
 					</p>
 				</ImageItem>
-				<ImageItem imagePos={'left'} title={'SSR ready, zero config'} image={cameraDemo}>
+				<ImageItem title={'SSR ready, zero config'} image={sliceSSR}>
 					<p>
 						Full SSR and static rendering support for Next.js and Remix, out of the box. No
 						wrappers, no workarounds — it just works.
 					</p>
 				</ImageItem>
 			</ProjectImage>
-			<h4>The Problem</h4>
+			<SectionTitle icon={'moon full'}>The Problem</SectionTitle>
 			<p>
 				Most frontend projects need the same things: a design system, a component library, and
 				abstractions over complex APIs like WebRTC, etc. The typical answer - use multiple packages,
@@ -87,16 +109,16 @@ export default function Slice() {
 				Result? Wasted time (often days) wiring them together, wrangling types, writing glue code —
 				before actually producing product logic.
 			</p>
-			<h4>Philosophy</h4>
+
+			<SectionTitle icon={'moon full'}>Philosophy</SectionTitle>
 			<p>
 				Composability. Everything is designed to interlock. Types flow from one layer to the next,
 				stores abstract boiler plate, and hooks bind elements auto-magically.
 			</p>
-			<p className={styles.figureTitle}>
-				Example: Access, list and select a microphone in 2 lines.
-			</p>
+			<p className={styles.figureTitle}>List and choose a microphone device in 2 lines</p>
 			<Highlight className="typescript">{addMic}</Highlight>
-			<h4>What's in the package</h4>
+
+			<SectionTitle icon={'moon full'}>What's in the package</SectionTitle>
 			<ul>
 				<li>
 					<strong>Complete theme system</strong> — Design language coded into a single React
@@ -127,7 +149,8 @@ export default function Slice() {
 					components designed with fast mount / re-mount times of no more than 2 ms.
 				</li>
 			</ul>
-			<h4>A hard problem - the build system</h4>
+
+			<SectionTitle icon={'moon full'}>A hard problem - the build system</SectionTitle>
 			<p>
 				The package ships 98 granular export paths so consumers only pay for what they use. Getting
 				that to work — dual CJS/ESM output, matching TypeScript definitions, and correct chunk
@@ -135,12 +158,13 @@ export default function Slice() {
 				dynamically.
 			</p>
 			<p>
-				The tradeoff was longer build times for a dramatically smaller footprint on the consuming
-				side. Worth it.
+				Tradeoff: longer build times but dramatically smaller footprint on the consuming side. Worth
+				it.
 			</p>
+			<p className={styles.figureTitle}>Granular imports</p>
 			<Highlight className="typescript">{granularExports}</Highlight>
 
-			<h4>By The Numbers</h4>
+			<SectionTitle icon={'moon full'}>By The Numbers</SectionTitle>
 			<DataButtonGrid>
 				<DataButton value={'40+'} label={'Components'} />
 				<DataButton value={'98'} label={'Export paths'} />
@@ -150,7 +174,7 @@ export default function Slice() {
 				<DataButton value={'v0.1'} label={'Active / pre-1.0'} />
 			</DataButtonGrid>
 
-			<h4>Lessons learned</h4>
+			<SectionTitle icon={'moon full'}>Lessons learned</SectionTitle>
 			<p>
 				Abstracting WebRTC properly meant understanding it deeply first — ICE negotiation, track
 				replacement without renegotiation, data channel lifecycle. The API surface had to hide that
@@ -161,7 +185,8 @@ export default function Slice() {
 				not the code. The Storybook site, documentation, the contributor guides, the export map —
 				that's more than half the work.
 			</p>
-			<h4>My Role</h4>
+
+			<SectionTitle icon={'moon full'}>My Role</SectionTitle>
 			<p>
 				Sole author and maintainer — component API design, build engineering, documentation, CI/CD,
 				and the npm publishing lifecycle across 34 releases.

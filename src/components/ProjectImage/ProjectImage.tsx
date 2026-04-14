@@ -68,10 +68,18 @@ function ProjectImage(props: Readonly<ProjectImageProps>) {
 	// handle page change
 	const handlePageChange = useCallback(
 		(index: number) => {
+			let direction: Direction;
 			if (index === selected) return;
-			if (index > elements.length - 1) index = elements.length - 1;
-			if (index < 0) index = 0;
-			setDirection(index > selected ? Direction.Forward : Direction.Backward);
+			if (index > elements.length - 1) {
+				index = 0;
+				direction = Direction.Forward;
+			} else if (index < 0) {
+				index = elements.length - 1;
+				direction = Direction.Backward;
+			} else {
+				direction = index > selected ? Direction.Forward : Direction.Backward;
+			}
+			setDirection(direction);
 			setSelected(index);
 		},
 		[selected, elements.length],
@@ -145,6 +153,7 @@ interface ImageItemProps {
 	children?: React.ReactNode;
 	title?: string;
 	image?: string | StaticImageData;
+	imageLight?: string | StaticImageData;
 	imagePos?: 'left' | 'right';
 	borderRadius?: number;
 	coverUp?: boolean;
@@ -157,6 +166,7 @@ export function ImageItem(props: Readonly<ImageItemProps>) {
 		title,
 		children,
 		image,
+		imageLight,
 		onHeightChange,
 		coverUp = true,
 		maxImageHeight,
@@ -165,7 +175,7 @@ export function ImageItem(props: Readonly<ImageItemProps>) {
 	const ref = useRef<HTMLDivElement>(null);
 	const { height } = useObserveResize(ref);
 	const lastReportedHeight = useRef<number>(0);
-	const { current } = useTheme();
+	const { current, isDark } = useTheme();
 	const surfaceColor = current.colors['core-surface-primary-tint'];
 
 	// wrapper class names
@@ -211,7 +221,7 @@ export function ImageItem(props: Readonly<ImageItemProps>) {
 					{image && (
 						<Image
 							quality={80}
-							src={image}
+							src={isDark ? image : (imageLight ?? image)}
 							width={0}
 							height={0}
 							sizes="100vw"
