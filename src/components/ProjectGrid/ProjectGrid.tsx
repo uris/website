@@ -19,10 +19,11 @@ export interface ProjectGridProps {
 	listGap?: number;
 	stagger?: number;
 	staggerSeed?: number;
+	maxTilesPerRow?: number;
 }
 
 export function ProjectGrid(props: Readonly<ProjectGridProps>) {
-	const { tileSize = 200, listGap = 24, stagger = 0.1, staggerSeed = 0 } = props;
+	const { tileSize = 200, listGap = 24, stagger = 0.1, staggerSeed = 0, maxTilesPerRow } = props;
 	const projects = useProjects();
 	const didAnimate = useDidAnimateProjects();
 	const setDidAnimate = useHomeLayout().setDidAnimateProjects;
@@ -31,8 +32,12 @@ export function ProjectGrid(props: Readonly<ProjectGridProps>) {
 
 	// memo dynamic css vars
 	const cssVars = useMemo(() => {
-		return { '--tile-size': `${tileSize}px`, '--list-gap': `${listGap}px` } as React.CSSProperties;
-	}, [tileSize, listGap]);
+		return {
+			'--tile-size': `${tileSize}px`,
+			'--list-gap': `${listGap}px`,
+			'--list-max-tiles': maxTilesPerRow ?? 'auto-fill',
+		} as React.CSSProperties;
+	}, [tileSize, listGap, maxTilesPerRow]);
 
 	// only animate once each session
 	const handleAnimationEnd = useCallback(
@@ -52,7 +57,7 @@ export function ProjectGrid(props: Readonly<ProjectGridProps>) {
 	);
 
 	return (
-		<FlexDiv preset={Preset.FillScroll} scrollY={true} padding={64}>
+		<FlexDiv preset={Preset.FillScroll} scrollY={true} padding={64} align={'center'}>
 			<div className={styles.grid} style={cssVars}>
 				{projects.map((project, index: number) => {
 					const staggerChild = stagger * index + staggerSeed;

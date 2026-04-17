@@ -30,7 +30,7 @@ const frontendSkills = [
 
 const backendSkills = [
 	{ name: 'Node.js / Express', value: 95, level: 'advanced' },
-	{ name: 'PostgreSQL', value: 80, level: 'advanced' },
+	{ name: 'PostgreSQL / Dynamo', value: 80, level: 'advanced' },
 	{ name: 'Redis', value: 90, level: 'principal' },
 	{ name: 'REST API design', value: 80, level: 'advanced' },
 	{ name: 'Data modeling', value: 80, level: 'advanced' },

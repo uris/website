@@ -19,6 +19,7 @@ export function Content() {
 	const direction = useDirection();
 	const ref = useRef<HTMLDivElement>(null);
 	const { width } = useObserveResize(ref, { ignore: 'height' });
+	const isProject = surface === SidebarSurface.Projects;
 
 	// variants with a custom direction to animate left/right
 	const variants = {
@@ -42,7 +43,7 @@ export function Content() {
 		<FlexDiv preset={Preset.FillCenter} ref={ref} style={cssVars}>
 			<div className={`${styles.cover} ${styles.top}`} />
 			<div className={`${styles.cover} ${styles.bot}`} />
-			<ProjectsHeader />
+			{isProject && <ProjectsHeader />}
 			<AnimatePresence initial={false} custom={direction}>
 				<motion.div
 					className={styles.contentWrapper}

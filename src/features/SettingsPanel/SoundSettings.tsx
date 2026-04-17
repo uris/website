@@ -68,12 +68,13 @@ export function SoundSettings() {
 	// handle vi requested volume change
 	const handleViChangeVolume = useCallback(
 		async (message?: ViEventMessage) => {
-			console.log('vi request volume', message);
 			const { action_value, id } = message ?? {};
+			const volume = action_value?.volume;
 			let result: any = { volumeChange: null, success: false, reason: 'invalid volume value' };
-			if (action_value?.volume && action_value.volume >= 0 && action_value.volume <= 1) {
-				await handleAdjustVolume(action_value.volume, true);
-				result = { volumeChange: action_value.volume, success: true };
+			if (volume !== undefined && volume >= 0 && volume <= 1) {
+				console.log('vi request volume', message);
+				await handleAdjustVolume(volume, true);
+				result = { volumeChange: volume, success: true };
 			}
 			if (id) sendToolCallResultsItem(result, id, true);
 		},

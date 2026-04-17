@@ -45,13 +45,13 @@ export function ViTalkModal(props: Readonly<ViTalkModalProps>) {
 			<p className={css.p}>
 				Vi is a voice enabled ai assistant you can talk to about my work, background and skills.
 			</p>
-			<p className={css.p}>
-				Conversations are not recorded, saved, shared, or analyzed / used by me in any way. If you
-				hit refresh... Poof! They're gone.
+			<p>
+				You can also ask Vi to navigate and interact directly with the site, like "Vi, Open project
+				..." or "Vi, Mute sound".
 			</p>
 			<p className={css.p}>
-				Also, Vi tends to only say great things about me (all true of course 😉)... Probably because
-				that's what I asked her to do ...
+				Just so you know, conversations are not recorded, saved, shared, or analyzed / used by me in
+				any way. Once you hit refresh... poof! They're gone.
 			</p>
 		</Modal>
 	);

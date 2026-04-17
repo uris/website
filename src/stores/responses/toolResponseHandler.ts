@@ -12,6 +12,7 @@ export async function handleToolResponse(params: {
 	switch (params.name) {
 		// *** UPDATE UI Settings: volume, theme, etc.
 		case ToolType.UpdateUiSettings: {
+			console.log({ params });
 			if (typeof params.args === 'object') {
 				if ('theme' in params.args) handleThemeChange(params.args.theme, params.call_id);
 				if ('volume' in params.args) handleVolumeChange(params.args.volume, params.call_id);

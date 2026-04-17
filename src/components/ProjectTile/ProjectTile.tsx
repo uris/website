@@ -15,7 +15,6 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 		project,
 		width,
 		height,
-		titleColor = 'var(--core-text-primary)',
 		listGap = 24,
 		stagger = 0.1,
 		animate = { start: { y: 50 }, end: { y: 0 } },
@@ -23,7 +22,7 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 		onAnimationEnd,
 		onClick,
 	} = props;
-	const { layout, heavy, title, type, logo, image, typeColor } = project;
+	const { layout, heavy, title, type, titleColor, logo, image, typeColor } = project;
 	const [hasEntered, setHasEntered] = useState<boolean>(false);
 	const [delay, setDelay] = useState<number>(stagger);
 	const didAnimate = useDidAnimateProjects();
@@ -97,8 +96,8 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 		return {
 			'--project-tile-width': `${resolvedSize.tileWidth}px`,
 			'--project-tile-height': `${resolvedSize.tileHeight}px`,
-			'--project-tile-title-color': titleColor,
-			'--project-tile-type-color': typeColor,
+			'--project-tile-title-color': titleColor ?? 'var(--core-text-primary)',
+			'--project-tile-type-color': typeColor ?? 'var(--core-text-primary)',
 			'--project-tile-translate-y': `${transform.y}px`,
 			'--project-tile-translate-x': `${transform.x}px`,
 			'--project-tile-opacity': didAnimate || hasEntered ? '1' : '0',
