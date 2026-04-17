@@ -1,4 +1,6 @@
-import type { Project } from '@/stores/sidebar/_types';
+import type { ProjectName } from '@/projects/server/types';
+import type UIView from '@/stores/ai/ai-tools/_types';
+import type { UITheme } from '@/stores/ai/ai-tools/_types';
 
 export type ViStoreState = {
 	connected: boolean;
@@ -60,7 +62,7 @@ export enum CallbackEvent {
 	ViConnect = 'vi.connect',
 	ViThemeChange = 'vi.theme.change',
 	ViVolumeChange = 'vi.volume.change',
-	ViOpenProjectView = 'vi.open.project.view',
+	ViOpenView = 'vi.open.view',
 }
 
 /**
@@ -72,9 +74,10 @@ export type ViEventMessage = {
 	event: CallbackEvent;
 	data?: unknown;
 	action_value?: {
-		theme?: string;
+		theme?: UITheme;
 		volume?: number;
-		slug?: Project;
+		slug?: ProjectName;
+		view?: UIView;
 	};
 	id?: string;
 };

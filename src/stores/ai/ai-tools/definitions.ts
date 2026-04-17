@@ -1,5 +1,5 @@
-import { Project } from '@/stores/sidebar/_types';
-import { ToolType, UIAction } from './_types';
+import { ProjectName } from '@/projects/server/types';
+import UIView, { ToolType, UIAction, UITheme } from './_types';
 
 /**
  * Tool that allows the model to request project details
@@ -7,14 +7,14 @@ import { ToolType, UIAction } from './_types';
 export const request_project_details = {
 	type: 'function',
 	name: ToolType.RequestProjectDetails,
-	description: 'Retrieves then details of a specific project you want more information about',
+	description: 'Retrieves the details of a specific project',
 	parameters: {
 		type: 'object',
 		properties: {
 			slug: {
 				type: 'string',
 				description: 'Project slug',
-				enum: ['slice', 'uris-design'],
+				enum: Object.values(ProjectName),
 			},
 		},
 		required: ['slug'],
@@ -23,22 +23,58 @@ export const request_project_details = {
 };
 
 /**
+ * Tool that allows the model to display all projects
+ */
+export const view_all_projects = {
+	type: 'function',
+	name: ToolType.ViewAllProjects,
+	description: 'Displays and lists all of Uris projects',
+	parameters: {
+		type: 'object',
+		properties: {},
+		required: [],
+		additionalProperties: false,
+	},
+};
+
+/**
  * Tool to allow the model to open the project details in the browser window
  */
-export const open_project_view = {
+export const open_view = {
 	type: 'function',
-	name: ToolType.OpenProjectView,
-	description: 'Instructs the browser to open the project view in the workspace',
+	name: ToolType.OpenView,
+	description:
+		'Instructs the browser to open a specific view - project, skills, or contact - in the sidebar',
 	parameters: {
 		type: 'object',
 		properties: {
+			view: {
+				type: 'string',
+				description: 'the view the user will see in the viewport sidebar',
+				enum: Object.values(UIView),
+			},
 			slug: {
 				type: 'string',
-				description: 'Project slug',
-				enum: [Project.Slice, Project.UrisDesign],
+				description: 'If requesting a specific project, the slug for the project being requested.',
+				enum: Object.values(ProjectName),
 			},
 		},
-		required: ['slug'],
+		required: ['view'],
+		additionalProperties: false,
+	},
+};
+
+/**
+ * Tool that allows the model to request skills details
+ */
+export const request_skills = {
+	type: 'function',
+	name: ToolType.RequestSkills,
+	description: 'Retrieves details on Uris skills, tools, etc he is comfortable with',
+	parameters: {
+		type: 'object',
+		properties: {},
+		required: [],
 		additionalProperties: false,
 	},
 };
@@ -56,7 +92,7 @@ export const update_ui_settings = {
 			[UIAction.Theme]: {
 				type: 'string',
 				description: 'set the color scheme for the UI, where system is the PC display setting',
-				enum: ['dark', 'light', 'system'],
+				enum: Object.values(UITheme),
 			},
 			[UIAction.Volume]: {
 				type: 'number',

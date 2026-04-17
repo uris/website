@@ -1,7 +1,7 @@
 :root {
 	--slice-font-family: var(--font-funnel-sans);
 	--font-family: var(--slice-font-family);
-	--font-mono: var(--font-google-sans-code);
+	--font-mono: var(--font-jetbrains-mono);
 }
 
 html,

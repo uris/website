@@ -27,7 +27,7 @@
 .name {
 	flex: 1;
 	white-space: nowrap;
-	font-family: "Google code sans", monospace;
+	font-family: var(--font-mono), monospace;
 	text-transform: capitalize;
 	color: var(--core-text-secondary);
 }

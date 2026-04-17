@@ -17,9 +17,11 @@
 			"@/assets/*": ["./src/assets/*"],
 			"@/utils/*": ["./src/utils/*"],
 			"@/projects/*": ["./src/projects/*"],
+			"@/skills/*": ["./src/skills/*"],
 			"@/data/*": ["./src/data/*"],
 			"@/stores/*": ["./src/stores/*"],
 			"@/components/*": ["./src/components/*"],
+			"@/landing/*": ["./src/landing/*"],
 			"@/content/*": ["./src/content/*"]
 		},
 		"resolveJsonModule": true,

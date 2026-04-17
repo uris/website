@@ -1,5 +1,10 @@
 export type ProjectSlug = 'slice' | 'uris-design';
 
+export enum ProjectName {
+	Slice = 'slice',
+	UrisDesign = 'uris-design',
+}
+
 export type ProjectTileLogo =
 	| {
 			type: 'icon';

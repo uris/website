@@ -1,5 +1,5 @@
-import { CallbackEvent } from '@/stores/ai/_types';
-import { ToolType } from '@/stores/ai/ai-tools/_types';
+import { CallbackEvent, type ViEventMessage } from '@/stores/ai/_types';
+import UIView, { ToolType, UITheme } from '@/stores/ai/ai-tools/_types';
 import { sendToolCallResultsItem } from '@/stores/ai/ViTalkCreateConvoItemFactory';
 import { processEventCallbacks } from '@/stores/ai/viStore';
 
@@ -26,7 +26,6 @@ export async function handleToolResponse(params: {
 				const response = await fetch(`/api/projects/${params.args.slug}`);
 				if (response.ok) {
 					const { data } = await response.json();
-					console.log('Project details fetched:', data);
 					if (data) {
 						sendToolCallResultsItem(data, params.call_id, true, ToolType.RequestProjectDetails);
 					}
@@ -35,18 +34,54 @@ export async function handleToolResponse(params: {
 			break;
 		}
 
-		// *** OPEN A PROJECT VIEW
-		case ToolType.OpenProjectView: {
-			if (typeof params.args === 'object' && 'slug' in params.args) {
+		// *** GET SKILLS
+		case ToolType.RequestSkills: {
+			const response = await fetch(`/api/skills`);
+			if (response.ok) {
+				const { data } = await response.json();
+				if (data) {
+					sendToolCallResultsItem(data, params.call_id, true, ToolType.RequestSkills);
+				}
+			}
+			break;
+		}
+
+		// *** OPEN A BROWSER VIEW
+		case ToolType.OpenView: {
+			console.log('open view', { params });
+			if (typeof params.args === 'object' && 'view' in params.args) {
+				// get params for the view / project to open
+				let action_value: ViEventMessage['action_value'];
+				switch (params.args.view) {
+					case UIView.Projects:
+						action_value = { slug: params.args.slug, view: params.args.view };
+						break;
+					default:
+						action_value = { view: params.args.view };
+						break;
+				}
 				// emit event to open the selected project
-				processEventCallbacks(CallbackEvent.ViOpenProjectView, {
-					event: CallbackEvent.ViOpenProjectView,
+				processEventCallbacks(CallbackEvent.ViOpenView, {
+					event: CallbackEvent.ViOpenView,
 					id: params.call_id,
-					action_value: { slug: params.args.slug },
+					action_value,
 				});
 			}
 			break;
 		}
+
+		// *** OPEN ALL PROJECTS
+		case ToolType.ViewAllProjects: {
+			console.log('view all projects', { params });
+			// emit event to open the selected project
+			processEventCallbacks(CallbackEvent.ViOpenView, {
+				event: CallbackEvent.ViOpenView,
+				id: params.call_id,
+				action_value: { view: UIView.Projects },
+			});
+			break;
+		}
+
 		default: {
 			break;
 		}
@@ -57,10 +92,9 @@ export async function handleToolResponse(params: {
  * Request a theme change
  */
 export function handleThemeChange(theme: unknown, call_id: string) {
-	let sliceTheme: 'system' | 'lightMode' | 'darkMode' = 'system';
-	if (typeof theme === 'string' && theme === 'dark') sliceTheme = 'darkMode';
-	else if (typeof theme === 'string' && theme === 'light') sliceTheme = 'lightMode';
-
+	let sliceTheme: UITheme = UITheme.System;
+	if (typeof theme === 'string' && theme === 'darkMode') sliceTheme = UITheme.DarkMode;
+	else if (typeof theme === 'string' && theme === 'lightMode') sliceTheme = UITheme.LightMode;
 	// emit the requested theme to listeners
 	processEventCallbacks(CallbackEvent.ViThemeChange, {
 		event: CallbackEvent.ViThemeChange,

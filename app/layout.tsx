@@ -3,7 +3,8 @@ import {
 	resolveInitialTheme,
 } from '@apple-pie/slice/providers/themeServer';
 import type { Metadata } from 'next';
-import { Funnel_Sans, Google_Sans_Code } from 'next/font/google';
+import { Funnel_Sans } from 'next/font/google';
+import localFont from 'next/font/local';
 import { cookies } from 'next/headers';
 import type { PropsWithChildren } from 'react';
 import { Providers } from './providers';
@@ -17,12 +18,22 @@ const funnelSans = Funnel_Sans({
 	variable: '--font-funnel-sans',
 });
 
-// setup for google sans code
-const googleSansCode = Google_Sans_Code({
-	subsets: ['latin'],
+// setup for local JetBrains Mono
+const jetBrainsMono = localFont({
+	src: [
+		{
+			path: '../public/fonts/JetBrainsMono-Regular.woff2',
+			weight: '400',
+			style: 'normal',
+		},
+		{
+			path: '../public/fonts/JetBrainsMono-Italic.woff2',
+			weight: '400',
+			style: 'italic',
+		},
+	],
 	display: 'swap',
-	variable: '--font-google-sans-code',
-	adjustFontFallback: false,
+	variable: '--font-jetbrains-mono',
 });
 
 // setup page meta
@@ -44,7 +55,7 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
 	return (
 		<html
 			lang="en"
-			className={`${funnelSans.variable} ${googleSansCode.variable}`}
+			className={`${funnelSans.variable} ${jetBrainsMono.variable}`}
 			{...getThemeHtmlAttributes(initialTheme)}
 		>
 			<body>

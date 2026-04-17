@@ -104,8 +104,12 @@ export function pickInitialMessage(firstTime = true) {
  */
 export function createToolCallResponseInstructions(tool?: ToolType): string | undefined {
 	switch (tool) {
+		case ToolType.ViewAllProjects:
+			return 'Ask if there is a specific project or type of project that the user is interested in knowing more about.';
 		case ToolType.RequestProjectDetails:
 			return 'You response should be very brief and focus on the things to emphasize. Then simply ask the user if they would like you to open up the project details and if there are any areas they would like to know more about.';
+		case ToolType.RequestSkills:
+			return 'You response should be very brief and summarize the dual design/front-end developer nature of Uris skill set and background. Then ask if they would like to see the skills page (with all the skills listed), or more details about a specific skill set.';
 		default:
 			return undefined;
 	}

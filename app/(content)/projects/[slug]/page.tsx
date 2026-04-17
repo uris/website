@@ -1,5 +1,5 @@
 import { getKnownProjectSlugs, getProjectPageData } from '@/projects/server';
-import { ProjectDetails } from '@/src/pages/project-details';
+import { ProjectDetails } from '@/src/landing/project-details';
 
 // map of all params - let's next generate static pages for each
 export function generateStaticParams() {

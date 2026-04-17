@@ -17,10 +17,10 @@ export function ThemeSettings() {
 	const handleViChangeTheme = useCallback(
 		(message?: ViEventMessage) => {
 			const { action_value, id } = message ?? {};
-			let result: any = { themeChange: null, success: false };
+			let result: any = { theme: null, success: false };
 			if (action_value?.theme) {
 				setTheme(action_value.theme);
-				result = { themeChange: action_value.theme, success: true };
+				result = { theme: action_value.theme, success: true };
 			}
 			if (id) sendToolCallResultsItem(result, id, true);
 		},

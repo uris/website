@@ -3,6 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { Content } from '@/features/SidebarPanel/Content';
 import { Header } from '@/features/SidebarPanel/Header';
 import { CallbackEvent, type ViEventMessage } from '@/stores/ai/_types';
+import { ToolType } from '@/stores/ai/ai-tools/_types';
 import { sendToolCallResultsItem } from '@/stores/ai/ViTalkCreateConvoItemFactory';
 import { useViActions } from '@/stores/ai/viStore';
 import { useHomeLayout } from '@/stores/home-layout/homeLayoutStore';
@@ -16,31 +17,34 @@ export function Sidebar() {
 	const setProject = useSidebarActions().setProject;
 	const setShowProject = useSidebarActions().setShowProject;
 
-	// handle Vi project requests
-	const handleViProjectRequest = useCallback(
+	// handle Vi view requests
+	const handleViViewRequest = useCallback(
 		(message?: ViEventMessage) => {
+			console.log('event listener', { message });
 			const { action_value, id } = message || {};
+			const { view, slug } = action_value || {};
 			let result: any = {
-				projectView: null,
+				view: null,
+				project: null,
 				success: false,
-				reason: 'No valid project slug provided',
+				reason: 'No valid view or project slug provided',
 			};
-			if (action_value?.slug) {
+			if (view !== undefined) {
 				setSidebar(true); // show the sidebar
-				setSurface(SidebarSurface.Projects); // set a sidebar to projects
-				setProject(action_value.slug); // set the project to the slug
-				setShowProject(true); // show the project
-				result = { projectView: action_value.slug, success: true };
+				setSurface(SidebarSurface[view]); // set a sidebar to projects
+				if (slug) setProject(slug as any); // set the project to the slug
+				if (slug) setShowProject(true); // show the project
+				result = { view, project: slug, success: true };
 			}
-			if (id) sendToolCallResultsItem(result, id);
+			if (id) sendToolCallResultsItem(result, id, true, ToolType.OpenView);
 		},
 		[setProject, setShowProject, setSidebar, setSurface],
 	);
 
-	// listen for vi project view requests
+	// listen for vi view requests
 	useEffect(() => {
-		return addViListener(CallbackEvent.ViOpenProjectView, handleViProjectRequest);
-	}, [handleViProjectRequest, addViListener]);
+		return addViListener(CallbackEvent.ViOpenView, handleViViewRequest);
+	}, [handleViViewRequest, addViListener]);
 
 	return (
 		<FlexDiv preset={Preset.FillStart}>
