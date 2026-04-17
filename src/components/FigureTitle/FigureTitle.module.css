@@ -1,0 +1,11 @@
+.figureTitle {
+	color: var(--core-text-secondary);
+	margin-top: 1.5em;
+	display: flex;
+	box-sizing: border-box;
+	justify-content: center;
+	flex-direction: row;
+	width: 100%;
+	font-size: var(--font-size-s);
+	padding: 0 24px;
+}

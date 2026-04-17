@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { ProjectTileData } from '@/projects/server/types';
 import type { HomeLayoutStore } from './_types';
 
 // check the local store exists before server side rendering
@@ -50,7 +51,7 @@ export const useHomeLayoutStore = create<HomeLayoutStore>((set, get) => ({
 		setDidAnimateProjects: (didAnimateProjects: boolean) => {
 			set({ didAnimateProjects });
 		},
-		setProjects: (projects: any[]) => {
+		setProjects: (projects: ProjectTileData[]) => {
 			set({ projects });
 		},
 		setDraggingSidebar: (draggingSidebar: boolean) => {

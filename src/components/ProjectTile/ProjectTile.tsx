@@ -2,7 +2,8 @@
 
 import { Icon } from '@apple-pie/slice';
 import Image from 'next/image';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Logo } from '@/src/components/Logos/Logos';
 import type { ProjectTileProps } from '@/src/components/ProjectTile/_types';
 import { useDidAnimateProjects } from '@/stores/home-layout/homeLayoutStore';
@@ -11,16 +12,10 @@ import styles from './ProjectTile.module.css';
 
 export function ProjectTile(props: Readonly<ProjectTileProps>) {
 	const {
+		project,
 		width,
 		height,
-		title,
-		type,
-		logo,
-		image,
-		heavy = false,
 		titleColor = 'var(--core-text-primary)',
-		typeColor = 'rgba(0,0,0,0.3)',
-		layout = 'square',
 		listGap = 24,
 		stagger = 0.1,
 		animate = { start: { y: 50 }, end: { y: 0 } },
@@ -28,6 +23,7 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 		onAnimationEnd,
 		onClick,
 	} = props;
+	const { layout, heavy, title, type, logo, image, typeColor } = project;
 	const [hasEntered, setHasEntered] = useState<boolean>(false);
 	const [delay, setDelay] = useState<number>(stagger);
 	const didAnimate = useDidAnimateProjects();
@@ -45,21 +41,11 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 	// resolve logo to the component of the next image
 	const resolvedLogo = useMemo(() => {
 		if (!logo) return null;
-		if (typeof logo === 'string') {
-			const imgSrc = `${logo}?v=001`;
-			return <Image quality={100} src={imgSrc} alt={'title'} loading={'eager'} />;
-		}
-		const { type, props } = logo;
-		if (type === 'icon') return <Icon {...props} />;
-		if (type === 'logo') return <Logo {...props} />;
-		return null;
-	}, [logo]);
-
-	// resolve logo to the component of the next image
-	const resolvedImage = useMemo(() => {
-		if (!image) return null;
-		if (typeof image === 'string') {
-			const imgSrc = `${image}?v=007`;
+		if (logo.type === 'icon')
+			return <Icon name={logo.name} strokeColor={logo.strokeColor} size={logo.size} />;
+		if (logo.type === 'logo') return <Logo name={logo.name} color={logo.color} size={logo.size} />;
+		if (logo.type === 'image') {
+			const imgSrc = `${logo.src}?v=001`;
 			return (
 				<Image
 					quality={100}
@@ -67,14 +53,31 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 					width={0}
 					height={0}
 					sizes="100vw"
-					alt={'title'}
+					alt={logo.alt ?? title ?? 'title'}
 					loading={'eager'}
 					style={{ width: '100%', height: 'auto' }}
 				/>
 			);
 		}
-		if (React.isValidElement(image)) return image;
 		return null;
+	}, [logo, title]);
+
+	// resolve logo to the component of the next image
+	const resolvedImage = useMemo(() => {
+		if (!image) return null;
+		const imgSrc = `${image}?v=007`;
+		return (
+			<Image
+				quality={100}
+				src={imgSrc}
+				width={0}
+				height={0}
+				sizes="100vw"
+				alt={'title'}
+				loading={'eager'}
+				style={{ width: '100%', height: 'auto' }}
+			/>
+		);
 	}, [image]);
 
 	// determine the transforms
@@ -111,7 +114,7 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 		return names;
 	}, [layout]);
 
-	// emit transition end to parent if no flag yet
+	// emit the transition end to parent if no flag yet
 	const handleAnimationEnd = useCallback(() => {
 		if (!didAnimate) onAnimationEnd?.(index);
 	}, [index, didAnimate, onAnimationEnd]);
@@ -131,7 +134,7 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 			className={classNames(styleNames)}
 			style={cssVars}
 			onTransitionEnd={handleAnimationEnd}
-			onClick={onClick}
+			onClick={() => onClick?.(project.slug)}
 		>
 			{logo && <div className={styles.logo}>{resolvedLogo}</div>}
 			{type && <div className={styles.subtitle}>{type}</div>}

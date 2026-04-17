@@ -7,6 +7,7 @@ import {
 	type ViResponse,
 	type ViResponsesStore,
 } from '@/src/stores/responses/_types';
+import { handleToolResponse } from '@/stores/responses/toolResponseHandler';
 
 export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 	responses: [],
@@ -161,6 +162,28 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 				return response;
 			});
 			set({ responses });
+		},
+
+		/**
+		 * Handle tool calls by the model
+		 */
+		handleToolCall: async (
+			id: string,
+			params: { id: string; name: string; args: any; call_id: string },
+		) => {
+			// update the last response as a tool call
+			const lastResponseCurrent = get().lastResponse;
+			console.log('handleToolCall', id, lastResponseCurrent?.id);
+			if (lastResponseCurrent?.id === id) {
+				// set a tool role
+				const lastResponse = { ...lastResponseCurrent, role: Role.Tool };
+
+				// update the last response state
+				set({ lastResponse });
+			}
+
+			// send to tool call to the tool call handler
+			await handleToolResponse(params);
 		},
 
 		/**

@@ -1,10 +1,12 @@
+import type { Project } from '@/stores/sidebar/_types';
+
 export type ViStoreState = {
 	connected: boolean;
 	connecting: boolean;
 	live: boolean;
 	talk: boolean;
 	viTalking: boolean;
-	eventCallbacks: Map<string, ViEventCallback[]>;
+	viListeners: Map<string, Set<ViEventCallback>>;
 };
 
 export type ViStore = ViStoreState & {
@@ -17,10 +19,10 @@ export type ViStore = ViStoreState & {
 			channel: string,
 			event: any,
 			eventData: MessageEvent<any> | Event | RTCErrorEvent,
-		) => void;
+		) => Promise<void>;
 		handleUserMessage: (message: string) => void;
-		attachCallback: (name: string, callback: ViEventCallback | ViEventCallback[]) => void;
-		clearCallback: (name: string) => void;
+		addViListener: (event: CallbackEvent, handler: ViEventCallback) => () => void;
+		removeViListener: (event: CallbackEvent, handler: ViEventCallback) => void;
 	};
 };
 
@@ -36,6 +38,7 @@ export type MessageType =
  * These map to the realtime event types emitted in data messages of the RTC connection
  */
 export enum CallbackEvent {
+	// realtime api events
 	SessionCreated = 'session.created', // signals start of a voice session
 	ResponseCreated = 'response.created', // when a response item was created but not yet started
 	ResponseStart = 'response.output_item.added', // signals start of response providing ID for response
@@ -51,15 +54,27 @@ export enum CallbackEvent {
 	UserAudioMessageAdded = 'conversation.item.added[audio]', // user audio message
 	UserMessageTranscriptDelta = 'conversation.item.input_audio_transcription.delta', // audio transcript incremental update
 	UserMessageTranscriptDone = 'conversation.item.input_audio_transcription.completed', // user transcript done
-	// internal event types affecting ViTalk
+	ResponseItemDone = 'response.output_item.done', // when a response item is done -> emits tool calls
+	// app vi events
 	ViDisconnect = 'vi.disconnect',
 	ViConnect = 'vi.connect',
+	ViThemeChange = 'vi.theme.change',
+	ViVolumeChange = 'vi.volume.change',
+	ViOpenProjectView = 'vi.open.project.view',
 }
 
 /**
  * Callback types for ViTalk Events
  */
-export type ViEventCallback = {
+export type ViEventCallback = (message?: ViEventMessage) => void;
+
+export type ViEventMessage = {
 	event: CallbackEvent;
-	callback: () => void;
+	data?: unknown;
+	action_value?: {
+		theme?: string;
+		volume?: number;
+		slug?: Project;
+	};
+	id?: string;
 };

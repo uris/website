@@ -5,8 +5,7 @@ import { AnimationType, type ButtonAnimation } from '@apple-pie/slice';
  */
 export enum EAction {
 	TalkToVi = 'talk-to-vi',
-	ToggleSidebar = 'toggle-sidebar',
-	Contact = 'contact',
+	Sidebar = 'sidebar',
 }
 
 /**

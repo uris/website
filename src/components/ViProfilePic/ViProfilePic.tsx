@@ -24,7 +24,7 @@ export function ViProfilePic(props: Readonly<ProfilePicProps>) {
 		borderColor = 'var(--core-surface-primary)',
 		avatarBorderSize = 2,
 		avatarBorderColor = 'var(--core-outline-primary)',
-		avatarConnectedColor = 'var(--core-text-special)',
+		avatarConnectedColor = 'var(--array-sky-label)',
 		connected = false,
 	} = props;
 

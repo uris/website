@@ -19,6 +19,7 @@ export enum SidebarSurface {
 
 export enum Project {
 	Slice = 'slice',
+	UrisDesign = 'uris-design',
 }
 
 export enum Direction {

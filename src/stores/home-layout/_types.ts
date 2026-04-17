@@ -1,3 +1,5 @@
+import type { ProjectTileData } from '@/projects/server/types';
+
 export type HomeLayoutStore = {
 	sidebarOpen: boolean;
 	storedSidebarOpen: true | null;
@@ -7,7 +9,7 @@ export type HomeLayoutStore = {
 	userName: string | null;
 	didAnimateProjects: boolean;
 	showTalkToViLabel: boolean;
-	projects: any[];
+	projects: ProjectTileData[];
 	draggingSidebar: boolean;
 	actions: {
 		toggleSideBar: (open?: boolean) => void;
@@ -17,7 +19,7 @@ export type HomeLayoutStore = {
 		setUserName: (name: string) => void;
 		setDidAnimateProjects: (didAnimateProjects: boolean) => void;
 		setShowTalkToViLabel: (showTalkToViLabel: boolean) => void;
-		setProjects: (projects: any[]) => void;
+		setProjects: (projects: ProjectTileData[]) => void;
 		setDraggingSidebar: (draggingSidebar: boolean) => void;
 	};
 };

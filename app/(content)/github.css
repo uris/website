@@ -5,8 +5,11 @@
 	font-weight: 400;
 	width: 100%;
 	max-width: 100%;
+	min-width: 0;
 	border: 1px solid var(--core-outline-secondary);
 	border-radius: 16px;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
 	padding: 24px;
 	overflow-x: auto;
 	background-color: var(--core-surface-primary);
@@ -18,12 +21,12 @@
 	display: block;
 	box-sizing: border-box;
 	font-family: var(--font-mono), monospace;
-	font-size: 14px;
+	font-size: 13px;
 	line-height: 1.5em;
-	white-space: pre-wrap;
 	background: none;
 	border: none;
 	outline: none;
+	width: 100%;
 	margin: 0;
 	padding: 0;
 	color: var(--core-text-primary);

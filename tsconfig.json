@@ -18,7 +18,9 @@
 			"@/utils/*": ["./src/utils/*"],
 			"@/projects/*": ["./src/projects/*"],
 			"@/data/*": ["./src/data/*"],
-			"@/stores/*": ["./src/stores/*"]
+			"@/stores/*": ["./src/stores/*"],
+			"@/components/*": ["./src/components/*"],
+			"@/content/*": ["./src/content/*"]
 		},
 		"resolveJsonModule": true,
 		"isolatedModules": true,

@@ -1,5 +1,33 @@
 .contentWrapper {
 	position: absolute;
 	inset: 0;
+	display: flex;
 	overflow: hidden;
+}
+
+.cover {
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 24px;
+	margin: 0 4px;
+	left: 0;
+	right: 4px;
+	height: 56px;
+	min-height: 56px;
+	max-height: 56px;
+	z-index: var(--elevation-float);
+}
+
+.top {
+	top: 0;
+	background: var(--top-gradient);
+}
+
+.bot {
+	bottom: 0;
+	background: var(--bot-gradient);
 }

@@ -37,6 +37,7 @@ export function MessagesThread(props: Readonly<MessageThreadProps>) {
 			case Role.System: {
 				return <SystemMessage key={key} first={isFirstMsg} />;
 			}
+			case Role.Tool:
 			case Role.Assistant: {
 				return <ViMessage key={key} response={response} last={isLastMsg} />;
 			}
@@ -74,10 +75,11 @@ interface AssistantMessageProps {
 
 export function ViMessage(props: Readonly<AssistantMessageProps>) {
 	const { response, last = false } = props;
-	const { value, active } = response;
+	const { value, active, role } = response;
 	const buffering = useViBufferStreaming();
 	const thinking = active && value === '';
 	const render = thinking ? THINKING_PLACEHOLDER : value;
+	if (role === Role.Tool && !last) return null;
 	return (
 		<div className={`${styles.response} ${styles.assistantResponse}`}>
 			<MarkdownRenderer content={render} />

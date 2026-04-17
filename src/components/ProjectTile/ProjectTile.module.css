@@ -44,6 +44,7 @@
 	line-height: 1.3em;
 	text-decoration: none;
 	letter-spacing: 0.2px;
+	text-align: left;
 	z-index: 1;
 	-webkit-text-stroke: 0px;
 	-webkit-text-stroke-color: rgba(0, 0, 0, 0.15);

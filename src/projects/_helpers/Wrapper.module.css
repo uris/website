@@ -8,61 +8,24 @@
 	min-width: 520px;
 	overflow: visible;
 	width: 100%;
-}
-
-.wrapper h1 {
-	font-family: var(--font-family), sans-serif;
-	font-weight: 500;
-	font-size: 42px;
-	line-height: 128.57%;
-	text-decoration: none;
-	letter-spacing: 0.2px;
-}
-
-:global([data-slice-theme-scope]) .wrapper h4 {
-	font-family: var(--font-family), sans-serif;
-	font-weight: 500;
-	font-size: 15px;
-	line-height: 116.67%;
-	text-decoration: none;
-	letter-spacing: 0.2px;
-	display: flex;
-	justify-content: center;
-	flex-direction: row;
-	width: 100%;
-	margin: 5em 0 1em 0;
-}
-
-:global([data-slice-theme-scope]) .wrapper .subtitle {
-	font-family: var(--font-family), sans-serif;
-	font-weight: var(--font-weight-regular);
-	font-size: var(--font-size-xl);
-	line-height: 162.5%;
-	text-decoration: none;
-	letter-spacing: 0.1px;
-	text-align: center;
-	color: var(--core-text-tertiary);
+	gap: 0;
 }
 
 :global([data-slice-theme-scope]) .wrapper p {
-	margin: 0;
 	font-family: var(--font-family), sans-serif;
 	font-weight: var(--font-weight-regular);
-	font-size: var(--font-size-l);
+	font-size: var(--font-size-m);
 	line-height: 162.5%;
 	text-decoration: none;
 	letter-spacing: 0.1px;
 	color: var(--core-text-tertiary);
-	display: flex;
-	box-sizing: border-box;
-	justify-content: flex-start;
-	align-items: center;
-	flex-direction: row;
 	width: 100%;
+	margin: 0;
+	text-align: left;
 }
 
 :global([data-slice-theme-scope]) .wrapper p + p {
-	margin-top: 1em;
+	margin-top: 16px;
 }
 
 :global([data-slice-theme-scope]) .wrapper p.figureTitle {
@@ -92,4 +55,10 @@
 
 .wrapper ul li strong {
 	color: var(--core-text-primary);
+}
+
+.codeBlock {
+	width: 100%;
+	margin: 0 0 16px 0;
+	padding: 0;
 }

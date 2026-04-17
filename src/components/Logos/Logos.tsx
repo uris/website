@@ -1,5 +1,5 @@
 export interface LogosProps {
-	name?: 'ringcentral' | 'slice';
+	name?: string;
 	size?: number;
 	color?: string;
 	margin?: number | string;

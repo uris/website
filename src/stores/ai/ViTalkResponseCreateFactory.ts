@@ -1,7 +1,8 @@
 import { getWebRTCConnections } from '@apple-pie/slice/stores';
-import { viVoiceInstructions } from '@/src/lib/openai/_settings';
 import { CONN_NAME, EVENTS_DATA_CHANNEL } from '@/src/stores/ai/_data';
+import { viBaseInstructions } from '@/stores/ai/viTalkSessionUpdateFactory';
 import { useHomeLayoutStore } from '@/stores/home-layout/homeLayoutStore';
+import { ToolType } from './ai-tools/_types';
 
 export function requestResponseStop() {
 	const connection = getWebRTCConnections(CONN_NAME);
@@ -21,14 +22,45 @@ export function requestResponseStop() {
 	connection.connection.sendMessage(EVENTS_DATA_CHANNEL, clearAudioBuffer);
 }
 
-export function sendResponseRequest() {
+/**
+ * Generic request for a response from the model
+ * Useful for requesting a response after a tool call results item has been added, for example
+ */
+export function sendResponseRequest(tool?: ToolType) {
+	const connection = getWebRTCConnections(CONN_NAME);
+	if (!connection) return;
+
+	// generic reques for a response
+	let event: any = {
+		type: 'response.create',
+	};
+
+	// depending on the tool call, provide further instruction
+	const instructions = createToolCallResponseInstructions(tool);
+	if (instructions) {
+		event = {
+			...event,
+			response: {
+				instructions,
+			},
+		};
+	}
+
+	// send it
+	connection.connection.sendMessage(EVENTS_DATA_CHANNEL, event);
+}
+
+/**
+ * Send the initial response request to the model
+ */
+export function sendUserResponseRequest() {
 	const connection = getWebRTCConnections(CONN_NAME);
 	if (!connection) return;
 
 	const requestResponseEvent = {
 		type: 'response.create',
 		response: {
-			instructions: viVoiceInstructions,
+			instructions: viBaseInstructions,
 			output_modalities: ['audio'],
 		},
 	};
@@ -65,4 +97,16 @@ export function pickInitialMessage(firstTime = true) {
 		return `IN ENGLISH!!! Your name is Vi (pronounced 'Vee') - Say "Hi${nameString}, Vi here." and greet the user briefly, asking how you can help.`;
 	}
 	return `IN ENGLISH!!! Say "Welcome back${nameString}" and ask how you can help.`;
+}
+
+/**
+ * Create instructions for the model to respond to a data tool call
+ */
+export function createToolCallResponseInstructions(tool?: ToolType): string | undefined {
+	switch (tool) {
+		case ToolType.RequestProjectDetails:
+			return 'You response should be very brief and focus on the things to emphasize. Then simply ask the user if they would like you to open up the project details and if there are any areas they would like to know more about.';
+		default:
+			return undefined;
+	}
 }

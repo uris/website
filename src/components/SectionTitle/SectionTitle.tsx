@@ -16,7 +16,7 @@ export function SectionTitle(props: Readonly<SectionTitleProps>) {
 	return (
 		<div className={styles.wrapper}>
 			{icon && <Icon name={icon} fill={fill} size={iconSize} />}
-			<span className={styles.title}>{children ?? title}</span>
+			<span className={'body-l-bold'}>{children ?? title}</span>
 		</div>
 	);
 }

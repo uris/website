@@ -20,13 +20,14 @@ import {
 	CallbackEvent,
 	type MessageType,
 	type ViEventCallback,
+	type ViEventMessage,
 	type ViStore,
 } from '@/src/stores/ai/_types';
 import { sendUserMessage } from '@/src/stores/ai/ViTalkCreateConvoItemFactory';
 import { realtimeDataEventHandler } from '@/src/stores/ai/ViTalkEventHandler';
 import {
 	requestResponseStop,
-	sendResponseRequest,
+	sendUserResponseRequest,
 } from '@/src/stores/ai/ViTalkResponseCreateFactory';
 import { useHomeLayoutStore } from '@/stores/home-layout/homeLayoutStore';
 import { bestGuessNoiseReduction } from '@/utils/misc';
@@ -37,7 +38,7 @@ export const useAIStore = create<ViStore>((set, get) => ({
 	live: false,
 	talk: false,
 	viTalking: false,
-	eventCallbacks: new Map<string, ViEventCallback[]>(),
+	viListeners: new Map<string, Set<ViEventCallback>>(),
 	actions: {
 		setTalk: (state: boolean) => {
 			set({ talk: state ?? !get().talk });
@@ -87,12 +88,13 @@ export const useAIStore = create<ViStore>((set, get) => ({
 				console.log({ connection, token });
 				set({ connected: false, connecting: false });
 				viNotification('Failed');
+				return;
 			}
 
 			// IMPORTANT
 			// don't mutate the response store responses directly - let active stream logic do that
 			// by handling the callbacks
-			processEventCallbacks(CallbackEvent.ViConnect);
+			processEventCallbacks(CallbackEvent.ViConnect, { event: CallbackEvent.ViConnect });
 
 			// set vi label display to false as already connected
 			useHomeLayoutStore.getState().actions.setShowTalkToViLabel(false);
@@ -108,7 +110,7 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			// IMPORTANT
 			// don't mutate the response store responses directly - let active stream logic do that
 			// by handling the callbacks
-			processEventCallbacks(CallbackEvent.ViDisconnect);
+			processEventCallbacks(CallbackEvent.ViDisconnect, { event: CallbackEvent.ViDisconnect });
 
 			// set connecting false, connected false
 			set({ connected: false, connecting: false });
@@ -117,17 +119,17 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			// set vi label display to true
 			useHomeLayoutStore.getState().actions.setShowTalkToViLabel(true);
 		},
-		handleDataEvents: (channel, event, eventData) => {
+		handleDataEvents: async (channel, event, eventData) => {
 			// filter out non data events
 			if (!channel.includes(EVENTS_DATA_CHANNEL)) return;
 
 			// handle message events
 			// use return value to updated state and process relevant event callbacks
 			if (event === 'message') {
-				const updates = realtimeDataEventHandler(eventData);
-				const { event, state } = updates ?? {};
+				const updates = await realtimeDataEventHandler(eventData);
+				const { event, state, data } = updates ?? {};
 				if (state) set(state);
-				if (event) processEventCallbacks(event);
+				if (event) processEventCallbacks(event, { id: undefined, event, data });
 				return;
 			}
 
@@ -140,24 +142,33 @@ export const useAIStore = create<ViStore>((set, get) => ({
 		handleUserMessage: (message: string) => {
 			requestResponseStop(); // stop a current response
 			sendUserMessage(message); // create the user conversation item
-			sendResponseRequest(); // request a response to the user conversation item
+			sendUserResponseRequest(); // request a response to the user conversation item
 		},
 		/**
 		 * Attach event callbacks
 		 */
-		attachCallback: (name: string, callback: ViEventCallback | ViEventCallback[]) => {
-			const newCallbacks = Array.isArray(callback) ? callback : [callback];
-			const eventCallbacks = get().eventCallbacks;
-			eventCallbacks.set(name, newCallbacks);
-			set({ eventCallbacks });
+		addViListener: (event: CallbackEvent, handler: ViEventCallback) => {
+			const nextListeners = new Map(get().viListeners);
+			const nextHandlers = new Set(nextListeners.get(event) ?? []);
+			nextHandlers.add(handler);
+			nextListeners.set(event, nextHandlers);
+			set({ viListeners: nextListeners });
+			return () => get().actions.removeViListener(event, handler);
 		},
 		/**
 		 * Clean up event callbacks
 		 */
-		clearCallback: (name: string) => {
-			const eventCallbacks = get().eventCallbacks;
-			eventCallbacks.delete(name);
-			set({ eventCallbacks });
+		removeViListener: (event: CallbackEvent, handler: ViEventCallback) => {
+			const nextListeners = new Map(get().viListeners);
+			const nextHandlers = new Set(nextListeners.get(event) ?? []);
+
+			// guard for handler not being in the set
+			if (!nextHandlers.has(handler)) return;
+
+			// update the handlers and set state
+			nextHandlers.delete(handler);
+			nextListeners.set(event, nextHandlers);
+			set({ viListeners: nextListeners });
 		},
 	},
 }));
@@ -168,7 +179,6 @@ export const useViTalking = () => useAIStore((state) => state.viTalking);
 export const useViConnected = () => useAIStore((state) => state.connected);
 export const useViConnecting = () => useAIStore((state) => state.connecting);
 export const useViActions = () => useAIStore((state) => state.actions);
-export const useViEventCallbacks = () => useAIStore((state) => state.eventCallbacks);
 
 /**
  * gets a realtime session client secret key
@@ -290,11 +300,15 @@ export function viNotification(type: MessageType) {
 /**
  * Process all callbacks registered against a specific event
  */
-function processEventCallbacks(event: CallbackEvent) {
-	const callbackMap = useAIStore.getState().eventCallbacks;
-	const callbacks = Array.from(callbackMap.values()).flat();
-	const call = callbacks.filter((item) => item.event === event);
-	for (const item of call) {
-		item.callback();
+export function processEventCallbacks(event: CallbackEvent, message?: ViEventMessage) {
+	// get handlers for the event
+	const handlers = useAIStore.getState().viListeners.get(event);
+	console.log('processEventCallbacks', event, handlers);
+	if (!handlers) return;
+
+	// iterate handlers and call them
+	const handlerArray = Array.from(handlers);
+	for (const handler of handlerArray) {
+		handler(message);
 	}
 }

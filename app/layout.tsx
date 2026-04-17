@@ -29,6 +29,10 @@ const googleSansCode = Google_Sans_Code({
 export const metadata: Metadata = {
 	title: 'Uris Design',
 	description: 'AI workflows and project content.',
+	icons: {
+		icon: '/icon.png',
+		apple: '/icon.png',
+	},
 };
 
 export default async function RootLayout({ children }: Readonly<PropsWithChildren>) {

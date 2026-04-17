@@ -5,6 +5,7 @@
 	grid-auto-rows: var(--tile-size);
 	grid-auto-flow: row;
 	gap: 16px;
+	margin: 0 0 16px 0;
 }
 
 .button {

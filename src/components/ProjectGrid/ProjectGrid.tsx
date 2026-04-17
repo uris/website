@@ -10,7 +10,7 @@ import {
 	useHomeLayout,
 	useProjects,
 } from '@/src/stores/home-layout/homeLayoutStore';
-import { Project } from '@/stores/sidebar/_types';
+import type { Project } from '@/stores/sidebar/_types';
 import { useSidebarActions } from '@/stores/sidebar/sidebarStore';
 import styles from './ProjectGrid.module.css';
 
@@ -43,27 +43,30 @@ export function ProjectGrid(props: Readonly<ProjectGridProps>) {
 	);
 
 	// handle project selectin
-	const handleProjectClick = useCallback(() => {
-		setProject(Project.Slice);
-		setShowProject(true);
-	}, [setProject, setShowProject]);
+	const handleProjectClick = useCallback(
+		(slug: string) => {
+			setProject(slug as Project);
+			setShowProject(true);
+		},
+		[setProject, setShowProject],
+	);
 
 	return (
 		<FlexDiv preset={Preset.FillScroll} scrollY={true} padding={64}>
 			<div className={styles.grid} style={cssVars}>
-				{projects.map((project: any, index: number) => {
+				{projects.map((project, index: number) => {
 					const staggerChild = stagger * index + staggerSeed;
 					const rounded = Math.round(staggerChild * 100) / 100;
 					return (
 						<ProjectTile
-							key={project.title}
+							key={project.slug}
 							listGap={listGap}
 							stagger={didAnimate ? 0 : rounded}
 							animate={resolveAnimation(index)}
 							onAnimationEnd={handleAnimationEnd}
 							onClick={handleProjectClick}
 							index={index}
-							{...project}
+							project={project}
 						/>
 					);
 				})}

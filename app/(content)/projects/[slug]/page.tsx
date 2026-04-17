@@ -1,9 +1,9 @@
-import { projectMap } from '@/app/(content)/projects/[slug]/_projectsMap';
-import { ProjectDetails } from '@/src/workspaces/project-details';
+import { getKnownProjectSlugs, getProjectPageData } from '@/projects/server';
+import { ProjectDetails } from '@/src/pages/project-details';
 
 // map of all params - let's next generate static pages for each
 export function generateStaticParams() {
-	return Object.keys(projectMap).map((slug) => ({ slug }));
+	return getKnownProjectSlugs().map((slug) => ({ slug }));
 }
 
 export default async function ProjectDetailsPage({
@@ -12,5 +12,6 @@ export default async function ProjectDetailsPage({
 	params: Promise<{ slug: string }>;
 }) {
 	const { slug } = await params;
-	return <ProjectDetails slug={slug} />;
+	const project = getProjectPageData(slug);
+	return <ProjectDetails project={project} />;
 }

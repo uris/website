@@ -115,6 +115,29 @@
 
 .body .content :global(h1) {
 	line-height: 1.2em;
+	color: var(--core-text-primary);
+	margin: 32px 0 16px 0;
+}
+
+.body .content :global(p) {
+	margin: 16px 0 0 0;
+}
+
+.body .content :global(ol) {
+	margin: 1em 0 0 0;
+	padding: 0;
+	list-style: outside decimal;
+}
+
+.body .content :global(ul) {
+	margin: 1em 0 0 0;
+	padding: 0;
+	list-style: outside;
+}
+
+.body .content :global(li) {
+	margin: 0 0 1em 1.2em;
+	padding: 0;
 }
 
 .responseSeparator {
@@ -126,7 +149,7 @@
 	max-height: 1px;
 	width: 100%;
 	border-top: 2px solid var(--core-outline-primary);
-	margin: 24px 0;
+	margin: 32px 0 16px 0;
 	z-index: 100;
 }
 
@@ -136,7 +159,7 @@
 }
 
 .connected {
-	border-color: var(--core-text-special);
+	border-color: var(--array-sky-label);
 }
 
 .sticky {
@@ -206,8 +229,15 @@
 	transform: translateX(-150%);
 }
 
-.response p {
-	margin: 0 0 0.25em 0;
+.body .content .response p {
+	margin: 0 0 0 0;
+	color: var(--core-text-secondary);
+	font-size: var(--font-size-m);
+}
+
+.body .content .response p + p {
+	margin: 16px 0 0 0;
+	color: var(--core-text-secondary);
 }
 
 .copyButton {
