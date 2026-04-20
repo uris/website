@@ -8,7 +8,7 @@ import {
 	updateSessionInstructions,
 	updateSessionTools,
 } from '@/stores/ai/viTalkSessionUpdateFactory';
-import {viTalkToolCallHandler} from "@/stores/ai/viTalkToolCallHandler";
+import { viTalkToolCallHandler } from '@/stores/ai/viTalkToolCallHandler';
 
 export async function realtimeDataEventHandler(
 	event: MessageEvent<any> | Event | RTCErrorEvent,
@@ -38,7 +38,7 @@ export async function handleMessageEvent(
 	if (!data || typeof data !== 'object' || !('type' in data) || typeof data.type !== 'string')
 		return;
 
-	console.log(data.type, {data});
+	console.log(data.type, { data });
 	// handle the different types of events
 	switch (data.type) {
 		// *** signals the start of a new voice session
@@ -46,7 +46,7 @@ export async function handleMessageEvent(
 			// update the session with the instructions
 			await updateSessionInstructions();
 
-			// and tools the model can utilize
+			// and tools the model can use
 			updateSessionTools();
 
 			// add session start response to the response stack
@@ -81,13 +81,13 @@ export async function handleMessageEvent(
 
 		// *** start of assistant audio buffer
 		case CallbackEvent.AssistantSpeechStart: {
-			// set state of vi talking
+			// set the state of vi talking
 			return { event: CallbackEvent.AssistantSpeechStart, state: { viTalking: true }, data };
 		}
 
 		// *** end of assistant audio buffer
 		case CallbackEvent.AssistantSpeechEnd: {
-			// set state of vi talking
+			// set the state of vi talking
 			return { event: CallbackEvent.AssistantSpeechEnd, state: { viTalking: false }, data };
 		}
 
@@ -111,7 +111,7 @@ export async function handleMessageEvent(
 			return { event: CallbackEvent.AudioInterrupt, data };
 		}
 
-		// fired when the user starts talking - create a place holder user message for immediate UI feedback
+		// fired when the user starts talking - create a placeholder user message for immediate UI feedback
 		case CallbackEvent.UserSpeechStart: {
 			const { item_id: id } = data ?? {};
 			const responseInfo = {
@@ -138,16 +138,15 @@ export async function handleMessageEvent(
 
 			// process transcript data if it exists
 			if (content_type) {
-				
 				// if this is input audio simply trigger the call back event for any listeners
 				if (content_type === 'input_audio') {
-					return {event: CallbackEvent.UserAudioMessageAdded, data};
+					return { event: CallbackEvent.UserAudioMessageAdded, data };
 				}
 
-				// if text message, trigger new message creation in stack with the new conversation item
+				// if text message, trigger new message creation in the stack with the new conversation item
 				if (content_type === 'input_text') {
-					viResponsesActions.handleNewUserMessage({id, text, transcript, content_type});
-					return {event: CallbackEvent.UserTextMessageAdded, data};
+					viResponsesActions.handleNewUserMessage({ id, text, transcript, content_type });
+					return { event: CallbackEvent.UserTextMessageAdded, data };
 				}
 			}
 
@@ -188,7 +187,7 @@ export async function handleMessageEvent(
 				// protect for id and tool name
 				if (name && id) {
 					// update the message to a system message type
-					await viResponsesActions.handleToolCallMessage(id)
+					await viResponsesActions.handleToolCallMessage(id);
 
 					// call tool handler
 					await viTalkToolCallHandler({ id, name, args: argsObject, call_id });

@@ -5,9 +5,6 @@ import type { Transition, Variants } from 'motion';
 import { ButtonBar } from '@/features/AIPanel/ButtonBar';
 import { TextAreaBar } from '@/features/AIPanel/TextAreaBar';
 import { useTextInputBar } from '@/stores/home-layout/homeLayoutStore';
-import {useMicMuted, useVolume} from "@apple-pie/slice/stores";
-import {useMemo} from "react";
-import {useViConnected} from "@/stores/ai/viStore";
 
 // animation variants
 const barVariants: Variants = {
@@ -21,20 +18,13 @@ const barTransition: Transition = { duration: 0.25, ease: 'easeInOut' };
 
 export function AIPanelFooter() {
 	const textInputBar = useTextInputBar();
-	const volumeMuted = useVolume() <= 0;
-	const connected = useViConnected();
-	
-	const showTextInput = useMemo(()=>{
-		if(volumeMuted && connected) return true
-		return textInputBar
-	},[connected, volumeMuted, textInputBar])
 
 	return (
 		<AnimatePresence initial={false} mode={'sync'}>
-			{!showTextInput && (
+			{!textInputBar && (
 				<ButtonBar key={'button-bar'} variants={barVariants} transition={barTransition} />
 			)}
-			{showTextInput && (
+			{textInputBar && (
 				<TextAreaBar key={'text-area-bar'} variants={barVariants} transition={barTransition} />
 			)}
 		</AnimatePresence>

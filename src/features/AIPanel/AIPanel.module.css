@@ -116,7 +116,7 @@
 .body .content :global(h1) {
 	line-height: 1.2em;
 	color: var(--core-text-primary);
-	margin: 32px 0 16px 0;
+	margin: 0 0 16px 0;
 }
 
 .body .content :global(p) {

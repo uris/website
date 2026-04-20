@@ -7,7 +7,7 @@ import {
 } from '@/src/stores/sidebar/_types';
 
 export const useSidebarContentStore = create<SidebarStore>((set, get) => ({
-	surface: SidebarSurface.Projects,
+	surface: SidebarSurface.Skills,
 	direction: Direction.Forward,
 	project: null,
 	showProject: false,

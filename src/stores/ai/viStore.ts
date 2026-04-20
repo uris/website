@@ -43,11 +43,11 @@ export const useAIStore = create<ViStore>((set, get) => ({
 		setTalk: (state: boolean) => {
 			set({ talk: state ?? !get().talk });
 		},
-		
+
 		setViTalking: (state: boolean) => {
 			set({ viTalking: state });
 		},
-		
+
 		/**
 		 * Establish a connection to the realtime session and WebRTC connection
 		 */
@@ -104,7 +104,7 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			// set vi label display to false as already connected
 			useHomeLayoutStore.getState().actions.setShowTalkToViLabel(false);
 		},
-		
+
 		/**
 		 * Disconnect from the realtime session and WebRTC connection
 		 */
@@ -128,32 +128,31 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			// set vi label display to true
 			useHomeLayoutStore.getState().actions.setShowTalkToViLabel(true);
 		},
-		
+
 		/**
 		 * First line handler for data events on the RTC connection
 		 */
 		handleDataEvents: async (channel, event, eventData) => {
 			// filter out data events not part of the specified data channel
 			if (!channel.includes(EVENTS_DATA_CHANNEL)) return;
-			
+
 			// handle message types only
 			if (event === 'message') {
 				// handle the realtime event and get updates
 				const updates = await realtimeDataEventHandler(eventData);
 				const { event, state, data } = updates ?? {};
-				
+
 				// if there are state updates, set those
 				if (state) set(state);
-				
+
 				// emit event to added listeners
 				if (event) processEventCallbacks(event, { id: undefined, event, data });
-				
 			} else {
 				// log other events for now
 				console.log({ event, eventData });
 			}
 		},
-		
+
 		/**
 		 * Send a user message and request a response request from the model
 		 */
@@ -162,7 +161,7 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			sendUserMessage(message); // create the user conversation item
 			sendUserResponseRequest(); // request a response to the user conversation item
 		},
-		
+
 		/**
 		 * Attach ui listeners to Vi talk events
 		 */
@@ -172,11 +171,11 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			nextHandlers.add(handler);
 			nextListeners.set(event, nextHandlers);
 			set({ viListeners: nextListeners });
-			
+
 			// return the cleanup function
 			return () => get().actions.removeViListener(event, handler);
 		},
-		
+
 		/**
 		 * Clean up ui listeners to Vi talk events
 		 */
@@ -236,9 +235,9 @@ async function createRTCConnection(bearerToken: string, connectionName = CONN_NA
 		const micStream = getMicrophoneState().micStream;
 		let volume = getVolume();
 
-		// protect for mic and volume
+		// protect for mic and set default volume to 1 if not defined
 		if (!micStream.current) throw new Error('No mic stream');
-		if (!volume) volume = 1;
+		volume ??= 1;
 
 		// add a new connection directly to the WebRTC store
 		useWebRTCActions.addConnection(connectionName, {

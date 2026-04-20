@@ -1,22 +1,21 @@
 'use client';
 
-import { Spacer, useLocalStore } from '@apple-pie/slice';
+import { useLocalStore } from '@apple-pie/slice';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { MessagesThread } from '@/features/AIPanel/MessagesThread';
-import { ProfilePic } from '@/src/components/ProfilePic/ProfilePic';
 import { introMessageMd } from '@/src/content/intro/intro';
 import { useStreamSimulator } from '@/src/hooks/streamSimulator/streamSimulator';
 import { MarkdownRenderer } from '@/src/renderers/markdown/MarkdownRenderer';
 import { useAutoScrollStream, useViBufferStreaming } from '@/src/stores/responses/responsesStore';
+import { CallbackEvent } from '@/stores/ai/_types';
+import { useViActions } from '@/stores/ai/viStore';
 import {
 	useFooterSize,
 	useHomeLayout,
 	useSettingsOpen,
 } from '@/stores/home-layout/homeLayoutStore';
 import styles from './AIPanel.module.css';
-import {useViActions} from "@/stores/ai/viStore";
-import {CallbackEvent} from "@/stores/ai/_types";
 
 function AIPanelBody() {
 	const [showIntro, setShowIntro, hydrated] = useLocalStore('showIntro', true);
@@ -30,8 +29,26 @@ function AIPanelBody() {
 	const lastScrollTop = useRef<number | undefined>(undefined);
 	const pauseAutoScroll = useRef<boolean>(false);
 	const setShowTalkToViLabel = useHomeLayout().setShowTalkToViLabel;
-	const addViListener = useViActions().addViListener
-	const removeViListener = useViActions().removeViListener
+	const addViListener = useViActions().addViListener;
+	const removeViListener = useViActions().removeViListener;
+
+	// memo audio element for connected state
+	const connectionSounds = useMemo(() => {
+		if (typeof Audio === 'undefined') return null;
+		const connected = new Audio('/audio/connected.mp3');
+		const diconnected = new Audio('/audio/disconnected.mp3');
+		return { connected, diconnected };
+	}, []);
+
+	// handle connection - play connection audio once on connection
+	const handleViConnect = useCallback(() => {
+		if (connectionSounds?.connected) connectionSounds.connected.play().then(() => null);
+	}, [connectionSounds?.connected]);
+
+	// handle disconnect - play disconnect audio once on disconnect
+	const handleViDisconnect = useCallback(() => {
+		if (connectionSounds?.diconnected) connectionSounds.diconnected.play().then(() => null);
+	}, [connectionSounds?.diconnected]);
 
 	// trigger the sidebar on the message end
 	const handleIntroEnd = useCallback(() => {
@@ -102,21 +119,30 @@ function AIPanelBody() {
 	// listeners and timers - set up and clean up
 	useEffect(() => {
 		ref.current?.addEventListener('scroll', handleBodyScroll);
-		addViListener(CallbackEvent.UserSpeechStart, handleStreamStart)
-		addViListener(CallbackEvent.ResponseStart, handleStreamStart)
+		addViListener(CallbackEvent.UserSpeechStart, handleStreamStart);
+		addViListener(CallbackEvent.ResponseStart, handleStreamStart);
+		addViListener(CallbackEvent.ViConnect, handleViConnect);
+		addViListener(CallbackEvent.ViDisconnect, handleViDisconnect);
 		return () => {
 			ref.current?.removeEventListener('scroll', handleBodyScroll);
-			removeViListener(CallbackEvent.UserSpeechStart, handleStreamStart)
-			removeViListener(CallbackEvent.ResponseStart, handleStreamStart)
+			removeViListener(CallbackEvent.UserSpeechStart, handleStreamStart);
+			removeViListener(CallbackEvent.ResponseStart, handleStreamStart);
+			removeViListener(CallbackEvent.ViConnect, handleViConnect);
+			removeViListener(CallbackEvent.ViDisconnect, handleViDisconnect);
 			if (timeout.current) clearTimeout(timeout.current);
 		};
-	}, [handleBodyScroll, addViListener, handleStreamStart, removeViListener]);
+	}, [
+		handleBodyScroll,
+		addViListener,
+		handleStreamStart,
+		removeViListener,
+		handleViConnect,
+		handleViDisconnect,
+	]);
 
 	return (
 		<div className={styles.body} ref={ref} style={cssVars}>
 			<div className={styles.content}>
-				<ProfilePic />
-				<Spacer size={8} />
 				{hydrated && <MarkdownRenderer content={showIntro ? healthy : source} />}
 				<MessagesThread handleStart={handleStreamStart} handleAppend={handleStreamAppend} />
 			</div>
@@ -124,4 +150,4 @@ function AIPanelBody() {
 	);
 }
 
-export default AIPanelBody
+export default AIPanelBody;

@@ -169,7 +169,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 		handleToolCallMessage: async (id: string) => {
 			// update the last response as a tool call
 			const lastResponseCurrent = get().lastResponse;
-			
+
 			// set the message as a system message
 			if (lastResponseCurrent?.id === id) {
 				// set a tool role
