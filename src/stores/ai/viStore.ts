@@ -43,9 +43,14 @@ export const useAIStore = create<ViStore>((set, get) => ({
 		setTalk: (state: boolean) => {
 			set({ talk: state ?? !get().talk });
 		},
+		
 		setViTalking: (state: boolean) => {
 			set({ viTalking: state });
 		},
+		
+		/**
+		 * Establish a connection to the realtime session and WebRTC connection
+		 */
 		connect: async (talk?: boolean) => {
 			// if already connected or connecting return
 			if (get().connected || get().connecting) return;
@@ -99,6 +104,10 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			// set vi label display to false as already connected
 			useHomeLayoutStore.getState().actions.setShowTalkToViLabel(false);
 		},
+		
+		/**
+		 * Disconnect from the realtime session and WebRTC connection
+		 */
 		disconnect: () => {
 			// if already disconnecting or not connected, return
 			if (!get().connected) return;
@@ -119,23 +128,32 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			// set vi label display to true
 			useHomeLayoutStore.getState().actions.setShowTalkToViLabel(true);
 		},
+		
+		/**
+		 * First line handler for data events on the RTC connection
+		 */
 		handleDataEvents: async (channel, event, eventData) => {
-			// filter out non data events
+			// filter out data events not part of the specified data channel
 			if (!channel.includes(EVENTS_DATA_CHANNEL)) return;
-
-			// handle message events
-			// use return value to updated state and process relevant event callbacks
+			
+			// handle message types only
 			if (event === 'message') {
+				// handle the realtime event and get updates
 				const updates = await realtimeDataEventHandler(eventData);
 				const { event, state, data } = updates ?? {};
+				
+				// if there are state updates, set those
 				if (state) set(state);
+				
+				// emit event to added listeners
 				if (event) processEventCallbacks(event, { id: undefined, event, data });
-				return;
+				
+			} else {
+				// log other events for now
+				console.log({ event, eventData });
 			}
-
-			// console log other events
-			console.log({ event, eventData });
 		},
+		
 		/**
 		 * Send a user message and request a response request from the model
 		 */
@@ -144,8 +162,9 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			sendUserMessage(message); // create the user conversation item
 			sendUserResponseRequest(); // request a response to the user conversation item
 		},
+		
 		/**
-		 * Attach event callbacks
+		 * Attach ui listeners to Vi talk events
 		 */
 		addViListener: (event: CallbackEvent, handler: ViEventCallback) => {
 			const nextListeners = new Map(get().viListeners);
@@ -153,10 +172,13 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			nextHandlers.add(handler);
 			nextListeners.set(event, nextHandlers);
 			set({ viListeners: nextListeners });
+			
+			// return the cleanup function
 			return () => get().actions.removeViListener(event, handler);
 		},
+		
 		/**
-		 * Clean up event callbacks
+		 * Clean up ui listeners to Vi talk events
 		 */
 		removeViListener: (event: CallbackEvent, handler: ViEventCallback) => {
 			const nextListeners = new Map(get().viListeners);
@@ -174,7 +196,6 @@ export const useAIStore = create<ViStore>((set, get) => ({
 }));
 
 export const useViTalk = () => useAIStore((state) => state.talk);
-export const useViLive = () => useAIStore((state) => state.live);
 export const useViTalking = () => useAIStore((state) => state.viTalking);
 export const useViConnected = () => useAIStore((state) => state.connected);
 export const useViConnecting = () => useAIStore((state) => state.connecting);
@@ -303,7 +324,6 @@ export function viNotification(type: MessageType) {
 export function processEventCallbacks(event: CallbackEvent, message?: ViEventMessage) {
 	// get handlers for the event
 	const handlers = useAIStore.getState().viListeners.get(event);
-	console.log('processEventCallbacks', event, handlers);
 	if (!handlers) return;
 
 	// iterate handlers and call them

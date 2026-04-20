@@ -26,7 +26,7 @@ export const useStreamSimulator = (
 	// stream settings
 	const buffer = useRef<string>(raw);
 	const chunkSize = useRef<number>(3);
-	const chunkGap = useRef<number>(25);
+	const chunkGap = useRef<number>(50);
 	const endDelay = useRef<number | null>(null);
 	const didEndRef = useRef(didEndCallback);
 	const currentIndex = useRef<number>(0);

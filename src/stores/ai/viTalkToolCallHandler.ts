@@ -3,7 +3,7 @@ import UIView, { ToolType, UITheme } from '@/stores/ai/ai-tools/_types';
 import { sendToolCallResultsItem } from '@/stores/ai/ViTalkCreateConvoItemFactory';
 import { processEventCallbacks } from '@/stores/ai/viStore';
 
-export async function handleToolResponse(params: {
+export async function viTalkToolCallHandler(params: {
 	id: string;
 	name: any;
 	args: any;

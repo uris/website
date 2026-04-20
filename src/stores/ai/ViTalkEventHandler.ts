@@ -2,32 +2,30 @@ import { safeJsonParse } from '@/src/lib/shared/utils';
 import { CallbackEvent, type ViStoreState } from '@/src/stores/ai/_types';
 import { sendCreateIntroMessage } from '@/src/stores/ai/ViTalkResponseCreateFactory';
 import { viNotification } from '@/src/stores/ai/viStore';
-import { ResponseType } from '@/src/stores/responses/_types';
+import { ResponseType, UserMessageType } from '@/src/stores/responses/_types';
 import { useViResponsesStore, viResponsesActions } from '@/src/stores/responses/responsesStore';
 import {
 	updateSessionInstructions,
 	updateSessionTools,
 } from '@/stores/ai/viTalkSessionUpdateFactory';
+import {viTalkToolCallHandler} from "@/stores/ai/viTalkToolCallHandler";
 
 export async function realtimeDataEventHandler(
 	event: MessageEvent<any> | Event | RTCErrorEvent,
 ): Promise<{ event?: CallbackEvent; state?: Partial<ViStoreState>; data?: unknown } | undefined> {
 	const eventType = event.type;
 	switch (eventType) {
-		case 'open': {
-			return;
-		}
 		case 'message': {
 			if ('data' in event && typeof event.data === 'string' && event.data !== '') {
 				return await handleMessageEvent(safeJsonParse(event.data));
 			}
 			return;
 		}
-		case 'error': {
-			console.log('error', event);
-			return;
-		}
+		case 'open':
+		case 'error':
 		case 'close': {
+			// just return for now
+			// console.log(eventType, event);
 			return;
 		}
 	}
@@ -36,9 +34,12 @@ export async function realtimeDataEventHandler(
 export async function handleMessageEvent(
 	data: any,
 ): Promise<{ event?: CallbackEvent; state?: Partial<ViStoreState>; data?: unknown } | undefined> {
+	// protect for message event shape
 	if (!data || typeof data !== 'object' || !('type' in data) || typeof data.type !== 'string')
 		return;
-	console.log(data.type, { data });
+
+	console.log(data.type, {data});
+	// handle the different types of events
 	switch (data.type) {
 		// *** signals the start of a new voice session
 		case CallbackEvent.SessionCreated: {
@@ -66,7 +67,7 @@ export async function handleMessageEvent(
 			};
 		}
 
-		// *** model generated a response yet to be piped
+		// *** model generated a response yet to be buffered
 		case CallbackEvent.ResponseCreated: {
 			const id = data.response.id;
 			viResponsesActions.handleResponseStart(id, ResponseType.Audio);
@@ -110,6 +111,19 @@ export async function handleMessageEvent(
 			return { event: CallbackEvent.AudioInterrupt, data };
 		}
 
+		// fired when the user starts talking - create a place holder user message for immediate UI feedback
+		case CallbackEvent.UserSpeechStart: {
+			const { item_id: id } = data ?? {};
+			const responseInfo = {
+				id,
+				content_type: UserMessageType.Audio,
+				transcript: undefined,
+				text: undefined,
+			};
+			viResponsesActions.handleNewUserMessage(responseInfo);
+			return { event: CallbackEvent.UserSpeechStart, data };
+		}
+
 		// *** conversation items added by the user via text or via audio
 		case 'conversation.item.added': {
 			// get base message info - protect for user messages
@@ -121,18 +135,20 @@ export async function handleMessageEvent(
 
 			// extract content information if it exists
 			const { type: content_type, text, transcript } = contentArray[0] ?? {};
-			console.log({ content_type, text, transcript });
 
-			// process transcript data if it exists (we know that will also have the rest of the info we need)
+			// process transcript data if it exists
 			if (content_type) {
-				// trigger new message creation in stack with the new conversation item
-				viResponsesActions.handleNewUserMessage({ id, text, transcript, content_type });
+				
+				// if this is input audio simply trigger the call back event for any listeners
+				if (content_type === 'input_audio') {
+					return {event: CallbackEvent.UserAudioMessageAdded, data};
+				}
 
-				// return event type in case listeners set
-				if (content_type === 'input_audio')
-					return { event: CallbackEvent.UserAudioMessageAdded, data };
-				if (content_type === 'input_text')
-					return { event: CallbackEvent.UserTextMessageAdded, data };
+				// if text message, trigger new message creation in stack with the new conversation item
+				if (content_type === 'input_text') {
+					viResponsesActions.handleNewUserMessage({id, text, transcript, content_type});
+					return {event: CallbackEvent.UserTextMessageAdded, data};
+				}
 			}
 
 			// return void if no relevant content type
@@ -169,9 +185,13 @@ export async function handleMessageEvent(
 				const call_id = data.item.call_id;
 				const argsObject = typeof args === 'string' ? JSON.parse(args) : undefined;
 
-				// call tool handler with at least the tool name and the call id
+				// protect for id and tool name
 				if (name && id) {
-					viResponsesActions.handleToolCall(id, { id, name, args: argsObject, call_id });
+					// update the message to a system message type
+					await viResponsesActions.handleToolCallMessage(id)
+
+					// call tool handler
+					await viTalkToolCallHandler({ id, name, args: argsObject, call_id });
 				}
 			}
 			return { event: CallbackEvent.ResponseItemDone, data };

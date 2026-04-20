@@ -100,6 +100,7 @@ const TextAreaBarBase = (props: Readonly<TextAreaBarProps>) => {
 				working={streamActive || viTalking}
 				placeholderWorking={'Vi is talking ...'}
 				placeholder={placeHolder}
+				focused={true}
 			>
 				<div className={styles.textInputButtonsLeft}>
 					<IconButton

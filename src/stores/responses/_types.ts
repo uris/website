@@ -37,7 +37,7 @@ export type ViResponsesStore = {
 		handleUpdateLastResponse: (lastResponse: ViResponse) => void;
 		handleNewUserMessage: (message: UserMessage) => void;
 		handleUpdateUserMessage: (message: Partial<UserMessage>) => void;
-		handleToolCall: (id: string, item: any) => Promise<void>;
+		handleToolCallMessage: (id: string) => Promise<void>;
 		setBufferStreaming: (streaming: boolean) => void;
 		setAutoScrollStream: (autoScrollStream: boolean) => void;
 	};

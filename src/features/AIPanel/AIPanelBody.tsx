@@ -15,8 +15,10 @@ import {
 	useSettingsOpen,
 } from '@/stores/home-layout/homeLayoutStore';
 import styles from './AIPanel.module.css';
+import {useViActions} from "@/stores/ai/viStore";
+import {CallbackEvent} from "@/stores/ai/_types";
 
-export function AIPanelBody() {
+function AIPanelBody() {
 	const [showIntro, setShowIntro, hydrated] = useLocalStore('showIntro', true);
 	const showSidebar = useHomeLayout().toggleSideBar;
 	const settingsOpen = useSettingsOpen();
@@ -28,6 +30,8 @@ export function AIPanelBody() {
 	const lastScrollTop = useRef<number | undefined>(undefined);
 	const pauseAutoScroll = useRef<boolean>(false);
 	const setShowTalkToViLabel = useHomeLayout().setShowTalkToViLabel;
+	const addViListener = useViActions().addViListener
+	const removeViListener = useViActions().removeViListener
 
 	// trigger the sidebar on the message end
 	const handleIntroEnd = useCallback(() => {
@@ -98,11 +102,15 @@ export function AIPanelBody() {
 	// listeners and timers - set up and clean up
 	useEffect(() => {
 		ref.current?.addEventListener('scroll', handleBodyScroll);
+		addViListener(CallbackEvent.UserSpeechStart, handleStreamStart)
+		addViListener(CallbackEvent.ResponseStart, handleStreamStart)
 		return () => {
 			ref.current?.removeEventListener('scroll', handleBodyScroll);
+			removeViListener(CallbackEvent.UserSpeechStart, handleStreamStart)
+			removeViListener(CallbackEvent.ResponseStart, handleStreamStart)
 			if (timeout.current) clearTimeout(timeout.current);
 		};
-	}, [handleBodyScroll]);
+	}, [handleBodyScroll, addViListener, handleStreamStart, removeViListener]);
 
 	return (
 		<div className={styles.body} ref={ref} style={cssVars}>
@@ -115,3 +123,5 @@ export function AIPanelBody() {
 		</div>
 	);
 }
+
+export default AIPanelBody

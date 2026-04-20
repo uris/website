@@ -7,7 +7,6 @@ import {
 	type ViResponse,
 	type ViResponsesStore,
 } from '@/src/stores/responses/_types';
-import { handleToolResponse } from '@/stores/responses/toolResponseHandler';
 
 export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 	responses: [],
@@ -36,7 +35,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 		},
 
 		/**
-		 * Called automatically from Vi Event Handlers when a a conversation is about to start
+		 * Called automatically from Vi Event Handlers when a conversation is about to start
 		 */
 		handleResponseStart: (id: string, type: ResponseType) => {
 			// get current state
@@ -109,7 +108,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			const lastResponseCurrent = get().lastResponse;
 			if (!lastResponseCurrent?.active) return;
 
-			// update last response to inactive with the optional parameter of streamed value
+			// update the last response to inactive with the optional parameter of streamed value
 			const value = streamed ?? lastResponseCurrent.value;
 			const lastResponse = { ...lastResponseCurrent, value, active: false, delta: undefined };
 
@@ -167,13 +166,11 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 		/**
 		 * Handle tool calls by the model
 		 */
-		handleToolCall: async (
-			id: string,
-			params: { id: string; name: string; args: any; call_id: string },
-		) => {
+		handleToolCallMessage: async (id: string) => {
 			// update the last response as a tool call
 			const lastResponseCurrent = get().lastResponse;
-			console.log('handleToolCall', id, lastResponseCurrent?.id);
+			
+			// set the message as a system message
 			if (lastResponseCurrent?.id === id) {
 				// set a tool role
 				const lastResponse = { ...lastResponseCurrent, role: Role.Tool };
@@ -181,9 +178,6 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 				// update the last response state
 				set({ lastResponse });
 			}
-
-			// send to tool call to the tool call handler
-			await handleToolResponse(params);
 		},
 
 		/**
