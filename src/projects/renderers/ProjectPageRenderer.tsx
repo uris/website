@@ -30,12 +30,7 @@ export function ProjectPageRenderer({ project }: Readonly<{ project: ProjectPage
 						background: 'var(--core-surface-primary)',
 					}}
 				>
-					<Logo
-						name={header.brand.name}
-						color={header.brand.color}
-						size={header.brand.size}
-						margin={0}
-					/>
+					<Logo name={header.brand.name} color={header.brand.color} size={header.brand.size} margin={0} />
 				</div>
 			)}
 
@@ -87,10 +82,7 @@ export function ProjectPageRenderer({ project }: Readonly<{ project: ProjectPage
 	);
 }
 
-function RenderedSection({
-	slug,
-	section,
-}: Readonly<{ slug: ProjectPageData['slug']; section: ProjectSection }>) {
+function RenderedSection({ slug, section }: Readonly<{ slug: ProjectPageData['slug']; section: ProjectSection }>) {
 	return (
 		<>
 			<SectionTitle icon={section.icon}>{section.title}</SectionTitle>
@@ -115,11 +107,7 @@ function RenderedSection({
 					return (
 						<DataButtonGrid key={key}>
 							{block.items.map((item) => (
-								<DataButton
-									key={`${item.label}_${item.value}`}
-									value={item.value}
-									label={item.label}
-								/>
+								<DataButton key={`${item.label}_${item.value}`} value={item.value} label={item.label} />
 							))}
 						</DataButtonGrid>
 					);
@@ -136,16 +124,12 @@ function RenderedSection({
 	);
 }
 
-function normalizeLanguage(
-	language?: string,
-): 'typescript' | 'javascript' | 'css' | 'html' | 'json' {
-	if (language === 'javascript' || language === 'css' || language === 'html' || language === 'json')
-		return language;
+function normalizeLanguage(language?: string): 'typescript' | 'javascript' | 'css' | 'html' | 'json' {
+	if (language === 'javascript' || language === 'css' || language === 'html' || language === 'json') return language;
 	return 'typescript';
 }
 
 function normalizeTarget(target?: string): '_blank' | '_self' | '_parent' | '_top' | undefined {
-	if (target === '_blank' || target === '_self' || target === '_parent' || target === '_top')
-		return target;
+	if (target === '_blank' || target === '_self' || target === '_parent' || target === '_top') return target;
 	return undefined;
 }

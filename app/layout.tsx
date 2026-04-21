@@ -1,7 +1,4 @@
-import {
-	getThemeHtmlAttributes,
-	resolveInitialTheme,
-} from '@apple-pie/slice/providers/themeServer';
+import { getThemeHtmlAttributes, resolveInitialTheme } from '@apple-pie/slice/providers/themeServer';
 import type { Metadata } from 'next';
 import { Funnel_Sans } from 'next/font/google';
 import localFont from 'next/font/local';

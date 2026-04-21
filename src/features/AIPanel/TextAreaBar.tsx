@@ -1,12 +1,6 @@
 'use client';
 
-import {
-	IconButton,
-	PromptInput,
-	ToggleButton,
-	useObserveResize,
-	useTheme,
-} from '@apple-pie/slice';
+import { IconButton, PromptInput, ToggleButton, useObserveResize, useTheme } from '@apple-pie/slice';
 import type { FileItem } from '@apple-pie/slice/components/FileList';
 import {
 	useMicActive,

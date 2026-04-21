@@ -13,8 +13,7 @@ export function ProjectDetails({ project }: Readonly<{ project: ProjectPageData 
 		const handleParentEvents = (event: MessageEvent) => {
 			if (event.origin !== globalThis.location.origin) return;
 			if (!event.data?.event) return;
-			if (event.data.event !== FrameEvent.INIT && event.data.event !== FrameEvent.STATE_CHANGE)
-				return;
+			if (event.data.event !== FrameEvent.INIT && event.data.event !== FrameEvent.STATE_CHANGE) return;
 			// handle events // remove if not used later
 		};
 		window.addEventListener('message', handleParentEvents);

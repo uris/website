@@ -36,12 +36,7 @@ export function createConversationItem(message: string) {
 /**
  * Create a conversation item to send to the model with a tool's data result
  */
-export function sendToolCallResultsItem(
-	data: any,
-	call_id: string,
-	requestResponse = true,
-	tool?: ToolType,
-) {
+export function sendToolCallResultsItem(data: any, call_id: string, requestResponse = true, tool?: ToolType) {
 	// need a call id to send the tool call results
 	if (!call_id) return;
 

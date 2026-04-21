@@ -42,16 +42,14 @@ export function ViTalkModal(props: Readonly<ViTalkModalProps>) {
 			title={'About Vi Talk'}
 			borderRadius={16}
 		>
-			<p className={css.p}>
-				Vi is a voice enabled ai assistant you can talk to about my work, background and skills.
-			</p>
+			<p className={css.p}>Vi is a voice enabled ai assistant you can talk to about my work, background and skills.</p>
 			<p>
-				You can also ask Vi to navigate and interact directly with the site, like "Vi, Open project
-				..." or "Vi, Mute sound".
+				You can also ask Vi to navigate and interact directly with the site, like "Vi, Open project ..." or "Vi, Mute
+				sound".
 			</p>
 			<p className={css.p}>
-				Just so you know, conversations are not recorded, saved, shared, or analyzed / used by me in
-				any way. Once you hit refresh... poof! They're gone.
+				Just so you know, conversations are not recorded, saved, shared, or analyzed / used by me in any way. Once you
+				hit refresh... poof! They're gone.
 			</p>
 		</Modal>
 	);

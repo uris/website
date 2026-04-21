@@ -11,9 +11,7 @@ function SkillsSectionRenderer({ section }: Readonly<{ section: SkillsSection }>
 		<div className={styles.section}>
 			<div className={styles.sectionHeading}>
 				<div className={`${styles.heading} bold-l-bold`}>{section.title}</div>
-				{section.description && (
-					<div className={'body-m-regular core-text-secondary'}>{section.description}</div>
-				)}
+				{section.description && <div className={'body-m-regular core-text-secondary'}>{section.description}</div>}
 			</div>
 			{section.description && section.type === 'sliders' && <Spacer size={8} />}
 			{section.type === 'sliders' &&
@@ -35,9 +33,7 @@ function SkillsColumnRenderer({ column }: Readonly<{ column: SkillsColumn }>) {
 	return (
 		<div className={styles.skills}>
 			<div className={`${styles.heading} heading-s-bold`}>{column.title}</div>
-			{column.description && (
-				<div className={'body-m-regular core-text-secondary'}>{column.description}</div>
-			)}
+			{column.description && <div className={'body-m-regular core-text-secondary'}>{column.description}</div>}
 			{column.sections.map((section) => (
 				<SkillsSectionRenderer key={section.title} section={section} />
 			))}

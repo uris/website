@@ -87,3 +87,13 @@ export const copyToClipboardNotification = (success?: boolean) => {
 		position: 'top',
 	} as Toast;
 };
+
+export const messageSent = (success?: boolean) => {
+	return {
+		notifId: crypto.randomUUID(),
+		message: success ? 'Message sent' : 'Unable to send your message. Please try again later.',
+		type: success ? ToastType.Success : ToastType.Warning,
+		duration: 2500,
+		position: 'top',
+	} as Toast;
+};

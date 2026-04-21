@@ -1,9 +1,5 @@
 import 'server-only';
-import {
-	getAllProjectDocuments,
-	getProjectDocument,
-	getProjectSlugs,
-} from '@/projects/server/loadProject';
+import { getAllProjectDocuments, getProjectDocument, getProjectSlugs } from '@/projects/server/loadProject';
 import { toProjectAIData } from '@/projects/server/transforms/toProjectAI';
 import { toProjectPageData } from '@/projects/server/transforms/toProjectPage';
 import { toProjectSummary } from '@/projects/server/transforms/toProjectSummary';

@@ -5,11 +5,7 @@ import type React from 'react';
 import { useCallback, useMemo } from 'react';
 import { resolveAnimation } from '@/src/components/ProjectGrid/_data';
 import { ProjectTile } from '@/src/components/ProjectTile/ProjectTile';
-import {
-	useDidAnimateProjects,
-	useHomeLayout,
-	useProjects,
-} from '@/src/stores/home-layout/homeLayoutStore';
+import { useDidAnimateProjects, useHomeLayout, useProjects } from '@/src/stores/home-layout/homeLayoutStore';
 import type { Project } from '@/stores/sidebar/_types';
 import { useSidebarActions } from '@/stores/sidebar/sidebarStore';
 import styles from './ProjectGrid.module.css';

@@ -28,13 +28,7 @@ export type ViStore = ViStoreState & {
 	};
 };
 
-export type MessageType =
-	| 'Connecting'
-	| 'Connected'
-	| 'Disconnecting'
-	| 'Disconnected'
-	| 'Already'
-	| 'Failed';
+export type MessageType = 'Connecting' | 'Connected' | 'Disconnecting' | 'Disconnected' | 'Already' | 'Failed';
 
 /**
  * These map to the realtime event types emitted in data messages of the RTC connection

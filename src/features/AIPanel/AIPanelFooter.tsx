@@ -21,12 +21,8 @@ export function AIPanelFooter() {
 
 	return (
 		<AnimatePresence initial={false} mode={'sync'}>
-			{!textInputBar && (
-				<ButtonBar key={'button-bar'} variants={barVariants} transition={barTransition} />
-			)}
-			{textInputBar && (
-				<TextAreaBar key={'text-area-bar'} variants={barVariants} transition={barTransition} />
-			)}
+			{!textInputBar && <ButtonBar key={'button-bar'} variants={barVariants} transition={barTransition} />}
+			{textInputBar && <TextAreaBar key={'text-area-bar'} variants={barVariants} transition={barTransition} />}
 		</AnimatePresence>
 	);
 }

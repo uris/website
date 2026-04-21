@@ -6,11 +6,7 @@ export function generateStaticParams() {
 	return getKnownProjectSlugs().map((slug) => ({ slug }));
 }
 
-export default async function ProjectDetailsPage({
-	params,
-}: {
-	params: Promise<{ slug: string }>;
-}) {
+export default async function ProjectDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
 	const { slug } = await params;
 	const project = getProjectPageData(slug);
 	return <ProjectDetails project={project} />;

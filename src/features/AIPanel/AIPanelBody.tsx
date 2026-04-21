@@ -10,11 +10,7 @@ import { MarkdownRenderer } from '@/src/renderers/markdown/MarkdownRenderer';
 import { useAutoScrollStream, useViBufferStreaming } from '@/src/stores/responses/responsesStore';
 import { CallbackEvent } from '@/stores/ai/_types';
 import { useViActions } from '@/stores/ai/viStore';
-import {
-	useFooterSize,
-	useHomeLayout,
-	useSettingsOpen,
-} from '@/stores/home-layout/homeLayoutStore';
+import { useFooterSize, useHomeLayout, useSettingsOpen } from '@/stores/home-layout/homeLayoutStore';
 import styles from './AIPanel.module.css';
 
 function AIPanelBody() {
@@ -131,14 +127,7 @@ function AIPanelBody() {
 			removeViListener(CallbackEvent.ViDisconnect, handleViDisconnect);
 			if (timeout.current) clearTimeout(timeout.current);
 		};
-	}, [
-		handleBodyScroll,
-		addViListener,
-		handleStreamStart,
-		removeViListener,
-		handleViConnect,
-		handleViDisconnect,
-	]);
+	}, [handleBodyScroll, addViListener, handleStreamStart, removeViListener, handleViConnect, handleViDisconnect]);
 
 	return (
 		<div className={styles.body} ref={ref} style={cssVars}>

@@ -1,9 +1,5 @@
 import 'server-only';
-import type {
-	SkillsAIData,
-	SkillsDocumentData,
-	SkillsSectionSummary,
-} from '@/src/skills/server/types';
+import type { SkillsAIData, SkillsDocumentData, SkillsSectionSummary } from '@/src/skills/server/types';
 
 export function toSkillsAIData(document: SkillsDocumentData): SkillsAIData {
 	return {

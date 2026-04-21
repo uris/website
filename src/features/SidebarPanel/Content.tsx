@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import type React from 'react';
 import { useMemo, useRef } from 'react';
 import { Contact } from '@/src/surfaces/contact/contact';
+import { ContactFooter } from '@/src/surfaces/contact/contact-footer';
 import { Projects } from '@/src/surfaces/projects/projects';
 import { ProjectsHeader } from '@/src/surfaces/projects/projects-header';
 import { Skills } from '@/src/surfaces/skills/skills';
@@ -17,9 +18,9 @@ export function Content() {
 	const surfaceColor = current.colors['core-surface-primary-tint'];
 	const surface = useSurface();
 	const direction = useDirection();
+	const showTopCover = surface !== SidebarSurface.Contact;
 	const ref = useRef<HTMLDivElement>(null);
 	const { width } = useObserveResize(ref, { ignore: 'height' });
-	const isProject = surface === SidebarSurface.Projects;
 
 	// variants with a custom direction to animate left/right
 	const variants = {
@@ -41,9 +42,10 @@ export function Content() {
 
 	return (
 		<FlexDiv preset={Preset.FillCenter} ref={ref} style={cssVars}>
-			<div className={`${styles.cover} ${styles.top}`} />
+			{showTopCover && <div className={`${styles.cover} ${styles.top}`} />}
 			<div className={`${styles.cover} ${styles.bot}`} />
-			{isProject && <ProjectsHeader />}
+			<ProjectsHeader />
+			<ContactFooter />
 			<AnimatePresence initial={false} custom={direction}>
 				<motion.div
 					className={styles.contentWrapper}

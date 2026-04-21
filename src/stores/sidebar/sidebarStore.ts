@@ -1,13 +1,8 @@
 import { create } from 'zustand';
-import {
-	Direction,
-	type Project,
-	type SidebarStore,
-	SidebarSurface,
-} from '@/src/stores/sidebar/_types';
+import { Direction, type Project, type SidebarStore, SidebarSurface } from '@/src/stores/sidebar/_types';
 
 export const useSidebarContentStore = create<SidebarStore>((set, get) => ({
-	surface: SidebarSurface.Skills,
+	surface: SidebarSurface.Projects,
 	direction: Direction.Forward,
 	project: null,
 	showProject: false,

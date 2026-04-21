@@ -43,9 +43,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			const currentResponses = get().responses;
 
 			// the start of the new response pushes the last response to the response history
-			const updatedResponses = currentLastResponse
-				? [...currentResponses, currentLastResponse]
-				: currentResponses;
+			const updatedResponses = currentLastResponse ? [...currentResponses, currentLastResponse] : currentResponses;
 
 			// creates a new last response
 			const lastResponse: ViResponse = {
@@ -199,8 +197,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 // atomic hook exports
 export const useViResponses = () => useViResponsesStore((state) => state.responses);
 export const useViLastResponse = () => useViResponsesStore((state) => state.lastResponse);
-export const useViActive = () =>
-	useViResponsesStore((state) => state.lastResponse?.active ?? false);
+export const useViActive = () => useViResponsesStore((state) => state.lastResponse?.active ?? false);
 export const useViBufferStreaming = () => useViResponsesStore((state) => state.bufferStreaming);
 export const useAutoScrollStream = () => useViResponsesStore((state) => state.autoScrollStream);
 export const useViResponsesActions = () => useViResponsesStore((state) => state.actions);

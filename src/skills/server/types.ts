@@ -1,9 +1,4 @@
-import type {
-	SkillsAI,
-	SkillsColumn,
-	SkillsDocument,
-	SkillsSection,
-} from '@/src/content/skills/types';
+import type { SkillsAI, SkillsColumn, SkillsDocument, SkillsSection } from '@/src/content/skills/types';
 
 export type SkillsSlug = 'skills';
 

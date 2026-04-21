@@ -1,16 +1,9 @@
 import 'server-only';
 
-import type {
-	ProjectAIData,
-	ProjectBlock,
-	ProjectDocument,
-	ProjectStatsBlock,
-} from '@/projects/server/types';
+import type { ProjectAIData, ProjectBlock, ProjectDocument, ProjectStatsBlock } from '@/projects/server/types';
 
 export function toProjectAIData(project: ProjectDocument): ProjectAIData {
-	const stats = project.sections.flatMap((section) =>
-		section.blocks.flatMap((block) => extractStats(block)),
-	);
+	const stats = project.sections.flatMap((section) => section.blocks.flatMap((block) => extractStats(block)));
 
 	return {
 		slug: project.slug,
@@ -38,8 +31,7 @@ export function toProjectAIData(project: ProjectDocument): ProjectAIData {
 
 function summarizeBlock(block: ProjectBlock): string[] {
 	if (block.type === 'paragraph') return [block.text];
-	if (block.type === 'list')
-		return block.items.map((item) => formatListItem(item.label, item.text));
+	if (block.type === 'list') return block.items.map((item) => formatListItem(item.label, item.text));
 	if (block.type === 'stats') return block.items.map((item) => `${item.label}: ${item.value}`);
 	return [];
 }

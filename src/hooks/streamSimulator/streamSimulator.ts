@@ -79,10 +79,7 @@ export const useStreamSimulator = (
 	// core handler of incremental chunks off raw
 	const processNextChunk = useCallback(() => {
 		// get next chunk
-		const nextChunk = buffer.current.slice(
-			currentIndex.current,
-			currentIndex.current + chunkSize.current,
-		);
+		const nextChunk = buffer.current.slice(currentIndex.current, currentIndex.current + chunkSize.current);
 
 		// stop if nothing is left
 		if (!nextChunk) {

@@ -40,8 +40,7 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 	// resolve logo to the component of the next image
 	const resolvedLogo = useMemo(() => {
 		if (!logo) return null;
-		if (logo.type === 'icon')
-			return <Icon name={logo.name} strokeColor={logo.strokeColor} size={logo.size} />;
+		if (logo.type === 'icon') return <Icon name={logo.name} strokeColor={logo.strokeColor} size={logo.size} />;
 		if (logo.type === 'logo') return <Logo name={logo.name} color={logo.color} size={logo.size} />;
 		if (logo.type === 'image') {
 			const imgSrc = `${logo.src}?v=001`;

@@ -35,26 +35,11 @@ export function Projects() {
 	}, [key, setProject]);
 
 	// set direction up/down
-	useEffect(
-		() => setDirection(showProject ? Direction.Backward : Direction.Forward),
-		[showProject],
-	);
+	useEffect(() => setDirection(showProject ? Direction.Backward : Direction.Forward), [showProject]);
 
 	return (
-		<FlexDiv
-			preset={Preset.Column}
-			width={'fill'}
-			height={'fill'}
-			justify={'start'}
-			align={'start'}
-			ref={ref}
-		>
-			<AnimatePresence
-				initial={false}
-				mode={'sync'}
-				custom={direction}
-				onExitComplete={handleAnimationEnd}
-			>
+		<FlexDiv preset={Preset.Column} width={'fill'} height={'fill'} justify={'start'} align={'start'} ref={ref}>
+			<AnimatePresence initial={false} mode={'sync'} custom={direction} onExitComplete={handleAnimationEnd}>
 				<motion.div
 					transition={transition}
 					variants={variants}

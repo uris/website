@@ -20,10 +20,7 @@ export function SettingsOption(props: Readonly<SettingsOptionProps>) {
 	return (
 		<div className={styles.wrapper} style={{ gap }}>
 			{icon && (
-				<div
-					className={`${styles.icon} ${highlight ? styles.highlight : ''}`}
-					style={{ pointerEvents, opacity }}
-				>
+				<div className={`${styles.icon} ${highlight ? styles.highlight : ''}`} style={{ pointerEvents, opacity }}>
 					<Icon name={icon} fill onClick={onIconClick} />
 				</div>
 			)}

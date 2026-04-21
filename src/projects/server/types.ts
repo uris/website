@@ -81,11 +81,7 @@ export type ProjectStatsBlock = {
 	items: { value: string; label: string }[];
 };
 
-export type ProjectBlock =
-	| ProjectParagraphBlock
-	| ProjectListBlock
-	| ProjectCodeBlock
-	| ProjectStatsBlock;
+export type ProjectBlock = ProjectParagraphBlock | ProjectListBlock | ProjectCodeBlock | ProjectStatsBlock;
 
 export type ProjectSection = {
 	title: string;

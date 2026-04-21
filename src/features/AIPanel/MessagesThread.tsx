@@ -63,9 +63,7 @@ export function SystemMessage(props: Readonly<SystemMessageProps>) {
 	if (connected && first) styleNames.push(styles.connected);
 	if (showVi) styleNames.push(styles.sticky);
 
-	return (
-		<div className={classNames(styleNames)}>{showVi && <ViProfilePic connected={connected} />}</div>
-	);
+	return <div className={classNames(styleNames)}>{showVi && <ViProfilePic connected={connected} />}</div>;
 }
 
 interface AssistantMessageProps {

@@ -37,16 +37,7 @@ export function ViProfilePic(props: Readonly<ProfilePicProps>) {
 			'--profile-pic-bg-color': bgColor,
 			'--profile-pic-size': `${size}px`,
 		} as React.CSSProperties;
-	}, [
-		borderColor,
-		borderSize,
-		bgColor,
-		size,
-		avatarBorderColor,
-		avatarBorderSize,
-		connected,
-		avatarConnectedColor,
-	]);
+	}, [borderColor, borderSize, bgColor, size, avatarBorderColor, avatarBorderSize, connected, avatarConnectedColor]);
 
 	return (
 		<div className={styles.profile} style={cssVars}>

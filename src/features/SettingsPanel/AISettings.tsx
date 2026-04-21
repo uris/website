@@ -27,10 +27,7 @@ export function AISettings() {
 	const setScroll = useViResponsesActions().setAutoScrollStream;
 	const autoScroll = useAutoScrollStream();
 	const [_, setViTalkConfirm] = useLocalStore<boolean>('viTalkConfirm', false);
-	const [autoScrollStream, setAutoScrollStream, hydrated] = useLocalStore<boolean>(
-		'autoScrollStream',
-		true,
-	);
+	const [autoScrollStream, setAutoScrollStream, hydrated] = useLocalStore<boolean>('autoScrollStream', true);
 
 	// trigger info modal
 	const showInfoModal = async () => {
@@ -105,13 +102,9 @@ export function AISettings() {
 					Auto scroll text
 				</CheckBox>
 			</SettingsOption>
-			<p
-				className={`${styles.disclaimer} body-xs-regular core-text-disabled`}
-				style={{ margin: '8px 0 0 0' }}
-			>
-				The conversations you have are completely private. They are not recorded, stored, saved,
-				shared or used in any way by this site. They are subject, however, to OpenAI's terms and
-				privacy policies.
+			<p className={`${styles.disclaimer} body-xs-regular core-text-disabled`} style={{ margin: '8px 0 0 0' }}>
+				The conversations you have are completely private. They are not recorded, stored, saved, shared or used in any
+				way by this site. They are subject, however, to OpenAI's terms and privacy policies.
 			</p>
 		</div>
 	);

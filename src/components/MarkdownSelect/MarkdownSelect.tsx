@@ -48,6 +48,7 @@ export function MarkdownSelect(props: Readonly<MarkdownSelectProps>) {
 			options={dropDownOptions}
 			paddingBottom={2}
 			paddingTop={2}
+			paddingLeft={16}
 			size={'l'}
 			iconColor={'var(--core-link-primary)'}
 		/>

@@ -12,8 +12,8 @@ export interface SidebarStore {
 }
 
 export enum SidebarSurface {
-	Skills = 0,
-	Projects = 1,
+	Projects = 0,
+	Skills = 1,
 	Contact = 2,
 }
 

@@ -43,8 +43,7 @@ export const view_all_projects = {
 export const open_view = {
 	type: 'function',
 	name: ToolType.OpenView,
-	description:
-		'Instructs the browser to open a specific view - project, skills, or contact - in the sidebar',
+	description: 'Instructs the browser to open a specific view - project, skills, or contact - in the sidebar',
 	parameters: {
 		type: 'object',
 		properties: {
@@ -96,8 +95,7 @@ export const update_ui_settings = {
 			},
 			[UIAction.Volume]: {
 				type: 'number',
-				description:
-					'the value between 0 (no volume) and 1 (max volume) to set the system sound level',
+				description: 'the value between 0 (no volume) and 1 (max volume) to set the system sound level',
 			},
 		},
 		required: [],

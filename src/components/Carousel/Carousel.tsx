@@ -95,11 +95,7 @@ export function Carousel(props: Readonly<ProjectImageProps>) {
 	}, [paddingSides, paddingTops]);
 
 	return (
-		<div
-			className={styles.wrapper}
-			style={{ ...cssVars, height, minHeight: maxImageHeight }}
-			ref={ref}
-		>
+		<div className={styles.wrapper} style={{ ...cssVars, height, minHeight: maxImageHeight }} ref={ref}>
 			<AnimatePresence initial={false} custom={direction}>
 				<motion.div
 					variants={variants}

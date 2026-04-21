@@ -3,11 +3,7 @@ import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { CallbackEvent, type ViEventMessage } from '@/src/stores/ai/_types';
 import { useViActions, useViConnected } from '@/src/stores/ai/viStore';
 import type { ViResponse } from '@/src/stores/responses/_types';
-import {
-	useViLastResponse,
-	useViResponses,
-	useViResponsesActions,
-} from '@/src/stores/responses/responsesStore';
+import { useViLastResponse, useViResponses, useViResponsesActions } from '@/src/stores/responses/responsesStore';
 import { DEFAULT_MARKER } from '@/stores/responses/_defaults';
 
 // sort responses by timestamp

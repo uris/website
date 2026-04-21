@@ -17,14 +17,7 @@ export const resolveStyle = (value: string | number) => {
 };
 
 export function SkillSlider(props: Readonly<SkillSliderProps>) {
-	const {
-		width = '100%',
-		height = 2,
-		name = 'Skill',
-		value = 25,
-		handleSize = 16,
-		level = 'principal',
-	} = props;
+	const { width = '100%', height = 2, name = 'Skill', value = 25, handleSize = 16, level = 'principal' } = props;
 
 	const cssVars = useMemo(() => {
 		return {

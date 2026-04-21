@@ -4,10 +4,7 @@ import { sendCreateIntroMessage } from '@/src/stores/ai/ViTalkResponseCreateFact
 import { viNotification } from '@/src/stores/ai/viStore';
 import { ResponseType, UserMessageType } from '@/src/stores/responses/_types';
 import { useViResponsesStore, viResponsesActions } from '@/src/stores/responses/responsesStore';
-import {
-	updateSessionInstructions,
-	updateSessionTools,
-} from '@/stores/ai/viTalkSessionUpdateFactory';
+import { updateSessionInstructions, updateSessionTools } from '@/stores/ai/viTalkSessionUpdateFactory';
 import { viTalkToolCallHandler } from '@/stores/ai/viTalkToolCallHandler';
 
 export async function realtimeDataEventHandler(
@@ -35,8 +32,7 @@ export async function handleMessageEvent(
 	data: any,
 ): Promise<{ event?: CallbackEvent; state?: Partial<ViStoreState>; data?: unknown } | undefined> {
 	// protect for message event shape
-	if (!data || typeof data !== 'object' || !('type' in data) || typeof data.type !== 'string')
-		return;
+	if (!data || typeof data !== 'object' || !('type' in data) || typeof data.type !== 'string') return;
 
 	console.log(data.type, { data });
 	// handle the different types of events

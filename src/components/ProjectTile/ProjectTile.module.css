@@ -17,13 +17,11 @@
 	overflow: hidden;
 	cursor: pointer;
 	opacity: var(--project-tile-opacity);
-	transform: scale(1) translateY(var(--project-tile-translate-y))
-		translateX(var(--project-tile-translate-x));
+	transform: scale(1) translateY(var(--project-tile-translate-y)) translateX(var(--project-tile-translate-x));
 	transition: var(--project-tile-transition);
 	outline: none;
 	&:hover {
-		transform: scale(1.1) translateY(var(--project-tile-translate-y))
-			translateX(var(--project-tile-translate-x));
+		transform: scale(1.1) translateY(var(--project-tile-translate-y)) translateX(var(--project-tile-translate-x));
 		box-shadow: var(--surface-shadow-soft);
 	}
 }

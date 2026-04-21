@@ -3,12 +3,7 @@ import UIView, { ToolType, UITheme } from '@/stores/ai/ai-tools/_types';
 import { sendToolCallResultsItem } from '@/stores/ai/ViTalkCreateConvoItemFactory';
 import { processEventCallbacks } from '@/stores/ai/viStore';
 
-export async function viTalkToolCallHandler(params: {
-	id: string;
-	name: any;
-	args: any;
-	call_id: string;
-}) {
+export async function viTalkToolCallHandler(params: { id: string; name: any; args: any; call_id: string }) {
 	switch (params.name) {
 		// *** UPDATE UI Settings: volume, theme, etc.
 		case ToolType.UpdateUiSettings: {

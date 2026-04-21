@@ -1,14 +1,6 @@
 'use client';
 
-import {
-	DraggablePanel,
-	FlexDiv,
-	ModalController,
-	Preset,
-	Tip,
-	Toast,
-	useToolTip,
-} from '@apple-pie/slice';
+import { DraggablePanel, FlexDiv, ModalController, Preset, Tip, Toast, useToolTip } from '@apple-pie/slice';
 import { useWindow } from '@apple-pie/slice/hooks';
 import { useTip, useToast } from '@apple-pie/slice/stores';
 import { useEffect, useRef } from 'react';
@@ -16,11 +8,7 @@ import { AIPanel } from '@/features/AIPanel/AIPanel';
 import { SettingsPanel } from '@/features/SettingsPanel/SettingsPanel';
 import { Sidebar } from '@/features/SidebarPanel/Sidebar';
 import { SETTINGS_CONSTRAINTS, SIDEBAR_CONSTRAINTS } from '@/stores/home-layout/_defaults';
-import {
-	useHomeLayout,
-	useSettingsOpen,
-	useSidebarOpen,
-} from '@/stores/home-layout/homeLayoutStore';
+import { useHomeLayout, useSettingsOpen, useSidebarOpen } from '@/stores/home-layout/homeLayoutStore';
 
 interface HomeProps {
 	projects: any[];
@@ -43,13 +31,7 @@ export default function Home(props: Readonly<HomeProps>) {
 	useEffect(() => loadProjects(projects), [loadProjects, projects]);
 
 	return (
-		<FlexDiv
-			preset={Preset.Window}
-			height={height}
-			justify={'start'}
-			align={'center'}
-			ref={viewRef}
-		>
+		<FlexDiv preset={Preset.Window} height={height} justify={'start'} align={'center'} ref={viewRef}>
 			<FlexDiv preset={Preset.Draggable}>
 				<DraggablePanel
 					drags={'right'}

@@ -4,7 +4,8 @@ import { AnimationType, type ButtonAnimation, IconButton } from '@apple-pie/slic
 import type { AnimationDefinition, Transition, Variants } from 'motion/react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
-import { useProject, useShowProject, useSidebarActions } from '@/stores/sidebar/sidebarStore';
+import { SidebarSurface } from '@/stores/sidebar/_types';
+import { useProject, useShowProject, useSidebarActions, useSurface } from '@/stores/sidebar/sidebarStore';
 import styles from './Projects.module.css';
 
 const variants: Variants = {
@@ -25,6 +26,7 @@ const closeAnimation = {
 export function ProjectsHeader() {
 	const project = useProject();
 	const showProject = useShowProject();
+	const isProject = useSurface() === SidebarSurface.Projects;
 	const setShowProject = useSidebarActions().setShowProject;
 	const [toggled, setToggled] = useState(false);
 	const delay = project ? 0.35 : 0.1;
@@ -41,6 +43,8 @@ export function ProjectsHeader() {
 		setToggled(false);
 		setShowProject(false);
 	};
+
+	if (!isProject) return null;
 
 	return (
 		<AnimatePresence initial={true}>

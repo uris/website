@@ -40,13 +40,7 @@ export function TalkToViLabel() {
 		<button type={'button'} className={styles.wrapper}>
 			<ViProfilePic size={24} borderSize={1} borderColor={'var(--core-outline-secondary)'} />
 			Talk To Vi
-			<Icon
-				name={'help'}
-				size={18}
-				strokeColor={'var(--core-text-special)'}
-				onClick={handleInfoClick}
-				pointer
-			/>
+			<Icon name={'help'} size={18} strokeColor={'var(--core-text-special)'} onClick={handleInfoClick} pointer />
 			<div className={styles.caret} />
 		</button>
 	);

@@ -10,12 +10,7 @@ import {
 import { create } from 'zustand';
 import { viConnectionNotification } from '@/src/content/notifications/notifications';
 import type { BaseResponse } from '@/src/lib/shared/types';
-import {
-	CONN_NAME,
-	CONN_URL,
-	EVENTS_DATA_CHANNEL,
-	INITIAL_MIC_VOLUME,
-} from '@/src/stores/ai/_data';
+import { CONN_NAME, CONN_URL, EVENTS_DATA_CHANNEL, INITIAL_MIC_VOLUME } from '@/src/stores/ai/_data';
 import {
 	CallbackEvent,
 	type MessageType,
@@ -25,10 +20,7 @@ import {
 } from '@/src/stores/ai/_types';
 import { sendUserMessage } from '@/src/stores/ai/ViTalkCreateConvoItemFactory';
 import { realtimeDataEventHandler } from '@/src/stores/ai/ViTalkEventHandler';
-import {
-	requestResponseStop,
-	sendUserResponseRequest,
-} from '@/src/stores/ai/ViTalkResponseCreateFactory';
+import { requestResponseStop, sendUserResponseRequest } from '@/src/stores/ai/ViTalkResponseCreateFactory';
 import { useHomeLayoutStore } from '@/stores/home-layout/homeLayoutStore';
 import { bestGuessNoiseReduction } from '@/utils/misc';
 
