@@ -10,5 +10,5 @@ function getRequiredEnv(name: string): string {
 
 export function getPrivateApiUrl(path: string): string {
 	const baseUrl = getRequiredEnv('PRIVATE_API_BASE_URL');
-	return new URL(path, baseUrl).toString();
+	return `${baseUrl}${path}`
 }

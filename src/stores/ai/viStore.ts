@@ -66,6 +66,7 @@ export const useAIStore = create<ViStore>((set, get) => ({
 
 			// create the realtime session
 			const session = await createRealtimeSession();
+			console.log({ session });
 
 			// if unable to create the session, notify the user
 			if (!session.success) {
