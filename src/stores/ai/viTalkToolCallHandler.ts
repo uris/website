@@ -18,7 +18,7 @@ export async function viTalkToolCallHandler(params: { id: string; name: any; arg
 		// *** GET PROJECT DETAILS
 		case ToolType.RequestProjectDetails: {
 			if (typeof params.args === 'object' && 'slug' in params.args) {
-				const response = await fetch(`/api/projects/${params.args.slug}`);
+				const response = await fetch(`/server/projects/${params.args.slug}`);
 				if (response.ok) {
 					const { data } = await response.json();
 					if (data) {
@@ -31,7 +31,7 @@ export async function viTalkToolCallHandler(params: { id: string; name: any; arg
 
 		// *** GET SKILLS
 		case ToolType.RequestSkills: {
-			const response = await fetch(`/api/skills`);
+			const response = await fetch(`/server/skills`);
 			if (response.ok) {
 				const { data } = await response.json();
 				if (data) {

@@ -201,7 +201,7 @@ async function createRealtimeSession() {
 	const noiseReduction = bestGuessNoiseReduction(micLabel);
 
 	// get a client secret key for realtime api
-	const response = await fetch('/api/openai/realtime/session/request', {
+	const response = await fetch('/server/openai/realtime/session/request', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

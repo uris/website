@@ -88,7 +88,7 @@ Only change from english to another language if the user absolutely requests it.
 
 // fetch the list of projects from the server
 export const projectList = async () => {
-	const response = await fetch('/api/projects/summaries');
+	const response = await fetch('/server/projects/summaries');
 	if (response.ok) {
 		const { data } = await response.json();
 		if (data) {

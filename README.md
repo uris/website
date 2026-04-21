@@ -16,7 +16,7 @@ Private backend URLs are read from server-only environment variables so they do 
 1. Copy `.env.example` to `.env.local`.
 2. Set `PRIVATE_API_BASE_URL` to your private backend origin, for example `http://localhost:3001`.
 
-Routes such as [`app/api/contact/route.ts`](/Users/urisdacosta/RiderProjects/website/app/api/contact/route.ts) and [`app/api/openai/realtime/session/request/route.ts`](/Users/urisdacosta/RiderProjects/website/app/api/openai/realtime/session/request/route.ts) now build their upstream URLs from that env var.
+Routes such as [`app/server/contact/route.ts`](/Users/urisdacosta/RiderProjects/website/app/server/contact/route.ts) and [`app/server/openai/realtime/session/request/route.ts`](/Users/urisdacosta/RiderProjects/website/app/server/openai/realtime/session/request/route.ts) now build their upstream URLs from that env var.
 
 ## Routing Layout
 

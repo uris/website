@@ -91,7 +91,7 @@ export const useFormIsValid = () =>
  * Helper to send the mail message
  */
 async function sendEmailMessage(message: { from: string; text: string }) {
-	const response = await fetch('/api/contact', {
+	const response = await fetch('/server/contact', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
