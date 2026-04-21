@@ -16,7 +16,13 @@
 			"@/features/*": ["./src/features/*"],
 			"@/assets/*": ["./src/assets/*"],
 			"@/utils/*": ["./src/utils/*"],
-			"@/projects/*": ["./src/projects/*"]
+			"@/projects/*": ["./src/projects/*"],
+			"@/skills/*": ["./src/skills/*"],
+			"@/data/*": ["./src/data/*"],
+			"@/stores/*": ["./src/stores/*"],
+			"@/components/*": ["./src/components/*"],
+			"@/landing/*": ["./src/landing/*"],
+			"@/content/*": ["./src/content/*"]
 		},
 		"resolveJsonModule": true,
 		"isolatedModules": true,
@@ -28,12 +34,6 @@
 			}
 		]
 	},
-	"include": [
-		"next-env.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		".next/types/**/*.ts",
-		".next/dev/types/**/*.ts"
-	],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/dev/types/**/*.ts"],
 	"exclude": ["node_modules"]
 }

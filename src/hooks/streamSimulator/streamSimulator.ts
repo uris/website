@@ -1,7 +1,7 @@
 import { useMDStreamBuffer } from '@apple-pie/slice';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { DEFAULT_MARKER } from '@/stores/responses/_defaults';
 
-const DEFAULT_MARKER = ' [[END-MARKER]]';
 export const useStreamSimulator = (
 	raw: string,
 	didEndCallback: (finalMd: string | null) => void,
@@ -26,7 +26,7 @@ export const useStreamSimulator = (
 	// stream settings
 	const buffer = useRef<string>(raw);
 	const chunkSize = useRef<number>(3);
-	const chunkGap = useRef<number>(50);
+	const chunkGap = useRef<number>(25);
 	const endDelay = useRef<number | null>(null);
 	const didEndRef = useRef(didEndCallback);
 	const currentIndex = useRef<number>(0);
@@ -79,10 +79,7 @@ export const useStreamSimulator = (
 	// core handler of incremental chunks off raw
 	const processNextChunk = useCallback(() => {
 		// get next chunk
-		const nextChunk = buffer.current.slice(
-			currentIndex.current,
-			currentIndex.current + chunkSize.current,
-		);
+		const nextChunk = buffer.current.slice(currentIndex.current, currentIndex.current + chunkSize.current);
 
 		// stop if nothing is left
 		if (!nextChunk) {

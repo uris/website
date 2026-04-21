@@ -1,17 +1,17 @@
-import type { IconProps } from '@apple-pie/slice';
-import type React from 'react';
+import type { ProjectSlug, ProjectTileData } from '@/projects/server/types';
+
+export type AnimationValue = { [key: string]: number };
 
 export interface ProjectTileProps {
-	title?: string;
-	type?: string;
-	logo?: React.ReactNode | IconProps | string;
-	image?: React.ReactNode | string;
+	project: ProjectTileData;
 	width?: number;
 	height?: number;
 	titleColor?: string;
-	typeColor?: string;
-	layout?: 'square' | 'wide' | 'long';
 	listGap?: number;
-	heavy?: boolean;
 	stagger?: number;
+	animate?: { start: AnimationValue; end: AnimationValue };
+	borderColor?: string;
+	onAnimationEnd?: (index: number) => void;
+	onClick?: (slug: ProjectSlug) => void;
+	index?: number;
 }

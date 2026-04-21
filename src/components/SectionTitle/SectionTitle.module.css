@@ -1,0 +1,12 @@
+.wrapper {
+	position: relative;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	width: 100%;
+	margin: 48px 0 0.8em 0;
+	padding: 0;
+	gap: 8px;
+}

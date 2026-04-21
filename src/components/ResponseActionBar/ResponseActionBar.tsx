@@ -20,15 +20,9 @@ export function ResponseActionBar(props: Readonly<ResponseActionBarProps>) {
 	if (active && last) return null;
 	return (
 		<div className={styles.wrapper}>
-			<span
-				className={`${styles.infoLabel} core-text-disabled`}
-			>{`${name}${transcribedLabel}`}</span>
-			{lastUpdated && (
-				<span className={`${styles.infoLabel} core-text-disabled`}>{lastUpdated}</span>
-			)}
-			{disconnected && (
-				<span className={`${styles.infoLabel} feedback-attention`}>disconnected</span>
-			)}
+			<span className={`${styles.infoLabel} core-text-disabled`}>{`${name}${transcribedLabel}`}</span>
+			{lastUpdated && <span className={`${styles.infoLabel} core-text-disabled`}>{lastUpdated}</span>}
+			{disconnected && <span className={`${styles.infoLabel} feedback-attention`}>disconnected</span>}
 			{interrupted && <span className={`${styles.infoLabel} feedback-attention`}>interrupted</span>}
 		</div>
 	);

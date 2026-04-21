@@ -1,0 +1,41 @@
+.grid {
+	display: grid;
+	width: 100%;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	grid-auto-rows: var(--tile-size);
+	grid-auto-flow: row;
+	gap: 16px;
+	margin: 0 0 16px 0;
+}
+
+.button {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	box-sizing: border-box;
+	padding: 10px 12px;
+	margin: 0;
+	border: 1px solid var(--core-outline-secondary);
+	border-radius: 16px;
+	background-color: var(--core-surface-primary);
+}
+
+.value {
+	font-family: var(--font-family), sans-serif;
+	font-weight: 500;
+	font-size: 30px;
+	line-height: 1em;
+	text-decoration: none;
+	letter-spacing: 0.2px;
+}
+
+.label {
+	font-family: var(--font-family), sans-serif;
+	font-weight: var(--font-weight-medium);
+	font-size: var(--font-size-m);
+	line-height: 140%;
+	text-decoration: none;
+	letter-spacing: 0.15px;
+	color: var(--core-text-disabled);
+}

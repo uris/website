@@ -1,12 +1,11 @@
 import { realtimeSessionRequests } from '@/src/lib/openai/_settings';
+import { getPrivateApiUrl } from '@/src/lib/server-env';
 import type { BaseResponse } from '@/src/lib/shared/types';
 import { safeJsonParse } from '@/src/lib/shared/utils';
 
-export async function createRealtimeSessionKey(
-	noiseReduction = 'far_field',
-): Promise<BaseResponse> {
+export async function createRealtimeSessionKey(noiseReduction = 'far_field'): Promise<BaseResponse> {
 	try {
-		const response = await fetch('http://localhost:3001/openai/realtime/session', {
+		const response = await fetch(getPrivateApiUrl('/openai/realtime/session'), {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

@@ -8,6 +8,7 @@ export enum Role {
 	Assistant = 'assistant',
 	User = 'user',
 	System = 'system',
+	Tool = 'tool',
 }
 
 export type ViResponse = {
@@ -36,6 +37,7 @@ export type ViResponsesStore = {
 		handleUpdateLastResponse: (lastResponse: ViResponse) => void;
 		handleNewUserMessage: (message: UserMessage) => void;
 		handleUpdateUserMessage: (message: Partial<UserMessage>) => void;
+		handleToolCallMessage: (id: string) => Promise<void>;
 		setBufferStreaming: (streaming: boolean) => void;
 		setAutoScrollStream: (autoScrollStream: boolean) => void;
 	};

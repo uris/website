@@ -1,0 +1,142 @@
+[data-slice-theme="lightMode"] pre {
+	display: block;
+	box-sizing: border-box;
+	font-family: var(--font-mono), monospace;
+	font-weight: 400;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	border: 1px solid var(--core-outline-secondary);
+	border-radius: 16px;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	padding: 24px;
+	overflow-x: auto;
+	background-color: var(--core-surface-primary);
+	margin: 1em 0 0 0;
+	color: var(--core-text-primary);
+}
+
+[data-slice-theme="lightMode"] code.hljs {
+	display: block;
+	box-sizing: border-box;
+	font-family: var(--font-mono), monospace;
+	font-size: 14px;
+	line-height: 1.5em;
+	background: none;
+	border: none;
+	outline: none;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	color: var(--core-text-primary);
+}
+/*!
+  Theme: GitHub
+  Description: Light theme as seen on github.com
+  Author: github.com
+  Maintainer: @Hirse
+  Updated: 2021-05-15
+
+  Outdated base version: https://github.com/primer/github-syntax-light
+  Current colors taken from GitHub's CSS
+*/
+[data-slice-theme="lightMode"] .hljs {
+	color: #24292e;
+	background: #ffffff;
+}
+[data-slice-theme="lightMode"] .hljs-doctag,
+[data-slice-theme="lightMode"] .hljs-keyword,
+[data-slice-theme="lightMode"] .hljs-meta .hljs-keyword,
+[data-slice-theme="lightMode"] .hljs-template-tag,
+[data-slice-theme="lightMode"] .hljs-template-variable,
+[data-slice-theme="lightMode"] .hljs-type,
+[data-slice-theme="lightMode"] .hljs-variable.language_ {
+	/* prettylights-syntax-keyword */
+	color: #d73a49;
+}
+[data-slice-theme="lightMode"] .hljs-title,
+[data-slice-theme="lightMode"] .hljs-title.class_,
+[data-slice-theme="lightMode"] .hljs-title.class_.inherited__,
+[data-slice-theme="lightMode"] .hljs-title.function_ {
+	/* prettylights-syntax-entity */
+	color: #6f42c1;
+}
+[data-slice-theme="lightMode"] .hljs-attr,
+[data-slice-theme="lightMode"] .hljs-attribute,
+[data-slice-theme="lightMode"] .hljs-literal,
+[data-slice-theme="lightMode"] .hljs-meta,
+[data-slice-theme="lightMode"] .hljs-number,
+[data-slice-theme="lightMode"] .hljs-operator,
+[data-slice-theme="lightMode"] .hljs-variable,
+[data-slice-theme="lightMode"] .hljs-selector-attr,
+[data-slice-theme="lightMode"] .hljs-selector-class,
+[data-slice-theme="lightMode"] .hljs-selector-id {
+	/* prettylights-syntax-constant */
+	color: #005cc5;
+}
+[data-slice-theme="lightMode"] .hljs-regexp,
+[data-slice-theme="lightMode"] .hljs-string,
+[data-slice-theme="lightMode"] .hljs-meta .hljs-string {
+	/* prettylights-syntax-string */
+	color: #032f62;
+}
+[data-slice-theme="lightMode"] .hljs-built_in,
+[data-slice-theme="lightMode"] .hljs-symbol {
+	/* prettylights-syntax-variable */
+	color: #e36209;
+}
+[data-slice-theme="lightMode"] .hljs-comment,
+[data-slice-theme="lightMode"] .hljs-code,
+[data-slice-theme="lightMode"] .hljs-formula {
+	/* prettylights-syntax-comment */
+	color: #6a737d;
+}
+[data-slice-theme="lightMode"] .hljs-name,
+[data-slice-theme="lightMode"] .hljs-quote,
+[data-slice-theme="lightMode"] .hljs-selector-tag,
+[data-slice-theme="lightMode"] .hljs-selector-pseudo {
+	/* prettylights-syntax-entity-tag */
+	color: #22863a;
+}
+[data-slice-theme="lightMode"] .hljs-subst {
+	/* prettylights-syntax-storage-modifier-import */
+	color: #24292e;
+}
+[data-slice-theme="lightMode"] .hljs-section {
+	/* prettylights-syntax-markup-heading */
+	color: #005cc5;
+	font-weight: bold;
+}
+[data-slice-theme="lightMode"] .hljs-bullet {
+	/* prettylights-syntax-markup-list */
+	color: #735c0f;
+}
+[data-slice-theme="lightMode"] .hljs-emphasis {
+	/* prettylights-syntax-markup-italic */
+	color: #24292e;
+	font-style: italic;
+}
+[data-slice-theme="lightMode"] .hljs-strong {
+	/* prettylights-syntax-markup-bold */
+	color: #24292e;
+	font-weight: bold;
+}
+[data-slice-theme="lightMode"] .hljs-addition {
+	/* prettylights-syntax-markup-inserted */
+	color: #22863a;
+	background-color: #f0fff4;
+}
+[data-slice-theme="lightMode"] .hljs-deletion {
+	/* prettylights-syntax-markup-deleted */
+	color: #b31d28;
+	background-color: #ffeef0;
+}
+[data-slice-theme="lightMode"] .hljs-char.escape_,
+[data-slice-theme="lightMode"] .hljs-link,
+[data-slice-theme="lightMode"] .hljs-params,
+[data-slice-theme="lightMode"] .hljs-property,
+[data-slice-theme="lightMode"] .hljs-punctuation,
+[data-slice-theme="lightMode"] .hljs-tag {
+	/* purposely ignored */
+}

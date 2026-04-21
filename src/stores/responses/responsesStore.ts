@@ -35,7 +35,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 		},
 
 		/**
-		 * Called automatically from Vi Event Handlers when a a conversation is about to start
+		 * Called automatically from Vi Event Handlers when a conversation is about to start
 		 */
 		handleResponseStart: (id: string, type: ResponseType) => {
 			// get current state
@@ -43,9 +43,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			const currentResponses = get().responses;
 
 			// the start of the new response pushes the last response to the response history
-			const updatedResponses = currentLastResponse
-				? [...currentResponses, currentLastResponse]
-				: currentResponses;
+			const updatedResponses = currentLastResponse ? [...currentResponses, currentLastResponse] : currentResponses;
 
 			// creates a new last response
 			const lastResponse: ViResponse = {
@@ -108,7 +106,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			const lastResponseCurrent = get().lastResponse;
 			if (!lastResponseCurrent?.active) return;
 
-			// update last response to inactive with the optional parameter of streamed value
+			// update the last response to inactive with the optional parameter of streamed value
 			const value = streamed ?? lastResponseCurrent.value;
 			const lastResponse = { ...lastResponseCurrent, value, active: false, delta: undefined };
 
@@ -164,6 +162,23 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 		},
 
 		/**
+		 * Handle tool calls by the model
+		 */
+		handleToolCallMessage: async (id: string) => {
+			// update the last response as a tool call
+			const lastResponseCurrent = get().lastResponse;
+
+			// set the message as a system message
+			if (lastResponseCurrent?.id === id) {
+				// set a tool role
+				const lastResponse = { ...lastResponseCurrent, role: Role.Tool };
+
+				// update the last response state
+				set({ lastResponse });
+			}
+		},
+
+		/**
 		 * Store global state on if the current buffer is still streaming content
 		 */
 		setBufferStreaming: (bufferStreaming: boolean) => {
@@ -182,8 +197,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 // atomic hook exports
 export const useViResponses = () => useViResponsesStore((state) => state.responses);
 export const useViLastResponse = () => useViResponsesStore((state) => state.lastResponse);
-export const useViActive = () =>
-	useViResponsesStore((state) => state.lastResponse?.active ?? false);
+export const useViActive = () => useViResponsesStore((state) => state.lastResponse?.active ?? false);
 export const useViBufferStreaming = () => useViResponsesStore((state) => state.bufferStreaming);
 export const useAutoScrollStream = () => useViResponsesStore((state) => state.autoScrollStream);
 export const useViResponsesActions = () => useViResponsesStore((state) => state.actions);

@@ -1,10 +1,14 @@
+import type { ProjectName } from '@/projects/server/types';
+import type UIView from '@/stores/ai/ai-tools/_types';
+import type { UITheme } from '@/stores/ai/ai-tools/_types';
+
 export type ViStoreState = {
 	connected: boolean;
 	connecting: boolean;
 	live: boolean;
 	talk: boolean;
 	viTalking: boolean;
-	eventCallbacks: Map<string, ViEventCallback[]>;
+	viListeners: Map<string, Set<ViEventCallback>>;
 };
 
 export type ViStore = ViStoreState & {
@@ -17,26 +21,22 @@ export type ViStore = ViStoreState & {
 			channel: string,
 			event: any,
 			eventData: MessageEvent<any> | Event | RTCErrorEvent,
-		) => void;
+		) => Promise<void>;
 		handleUserMessage: (message: string) => void;
-		attachCallback: (name: string, callback: ViEventCallback | ViEventCallback[]) => void;
-		clearCallback: (name: string) => void;
+		addViListener: (event: CallbackEvent, handler: ViEventCallback) => () => void;
+		removeViListener: (event: CallbackEvent, handler: ViEventCallback) => void;
 	};
 };
 
-export type MessageType =
-	| 'Connecting'
-	| 'Connected'
-	| 'Disconnecting'
-	| 'Disconnected'
-	| 'Already'
-	| 'Failed';
+export type MessageType = 'Connecting' | 'Connected' | 'Disconnecting' | 'Disconnected' | 'Already' | 'Failed';
 
 /**
  * These map to the realtime event types emitted in data messages of the RTC connection
  */
 export enum CallbackEvent {
+	// realtime api events
 	SessionCreated = 'session.created', // signals start of a voice session
+	ResponseCreated = 'response.created', // when a response item was created but not yet started
 	ResponseStart = 'response.output_item.added', // signals start of response providing ID for response
 	AudioInterrupt = 'conversation.item.truncated', // the output audio buffer was interrupted
 	TranscriptDelta = 'response.output_audio_transcript.delta', // transcript incremental update
@@ -50,15 +50,28 @@ export enum CallbackEvent {
 	UserAudioMessageAdded = 'conversation.item.added[audio]', // user audio message
 	UserMessageTranscriptDelta = 'conversation.item.input_audio_transcription.delta', // audio transcript incremental update
 	UserMessageTranscriptDone = 'conversation.item.input_audio_transcription.completed', // user transcript done
-	// internal event types affecting ViTalk
+	ResponseItemDone = 'response.output_item.done', // when a response item is done -> emits tool calls
+	// app vi events
 	ViDisconnect = 'vi.disconnect',
 	ViConnect = 'vi.connect',
+	ViThemeChange = 'vi.theme.change',
+	ViVolumeChange = 'vi.volume.change',
+	ViOpenView = 'vi.open.view',
 }
 
 /**
  * Callback types for ViTalk Events
  */
-export type ViEventCallback = {
+export type ViEventCallback = (message?: ViEventMessage) => void;
+
+export type ViEventMessage = {
 	event: CallbackEvent;
-	callback: () => void;
+	data?: unknown;
+	action_value?: {
+		theme?: UITheme;
+		volume?: number;
+		slug?: ProjectName;
+		view?: UIView;
+	};
+	id?: string;
 };

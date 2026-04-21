@@ -1,15 +1,31 @@
-import type { Role } from '@/src/stores/responses/_types';
+import { AnimationType, type ButtonAnimation } from '@apple-pie/slice';
 
+/**
+ * Actions for link renderer
+ */
 export enum EAction {
 	TalkToVi = 'talk-to-vi',
-	ToggleSidebar = 'toggle-sidebar',
-	Contact = 'contact',
+	Sidebar = 'sidebar',
 }
 
-export const avatarColor = (role: Role) => {
-	return {
-		bgColor: role === 'assistant' ? 'var(--array-magenta)' : 'var(--array-land)',
-		borderColor: role === 'assistant' ? 'var(--array-magenta-label)' : 'var(--array-land-label)',
-		textColor: role === 'assistant' ? 'var(--array-magenta-label)' : 'var(--array-land-label)',
-	};
+/**
+ * Button rotate used in toggle buttons
+ */
+export const buttonRotateAnimation: ButtonAnimation = {
+	animation: { type: AnimationType.Rotate, value: { on: 0, off: 180 } },
+	transition: {
+		on: { duration: 0.25, ease: 'linear', delay: 0.25 },
+		off: { duration: 0.25, ease: 'linear', delay: 0 },
+	},
+};
+
+/**
+ * Button rotate used in toggle buttons
+ */
+export const viTalkButtonAnimation: ButtonAnimation = {
+	animation: { type: AnimationType.Rotate, value: { on: 180, off: 0 } },
+	transition: {
+		on: { duration: 0.25, ease: 'linear' },
+		off: { duration: 0, ease: 'linear' },
+	},
 };

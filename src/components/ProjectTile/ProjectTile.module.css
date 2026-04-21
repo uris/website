@@ -4,7 +4,7 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: flex-start;
-	gap: 0px;
+	gap: 0;
 	box-sizing: border-box;
 	padding: 16px;
 	margin: 0;
@@ -16,10 +16,12 @@
 	border-radius: 4px;
 	overflow: hidden;
 	cursor: pointer;
-	transform: scale(1) translateY(var(--project-tile-translate-y));
+	opacity: var(--project-tile-opacity);
+	transform: scale(1) translateY(var(--project-tile-translate-y)) translateX(var(--project-tile-translate-x));
 	transition: var(--project-tile-transition);
+	outline: none;
 	&:hover {
-		transform: scale(1.02) translateY(var(--project-tile-translate-y));
+		transform: scale(1.1) translateY(var(--project-tile-translate-y)) translateX(var(--project-tile-translate-x));
 		box-shadow: var(--surface-shadow-soft);
 	}
 }
@@ -40,6 +42,7 @@
 	line-height: 1.3em;
 	text-decoration: none;
 	letter-spacing: 0.2px;
+	text-align: left;
 	z-index: 1;
 	-webkit-text-stroke: 0px;
 	-webkit-text-stroke-color: rgba(0, 0, 0, 0.15);

@@ -1,0 +1,12 @@
+:global([data-slice-theme-scope]) p.subtitle {
+	font-family: var(--font-family), sans-serif;
+	font-weight: var(--font-weight-regular);
+	font-size: var(--font-size-xl);
+	line-height: 162.5%;
+	text-decoration: none;
+	letter-spacing: 0.1px;
+	text-align: center;
+	color: var(--core-text-tertiary);
+	margin: 0;
+	padding: 0;
+}

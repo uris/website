@@ -1,0 +1,100 @@
+.wrapper {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-direction: column;
+	width: var(--width, 200px);
+	min-width: var(--width, 200px);
+	height: auto;
+	box-sizing: border-box;
+	position: relative;
+	overflow: visible;
+	gap: 2px;
+}
+
+.labels {
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	color: var(--core-text-secondary);
+}
+
+.name {
+	flex: 1;
+	white-space: nowrap;
+	font-family: var(--font-mono), monospace;
+	text-transform: capitalize;
+	color: var(--core-text-secondary);
+}
+
+.value {
+	flex: 1;
+	white-space: nowrap;
+	text-align: right;
+	text-transform: capitalize;
+	color: var(--core-text-disabled);
+}
+
+.progress {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	height: var(--handle-size, 24px);
+	box-sizing: border-box;
+	overflow: visible;
+}
+
+.track {
+	position: relative;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: row;
+	width: 100%;
+	min-width: 100%;
+	height: var(--height, 4px);
+	min-height: var(--height, 4px);
+	background: var(--track-color, var(--core-surface-primary));
+	border-radius: 50px;
+	overflow: hidden;
+}
+
+.level {
+	position: relative;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: row;
+	width: var(--value, 50%);
+	min-width: var(--value, 50%);
+	height: var(--height, 4px);
+	min-height: var(--height, 4px);
+	background: var(--track-color, var(--core-text-disabled));
+	border-radius: 50px;
+}
+
+.handle {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: var(--handle-size, 24px);
+	height: var(--handle-size, 24px);
+	min-width: var(--handle-size, 24px);
+	min-height: var(--handle-size, 24px);
+	border-radius: 100%;
+	background-color: var(--handle-color, var(--core-surface-primary));
+	box-shadow: var(--handle-shadow);
+	border: var(--handle-border, 1.5px solid var(--core-text-disabled));
+	left: var(--value, 50%);
+	top: 50%;
+	transform: translateY(-50%) translateX(-50%);
+}

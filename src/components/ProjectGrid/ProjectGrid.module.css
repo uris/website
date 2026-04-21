@@ -1,0 +1,10 @@
+.grid {
+	display: grid;
+	min-width: Calc((var(--tile-size) * 2) + var(--list-gap));
+	justify-content: center;
+	align-items: center;
+	grid-template-columns: repeat(var(--list-max-tiles), minmax(var(--tile-size), var(--tile-size)));
+	grid-auto-rows: var(--tile-size);
+	grid-auto-flow: row dense;
+	gap: var(--list-gap);
+}

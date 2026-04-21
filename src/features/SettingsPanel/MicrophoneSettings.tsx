@@ -1,13 +1,6 @@
 'use client';
 
-import {
-	Button,
-	DropDown,
-	type DropDownOption,
-	type MicOption,
-	Slider,
-	ToggleButton,
-} from '@apple-pie/slice';
+import { Button, DropDown, type DropDownOption, type MicOption, Slider, ToggleButton } from '@apple-pie/slice';
 import { useMicrophone } from '@apple-pie/slice/hooks';
 import {
 	getMicrophoneState,

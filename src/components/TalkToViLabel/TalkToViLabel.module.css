@@ -16,6 +16,8 @@
 	gap: 8px;
 	user-select: none;
 	-webkit-user-select: none;
+	outline: none;
+	color: var(--core-text-primary);
 }
 
 .caret {

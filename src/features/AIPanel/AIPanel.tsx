@@ -1,5 +1,5 @@
 import { FlexDiv, Preset } from '@apple-pie/slice';
-import { AIPanelBody } from '@/features/AIPanel/AIPanelBody';
+import AIPanelBody from '@/features/AIPanel/AIPanelBody';
 import { AIPanelFooter } from '@/features/AIPanel/AIPanelFooter';
 import { AIPanelHeader } from '@/features/AIPanel/AIPanelHeader';
 

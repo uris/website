@@ -4,10 +4,12 @@ import { useLocalStore } from '@apple-pie/slice';
 import { useModalActions, useToastActions } from '@apple-pie/slice/stores';
 import Link from 'next/link';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import { useAILayout } from '@/app/(ai)/store/layout-store';
 import { ViTalkModal } from '@/src/components/ViTalkModal/ViTalkModal';
 import { viConnectionNotification } from '@/src/content/notifications/notifications';
 import { useViActions, useViConnected, useViConnecting } from '@/src/stores/ai/viStore';
+import { useHomeLayout } from '@/stores/home-layout/homeLayoutStore';
+import { SidebarSurface } from '@/stores/sidebar/_types';
+import { useSidebarActions } from '@/stores/sidebar/sidebarStore';
 import { EAction } from '@/utils/consts/consts';
 
 interface MarkdownLinkProps {
@@ -28,7 +30,7 @@ function parseActionLink(href?: string) {
 		return {
 			actionType: url.searchParams.get('actionType'),
 			actionValue: url.searchParams.get('actionValue'),
-			actionFocus: url.searchParams.get('actionFocus'),
+			actionFocus: Number.parseInt(url.searchParams.get('actionFocus') ?? '0', 10),
 		};
 	} catch {
 		return null;
@@ -41,12 +43,15 @@ export function MarkdownLink(props: Readonly<MarkdownLinkProps>) {
 
 	// setup for actions
 	const [viTalkConfirm, setViTalkConfirm] = useLocalStore<boolean>('viTalkConfirm', false);
-	const toggleSidebar = useAILayout().toggleSideBar;
+	const toggleSidebar = useHomeLayout().toggleSideBar;
 	const connectToVi = useViActions().connect;
 	const notify = useToastActions().push;
 	const connectedToVi = useViConnected();
 	const connectingToVi = useViConnecting();
 	const modalResponse = useModalActions().modalResponse;
+	const setSurface = useSidebarActions().setSurface;
+	const setProject = useSidebarActions().setProject;
+	const showProject = useSidebarActions().setShowProject;
 
 	const action = parseActionLink(href);
 	const isAction = Boolean(action?.actionType);
@@ -67,17 +72,24 @@ export function MarkdownLink(props: Readonly<MarkdownLinkProps>) {
 
 		e.preventDefault();
 		switch (action.actionType) {
-			case EAction.Contact:
-			case EAction.ToggleSidebar: {
+			case EAction.Sidebar: {
+				// set show/hide sidebar
 				const toggleValue = action.actionValue === 'true';
 				toggleSidebar(toggleValue);
+				// list projects - if active project hide it to show grid
+				if (action.actionFocus === SidebarSurface.Projects) {
+					setProject(null);
+					showProject(false);
+				}
+				// show the surface
+				setSurface(action.actionFocus);
 				return;
 			}
 			case EAction.TalkToVi: {
 				const confirmation = await confirmViTalk();
 				setViTalkConfirm(!!confirmation);
 				if (confirmation && !connectedToVi && !connectingToVi) {
-					connectToVi(true);
+					await connectToVi(true);
 				} else if ((confirmation && connectedToVi) || connectingToVi) {
 					notify(viConnectionNotification('Already'));
 				}

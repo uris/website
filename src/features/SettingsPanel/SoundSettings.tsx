@@ -10,13 +10,15 @@ import {
 	useVolumeActions,
 	useWebRTCActions,
 } from '@apple-pie/slice/stores';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import styles from '@/features/SettingsPanel/SettingsPanel.module.css';
 import { SettingsOption } from '@/src/components/SettingsOption/SettingsOption';
 import { SettingsSectionTitle } from '@/src/components/SettingsSectionTitle/SettingsSectionTitle';
 import { volumeMuteNotification } from '@/src/content/notifications/notifications';
 import { CONN_NAME } from '@/src/stores/ai/_data';
-import { useViTalking } from '@/src/stores/ai/viStore';
+import { useViActions, useViTalking } from '@/src/stores/ai/viStore';
+import { CallbackEvent, type ViEventMessage } from '@/stores/ai/_types';
+import { sendToolCallResultsItem } from '@/stores/ai/ViTalkCreateConvoItemFactory';
 
 export function SoundSettings() {
 	const volume = useVolume();
@@ -28,6 +30,7 @@ export function SoundSettings() {
 	const notify = useToastActions().push;
 	const isMuted = muted || volume <= 0;
 	const viTalking = useViTalking();
+	const addViListener = useViActions().addViListener;
 
 	// memo audio feedback element on mount - plays as affordance of volume level
 	const feedbackElement = useMemo(() => {
@@ -50,14 +53,33 @@ export function SoundSettings() {
 	};
 
 	// treat 0 as mute
-	const handleAdjustVolume = async (value: number, play: boolean) => {
-		if (value <= 0 && !muted) {
-			notify(volumeMuteNotification(true));
-			await actions.mute();
-		}
-		setRTCVolume(CONN_NAME, value);
-		actions.setVolume(value, { playFeedback: play && !viTalking }).then(() => null);
-	};
+	const handleAdjustVolume = useCallback(
+		async (value: number, play: boolean) => {
+			if (value <= 0 && !muted) {
+				notify(volumeMuteNotification(true));
+				await actions.mute();
+			}
+			setRTCVolume(CONN_NAME, value);
+			actions.setVolume(value, { playFeedback: play && !viTalking }).then(() => null);
+		},
+		[actions, muted, notify, viTalking],
+	);
+
+	// handle vi requested volume change
+	const handleViChangeVolume = useCallback(
+		async (message?: ViEventMessage) => {
+			const { action_value, id } = message ?? {};
+			const volume = action_value?.volume;
+			let result: any = { volumeChange: null, success: false, reason: 'invalid volume value' };
+			if (volume !== undefined && volume >= 0 && volume <= 1) {
+				console.log('vi request volume', message);
+				await handleAdjustVolume(volume, true);
+				result = { volumeChange: volume, success: true };
+			}
+			if (id) sendToolCallResultsItem(result, id, true);
+		},
+		[handleAdjustVolume],
+	);
 
 	// bind audio feedback element to store
 	useEffect(() => {
@@ -73,6 +95,11 @@ export function SoundSettings() {
 	useEffect(() => {
 		actions.setVolume(0.75, { playFeedback: false }).then(() => null);
 	}, []);
+
+	// listen for volume updates requested by vi
+	useEffect(() => {
+		return addViListener(CallbackEvent.ViVolumeChange, handleViChangeVolume);
+	}, [handleViChangeVolume, addViListener]);
 
 	return (
 		<div className={styles.settingsBlock}>

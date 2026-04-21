@@ -11,3 +11,13 @@
 	height: var(--profile-pic-size);
 	overflow: hidden;
 }
+
+.border {
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100%;
+	border: var(--profile-pic-avatar-border-size) solid var(--profile-pic-avatar-border-color);
+	overflow: hidden;
+}

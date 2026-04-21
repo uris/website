@@ -1,0 +1,134 @@
+{
+	"$schema": "./skills.schema.json",
+	"slug": "skills",
+	"title": "Skills",
+	"ai": {
+		"summary": "Rare combination of design and development skills: Leadership and principal-level product design combined with principal level front-end development and the ability to take a feature or idea through the entire design and development lifecycle. A strong systems thinker, ux designer and developer, from strategy through shipped product, from the board room to the trenches where products get made.",
+		"highlights": [
+			"Product design execution and leadership across all UX disciplines, systems, brand, and direction setting",
+			"Principal-level front-end craft in the React and TypeScript ecosystem",
+			"Solid backend experience across APIs, data modeling, and infrastructure",
+			"Strong cross-functional leadership, mentoring, team building and and delivery planning"
+		],
+		"keywords": [
+			"product design",
+			"design systems",
+			"frontend engineering",
+			"react",
+			"typescript",
+			"accessibility",
+			"leadership",
+			"ux strategy",
+			"backend",
+			"apis"
+		],
+		"suggestedQuestions": [
+			"What design skills are strongest?",
+			"How strong is the front-end engineering background?",
+			"What backend experience is included?",
+			"What tools and methods are used most often?"
+		]
+	},
+	"columns": [
+		{
+			"title": "Development",
+			"sections": [
+				{
+					"type": "sliders",
+					"title": "Front end",
+					"description": "Principal-level front-end craft with a strong eye for systems, performance, interaction detail, and turning ambitious design into shippable product.",
+					"items": [
+						{ "name": "HTML / CSS / JavaScript", "value": 95, "level": "principal" },
+						{ "name": "TypeScript", "value": 95, "level": "principal" },
+						{ "name": "React 18 / 19", "value": 95, "level": "principal" },
+						{ "name": "State (Zustand / Redux)", "value": 95, "level": "principal" },
+						{ "name": "Next.js", "value": 80, "level": "advanced" },
+						{ "name": "Interaction architecture", "value": 95, "level": "principal" },
+						{ "name": "Performance", "value": 95, "level": "advanced" },
+						{ "name": "Animation & Polish", "value": 80, "level": "advanced" },
+						{ "name": "W3C WCAG", "value": 95, "level": "principal" }
+					]
+				},
+				{
+					"type": "sliders",
+					"title": "Back end",
+					"description": "Comfortable building the server side too: APIs, data models, integration layers, and the practical infrastructure needed to ship end-to-end experiences.",
+					"items": [
+						{ "name": "Node.js / Express", "value": 95, "level": "advanced" },
+						{ "name": "PostgreSQL / Dynamo", "value": 80, "level": "advanced" },
+						{ "name": "Redis", "value": 90, "level": "principal" },
+						{ "name": "REST API design", "value": 80, "level": "advanced" },
+						{ "name": "Data modeling", "value": 80, "level": "advanced" },
+						{ "name": "CI/CD, Docker", "value": 80, "level": "advanced" }
+					]
+				},
+				{
+					"type": "chips",
+					"title": "Stack and tools",
+					"items": [
+						"VS Code",
+						"Cursor",
+						"Rider",
+						"GitHub",
+						"Storybook",
+						"Chromatic",
+						"Jest",
+						"Playwright",
+						"Docker",
+						"Codex",
+						"Claude Code"
+					]
+				}
+			]
+		},
+		{
+			"title": "Product Design",
+			"description": "Mature design leadership across product, systems, interaction, and brand. I can set direction, elevate quality, align teams, and stay close to execution without losing the bigger picture.",
+			"sections": [
+				{
+					"type": "sliders",
+					"title": "Core strengths",
+					"items": [
+						{ "name": "Product design (UI/UX/IxD)", "value": 95, "level": "principal" },
+						{ "name": "Design systems", "value": 95, "level": "principal" },
+						{ "name": "Creative and brand leadership", "value": 95, "level": "principal" },
+						{ "name": "UX strategy & vision", "value": 95, "level": "principal" },
+						{ "name": "Team leadership / building", "value": 95, "level": "principal" },
+						{ "name": "User Research & Synthesis", "value": 80, "level": "advanced" },
+						{ "name": "Accessibility", "value": 90, "level": "principal" }
+					]
+				},
+				{
+					"type": "chips",
+					"title": "Methods",
+					"items": [
+						"Vision / North Star",
+						"Design systems",
+						"Interaction design",
+						"Information architecture",
+						"Product strategy",
+						"Workshop facilitation",
+						"Cross-functional leadership",
+						"UX writing",
+						"Usability testing",
+						"Rapid prototyping"
+					]
+				},
+				{
+					"type": "chips",
+					"title": "Leadership lens",
+					"items": [
+						"Figma",
+						"Creative direction",
+						"Mentoring",
+						"Roadmapping",
+						"Design critique",
+						"Stakeholder alignment",
+						"System thinking",
+						"Delivery planning"
+					]
+				}
+			]
+		}
+	]
+}
