@@ -23,7 +23,7 @@ export type ViStore = ViStoreState & {
 			eventData: MessageEvent<any> | Event | RTCErrorEvent,
 		) => Promise<void>;
 		handleUserMessage: (message: string) => void;
-		addViListener: (event: CallbackEvent, handler: ViEventCallback) => () => void;
+		addViListener: (event: CallbackEvent, handler: ViEventCallback) => () => void; // returns the clean up function
 		removeViListener: (event: CallbackEvent, handler: ViEventCallback) => void;
 	};
 };
@@ -31,7 +31,8 @@ export type ViStore = ViStoreState & {
 export type MessageType = 'Connecting' | 'Connected' | 'Disconnecting' | 'Disconnected' | 'Already' | 'Failed';
 
 /**
- * These map to the realtime event types emitted in data messages of the RTC connection
+ * A map of key vi talk events. They include realtime api events, connection life cycle, and vi tool call events.
+ * The UI uses these when adding/removing vi event listeners
  */
 export enum CallbackEvent {
 	// realtime api events
@@ -51,16 +52,17 @@ export enum CallbackEvent {
 	UserMessageTranscriptDelta = 'conversation.item.input_audio_transcription.delta', // audio transcript incremental update
 	UserMessageTranscriptDone = 'conversation.item.input_audio_transcription.completed', // user transcript done
 	ResponseItemDone = 'response.output_item.done', // when a response item is done -> emits tool calls
-	// app vi events
+	// connection lifecycle events
 	ViDisconnect = 'vi.disconnect',
 	ViConnect = 'vi.connect',
+	// vi action events
 	ViThemeChange = 'vi.theme.change',
 	ViVolumeChange = 'vi.volume.change',
 	ViOpenView = 'vi.open.view',
 }
 
 /**
- * Callback types for ViTalk Events
+ * Callback types for Vi Talk Events
  */
 export type ViEventCallback = (message?: ViEventMessage) => void;
 

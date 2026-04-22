@@ -12,7 +12,7 @@ export async function createRealtimeSessionKey(noiseReduction = 'far_field'): Pr
 			},
 			body: JSON.stringify(realtimeSessionRequests(noiseReduction)),
 		});
-		
+
 		const rawBody = await response.text();
 		const data = rawBody ? safeJsonParse(rawBody) : null;
 

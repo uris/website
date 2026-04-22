@@ -3,6 +3,11 @@ import UIView, { ToolType, UITheme } from '@/stores/ai/ai-tools/_types';
 import { sendToolCallResultsItem } from '@/stores/ai/ViTalkCreateConvoItemFactory';
 import { processEventCallbacks } from '@/stores/ai/viStore';
 
+/**
+ * Core handler for tool calls
+ * Note: for UI Actions, the UI layer will send results of the tool call back to the model since
+ * this needs to provide a success / failure and any relevant data like resulting volume, etc.
+ */
 export async function viTalkToolCallHandler(params: { id: string; name: any; args: any; call_id: string }) {
 	switch (params.name) {
 		// *** UPDATE UI Settings: volume, theme, etc.

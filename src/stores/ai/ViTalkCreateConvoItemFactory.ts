@@ -4,7 +4,7 @@ import { sendResponseRequest } from '@/stores/ai/ViTalkResponseCreateFactory';
 import type { ToolType } from './ai-tools/_types';
 
 /**
- * User message sender
+ * Send User message helper
  */
 export function sendUserMessage(message: string) {
 	const connection = getWebRTCConnections(CONN_NAME);
@@ -15,7 +15,7 @@ export function sendUserMessage(message: string) {
 }
 
 /**
- * User message builder
+ * Create a user message conversation item
  */
 export function createConversationItem(message: string) {
 	return {

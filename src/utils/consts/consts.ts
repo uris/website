@@ -29,3 +29,5 @@ export const viTalkButtonAnimation: ButtonAnimation = {
 		off: { duration: 0, ease: 'linear' },
 	},
 };
+
+export const linkedinProfilePage = 'https://www.linkedin.com/in/uris-dacosta-4b100735a/';

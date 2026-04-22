@@ -13,8 +13,8 @@ import styles from './ProjectTile.module.css';
 export function ProjectTile(props: Readonly<ProjectTileProps>) {
 	const {
 		project,
-		width,
-		height,
+		width = 200,
+		height = 200,
 		listGap = 24,
 		stagger = 0.1,
 		animate = { start: { y: 50 }, end: { y: 0 } },
@@ -37,7 +37,7 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 		return { tileWidth, tileHeight };
 	}, [layout, width, height, listGap]);
 
-	// resolve logo to the component of the next image
+	// resolve logo
 	const resolvedLogo = useMemo(() => {
 		if (!logo) return null;
 		if (logo.type === 'icon') return <Icon name={logo.name} strokeColor={logo.strokeColor} size={logo.size} />;
@@ -46,11 +46,11 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 			const imgSrc = `${logo.src}?v=001`;
 			return (
 				<Image
-					quality={100}
+					quality={80}
 					src={imgSrc}
 					width={0}
 					height={0}
-					sizes="100vw"
+					sizes={`${Math.floor(width / 2)}px`}
 					alt={logo.alt ?? title ?? 'title'}
 					loading={'eager'}
 					style={{ width: '100%', height: 'auto' }}
@@ -58,25 +58,25 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 			);
 		}
 		return null;
-	}, [logo, title]);
+	}, [logo, title, width]);
 
-	// resolve logo to the component of the next image
+	// resolve the bg image
 	const resolvedImage = useMemo(() => {
 		if (!image) return null;
 		const imgSrc = `${image}?v=007`;
 		return (
 			<Image
-				quality={100}
+				quality={80}
 				src={imgSrc}
 				width={0}
 				height={0}
-				sizes="100vw"
+				sizes={`${width}px`}
 				alt={'title'}
 				loading={'eager'}
 				style={{ width: '100%', height: 'auto' }}
 			/>
 		);
-	}, [image]);
+	}, [image, width]);
 
 	// determine the transforms
 	const transform = useMemo(() => {

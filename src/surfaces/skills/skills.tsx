@@ -16,15 +16,30 @@ export function Skills() {
 	return (
 		<div className={styles.wrapper}>
 			<div className={styles.bgImage} style={{ opacity: 0.25 }}>
-				<Image
-					alt={'background image'}
-					quality={80}
-					src={isDark ? dark : light}
-					fill
-					style={{ objectFit: 'contain' }}
-					sizes={'100vw'}
-					priority
-				/>
+				{isDark && (
+					<Image
+						alt={'background image'}
+						quality={80}
+						src={dark}
+						fill
+						style={{ objectFit: 'contain' }}
+						sizes={'100vw'}
+						preload={true}
+						placeholder={'blur'}
+					/>
+				)}
+				{!isDark && (
+					<Image
+						alt={'background image'}
+						quality={80}
+						src={light}
+						fill
+						style={{ objectFit: 'contain' }}
+						sizes={'100vw'}
+						preload={true}
+						placeholder={'blur'}
+					/>
+				)}
 			</div>
 			<SkillsRenderer document={document} />
 		</div>

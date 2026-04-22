@@ -4,6 +4,9 @@ import { viBaseInstructions } from '@/stores/ai/viTalkSessionUpdateFactory';
 import { useHomeLayoutStore } from '@/stores/home-layout/homeLayoutStore';
 import { ToolType } from './ai-tools/_types';
 
+/**
+ * Stop the current response if still active
+ */
 export function requestResponseStop() {
 	const connection = getWebRTCConnections(CONN_NAME);
 	if (!connection) return;

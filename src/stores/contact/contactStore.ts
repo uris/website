@@ -106,7 +106,7 @@ async function sendEmailMessage(message: { from: string; text: string }) {
 }
 
 /**
- * Validate value based on validation type
+ * Super simple validation based on type
  */
 function entryIsValid(value: string, validationType: ValidationType) {
 	switch (validationType) {
@@ -132,7 +132,7 @@ function createMessage(formValues: Map<string, FormEntry>) {
 }
 
 /**
- * Create error array
+ * Create the error array
  */
 function createErrorEntries(formValues: Map<string, FormEntry>) {
 	const entries = Array.from(formValues.entries());

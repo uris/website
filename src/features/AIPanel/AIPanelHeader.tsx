@@ -1,11 +1,11 @@
 'use client';
 
-import { FlexDiv, Preset, ToggleButton, useTheme } from '@apple-pie/slice';
+import { FlexDiv, IconButton, Preset, ToggleButton, useTheme } from '@apple-pie/slice';
 import { useTipActions } from '@apple-pie/slice/stores';
 import type React from 'react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useHomeLayout, useSettingsOpen } from '@/stores/home-layout/homeLayoutStore';
-import { buttonRotateAnimation } from '@/utils/consts/consts';
+import { buttonRotateAnimation, linkedinProfilePage } from '@/utils/consts/consts';
 import { gradientCover } from '@/utils/styles/styles';
 import styles from './AIPanel.module.css';
 
@@ -23,6 +23,11 @@ export function AIPanelHeader() {
 		} as React.CSSProperties;
 	}, [surfaceColor]);
 
+	// open LinkedIn profile page
+	const handleLinkedIn = useCallback(() => {
+		if (globalThis.window !== undefined) window.open(linkedinProfilePage, '_blank');
+	}, []);
+
 	return (
 		<div className={styles.header} style={cssVars}>
 			<FlexDiv preset={Preset.Row} gap={16}>
@@ -37,7 +42,16 @@ export function AIPanelHeader() {
 					customAnimations={buttonRotateAnimation}
 				/>
 			</FlexDiv>
-			<div />
+			<div>
+				<IconButton
+					buttonSize={'l'}
+					icon={'linkedin'}
+					tooltip={'Linked in profile'}
+					onToolTip={setTip}
+					iconFill={true}
+					onClick={handleLinkedIn}
+				/>
+			</div>
 		</div>
 	);
 }

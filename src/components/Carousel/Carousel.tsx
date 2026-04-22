@@ -222,6 +222,7 @@ export function CarouselItem(props: Readonly<ImageItemProps>) {
 							alt={title ?? 'Image'}
 							loading={'eager'}
 							className={styles.image}
+							preload={true}
 						/>
 					)}
 				</div>

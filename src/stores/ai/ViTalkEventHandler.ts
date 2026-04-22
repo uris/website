@@ -28,6 +28,10 @@ export async function realtimeDataEventHandler(
 	}
 }
 
+/**
+ * Core handler for the messages received from the model over the data channel
+ * The basic approach is - handle / massage the data, return the event, data, and any relevant state changes
+ */
 export async function handleMessageEvent(
 	data: any,
 ): Promise<{ event?: CallbackEvent; state?: Partial<ViStoreState>; data?: unknown } | undefined> {

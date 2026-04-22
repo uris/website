@@ -64,9 +64,8 @@ export const useAIStore = create<ViStore>((set, get) => ({
 				}
 			}
 
-			// create the realtime session
+			// request ephemeral token for a realtime session
 			const session = await createRealtimeSession();
-			console.log({ session });
 
 			// if unable to create the session, notify the user
 			if (!session.success) {
@@ -75,23 +74,20 @@ export const useAIStore = create<ViStore>((set, get) => ({
 				return;
 			}
 
-			// extract token to use for RTC connection creation
+			// extract token to use for RTC connection
 			const token = session.data.value;
 
-			// create the RTC connection with the token
+			// create the RTC connection with the token used as bearer header
 			const connection = await createRTCConnection(token);
 
 			// check for connection errors
 			if (connection.error) {
-				console.log({ connection, token });
 				set({ connected: false, connecting: false });
 				viNotification('Failed');
 				return;
 			}
 
-			// IMPORTANT
-			// don't mutate the response store responses directly - let active stream logic do that
-			// by handling the callbacks
+			// emit the connected event so listeners can fire
 			processEventCallbacks(CallbackEvent.ViConnect, { event: CallbackEvent.ViConnect });
 
 			// set vi label display to false as already connected
@@ -109,9 +105,7 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			disconnectRTC();
 			stopMicrophone();
 
-			// IMPORTANT
-			// don't mutate the response store responses directly - let active stream logic do that
-			// by handling the callbacks
+			// emit the disconnected event so listeners can fire
 			processEventCallbacks(CallbackEvent.ViDisconnect, { event: CallbackEvent.ViDisconnect });
 
 			// set connecting false, connected false
@@ -126,19 +120,18 @@ export const useAIStore = create<ViStore>((set, get) => ({
 		 * First line handler for data events on the RTC connection
 		 */
 		handleDataEvents: async (channel, event, eventData) => {
-			// filter out data events not part of the specified data channel
+			// filter out data events not part of the WebRTC data channel list
 			if (!channel.includes(EVENTS_DATA_CHANNEL)) return;
 
-			// handle message types only
 			if (event === 'message') {
 				// handle the realtime event and get updates
 				const updates = await realtimeDataEventHandler(eventData);
 				const { event, state, data } = updates ?? {};
 
-				// if there are state updates, set those
+				// process any state updates
 				if (state) set(state);
 
-				// emit event to added listeners
+				// emit event to any listeners
 				if (event) processEventCallbacks(event, { id: undefined, event, data });
 			} else {
 				// log other events for now
@@ -230,7 +223,7 @@ async function createRTCConnection(bearerToken: string, connectionName = CONN_NA
 
 		// protect for mic and set default volume to 1 if not defined
 		if (!micStream.current) throw new Error('No mic stream');
-		volume ??= 1;
+		volume ??= INITIAL_MIC_VOLUME;
 
 		// add a new connection directly to the WebRTC store
 		useWebRTCActions.addConnection(connectionName, {
@@ -311,7 +304,7 @@ export function viNotification(type: MessageType) {
 }
 
 /**
- * Process all callbacks registered against a specific event
+ * Process all callbacks registered to a specified event
  */
 export function processEventCallbacks(event: CallbackEvent, message?: ViEventMessage) {
 	// get handlers for the event

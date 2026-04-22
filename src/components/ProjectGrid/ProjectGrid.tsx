@@ -68,6 +68,8 @@ export function ProjectGrid(props: Readonly<ProjectGridProps>) {
 							onClick={handleProjectClick}
 							index={index}
 							project={project}
+							width={tileSize}
+							height={tileSize}
 						/>
 					);
 				})}
