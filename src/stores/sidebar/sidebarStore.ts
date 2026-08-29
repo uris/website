@@ -6,7 +6,6 @@ export const useSidebarContentStore = create<SidebarStore>((set, get) => ({
 	direction: Direction.Forward,
 	project: null,
 	showProject: false,
-	iframeHeight: undefined,
 	actions: {
 		setSurface: (surface: SidebarSurface) => {
 			if (surface === get().surface) return;
@@ -23,9 +22,6 @@ export const useSidebarContentStore = create<SidebarStore>((set, get) => ({
 		setShowProject: (showProject: boolean) => {
 			set({ showProject });
 		},
-		setIFrameHeight: (height: number | string | undefined) => {
-			set({ iframeHeight: height });
-		},
 	},
 }));
 
@@ -34,4 +30,3 @@ export const useSurface = () => useSidebarContentStore((state) => state.surface)
 export const useProject = () => useSidebarContentStore((state) => state.project);
 export const useDirection = () => useSidebarContentStore((state) => state.direction);
 export const useShowProject = () => useSidebarContentStore((state) => state.showProject);
-export const useIFrameHeight = () => useSidebarContentStore((state) => state.iframeHeight);

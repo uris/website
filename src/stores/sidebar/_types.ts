@@ -5,13 +5,11 @@ export interface SidebarStore {
 	project: Project | null;
 	showProject: boolean;
 	direction: Direction;
-	iframeHeight: number | string | undefined;
 	actions: {
 		setSurface: (surface: SidebarSurface) => void;
 		setProject: (project: Project | null) => void;
 		closeProject: () => void;
 		setShowProject: (showProject: boolean) => void;
-		setIFrameHeight: (height: number | string | undefined) => void;
 	};
 }
 
