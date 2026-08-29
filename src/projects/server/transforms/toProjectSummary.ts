@@ -1,5 +1,5 @@
 import 'server-only';
-import type { ProjectDocument, ProjectSummary } from '@/projects/server/types';
+import type { ProjectDocument, ProjectSummary } from '@/projects/_types/types';
 
 export function toProjectSummary(project: ProjectDocument): ProjectSummary {
 	return {

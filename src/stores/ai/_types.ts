@@ -1,4 +1,4 @@
-import type { ProjectName } from '@/projects/server/types';
+import type { ProjectSlug } from '@/projects/_types/types';
 import type UIView from '@/stores/ai/ai-tools/_types';
 import type { UITheme } from '@/stores/ai/ai-tools/_types';
 
@@ -72,7 +72,7 @@ export type ViEventMessage = {
 	action_value?: {
 		theme?: UITheme;
 		volume?: number;
-		slug?: ProjectName;
+		slug?: ProjectSlug;
 		view?: UIView;
 	};
 	id?: string;

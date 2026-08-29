@@ -1,5 +1,5 @@
 {
-	"$schema": "./project.schema.json",
+	"$schema": "../project.schema.json",
 	"slug": "uris-design",
 	"tile": {
 		"title": "Conversational AI Portfolio",
@@ -17,30 +17,30 @@
 		"order": 2
 	},
 	"ai": {
-		"summary": "Uris Design is a Next.js portfolio workspace with a live AI conversation layer, designed to let visitors explore projects, skills, and implementation details conversationally instead of through a static portfolio flow.",
-		"tagline": "A frontend portfolio built as a conversational screening surface.",
+		"summary": "Uris Design is a Next.js portfolio workspace with a live, voice enabled AI assistant that can talk about projects, skills, and implementation details, and can also navigate the site to the relevant section while the conversation unfolds.",
+		"tagline": "A frontend portfolio built as a conversational screening and navigation surface.",
 		"emphasize": [
 			"The portfolio as an interactive workspace, not a brochure",
 			"Frontend engineering depth: App Router, routing, state, realtime events, UI composition",
-			"Live voice conversation as a screening and discovery layer",
+			"Live voice conversation as a screening, discovery, and navigation layer",
 			"Use of Slice as the underlying UI and browser runtime library",
-			"Future toolability for project-aware and navigation-aware AI behavior"
+			"Structured tool support for project details, skills awareness, and navigation actions"
 		],
 		"avoid": [
 			"Reducing the project to only a chatbot demo",
 			"Treating it as only a design exercise",
-			"Implying deep project-tool awareness is already fully implemented"
+			"Implying the assistant can perform arbitrary site actions beyond the implemented project, skills, contact, and settings flows"
 		],
 		"audiences": ["Hiring managers", "Recruiters", "Frontend engineers", "Technical founders"],
 		"suggestedQuestions": [
 			"How does the live AI conversation work technically?",
 			"Why use Next.js for this kind of product?",
 			"What makes this different from a normal portfolio site?",
-			"How would the assistant become project-aware?"
+			"How does the assistant know about projects, skills, and which section to open?"
 		],
 		"capabilities": ["summarize", "explain_architecture", "highlight_tradeoffs", "navigate"],
 		"limitations": [
-			"Do not imply project-aware tool execution is fully implemented yet",
+			"Do not imply the assistant has arbitrary tool execution beyond the defined project, skills, navigation, and settings actions",
 			"Do not treat the project as only a chatbot demo"
 		],
 		"highlightOrder": [
@@ -48,14 +48,14 @@
 			"Next.js architecture",
 			"Realtime voice interaction",
 			"Workspace UI composition",
-			"Future project-aware tooling"
+			"Project-aware and navigation-aware assistant behavior"
 		],
 		"relatedProjects": ["slice"],
 		"keywords": ["Next.js", "portfolio", "AI", "WebRTC", "frontend architecture", "screening"]
 	},
 	"header": {
 		"title": "Conversational AI Portfolio Screening",
-		"subtitle": "A Next.js portfolio and frontend engineering showcase. Visitors can ask about projects, skills, and implementation details through a live, voice enabled, AI conversation instead of navigating a static brochure.",
+		"subtitle": "A Next.js portfolio and frontend engineering showcase. Visitors can ask about projects, skills, and implementation details through a live, voice enabled AI conversation, and the assistant can open the relevant project, skills, or contact section in response.",
 		"techStack": [
 			"Next.js 16",
 			"React 19",
@@ -89,7 +89,7 @@
 			"items": [
 				{
 					"title": "AI-first portfolio workspace",
-					"description": "The site is structured as a workspace instead of a brochure: a central AI conversation surface, draggable side panels, project browsing, and settings that support live exploration.",
+					"description": "The site is structured as a workspace instead of a brochure: a central AI conversation surface, draggable side panels, project browsing, and settings that support live exploration and guided navigation.",
 					"image": "workspaceOverview",
 					"imagePos": "left"
 				},
@@ -133,7 +133,7 @@
 			"blocks": [
 				{
 					"type": "paragraph",
-					"text": "Imagine a recruiter, founder, or hiring manager saying \"I want to understand your experience with design systems, AI, or realtime product work\" and getting a direct, guided, conversational path through your work and background instead of hunting for the right page."
+					"text": "Imagine a recruiter, founder, or hiring manager saying \"I want to understand your experience with design systems, AI, or realtime product work\" and getting a direct, guided, conversational path through your work and background, with the site opening the relevant project or skills section as part of that exchange."
 				},
 				{
 					"type": "paragraph",
@@ -194,12 +194,20 @@
 							"text": "Project detail pages are generated from known project slugs, with `generateStaticParams()` producing static routes and server-side transformers shaping the same project JSON into page, tile, and AI-specific views."
 						},
 						{
+							"label": "Assistant data awareness",
+							"text": "The assistant is seeded with project summaries on session start and can request structured project and skills data through explicit tools, giving it grounded content to talk about instead of relying on vague prompt-only context."
+						},
+						{
 							"label": "Client and server separation",
 							"text": "Theme resolution and layout bootstrapping happen through the App Router layout, while interactive surfaces such as the AI panel, settings, and project workspace hydrate on the client where stateful behavior is needed."
 						},
 						{
 							"label": "Realtime event handling",
 							"text": "Assistant events like `session.created`, `response.output_audio_transcript.delta`, and `response.output_audio_transcript.done` are routed through a dedicated event handler that updates store state without coupling transport logic to UI components."
+						},
+						{
+							"label": "Navigation actions",
+							"text": "The assistant can trigger browser-side view changes for projects, skills, contact, and selected UI settings, so conversation is tied directly to movement through the site instead of being isolated from the interface."
 						},
 						{
 							"label": "Voice and device control",
@@ -229,8 +237,16 @@
 							"text": "The site is built around asking natural questions about skills, projects, and background instead of forcing users through a click-heavy path."
 						},
 						{
+							"label": "Grounded assistant behavior",
+							"text": "The assistant can talk about projects and skills from structured server data rather than acting as a generic voice shell with no awareness of the portfolio content."
+						},
+						{
 							"label": "Realtime interface engineering",
 							"text": "Live voice input, streaming assistant output, and event-driven UI updates coordinated through WebRTC and typed store logic."
+						},
+						{
+							"label": "Conversational navigation",
+							"text": "The model can open the relevant section of the site on request, turning voice conversation into an actual browsing control layer instead of leaving navigation entirely to the user."
 						},
 						{
 							"label": "Practical Next.js architecture",
@@ -245,8 +261,8 @@
 							"text": "The product is built on Slice, my own UI and browser runtime library, which lets the app reuse the same primitives for theme, layout, media, and WebRTC handling."
 						},
 						{
-							"label": "Future toolability",
-							"text": "The assistant layer is positioned to become aware of projects, skills, navigation actions, and richer portfolio data without needing to rewrite the interface model."
+							"label": "Extensible tool surface",
+							"text": "The current tool layer already supports project detail lookup, skills awareness, view navigation, and selected settings updates, with room to extend the model without rewriting the interface model."
 						}
 					]
 				}
@@ -293,7 +309,7 @@
 			"blocks": [
 				{
 					"type": "paragraph",
-					"text": "Making conversation useful — the hard part is not just connecting to a model. It is shaping the portfolio so conversation becomes a real navigation and discovery layer, not a novelty. The future tool surface is what turns this from \"chat on a site\" into \"screen this person naturally.\""
+					"text": "Making conversation useful — the hard part is not just connecting to a model. It is shaping the portfolio so conversation becomes a real navigation and discovery layer, not a novelty. The implemented tool surface is what starts turning this from \"chat on a site\" into \"screen this person naturally.\""
 				},
 				{
 					"type": "paragraph",

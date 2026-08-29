@@ -1,4 +1,4 @@
-import type { ProjectSlug, ProjectTileData } from '@/projects/server/types';
+import type { ProjectSlug, ProjectTileData } from '@/projects/_types/types';
 
 export type AnimationValue = { [key: string]: number };
 

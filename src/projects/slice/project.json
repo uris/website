@@ -1,5 +1,5 @@
 {
-	"$schema": "./project.schema.json",
+	"$schema": "../project.schema.json",
 	"slug": "slice",
 	"tile": {
 		"title": "React UI Kit",

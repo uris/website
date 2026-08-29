@@ -46,7 +46,7 @@
 	justify-content: flex-start;
 	flex-direction: column;
 	box-sizing: border-box;
-	padding: 0 0 0 6px; /* clear the resize handle */
+	padding: 0;
 	margin: 0;
 	overflow: hidden;
 }

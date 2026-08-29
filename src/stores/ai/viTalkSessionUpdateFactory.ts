@@ -1,5 +1,5 @@
 import { getWebRTCConnections } from '@apple-pie/slice/stores';
-import type { ProjectSummary } from '@/projects/server/types';
+import type { ProjectSummary } from '@/projects/_types/types';
 import { CONN_NAME, EVENTS_DATA_CHANNEL } from '@/stores/ai/_data';
 import { ToolNamespace } from './ai-tools/_types';
 import { getAllTools, getProjectTools, getUITools } from './ai-tools/loadTools';

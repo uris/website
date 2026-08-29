@@ -4,10 +4,11 @@
 	justify-content: flex-start;
 	align-items: center;
 	box-sizing: border-box;
-	max-width: 768px;
 	min-width: 520px;
+	padding: 0;
 	overflow: visible;
 	width: 100%;
+	height: auto;
 	gap: 0;
 }
 

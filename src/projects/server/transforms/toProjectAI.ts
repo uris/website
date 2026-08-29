@@ -1,6 +1,6 @@
 import 'server-only';
 
-import type { ProjectAIData, ProjectBlock, ProjectDocument, ProjectStatsBlock } from '@/projects/server/types';
+import type { ProjectAIData, ProjectBlock, ProjectDocument, ProjectStatsBlock } from '@/projects/_types/types';
 
 export function toProjectAIData(project: ProjectDocument): ProjectAIData {
 	const stats = project.sections.flatMap((section) => section.blocks.flatMap((block) => extractStats(block)));

@@ -2,9 +2,8 @@
 
 import { FlexDiv, Preset } from '@apple-pie/slice';
 import { useEffect } from 'react';
-import NotFound from '@/projects/_helpers/NotFound';
+import type { ProjectPageData } from '@/projects/_types/types';
 import { ProjectPageRenderer } from '@/projects/renderers/ProjectPageRenderer';
-import type { ProjectPageData } from '@/projects/server/types';
 import { FrameEvent } from '@/src/components/ProjectFrame/ProjectFrame';
 
 export function ProjectDetails({ project }: Readonly<{ project: ProjectPageData | null }>) {
@@ -24,7 +23,7 @@ export function ProjectDetails({ project }: Readonly<{ project: ProjectPageData 
 	if (!project)
 		return (
 			<FlexDiv preset={Preset.Window} justify="center" align="center">
-				<NotFound />
+				<h1>Not Found</h1>
 			</FlexDiv>
 		);
 

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { ProjectTileData } from '@/projects/server/types';
+import type { ProjectTileData } from '@/projects/_types/types';
 import type { HomeLayoutStore } from './_types';
 
 // check the local store exists before server side rendering

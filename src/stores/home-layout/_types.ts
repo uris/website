@@ -1,4 +1,4 @@
-import type { ProjectTileData } from '@/projects/server/types';
+import type { ProjectTileData } from '@/projects/_types/types';
 
 export type HomeLayoutStore = {
 	sidebarOpen: boolean;

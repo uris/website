@@ -1,6 +1,6 @@
 'use client';
 
-import { useTheme } from '@apple-pie/slice';
+import { useObserveResize, useTheme } from '@apple-pie/slice';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDraggingSidebar } from '@/stores/home-layout/homeLayoutStore';
@@ -26,17 +26,18 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	const theme = useTheme().current.name;
 	const dragging = useDraggingSidebar();
 	const iframeRef = useRef<HTMLIFrameElement>(null);
+	const size = useObserveResize(iframeRef, { ignore: 'width' });
 
 	// post state based on tracked theme (add other state items as needed)
 	const postState = useCallback(
 		(event?: FrameEvent) => {
 			if (!hasWindow) return;
 			iframeRef.current?.contentWindow?.postMessage(
-				{ event: event ?? FrameEvent.STATE_CHANGE, theme: theme },
+				{ event: event ?? FrameEvent.STATE_CHANGE, theme: theme, height: size.height },
 				globalThis.location.origin,
 			);
 		},
-		[theme],
+		[theme, size.height],
 	);
 
 	// handle events posted by the child on the parent

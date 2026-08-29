@@ -15,5 +15,3 @@ export const images = {
 	themeColors,
 	themeColorsLight,
 } as const;
-
-export type SliceImageName = keyof typeof images;

@@ -1,4 +1,4 @@
-export const addMic = `
+const addMic = `
 // grab the mic options and setter from the store
 const {(micOptions, setMicrophone)} = useMicrophoneStore();
 
@@ -9,7 +9,7 @@ return <Dropdown options={micOptions} onOption={setMicrophone} />
 // setMicrophone wires directly to the WebRTC audio track and mic hook
 `.trim();
 
-export const granularExports = `
+const granularExports = `
 // bring in only what you need
 import { Button } from '@apple-pie/slice/components/Button'
 import { useMicrophone } from '@apple-pie/slice/hooks/useMicrophone'
@@ -37,7 +37,7 @@ export function Settings() {
 }
 `.trim();
 
-export const rollup = `
+const rollup = `
 import ...
 
 const shouldMinify = process.env.MINIFY === 'true';
@@ -59,7 +59,7 @@ const buildInputs = () => {
 }
 `.trim();
 
-export const provider = `
+const provider = `
 'use client';
 
 import { ThemeProvider } from '@apple-pie/slice/providers/ThemeProvider';
@@ -78,3 +78,11 @@ export function Providers({ children, initialTheme, initialSystem }: ProvidersPr
     );
 }
 `.trim();
+
+export const snippets = {
+	addMic,
+	granularExports,
+	provider,
+	rollup,
+	sample,
+} as const;

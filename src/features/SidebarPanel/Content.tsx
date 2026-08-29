@@ -18,7 +18,6 @@ export function Content() {
 	const surfaceColor = current.colors['core-surface-primary-tint'];
 	const surface = useSurface();
 	const direction = useDirection();
-	const showTopCover = surface !== SidebarSurface.Contact;
 	const ref = useRef<HTMLDivElement>(null);
 	const { width } = useObserveResize(ref, { ignore: 'height' });
 
@@ -42,7 +41,6 @@ export function Content() {
 
 	return (
 		<FlexDiv preset={Preset.FillCenter} ref={ref} style={cssVars}>
-			{showTopCover && <div className={`${styles.cover} ${styles.top}`} />}
 			<div className={`${styles.cover} ${styles.bot}`} />
 			<ProjectsHeader />
 			<ContactFooter />

@@ -1,5 +1,5 @@
 import 'server-only';
-import type { ProjectDocument, ProjectTileData } from '@/projects/server/types';
+import type { ProjectDocument, ProjectTileData } from '@/projects/_types/types';
 
 export function toProjectTileData(project: ProjectDocument): ProjectTileData {
 	if (!project.tile) {

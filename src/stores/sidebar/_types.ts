@@ -1,13 +1,17 @@
+import type { ProjectSlug } from '@/projects/_types/types';
+
 export interface SidebarStore {
 	surface: SidebarSurface;
 	project: Project | null;
 	showProject: boolean;
 	direction: Direction;
+	iframeHeight: number | string | undefined;
 	actions: {
 		setSurface: (surface: SidebarSurface) => void;
 		setProject: (project: Project | null) => void;
 		closeProject: () => void;
 		setShowProject: (showProject: boolean) => void;
+		setIFrameHeight: (height: number | string | undefined) => void;
 	};
 }
 
@@ -17,10 +21,7 @@ export enum SidebarSurface {
 	Contact = 2,
 }
 
-export enum Project {
-	Slice = 'slice',
-	UrisDesign = 'uris-design',
-}
+export type Project = ProjectSlug;
 
 export enum Direction {
 	Forward = 1,

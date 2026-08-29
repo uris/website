@@ -1,5 +1,5 @@
 import 'server-only';
-import type { ProjectDocument, ProjectPageData } from '@/projects/server/types';
+import type { ProjectDocument, ProjectPageData } from '@/projects/_types/types';
 
 export function toProjectPageData(project: ProjectDocument): ProjectPageData {
 	return {

@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Label } from '@apple-pie/slice';
+import type { StaticImageData } from 'next/image';
 import { Carousel, CarouselItem } from '@/components/Carousel/Carousel';
 import { CodeSnippet } from '@/components/CodeSnippet/CodeSnippet';
 import { DataButton, DataButtonGrid } from '@/components/DataButtons/DataButtons';
@@ -11,78 +12,86 @@ import { SectionTitle } from '@/components/SectionTitle/SectionTitle';
 import { SubTitle } from '@/components/SubTitle/SubTitle';
 import { TechStack } from '@/components/TechStack/TechStack';
 import { Wrapper } from '@/projects/_helpers/Wrapper';
-import { resolveProjectImage, resolveProjectSnippet } from '@/projects/registry';
-import type { ProjectPageData, ProjectSection } from '@/projects/server/types';
+import type { ProjectPageData, ProjectSection } from '@/projects/_types/types';
 import { Logo } from '@/src/components/Logos/Logos';
+import { Section } from '@/src/components/Section/Section';
+import { normalizeLanguage, normalizeTarget } from '@/utils/misc';
 import styles from '../_helpers/Wrapper.module.css';
 
-export function ProjectPageRenderer({ project }: Readonly<{ project: ProjectPageData }>) {
-	const { slug, header, sections } = project;
+type ImageValue = string | StaticImageData | undefined;
+
+export interface ProjectPageRendererProps {
+	project: ProjectPageData;
+	resolveImage?: (name?: string) => ImageValue;
+	resolveSnippet?: (name?: string) => string | undefined;
+}
+
+// Generic renderer for projects details pulling info from the base project JSON
+export function ProjectPageRenderer({
+	project,
+	resolveImage = () => undefined,
+	resolveSnippet = () => undefined,
+}: Readonly<ProjectPageRendererProps>) {
+	const { header, sections } = project;
 
 	return (
 		<Wrapper>
-			{header.brand?.type === 'logo' && header.brand.name && (
-				<div
-					style={{
-						borderRadius: 12,
-						border: '1px solid var(--core-outline-secondary)',
-						padding: '12px',
-						background: 'var(--core-surface-primary)',
-					}}
-				>
-					<Logo name={header.brand.name} color={header.brand.color} size={header.brand.size} margin={0} />
-				</div>
-			)}
-
-			<ProjectTitle>{header.title}</ProjectTitle>
-
-			<SubTitle>{header.subtitle}</SubTitle>
-
-			<TechStack>
-				{header.techStack.map((item) => (
-					<Label key={item}>{item}</Label>
-				))}
-			</TechStack>
-
-			{!!header.links?.length && (
-				<LinkList direction={'row'}>
-					{header.links.map((link) => (
-						<Button
-							key={`${link.label}_${link.href}`}
-							link={link.href}
-							target={normalizeTarget(link.target)}
-							iconLeft={link.iconLeft}
-						>
-							{link.label}
-						</Button>
+			<Section gradient={false}>
+				{header.brand?.type === 'logo' && header.brand.name && (
+					<Logo name={header.brand.name} color={header.brand.color} size={64} margin={32} />
+				)}
+				<ProjectTitle>{header.title}</ProjectTitle>
+				<SubTitle>{header.subtitle}</SubTitle>
+				<TechStack>
+					{header.techStack.map((item) => (
+						<Label key={item}>{item}</Label>
 					))}
-				</LinkList>
-			)}
+				</TechStack>
+				{!!header.links?.length && (
+					<LinkList direction={'row'}>
+						{header.links.map((link) => (
+							<Button
+								key={`${link.label}_${link.href}`}
+								link={link.href}
+								target={normalizeTarget(link.target)}
+								iconLeft={link.iconLeft}
+							>
+								{link.label}
+							</Button>
+						))}
+					</LinkList>
+				)}
+			</Section>
 
 			{header.carousel && header.carousel.items.length > 0 && (
-				<Carousel maxImageHeight={header.carousel.maxImageHeight}>
-					{header.carousel.items.map((item) => (
-						<CarouselItem
-							key={item.title}
-							title={item.title}
-							imagePos={item.imagePos}
-							image={resolveProjectImage(slug, item.image)}
-							imageLight={resolveProjectImage(slug, item.imageLight)}
-						>
-							<p>{item.description}</p>
-						</CarouselItem>
-					))}
-				</Carousel>
+				<Section gradient={true}>
+					<Carousel maxImageHeight={header.carousel.maxImageHeight}>
+						{header.carousel.items.map((item) => (
+							<CarouselItem
+								key={item.title}
+								title={item.title}
+								imagePos={item.imagePos}
+								image={resolveImage(item.image)}
+								imageLight={resolveImage(item.imageLight)}
+							>
+								<p>{item.description}</p>
+							</CarouselItem>
+						))}
+					</Carousel>
+				</Section>
 			)}
 
 			{sections.map((section) => (
-				<RenderedSection key={section.title} slug={slug} section={section} />
+				<RenderedSection key={section.title} resolveSnippet={resolveSnippet} section={section} />
 			))}
 		</Wrapper>
 	);
 }
 
-function RenderedSection({ slug, section }: Readonly<{ slug: ProjectPageData['slug']; section: ProjectSection }>) {
+function RenderedSection({
+	resolveSnippet,
+	section,
+}: Readonly<{ resolveSnippet: (name?: string) => string | undefined; section: ProjectSection }>) {
 	return (
 		<>
 			<SectionTitle icon={section.icon}>{section.title}</SectionTitle>
@@ -112,7 +121,7 @@ function RenderedSection({ slug, section }: Readonly<{ slug: ProjectPageData['sl
 						</DataButtonGrid>
 					);
 
-				const snippet = block.snippet ? resolveProjectSnippet(slug, block.snippet) : block.code;
+				const snippet = block.snippet ? resolveSnippet(block.snippet) : block.code;
 				return (
 					<div key={key} className={styles.codeBlock}>
 						{block.title && <FigureTitle>{block.title}</FigureTitle>}
@@ -122,14 +131,4 @@ function RenderedSection({ slug, section }: Readonly<{ slug: ProjectPageData['sl
 			})}
 		</>
 	);
-}
-
-function normalizeLanguage(language?: string): 'typescript' | 'javascript' | 'css' | 'html' | 'json' {
-	if (language === 'javascript' || language === 'css' || language === 'html' || language === 'json') return language;
-	return 'typescript';
-}
-
-function normalizeTarget(target?: string): '_blank' | '_self' | '_parent' | '_top' | undefined {
-	if (target === '_blank' || target === '_self' || target === '_parent' || target === '_top') return target;
-	return undefined;
 }

@@ -162,7 +162,6 @@ export function CarouselItem(props: Readonly<ImageItemProps>) {
 		image,
 		imageLight,
 		onHeightChange,
-		coverUp = true,
 		maxImageHeight,
 		borderRadius = 16,
 	} = props;
@@ -206,7 +205,7 @@ export function CarouselItem(props: Readonly<ImageItemProps>) {
 		<div className={classNames(frameClasses)} ref={ref} style={cssVars}>
 			<div className={styles.block}>
 				<div className={styles.textContent}>
-					<h3>{title}</h3>
+					<h4>{title}</h4>
 					{children}
 				</div>
 			</div>
@@ -227,7 +226,6 @@ export function CarouselItem(props: Readonly<ImageItemProps>) {
 					)}
 				</div>
 			</div>
-			{coverUp && <div className={styles.coverUp} />}
 		</div>
 	);
 }

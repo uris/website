@@ -5,8 +5,10 @@
 	line-height: 162.5%;
 	text-decoration: none;
 	letter-spacing: 0.1px;
-	text-align: center;
+	text-align: left;
 	color: var(--core-text-tertiary);
 	margin: 0;
 	padding: 0;
+	width: 100%;
+	max-width: 600px;
 }

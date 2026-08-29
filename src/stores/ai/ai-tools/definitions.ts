@@ -1,4 +1,4 @@
-import { ProjectName } from '@/projects/server/types';
+import { projectSlugs } from '@/projects/_registry/slugs';
 import UIView, { ToolType, UIAction, UITheme } from './_types';
 
 /**
@@ -14,7 +14,7 @@ export const request_project_details = {
 			slug: {
 				type: 'string',
 				description: 'Project slug',
-				enum: Object.values(ProjectName),
+				enum: [...projectSlugs],
 			},
 		},
 		required: ['slug'],
@@ -55,7 +55,7 @@ export const open_view = {
 			slug: {
 				type: 'string',
 				description: 'If requesting a specific project, the slug for the project being requested.',
-				enum: Object.values(ProjectName),
+				enum: [...projectSlugs],
 			},
 		},
 		required: ['view'],

@@ -1,9 +1,7 @@
-export type ProjectSlug = 'slice' | 'uris-design';
+import type { ComponentType } from 'react';
+import type { ProjectSlug } from '@/projects/_registry/slugs';
 
-export enum ProjectName {
-	Slice = 'slice',
-	UrisDesign = 'uris-design',
-}
+export type { ProjectSlug } from '@/projects/_registry/slugs';
 
 export type ProjectTileLogo =
 	| {
@@ -158,3 +156,5 @@ export type ProjectAIData = {
 };
 
 export type ProjectViewType = 'page' | 'ai' | 'tile';
+
+export type ProjectDetailsComponent = ComponentType;

@@ -1,5 +1,5 @@
 import { FlexDiv, Preset } from '@apple-pie/slice';
-import RouteLoader from '@/projects/_helpers/Loading';
+import RouteLoader from '@/projects/renderers/Loading';
 
 export default function Loading() {
 	return (

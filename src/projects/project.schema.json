@@ -1,0 +1,391 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "src/projects/project.schema.json",
+	"title": "Project Page",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["slug", "header", "sections"],
+	"properties": {
+		"$schema": {
+			"type": "string"
+		},
+		"slug": {
+			"type": "string"
+		},
+		"tile": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["title", "type", "logo"],
+			"properties": {
+				"title": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string"
+				},
+				"logo": {
+					"oneOf": [
+						{
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["type", "name"],
+							"properties": {
+								"type": {
+									"const": "icon"
+								},
+								"name": {
+									"type": "string"
+								},
+								"strokeColor": {
+									"type": "string"
+								},
+								"size": {
+									"type": "number"
+								}
+							}
+						},
+						{
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["type", "name"],
+							"properties": {
+								"type": {
+									"const": "logo"
+								},
+								"name": {
+									"type": "string"
+								},
+								"size": {
+									"type": "number"
+								},
+								"color": {
+									"type": "string"
+								},
+								"margin": {
+									"type": ["string", "number"]
+								}
+							}
+						},
+						{
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["type", "src"],
+							"properties": {
+								"type": {
+									"const": "image"
+								},
+								"src": {
+									"type": "string"
+								},
+								"alt": {
+									"type": "string"
+								}
+							}
+						}
+					]
+				},
+				"image": {
+					"type": "string"
+				},
+				"titleColor": {
+					"type": "string"
+				},
+				"typeColor": {
+					"type": "string"
+				},
+				"layout": {
+					"enum": ["square", "wide", "long"]
+				},
+				"heavy": {
+					"type": "boolean"
+				},
+				"order": {
+					"type": "number"
+				}
+			}
+		},
+		"ai": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["summary"],
+			"properties": {
+				"summary": {
+					"type": "string"
+				},
+				"tagline": {
+					"type": "string"
+				},
+				"emphasize": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"avoid": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"audiences": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"suggestedQuestions": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"capabilities": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"limitations": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"highlightOrder": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"relatedProjects": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"keywords": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"header": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["title", "subtitle", "techStack"],
+			"properties": {
+				"brand": {
+					"type": "object",
+					"additionalProperties": false,
+					"required": ["type"],
+					"properties": {
+						"type": {
+							"enum": ["logo"]
+						},
+						"name": {
+							"type": "string"
+						},
+						"color": {
+							"type": "string"
+						},
+						"size": {
+							"type": "number"
+						},
+						"margin": {
+							"type": "string"
+						}
+					}
+				},
+				"title": {
+					"type": "string"
+				},
+				"subtitle": {
+					"type": "string"
+				},
+				"techStack": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"links": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["label", "href"],
+						"properties": {
+							"label": {
+								"type": "string"
+							},
+							"href": {
+								"type": "string"
+							},
+							"iconLeft": {
+								"type": "string"
+							},
+							"target": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"carousel": {
+					"type": "object",
+					"additionalProperties": false,
+					"required": ["items"],
+					"properties": {
+						"maxImageHeight": {
+							"type": "number"
+						},
+						"items": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"additionalProperties": false,
+								"required": ["title", "description"],
+								"properties": {
+									"title": {
+										"type": "string"
+									},
+									"description": {
+										"type": "string"
+									},
+									"image": {
+										"type": "string"
+									},
+									"imageLight": {
+										"type": "string"
+									},
+									"imagePos": {
+										"enum": ["left", "right"]
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"sections": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"additionalProperties": false,
+				"required": ["title", "blocks"],
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"icon": {
+						"type": "string"
+					},
+					"blocks": {
+						"type": "array",
+						"items": {
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": false,
+									"required": ["type", "text"],
+									"properties": {
+										"type": {
+											"const": "paragraph"
+										},
+										"text": {
+											"type": "string"
+										}
+									}
+								},
+								{
+									"type": "object",
+									"additionalProperties": false,
+									"required": ["type", "items"],
+									"properties": {
+										"type": {
+											"const": "list"
+										},
+										"items": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["text"],
+												"properties": {
+													"label": {
+														"type": "string"
+													},
+													"text": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								},
+								{
+									"type": "object",
+									"additionalProperties": false,
+									"required": ["type"],
+									"properties": {
+										"type": {
+											"const": "code"
+										},
+										"language": {
+											"type": "string"
+										},
+										"title": {
+											"type": "string"
+										},
+										"snippet": {
+											"type": "string"
+										},
+										"code": {
+											"type": "string"
+										}
+									},
+									"anyOf": [
+										{
+											"required": ["snippet"]
+										},
+										{
+											"required": ["code"]
+										}
+									]
+								},
+								{
+									"type": "object",
+									"additionalProperties": false,
+									"required": ["type", "items"],
+									"properties": {
+										"type": {
+											"const": "stats"
+										},
+										"items": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["value", "label"],
+												"properties": {
+													"value": {
+														"type": "string"
+													},
+													"label": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				}
+			}
+		}
+	}
+}

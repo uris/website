@@ -1,16 +1,29 @@
 import 'server-only';
-import { projectRegistry, projectSlugs } from '@/projects/server/projectRegistry';
-import type { ProjectDocument, ProjectSlug } from '@/projects/server/types';
+
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { isProjectSlug, projectSlugs } from '@/projects/_registry/slugs';
+import type { ProjectDocument, ProjectSlug } from '@/projects/_types/types';
+
+const projectCache = new Map<ProjectSlug, ProjectDocument>();
 
 export function getProjectSlugs(): ProjectSlug[] {
-	return projectSlugs;
+	return [...projectSlugs];
 }
 
 export function getProjectDocument(slug: string): ProjectDocument | null {
-	if (!(slug in projectRegistry)) return null;
-	return projectRegistry[slug as ProjectSlug];
+	if (!isProjectSlug(slug)) return null;
+	const cached = projectCache.get(slug);
+	if (cached) return cached;
+
+	const filePath = join(process.cwd(), 'src', 'projects', slug, 'project.json');
+	const project = JSON.parse(readFileSync(filePath, 'utf-8')) as ProjectDocument;
+	projectCache.set(slug, project);
+	return project;
 }
 
 export function getAllProjectDocuments(): ProjectDocument[] {
-	return projectSlugs.map((slug) => projectRegistry[slug]);
+	return projectSlugs
+		.map((slug) => getProjectDocument(slug))
+		.filter((project): project is ProjectDocument => project !== null);
 }
