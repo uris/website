@@ -1,4 +1,4 @@
-:global([data-slice-theme-scope]) p.subtitle {
+:global([data-slice-theme-scope]) p.nomargin, :global([data-slice-theme-scope]) p.margin {
 	font-family: var(--font-family), sans-serif;
 	font-weight: var(--font-weight-regular);
 	font-size: var(--font-size-xl);
@@ -7,8 +7,12 @@
 	letter-spacing: 0.1px;
 	text-align: left;
 	color: var(--core-text-tertiary);
-	margin: 0;
+	margin: 0 0 64px 0;
 	padding: 0;
 	width: 100%;
 	max-width: 600px;
+}
+
+:global([data-slice-theme-scope]) p.nomargin {
+	margin: 0;
 }

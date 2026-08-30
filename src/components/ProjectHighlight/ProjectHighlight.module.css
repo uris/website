@@ -1,0 +1,52 @@
+.container {
+    box-sizing: border-box;
+	display: flex;
+	flex-direction: var(--highlight-row);
+    justify-content: flex-start;
+    align-items: var(--highlight-align-items);
+	gap: var(--highlight-gap);
+    width: 100%;
+    max-width: var(--highlight-max-width);
+    padding: 0;
+    margin: 0 0 var(--highlight-margin-bottom) 0;
+}
+
+.imageContainer {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex: 1;
+    height: var(--highlight-image-height);
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+}
+
+.imageWrapper {
+    box-sizing: border-box;
+    border: 1px solid var(--core-outline-secondary);
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.highlightImage {
+    width: auto;
+    height: var(--highlight-image-height);
+}
+
+.textContainer {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: var(--highlight-max-text-width);
+    max-width: var(--highlight-max-text-width);
+    min-width: var(--highlight-max-text-width);
+    gap: 0;
+    padding-top: var(--highlight-padding-top);
+}

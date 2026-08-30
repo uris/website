@@ -34,3 +34,13 @@ export function hardGradientCover(surfaceHex: string, to: 'top' | 'bottom') {
 export function classNames(styles: string[]) {
 	return styles.join(' ');
 }
+
+/**
+ * Normalize a style value or fallback into a CSS-ready string.
+ */
+export function setStyle(value: string | number | undefined, defaultVal: number | string | undefined = undefined) {
+	const useValue = value ?? defaultVal;
+	if (!useValue) return 'unset';
+	if (typeof useValue === 'string') return useValue;
+	return `${useValue}px`;
+}

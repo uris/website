@@ -1,3 +1,4 @@
+import type { StaticImageData } from 'next/image';
 import type { ComponentType } from 'react';
 import type { ProjectSlug } from '@/projects/_registry/slugs';
 
@@ -158,3 +159,8 @@ export type ProjectAIData = {
 export type ProjectViewType = 'page' | 'ai' | 'tile';
 
 export type ProjectDetailsComponent = ComponentType;
+
+export type ThemedImage = {
+	image: StaticImageData;
+	imageLight: StaticImageData;
+};

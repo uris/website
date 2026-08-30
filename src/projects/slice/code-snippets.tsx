@@ -1,12 +1,13 @@
 const addMic = `
 // grab the mic options and setter from the store
-const {(micOptions, setMicrophone)} = useMicrophoneStore();
+const {micOptions, setMicrophone} = useMicrophoneStore();
 
 // bind directly to the dropdown component props
 return <Dropdown options={micOptions} onOption={setMicrophone} />
 
 // micOptions is already DropdownOption[] — no mapping needed
-// setMicrophone wires directly to the WebRTC audio track and mic hook
+// setMicrophone already accepts a DropdownOption
+// setting a new mic wires directly to the WebRTC audio track and mic hook
 `.trim();
 
 const granularExports = `

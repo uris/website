@@ -4,10 +4,11 @@ import styles from './DataButtons.module.css';
 
 interface DataButtonsProps {
 	children?: React.ReactNode;
+	margin?: boolean;
 }
 
 export function DataButtonGrid(props: Readonly<DataButtonsProps>) {
-	const { children } = props;
+	const { children, margin = true } = props;
 
 	const buttons = React.Children.map(children, (child) => {
 		if (!React.isValidElement(child)) return child;
@@ -18,7 +19,7 @@ export function DataButtonGrid(props: Readonly<DataButtonsProps>) {
 		});
 	});
 
-	return <div className={styles.grid}>{buttons}</div>;
+	return <div className={margin ? styles.margin : styles.nomargin}>{buttons}</div>;
 }
 
 interface DataButtonProps {

@@ -1,0 +1,29 @@
+:global([data-slice-theme-scope]) div.textParagraph {
+	font-family: var(--font-family), sans-serif;
+	font-weight: var(--font-weight-regular);
+	font-size: var(--font-size-l);
+	line-height: 162.5%;
+	text-decoration: none;
+	letter-spacing: 0.1px;
+	text-align: left;
+	color: var(--core-text-tertiary);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+:global([data-slice-theme-scope]) div.textParagraph ul {
+	list-style-position: outside;
+	list-style-type: "•  ";
+	margin: 8px 0 0 0;
+	padding: 0;
+	border: 0;
+}
+
+:global([data-slice-theme-scope]) div.textParagraph ul li {
+	margin: 0 0 0 0.9em;
+}
+
+:global([data-slice-theme-scope]) div.textParagraph + div.textParagraph {
+	margin-top: 8px;
+}
