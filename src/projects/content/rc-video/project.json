@@ -1,0 +1,39 @@
+{
+	"$schema": "../../project.schema.json",
+	"slug": "rc-video",
+	"tile": {
+		"title": "Rethinking how people meet happy",
+		"type": "Productivity",
+		"logo": {
+			"type": "logo",
+			"name": "rc",
+			"size": 28,
+			"color": "#000000"
+		},
+		"image": "/projects/rcvideobg.png",
+		"titleColor": "#000000",
+		"typeColor": "#000000",
+		"order": 1,
+		"layout": "long"
+	},
+	"ai": {
+		"summary": "",
+		"tagline": "",
+		"emphasize": [""],
+		"avoid": [""],
+		"audiences": [""],
+		"suggestedQuestions": [""],
+		"capabilities": [""],
+		"limitations": [""],
+		"highlightOrder": [""],
+		"relatedProjects": [""],
+		"keywords": [""]
+	},
+	"header": {
+		"title": "Making meetings happy again",
+		"subtitle": "At RingCentral I helped rethink then design and implement how people connect with each other to be more productive. Online, in person, and hybrid.",
+		"techStack": [],
+		"links": []
+	},
+	"sections": []
+}

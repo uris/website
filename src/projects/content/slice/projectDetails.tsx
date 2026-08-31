@@ -110,8 +110,8 @@ export default function SliceProjectDetails() {
 							Remix apps work without configuration.
 						</p>
 						<p>
-							It includes SSR helpers for server-side rendering and client hydration, plus full SSR and static
-							rendering support for Next.js and Remix out of the box. No wrappers, no workarounds — it just works.
+							It includes SSR helpers for server-side rendering and client hydration, plus full SSR and static rendering
+							support for Next.js and Remix out of the box. No wrappers, no workarounds — it just works.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
@@ -145,8 +145,8 @@ export default function SliceProjectDetails() {
 							sizes lightweight through effective tree shaking.
 						</p>
 						<p>
-							It has only 2 peer dependencies (`react`, `react-dom`) and 2 optional dependencies (`zustand`,
-							`motion`), depending on what you choose to use. None of them are bundled into the library.
+							It has only 2 peer dependencies (`react`, `react-dom`) and 2 optional dependencies (`zustand`, `motion`),
+							depending on what you choose to use. None of them are bundled into the library.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
@@ -159,7 +159,7 @@ export default function SliceProjectDetails() {
 				</ProjectHighlight>
 			</Section>
 			<Section gradient={true}>
-				<ProjectTitle>Everything composes</ProjectTitle>
+				<ProjectTitle nowrap>Everything composes</ProjectTitle>
 				<SubTitle>
 					Types flow between layers so the pieces fit together. Hooks return types the components already expect — less
 					wiring, less glue code, more product.

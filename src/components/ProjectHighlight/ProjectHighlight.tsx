@@ -3,7 +3,6 @@ import Image, { type StaticImageData } from 'next/image';
 import type React from 'react';
 import { useMemo } from 'react';
 import type { ThemedImage } from '@/projects/_types/types';
-import { themedImages } from '@/projects/slice/images';
 import { setStyle } from '@/utils/styles/styles';
 import styles from './ProjectHighlight.module.css';
 

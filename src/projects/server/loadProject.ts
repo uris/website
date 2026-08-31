@@ -16,7 +16,7 @@ export function getProjectDocument(slug: string): ProjectDocument | null {
 	const cached = projectCache.get(slug);
 	if (cached) return cached;
 
-	const filePath = join(process.cwd(), 'src', 'projects', slug, 'project.json');
+	const filePath = join(process.cwd(), 'src', 'projects', 'content', slug, 'project.json');
 	const project = JSON.parse(readFileSync(filePath, 'utf-8')) as ProjectDocument;
 	projectCache.set(slug, project);
 	return project;

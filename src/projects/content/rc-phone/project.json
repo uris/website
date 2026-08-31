@@ -1,0 +1,39 @@
+{
+	"$schema": "../../project.schema.json",
+	"slug": "rc-phone",
+	"tile": {
+		"title": "Phone, video, messaging",
+		"type": "Productivity",
+		"logo": {
+			"type": "logo",
+			"name": "rc",
+			"size": 28,
+			"color": "#000000"
+		},
+		"image": "/projects/rcphonebg.png",
+		"titleColor": "#000000",
+		"typeColor": "#000000",
+		"order": 1,
+		"layout": "square"
+	},
+	"ai": {
+		"summary": "",
+		"tagline": "",
+		"emphasize": [""],
+		"avoid": [""],
+		"audiences": [""],
+		"suggestedQuestions": [""],
+		"capabilities": [""],
+		"limitations": [""],
+		"highlightOrder": [""],
+		"relatedProjects": [""],
+		"keywords": [""]
+	},
+	"header": {
+		"title": "Making work, less work",
+		"subtitle": "At RingCentral I completely revamped the core communications and productivity apps we call MVP (message, video, phone). MVP is a desktop, mobile and web app that helps people and teams interact and get work done.",
+		"techStack": [],
+		"links": []
+	},
+	"sections": []
+}

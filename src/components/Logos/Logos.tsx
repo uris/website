@@ -8,12 +8,14 @@ export interface LogosProps {
 export function Logo(props: Readonly<LogosProps>) {
 	const { name, size, color, margin } = props;
 	switch (name) {
-		case 'ringcentral':
+		case 'rc':
 			return <RcLogo size={size} color={color} margin={margin} />;
 		case 'slice':
 			return <SliceLogo size={size} color={color} margin={margin} />;
 		case 'uris-design':
 			return <UrisDesignLogo size={size} color={color} margin={margin} />;
+		case 'godaddy':
+			return <GodaddyLogo size={size} color={color} margin={margin} />;
 		default:
 			return null;
 	}
@@ -78,6 +80,22 @@ export function UrisDesignLogo(props: Readonly<LogosProps>) {
 				<rect width="64" height="64" fill="none" />
 				<path
 					d="M55,1H9C4.58,1,1,4.58,1,9v46c0,4.42,3.58,8,8,8h46c4.42,0,8-3.58,8-8V9c0-4.42-3.58-8-8-8ZM43,34.53c0,3.08-1.03,5.58-3.08,7.51s-4.69,2.88-7.92,2.88-5.87-.96-7.93-2.87c-2.06-1.92-3.08-4.42-3.08-7.51v-15.45h7.1v15.33c0,1.23.36,2.21,1.08,2.95s1.66,1.11,2.83,1.11,2.11-.37,2.82-1.11,1.07-1.72,1.07-2.95v-15.33h7.1v15.45Z"
+					fill={color}
+				/>
+			</svg>
+		</div>
+	);
+}
+
+export function GodaddyLogo(props: Readonly<LogosProps>) {
+	const { size = 28, color = 'black', margin } = props;
+	return (
+		<div style={{ height: size, margin }}>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" height={size}>
+				<title>Godaddy Logo</title>
+				<rect width="64" height="64" fill="none" />
+				<path
+					d="M10.24,8.17c6.24-3.82,14.44-2.91,21.77,1.6,7.3-4.52,15.51-5.43,21.74-1.6,9.85,6.04,11.05,21.61,2.67,34.77-6.17,9.7-15.83,15.39-24.43,15.28-8.6.11-18.25-5.58-24.43-15.28C-.79,29.78.39,14.22,10.24,8.17ZM51.89,40.16c1.73-2.69,3.03-5.62,3.87-8.69.74-2.67,1.03-5.43.84-8.19-.37-4.86-2.39-8.65-5.68-10.66-3.29-2.01-7.63-2.14-12.25-.33-.69.27-1.38.59-2.06.93,2.57,2.3,4.81,4.94,6.64,7.84,5.09,7.99,6.64,16.88,4.86,23.97,1.41-1.5,2.68-3.13,3.78-4.86ZM8.23,31.47c.84,3.07,2.14,6,3.87,8.69,1.1,1.74,2.37,3.37,3.78,4.87-1.59-6.35-.51-14.14,3.38-21.44.13-.24.35-.42.62-.49.27-.07.55-.03.79.12l12.13,7.44c.22.14.38.36.44.61.06.25.01.52-.13.74l-1.78,2.79c-.14.22-.36.38-.62.43-.26.06-.53.01-.75-.12l-7.86-4.82c-.25.75-.51,1.5-.7,2.25-.74,2.66-1.03,5.43-.84,8.18.37,4.86,2.39,8.65,5.68,10.66,1.69,1.02,3.64,1.57,5.62,1.6h.25c1.99-.03,3.93-.58,5.62-1.6,3.29-2.02,5.31-5.8,5.68-10.66.19-2.76-.1-5.52-.84-8.19-1.7-6.17-5.23-11.7-10.13-15.91-2.11-1.82-4.52-3.28-7.12-4.33-4.61-1.8-8.96-1.68-12.25.33-3.29,2.02-5.3,5.8-5.68,10.66-.19,2.76.09,5.53.83,8.19Z"
 					fill={color}
 				/>
 			</svg>

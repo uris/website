@@ -1,0 +1,39 @@
+{
+	"$schema": "../../project.schema.json",
+	"slug": "godaddy-websites",
+	"tile": {
+		"title": "Business ready websites",
+		"type": "Productivity",
+		"logo": {
+			"type": "logo",
+			"name": "godaddy",
+			"size": 28,
+			"color": "#000000"
+		},
+		"image": "/projects/gdbg.png",
+		"titleColor": "#000000",
+		"typeColor": "#000000",
+		"order": 1,
+		"layout": "square"
+	},
+	"ai": {
+		"summary": "",
+		"tagline": "",
+		"emphasize": [""],
+		"avoid": [""],
+		"audiences": [""],
+		"suggestedQuestions": [""],
+		"capabilities": [""],
+		"limitations": [""],
+		"highlightOrder": [""],
+		"relatedProjects": [""],
+		"keywords": [""]
+	},
+	"header": {
+		"title": "Your site. Ready for business.",
+		"subtitle": "At GoDaddy, I helped create an website builder that enables anyone to effortlessly turn an idea into a thriving online business. Look professional with no need for design or coding chops.",
+		"techStack": [],
+		"links": []
+	},
+	"sections": []
+}

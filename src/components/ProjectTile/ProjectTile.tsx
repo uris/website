@@ -39,10 +39,15 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 
 	// resolve logo
 	const resolvedLogo = useMemo(() => {
+		console.log(logo);
 		if (!logo) return null;
-		if (logo.type === 'icon') return <Icon name={logo.name} strokeColor={logo.strokeColor} size={logo.size} />;
-		if (logo.type === 'logo') return <Logo name={logo.name} color={logo.color} size={logo.size} />;
-		if (logo.type === 'image') {
+		if (logo.type === 'icon') {
+			if (!logo.name) return null;
+			return <Icon name={logo.name} strokeColor={logo.strokeColor} size={logo.size} />;
+		} else if (logo.type === 'logo') {
+			if (!logo.name) return null;
+			return <Logo name={logo.name} color={logo.color} size={logo.size} />;
+		} else if (logo.type === 'image') {
 			const imgSrc = `${logo.src}?v=001`;
 			return (
 				<Image
@@ -134,10 +139,10 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 			onTransitionEnd={handleAnimationEnd}
 			onClick={() => onClick?.(project.slug)}
 		>
-			{logo && <div className={styles.logo}>{resolvedLogo}</div>}
+			{resolvedLogo && <div className={styles.logo}>{resolvedLogo}</div>}
 			{type && <div className={styles.subtitle}>{type}</div>}
 			{title && <div className={`${styles.title} ${heavy ? styles.heavy : ''}`}>{title}</div>}
-			{image && <div className={styles.image}>{resolvedImage}</div>}
+			{resolvedImage && <div className={styles.image}>{resolvedImage}</div>}
 		</button>
 	);
 }

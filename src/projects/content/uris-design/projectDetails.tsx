@@ -55,8 +55,8 @@ export default function UrisDesignProjectDetails() {
 				</SubTitle>
 				<SubTitle margin={false}>
 					<span style={{ textDecoration: 'underline' }}>For candidates:</span> Imagine that as a candidate you can
-					simply point an AI at your work (JSON, site, GitHub, npm) and have it automatically support and present
-					your work to anyone interested.
+					simply point an AI at your work (JSON, site, GitHub, npm) and have it automatically support and present your
+					work to anyone interested.
 				</SubTitle>
 			</Section>
 			<Section gradient={true}>
@@ -114,9 +114,7 @@ export default function UrisDesignProjectDetails() {
 			</Section>
 			<Section gradient={true}>
 				<ProjectTitle>Technical notes</ProjectTitle>
-				<SubTitle margin={false}>
-					A few technical details behind the portfolio are worth calling out:
-				</SubTitle>
+				<SubTitle margin={false}>A few technical details behind the portfolio are worth calling out:</SubTitle>
 				<SubTitle margin={false}>
 					<strong>Route generation and delivery:</strong> Project detail pages are generated from known project slugs,
 					with `generateStaticParams()` producing static routes and server-side transformers shaping the same project

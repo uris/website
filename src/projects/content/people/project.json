@@ -1,0 +1,33 @@
+{
+	"$schema": "../../project.schema.json",
+	"slug": "people",
+	"tile": {
+		"title": "People achieving extraordinary, together",
+		"type": "People & Teams",
+		"image": "/projects/peoplebg.png",
+		"titleColor": "#ffffff",
+		"typeColor": "#ffffff",
+		"order": 1,
+		"layout": "wide"
+	},
+	"ai": {
+		"summary": "",
+		"tagline": "",
+		"emphasize": [""],
+		"avoid": [""],
+		"audiences": [""],
+		"suggestedQuestions": [""],
+		"capabilities": [""],
+		"limitations": [""],
+		"highlightOrder": [""],
+		"relatedProjects": [""],
+		"keywords": [""]
+	},
+	"header": {
+		"title": "Making work, less work",
+		"subtitle": "At RingCentral I completely revamped the core communications and productivity apps we call MVP (message, video, phone). MVP is a desktop, mobile and web app that helps people and teams interact and get work done.",
+		"techStack": [],
+		"links": []
+	},
+	"sections": []
+}

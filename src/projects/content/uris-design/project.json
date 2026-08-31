@@ -1,5 +1,5 @@
 {
-	"$schema": "../project.schema.json",
+	"$schema": "../../project.schema.json",
 	"slug": "uris-design",
 	"tile": {
 		"title": "Realtime Portfolio",
