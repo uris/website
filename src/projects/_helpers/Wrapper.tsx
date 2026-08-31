@@ -15,6 +15,7 @@ export function Wrapper(props: Readonly<WrapperProps>) {
 			align={'center'}
 			direction={'column'}
 			scrollY={true}
+			scrollX={false}
 			background={'var(--core-surface-primary-tint)'}
 			className={styles.wrapper}
 		>

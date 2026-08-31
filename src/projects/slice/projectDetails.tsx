@@ -1,7 +1,6 @@
 'use client';
 
 import { Button, Label } from '@apple-pie/slice';
-import { Carousel, CarouselItem } from '@/components/Carousel/Carousel';
 import { CodeSnippet } from '@/components/CodeSnippet/CodeSnippet';
 import { DataButton, DataButtonGrid } from '@/components/DataButtons/DataButtons';
 import { FigureTitle } from '@/components/FigureTitle/FigureTitle';
@@ -18,7 +17,7 @@ import { Wrapper } from '@/projects/_helpers/Wrapper';
 import styles from '@/projects/_helpers/Wrapper.module.css';
 import { normalizeLanguage, normalizeTarget } from '@/utils/misc';
 import { snippets } from './code-snippets';
-import { images, themedImages } from './images';
+import { themedImages } from './images';
 import projectJson from './project.json';
 
 export default function SliceProjectDetails() {
@@ -54,7 +53,8 @@ export default function SliceProjectDetails() {
 				<ProjectTitle>The problem</ProjectTitle>
 				<SubTitle>
 					Most frontend projects need the same things: a design system, a component library, and abstractions over
-					complex APIs like WebRTC, etc. The typical answer - use multiple packages, none of which "speak" each other.
+					complex APIs like WebRTC. The typical answer is to stitch together multiple packages, none of which really
+					"speak" to each other.
 				</SubTitle>
 				<DataButtonGrid>
 					<DataButton value={'30-50%'} label={'Amount of "glue code"'} />
@@ -72,7 +72,7 @@ export default function SliceProjectDetails() {
 			<Section>
 				<ProjectTitle>All-in-one SDK</ProjectTitle>
 				<SubTitle>
-					An all-in-one front end UI kit that accelerates development and the delivery of end customer value.
+					An all-in-one front-end UI kit that speeds up development and helps teams deliver customer value faster.
 				</SubTitle>
 				<ProjectHighlight themedImage={themedImages.coreColors}>
 					<TextTitle>Integrated design language</TextTitle>
@@ -89,10 +89,11 @@ export default function SliceProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight themedImage={themedImages.videoComponent} reverse>
-					<TextTitle>40+ Accessibility compliant UI components</TextTitle>
+					<TextTitle>40+ accessibility-compliant UI components</TextTitle>
 					<TextParagraph>
 						<p>
-							Performant UI components optimized for render/re-render speed - the building blocks for a robust web app:
+							Performant UI components optimized for fast renders and re-renders, giving you the building blocks for a
+							robust web app:
 						</p>
 						<ul>
 							<li>Granular UI elements like buttons, inputs, dropdowns, etc.</li>
@@ -105,12 +106,12 @@ export default function SliceProjectDetails() {
 					<TextTitle>SSR ready, zero config</TextTitle>
 					<TextParagraph>
 						<p>
-							full React 18/19 RSC support, with 'use client' directives preserved through the build so Next.js and
+							Full React 18/19 RSC support, with 'use client' directives preserved through the build so Next.js and
 							Remix apps work without configuration.
 						</p>
 						<p>
-							Includes SSR helpers for server-side rendering and client hydration - Full SSR and static rendering
-							support for Next.js and Remix, out of the box. No wrappers, no workarounds — it just works.
+							It includes SSR helpers for server-side rendering and client hydration, plus full SSR and static
+							rendering support for Next.js and Remix out of the box. No wrappers, no workarounds — it just works.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
@@ -118,10 +119,10 @@ export default function SliceProjectDetails() {
 					<TextTitle>Abstracted Browser API hooks</TextTitle>
 					<TextParagraph>
 						<p>
-							Hooks providing easy access to microphone, camera, screen share, webRTC, SSE, WebSockets, IndexedDB, audio
-							visualisation, audio recording, and more.
+							Hooks that provide easy access to the microphone, camera, screen sharing, WebRTC, SSE, WebSockets,
+							IndexedDB, audio visualization, audio recording, and more.
 						</p>
-						<p>Also exposed as drop in zustand stores providing stateful access to these APIs</p>
+						<p>They are also exposed as drop-in Zustand stores for stateful access to the same APIs.</p>
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight themedImage={themedImages.prompt}>
@@ -132,7 +133,7 @@ export default function SliceProjectDetails() {
 							data streams without the boilerplate.
 						</p>
 						<p>
-							Exposes hooks, stores and components that make connecting to, displaying and interacting with AI easy.
+							It exposes hooks, stores, and components that make it easy to connect to, display, and interact with AI.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
@@ -140,20 +141,20 @@ export default function SliceProjectDetails() {
 					<TextTitle>Built to be lean</TextTitle>
 					<TextParagraph>
 						<p>
-							The package ships 98 granular export paths so consumers only pay for what they use keeping bundle sizes
-							super lightweight through effective tree shaking.
+							The package ships with 98 granular export paths, so consumers only pay for what they use, keeping bundle
+							sizes lightweight through effective tree shaking.
 						</p>
 						<p>
-							Only 2 peer dependencies (react, react-dom) and 2 optional dependencies (zustand, motion) based on what
-							you choose to use, none of which are bundled into the library.
+							It has only 2 peer dependencies (`react`, `react-dom`) and 2 optional dependencies (`zustand`,
+							`motion`), depending on what you choose to use. None of them are bundled into the library.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight themedImage={themedImages.performance} nomargin>
 					<TextTitle>Performance optimized</TextTitle>
 					<TextParagraph>
-						<p>All components designed with fast mount / re-mount times with as 2 ms max target</p>
-						<p>Abstracted web workers for threading time consuming tasks like multi file uploads</p>
+						<p>All components are designed for fast mount and remount times, with a target of 2 ms or less.</p>
+						<p>It also includes abstracted web workers for offloading time-consuming tasks like multi-file uploads.</p>
 					</TextParagraph>
 				</ProjectHighlight>
 			</Section>

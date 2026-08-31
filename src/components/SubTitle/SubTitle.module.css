@@ -16,3 +16,7 @@
 :global([data-slice-theme-scope]) p.nomargin {
 	margin: 0;
 }
+
+:global([data-slice-theme-scope]) p.nomargin strong, :global([data-slice-theme-scope]) p.margin strong {
+	color: var(--core-text-primary);
+}

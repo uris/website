@@ -2,17 +2,17 @@
 	"$schema": "../project.schema.json",
 	"slug": "uris-design",
 	"tile": {
-		"title": "Conversational AI Portfolio",
-		"type": "Next.js + Realtime + AI",
+		"title": "Realtime Portfolio",
+		"type": "Next.js + Realtime + Slice",
 		"logo": {
 			"type": "logo",
-			"name": "slice",
+			"name": "uris-design",
 			"size": 28,
 			"color": "#1f262d"
 		},
 		"image": "/projects/urisbg.png",
 		"titleColor": "#1f262d",
-		"typeColor": "rgba(0,0,0,0.3)",
+		"typeColor": "rgba(0,0,0,0.8)",
 		"layout": "square",
 		"order": 2
 	},
@@ -54,8 +54,15 @@
 		"keywords": ["Next.js", "portfolio", "AI", "WebRTC", "frontend architecture", "screening"]
 	},
 	"header": {
-		"title": "Conversational AI Portfolio Screening",
-		"subtitle": "A Next.js portfolio and frontend engineering showcase. Visitors can ask about projects, skills, and implementation details through a live, voice enabled AI conversation, and the assistant can open the relevant project, skills, or contact section in response.",
+		"brand": {
+			"type": "logo",
+			"name": "uris-design",
+			"color": "var(--core-icon-primary)",
+			"size": 32,
+			"margin": "0 0 32px 0"
+		},
+		"title": "Realtime portfolio",
+		"subtitle": "A NextJS interactive portfolio where visitors can ask about my skills, projects and implementation details through a live, voice enabled conversation (realtime API). Through tooling, the voice enabled assistant can open the relevant project, skills, or contact section in response.",
 		"techStack": [
 			"Next.js 16",
 			"React 19",
@@ -81,6 +88,12 @@
 				"label": "GitHub",
 				"href": "https://github.com/uris/website",
 				"iconLeft": "github",
+				"target": "_blank"
+			},
+			{
+				"label": "OpenAI (Realtime API)",
+				"href": "https://developers.openai.com/api/docs/guides/realtime",
+				"iconLeft": "openAI",
 				"target": "_blank"
 			}
 		],

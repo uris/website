@@ -12,6 +12,8 @@ export function Logo(props: Readonly<LogosProps>) {
 			return <RcLogo size={size} color={color} margin={margin} />;
 		case 'slice':
 			return <SliceLogo size={size} color={color} margin={margin} />;
+		case 'uris-design':
+			return <UrisDesignLogo size={size} color={color} margin={margin} />;
 		default:
 			return null;
 	}
@@ -60,6 +62,22 @@ export function SliceLogo(props: Readonly<LogosProps>) {
 				/>
 				<path
 					d="M211.24,86.31c0-22.79,18.56-46.02,33.2-46.02,10.41,0,16.15,4.98,16.15,15.54,0,12.68-7.39,22.48-28.07,27.16,0,6.79,1.36,10.56,7.24,10.56,10.26,0,23.54-8.75,32.14-21.88,3.62.15,5.73,2.57,5.73,4.98,0,11.17-25.2,35.16-44.82,35.16-14.79,0-21.58-9.21-21.58-25.5ZM240.66,56.13c-2.11,0-6.19,5.13-7.24,15.69,8.45-1.51,10.26-6.19,10.26-10.71,0-3.17-1.21-4.98-3.02-4.98Z"
+					fill={color}
+				/>
+			</svg>
+		</div>
+	);
+}
+
+export function UrisDesignLogo(props: Readonly<LogosProps>) {
+	const { size = 28, color = 'black', margin } = props;
+	return (
+		<div style={{ height: size, margin }}>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" height={size}>
+				<title>Uris Design Logo</title>
+				<rect width="64" height="64" fill="none" />
+				<path
+					d="M55,1H9C4.58,1,1,4.58,1,9v46c0,4.42,3.58,8,8,8h46c4.42,0,8-3.58,8-8V9c0-4.42-3.58-8-8-8ZM43,34.53c0,3.08-1.03,5.58-3.08,7.51s-4.69,2.88-7.92,2.88-5.87-.96-7.93-2.87c-2.06-1.92-3.08-4.42-3.08-7.51v-15.45h7.1v15.33c0,1.23.36,2.21,1.08,2.95s1.66,1.11,2.83,1.11,2.11-.37,2.82-1.11,1.07-1.72,1.07-2.95v-15.33h7.1v15.45Z"
 					fill={color}
 				/>
 			</svg>
