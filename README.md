@@ -1,29 +1,65 @@
-# Next.js Website
+# Uris Design & Dev
 
-This project uses Next.js App Router with TypeScript.
+An interactive portfolio and AI workspace built with Next.js App Router, React, and TypeScript.
+
+## Requirements
+
+- Node.js 20 or later
+- npm
+- Docker and Docker Compose for production deployment
+
+## Local development
+
+Install dependencies and start the development server:
+
+```sh
+npm ci
+npm run dev
+```
+
+The site is available at `http://localhost:3000`.
 
 ## Scripts
 
-- `npm run dev` starts the Next development server
-- `npm run build` creates a production build
-- `npm run start` runs the production server
-- `npm run lint` runs Biome checks
+- `npm run dev` starts the Next.js development server.
+- `npm run build` creates the production build.
+- `npm run start` runs the production server.
+- `npm run check` runs Biome and TypeScript checks without changing files.
+- `npm run lint` runs Biome with automatic fixes.
+- `npm run format` formats files with Biome.
+
+## Server rendering
+
+The site is ready for server rendering with the Next.js App Router.
+
+- The root layout renders on the server and reads the `slice-theme` and `slice-system-theme` cookies to select the initial theme. This prevents a client-only theme flash on first load.
+- Interactive UI is isolated in client components, including the theme provider, AI workspace, settings panels, and project interactions.
+- Project detail pages are server components. Known project slugs are statically generated during `npm run build`, while the shared layout can still respond to each request's theme cookie.
+- Route handlers under `app/server` provide the contact, project, skills, and OpenAI session endpoints.
 
 ## Environment
 
-Private backend URLs are read from server-only environment variables so they do not need to be committed.
+Create a local `.env.local` file with the private backend origin:
 
-1. Copy `.env.example` to `.env.local`.
-2. Set `PRIVATE_API_BASE_URL` to your private backend origin, for example `http://localhost:3001`.
+```dotenv
+PRIVATE_API_BASE_URL=http://localhost:3001
+```
 
-Routes such as [`app/server/contact/route.ts`](/Users/urisdacosta/RiderProjects/website/app/server/contact/route.ts) and [`app/server/openai/realtime/session/request/route.ts`](/Users/urisdacosta/RiderProjects/website/app/server/openai/realtime/session/request/route.ts) now build their upstream URLs from that env var.
+This value is accessed only by server-side route handlers and is not exposed to the browser. Production needs the same variable available to the website container.
 
-## Routing Layout
+## Production build
 
-- [`app/layout.tsx`](/Users/urisdacosta/RiderProjects/website/app/layout.tsx) defines the shared root layout
-- [`app/(ai)/page.tsx`](/Users/urisdacosta/RiderProjects/website/app/(ai)/page.tsx) is the AI workspace entry route
-- [`app/(content)/projects/[slug]/page.tsx`](/Users/urisdacosta/RiderProjects/website/app/(content)/projects/[slug]/page.tsx) is a server-rendered project summary route stub
+The [Dockerfile](/Users/urisdacosta/RiderProjects/website/Dockerfile) creates a multi-stage production image using Next.js `standalone` output. It builds the application, copies only the standalone runtime and static assets, then serves it on port `3000`.
 
-## Theming Note
+## Deployment
 
-[`app/providers.tsx`](/Users/urisdacosta/RiderProjects/website/app/providers.tsx) delays loading `@apple-pie/slice`'s `ThemeProvider` until the client. This avoids server-side `matchMedia` access during the initial migration. A later pass should make the theme system SSR-aware so the provider can participate in the first render cleanly.
+Pushing to `main` runs [the deployment workflow](/Users/urisdacosta/RiderProjects/website/.github/workflows/deploy.yml). The workflow connects to the Google Cloud VM, pulls the latest repository contents, and rebuilds the `website` Compose service from `~/projects`.
+
+The VM must have:
+
+- `~/projects/docker-compose.yml` (or equivalent) defining a `website` service that builds this repository.
+- Docker and the `docker-compose` command installed.
+- An SSH key at `~/.ssh/github_actions` with access to `git@github.com:uris/website.git`.
+- `PRIVATE_API_BASE_URL` configured for the container.
+
+The workflow uses `set -e`, so any failed pull or image build now fails the GitHub Actions job instead of appearing as a successful deployment.

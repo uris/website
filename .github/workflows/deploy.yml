@@ -17,6 +17,7 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            # Stop immediately if any command fails
             set -e
 
             # Add GitHub to known hosts if not already there
