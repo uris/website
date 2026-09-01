@@ -1,14 +1,14 @@
 {
 	"$schema": "../../project.schema.json",
-	"slug": "people",
+	"slug": "hiring",
 	"tile": {
-		"title": "People achieving extraordinary, together",
+		"title": "Hiring the worlds top designers",
 		"type": "People & Teams",
-		"image": "/projects/peoplebg.png",
+		"image": "/projects/hiringbg.png",
 		"titleColor": "#ffffff",
 		"typeColor": "rgba(255,255,255,0.5)",
 		"order": 1,
-		"layout": "wide"
+		"layout": "square"
 	},
 	"ai": {
 		"summary": "",

@@ -6,7 +6,7 @@
 	align-items: flex-start;
 	gap: 0;
 	box-sizing: border-box;
-	padding: 16px;
+	padding: 24px;
 	margin: 0;
 	min-height: var(--project-tile-height);
 	min-width: var(--project-tile-width);
@@ -20,10 +20,12 @@
 	transform: scale(1) translateY(var(--project-tile-translate-y)) translateX(var(--project-tile-translate-x));
 	transition: var(--project-tile-transition);
 	outline: none;
+	z-index:1;
 	&:hover {
-		transform: scale(1.1) translateY(var(--project-tile-translate-y)) translateX(var(--project-tile-translate-x));
+		transform: scale(1.05) translateY(var(--project-tile-translate-y)) translateX(var(--project-tile-translate-x));
 		box-shadow: var(--surface-shadow-soft);
 		border: 0 solid transparent;
+		z-index: 2;
 	}
 }
 
@@ -39,7 +41,7 @@
 	color: var(--project-tile-title-color);
 	font-family: var(--font-family), sans-serif;
 	font-weight: 360;
-	font-size: 18px;
+	font-size: 20px;
 	line-height: 1.3em;
 	text-decoration: none;
 	letter-spacing: 0.2px;
@@ -51,8 +53,8 @@
 
 .subtitle {
 	font-family: var(--font-family), sans-serif;
-	font-weight: 460;
-	font-size: 12px;
+	font-weight: 400;
+	font-size: 14px;
 	line-height: 1.2em;
 	text-decoration: none;
 	letter-spacing: 0.2px;

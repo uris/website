@@ -12,9 +12,9 @@
 		},
 		"image": "/projects/urisbg.png",
 		"titleColor": "#1f262d",
-		"typeColor": "rgba(0,0,0,0.8)",
+		"typeColor": "rgba(0,0,0,0.5)",
 		"layout": "square",
-		"order": 2
+		"order": 1
 	},
 	"ai": {
 		"summary": "Uris Design is a Next.js portfolio workspace with a live, voice enabled AI assistant that can talk about projects, skills, and implementation details, and can also navigate the site to the relevant section while the conversation unfolds.",

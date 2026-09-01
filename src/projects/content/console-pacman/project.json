@@ -1,14 +1,14 @@
 {
 	"$schema": "../../project.schema.json",
-	"slug": "people",
+	"slug": "console-pacman",
 	"tile": {
-		"title": "People achieving extraordinary, together",
-		"type": "People & Teams",
-		"image": "/projects/peoplebg.png",
+		"title": "Pac-man console game in C++",
+		"type": "Fun & Games",
+		"image": "/projects/pacmanbg.png",
 		"titleColor": "#ffffff",
 		"typeColor": "rgba(255,255,255,0.5)",
 		"order": 1,
-		"layout": "wide"
+		"layout": "square"
 	},
 	"ai": {
 		"summary": "",

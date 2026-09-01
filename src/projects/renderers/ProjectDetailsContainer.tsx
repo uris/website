@@ -5,7 +5,7 @@ import { type PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import { FrameEvent } from '@/components/ProjectFrame/ProjectFrame';
 
 // render project details inside a container with its height set to the observed iFrame height
-export function ProjectDetailsContainer({ children }: PropsWithChildren) {
+export function ProjectDetailsContainer({ children }: Readonly<PropsWithChildren>) {
 	const [height, setHeight] = useState<string | number>('100vh');
 
 	// handler for messages received from parent window

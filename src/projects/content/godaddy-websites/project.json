@@ -12,7 +12,7 @@
 		},
 		"image": "/projects/gdbg.png",
 		"titleColor": "#000000",
-		"typeColor": "#000000",
+		"typeColor": "rgba(0,0,0,0.5)",
 		"order": 1,
 		"layout": "square"
 	},

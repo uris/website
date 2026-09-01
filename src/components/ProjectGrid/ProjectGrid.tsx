@@ -19,7 +19,7 @@ export interface ProjectGridProps {
 }
 
 export function ProjectGrid(props: Readonly<ProjectGridProps>) {
-	const { tileSize = 200, listGap = 24, stagger = 0.1, staggerSeed = 0, maxTilesPerRow = 4 } = props;
+	const { tileSize = 250, listGap = 24, stagger = 0.1, staggerSeed = 0, maxTilesPerRow = 4 } = props;
 	const projects = useProjects();
 	const didAnimate = useDidAnimateProjects();
 	const setDidAnimate = useHomeLayout().setDidAnimateProjects;

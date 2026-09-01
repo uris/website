@@ -35,8 +35,8 @@ const jetBrainsMono = localFont({
 
 // setup page meta
 export const metadata: Metadata = {
-	title: 'Uris Design',
-	description: 'AI workflows and project content.',
+	title: 'Uris Design & Dev',
+	description: 'An interactive portfolio website for a maker of all things digital',
 	icons: {
 		icon: '/icon.png',
 		apple: '/icon.png',

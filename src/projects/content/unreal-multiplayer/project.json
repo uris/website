@@ -1,20 +1,20 @@
 {
 	"$schema": "../../project.schema.json",
-	"slug": "rc-video",
+	"slug": "unreal-multiplayer",
 	"tile": {
-		"title": "Rethinking how people meet happy",
-		"type": "Productivity",
+		"title": "Twogether: A Coop. Multiplayer",
+		"type": "C++ Game Development",
 		"logo": {
 			"type": "logo",
-			"name": "rc",
+			"name": "unreal",
 			"size": 28,
 			"color": "#000000"
 		},
-		"image": "/projects/rcvideobg.png",
+		"image": "/projects/rcphonebg.png",
 		"titleColor": "#000000",
 		"typeColor": "rgba(0,0,0,0.5)",
 		"order": 1,
-		"layout": "long"
+		"layout": "square"
 	},
 	"ai": {
 		"summary": "",
@@ -30,8 +30,8 @@
 		"keywords": [""]
 	},
 	"header": {
-		"title": "Making meetings happy again",
-		"subtitle": "At RingCentral I helped rethink then design and implement how people connect with each other to be more productive. Online, in person, and hybrid.",
+		"title": "Making work, less work",
+		"subtitle": "At RingCentral I completely revamped the core communications and productivity apps we call MVP (message, video, phone). MVP is a desktop, mobile and web app that helps people and teams interact and get work done.",
 		"techStack": [],
 		"links": []
 	},

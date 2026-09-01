@@ -39,7 +39,6 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 
 	// resolve logo
 	const resolvedLogo = useMemo(() => {
-		console.log(logo);
 		if (!logo) return null;
 		if (logo.type === 'icon') {
 			if (!logo.name) return null;

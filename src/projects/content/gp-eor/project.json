@@ -1,14 +1,20 @@
 {
 	"$schema": "../../project.schema.json",
-	"slug": "people",
+	"slug": "gp-eor",
 	"tile": {
-		"title": "People achieving extraordinary, together",
-		"type": "People & Teams",
-		"image": "/projects/peoplebg.png",
+		"title": "EOR: Hire anywhere, scale everywhere",
+		"type": "Web & Product Design",
+		"logo": {
+			"type": "logo",
+			"name": "gp",
+			"size": 28,
+			"color": "#ffffff"
+		},
+		"image": "/projects/gpeorbg.png",
 		"titleColor": "#ffffff",
 		"typeColor": "rgba(255,255,255,0.5)",
 		"order": 1,
-		"layout": "wide"
+		"layout": "square"
 	},
 	"ai": {
 		"summary": "",
@@ -24,7 +30,7 @@
 		"keywords": [""]
 	},
 	"header": {
-		"title": "Making work, less work",
+		"title": "Beloved apps you use every day",
 		"subtitle": "At RingCentral I completely revamped the core communications and productivity apps we call MVP (message, video, phone). MVP is a desktop, mobile and web app that helps people and teams interact and get work done.",
 		"techStack": [],
 		"links": []
