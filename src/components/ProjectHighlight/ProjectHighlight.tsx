@@ -31,7 +31,7 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 		imageHeight = 520,
 		maxTextWidth = 250,
 		alignItemsCenter = false,
-		marginBottom = 128,
+		marginBottom = 88,
 		image,
 		imageLight,
 		nomargin,

@@ -8,5 +8,5 @@ interface SubTitleProps {
 }
 export function SubTitle(props: Readonly<SubTitleProps>) {
 	const { title, children, margin = true } = props;
-	return <p className={margin ? styles.margin : styles.nomargin}>{children ?? title}</p>;
+	return <div className={margin ? styles.margin : styles.nomargin}>{children ?? title}</div>;
 }

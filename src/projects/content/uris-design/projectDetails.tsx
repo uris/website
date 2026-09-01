@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Label } from '@apple-pie/slice';
+import { HeroImage } from '@/components/HeroImage/HeroImage';
 import { LinkList } from '@/components/LinkList/LinkList';
 import { Logo } from '@/components/Logos/Logos';
 import { ProjectHighlight } from '@/components/ProjectHighlight/ProjectHighlight';
@@ -12,7 +13,7 @@ import { TextParagraph } from '@/components/TextParagraph/TextParagraph';
 import { TextTitle } from '@/components/TextTitle/TextTitle';
 import { Wrapper } from '@/projects/_helpers/Wrapper';
 import { normalizeTarget } from '@/utils/misc';
-import { themedImages } from './images';
+import { images, themedImages } from './images';
 import projectJson from './project.json';
 
 export default function UrisDesignProjectDetails() {
@@ -21,10 +22,11 @@ export default function UrisDesignProjectDetails() {
 	return (
 		<Wrapper>
 			<Section gradient={false}>
-				<Logo name={header.brand.name} color={'var(--core-icon-primary)'} size={64} margin={'0 0 128px 0'} />
+				<Logo name={header.brand.name} color={'var(--core-icon-primary)'} size={64} margin={'0 0 64px 0'} />
 				<ProjectTitle>{header.title}</ProjectTitle>
 				<SubTitle margin={false}>{header.subtitle}</SubTitle>
-				<SubTitle margin={false}>Note: The site also serves as a showcase for the Slice React UI SDK.</SubTitle>
+				<HeroImage heroImage={themedImages.hero} backgroundImage={themedImages.heroBG} border={false} />
+				<SubTitle margin={false}>Note: The site also serves as a proving ground for the Slice React UI SDK.</SubTitle>
 				<TechStack>
 					{header.techStack.map((item) => {
 						return <Label key={item}>{item}</Label>;
@@ -61,7 +63,7 @@ export default function UrisDesignProjectDetails() {
 			</Section>
 			<Section gradient={true}>
 				<ProjectTitle>Introducing Vi</ProjectTitle>
-				<SubTitle>
+				<SubTitle margin={true}>
 					Vi is a real-time, voice-enabled AI assistant you can talk to about my work, background, and skills. You can
 					also ask Vi to navigate and interact directly with my portfolio site. For example: "Vi, open project..." or
 					"Vi, mute sound."
@@ -159,9 +161,9 @@ export default function UrisDesignProjectDetails() {
 			<Section gradient={true}>
 				<ProjectTitle>My role</ProjectTitle>
 				<SubTitle margin={false}>
-					End-to-end product and implementation: concept, interaction model, Next.js app architecture, realtime AI
-					integration, state design, UI system usage through Slice, and the shared API boundary used to support this app
-					and other products.
+					I owned the e2e design and implementation: product concept, information architecture, interaction model, UI
+					system, frontend architecture, and realtime implementation along with infrastructure, backend, and API
+					integration.
 				</SubTitle>
 			</Section>
 		</Wrapper>

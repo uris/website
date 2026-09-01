@@ -61,8 +61,8 @@
 			"size": 32,
 			"margin": "0 0 32px 0"
 		},
-		"title": "Realtime portfolio",
-		"subtitle": "A NextJS interactive portfolio where visitors can ask about my skills, projects and implementation details through a live, voice enabled conversation (realtime API). Through tooling, the voice enabled assistant can open the relevant project, skills, or contact section in response.",
+		"title": "AI-native portfolio workspace",
+		"subtitle": "A design-engineered portfolio where hiring teams can browse work normally or ask focused questions through a grounded realtime assistant. Built with Next.js, WebRTC, OpenAI Realtime, and Slice.",
 		"techStack": [
 			"Next.js 16",
 			"React 19",

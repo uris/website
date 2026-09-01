@@ -5,7 +5,7 @@
 	align-items: center;
 	justify-content: flex-start;
 	width: 100%;
-	padding: 128px 64px;
+	padding: var(--section-padding) 0 var(--section-padding-bottom) 0;
 	border-top: 1px solid var(--section-border-color);
 	margin: 0;
 	background: var(--section-gradient);

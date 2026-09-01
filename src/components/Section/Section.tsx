@@ -6,7 +6,7 @@ import type { SectionProps } from '@/components/Section/_types';
 import styles from './Section.module.css';
 
 export function Section(props: Readonly<SectionProps>) {
-	const { gradient = true, direction = 'bottom', children } = props;
+	const { gradient = true, direction = 'bottom', children, noMargin = false, margin = 88 } = props;
 	const { current } = useTheme();
 	const surfaceColor = current.colors['core-surface-primary'];
 	const borderColor = current.colors['core-outline-secondary'];
@@ -21,10 +21,11 @@ export function Section(props: Readonly<SectionProps>) {
 	const cssVars = useMemo(() => {
 		return {
 			'--section-gradient': gradient ? bgGradient : 'transparent',
-			'--section-padding-bottom': gradient ? '0' : '64px',
+			'--section-padding-bottom': noMargin ? '0' : `${margin}px`,
+			'--section-padding': `${margin}px`,
 			'--section-border-color': addOpacity(borderColor, 0.75),
 		} as React.CSSProperties;
-	}, [gradient, bgGradient, borderColor]);
+	}, [gradient, bgGradient, borderColor, noMargin, margin]);
 
 	return (
 		<div className={styles.wrapper} style={cssVars}>
