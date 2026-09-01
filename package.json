@@ -6,7 +6,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"check": "biome check . && tsc --noEmit --ignoreDeprecations 6.0",
+		"check": "biome check . && tsc --noEmit",
 		"lint": "biome check --write .",
 		"format": "biome format --write ."
 	},

@@ -17,6 +17,8 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
+
             # Add GitHub to known hosts if not already there
             ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>/dev/null || true
             
