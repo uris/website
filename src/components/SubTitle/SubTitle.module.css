@@ -1,4 +1,4 @@
-:global([data-slice-theme-scope]) .nomargin, :global([data-slice-theme-scope]) .margin {
+:global([data-slice-theme-scope]) .subtitle {
 	font-family: var(--font-family), sans-serif;
 	font-weight: var(--font-weight-regular);
 	font-size: var(--font-size-xl);
@@ -7,16 +7,12 @@
 	letter-spacing: 0.1px;
 	text-align: left;
 	color: var(--core-text-tertiary);
-	margin: 0 0 64px 0;
+	margin: 0 0 var(--subtitle-margin-bottom) 0;
 	padding: 0;
 	width: 100%;
 	max-width: 600px;
 }
 
-:global([data-slice-theme-scope]) .nomargin {
-	margin: 0;
-}
-
-:global([data-slice-theme-scope]) .nomargin strong, :global([data-slice-theme-scope]) .margin strong {
+:global([data-slice-theme-scope]) .subtitle strong {
 	color: var(--core-text-primary);
 }

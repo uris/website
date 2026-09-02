@@ -19,6 +19,7 @@ interface ProjectHighlightProps {
 	imageLight?: StaticImageData;
 	themedImage?: ThemedImage;
 	nomargin?: boolean;
+	alt?: string;
 }
 
 export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
@@ -36,6 +37,7 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 		imageLight,
 		nomargin,
 		themedImage,
+		alt = 'Project highlight image',
 	} = props;
 
 	// create the bottom margin
@@ -65,7 +67,7 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 	const resolvedImageSize = useMemo(() => {
 		if (!resolvedImage || !imageHeight) return { height: 0, width: 0 };
 		const ratio = resolvedImage.width / resolvedImage.height;
-		return { height: imageHeight, width: imageHeight * ratio };
+		return { height: imageHeight, width: Math.round(imageHeight * ratio) }; // resolve to nearest full pixel
 	}, [imageHeight, resolvedImage]);
 
 	const cssVars = useMemo(() => {
@@ -94,7 +96,7 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 							width={resolvedImageSize.width}
 							height={resolvedImageSize.height}
 							sizes={'100vh'}
-							alt={'Image'}
+							alt={alt}
 							loading={'eager'}
 							className={styles.highlightImage}
 							preload={true}

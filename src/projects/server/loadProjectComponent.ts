@@ -5,8 +5,6 @@ import { isProjectSlug, type ProjectDetailsModule } from '@/projects/_registry/s
 
 // load project details based on slug passed as parameter
 export async function loadProjectComponent(slug: string): Promise<ComponentType | null> {
-	console.log({ slug });
-
 	// protect for valid slug
 	if (!isProjectSlug(slug)) return null;
 

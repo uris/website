@@ -91,6 +91,7 @@ export type ProjectSection = {
 export type ProjectAI = {
 	summary: string;
 	tagline?: string;
+	context?: string[];
 	emphasize?: string[];
 	avoid?: string[];
 	audiences?: string[];
@@ -128,6 +129,7 @@ export type ProjectSummary = {
 	title: string;
 	summary: string;
 	tagline?: string;
+	techStack: string[];
 };
 
 export type ProjectPageData = {

@@ -21,6 +21,7 @@ interface HeroImageProps {
 	videoPlaying?: boolean;
 	dropShadow?: boolean;
 	border?: boolean;
+	heroAltText?: string;
 }
 
 export function HeroImage(props: Readonly<HeroImageProps>) {
@@ -40,6 +41,7 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 		videoMuted = true,
 		videoPlaying = true,
 		border = true,
+		heroAltText,
 	} = props;
 
 	// state of video ready to play
@@ -64,7 +66,6 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 
 	// memo show hero state
 	const showHero = useMemo(() => {
-		console.log({ canPlay });
 		if (videoURL) return heroImage && !canPlay;
 		return !!heroImage;
 	}, [canPlay, heroImage, videoURL]);
@@ -127,7 +128,7 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 							width={resolveHeroImage.width}
 							height={resolveHeroImage.height}
 							sizes={'100vh'}
-							alt={'Image'}
+							alt={heroAltText ?? 'Hero Image'}
 							loading={'eager'}
 							className={styles.heroImage}
 							preload={true}
