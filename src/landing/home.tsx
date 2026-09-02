@@ -27,9 +27,10 @@ export default function Home(props: Readonly<HomeProps>) {
 	const loadProjects = useHomeLayout().setProjects;
 	const setDraggingSidebar = useHomeLayout().setDraggingSidebar;
 
-	// set initial projects data
+	// load initial projects data
 	useEffect(() => loadProjects(projects), [loadProjects, projects]);
 
+	// base app layout
 	return (
 		<FlexDiv preset={Preset.Window} height={height} justify={'start'} align={'center'} ref={viewRef}>
 			<FlexDiv preset={Preset.Draggable}>
