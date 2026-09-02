@@ -33,6 +33,7 @@ export default function SliceProjectDetails() {
 				<HeroImage
 					heroImage={themedImages.placeholder}
 					backgroundImage={themedImages.heroBG}
+					heroOffset={128}
 					border={false}
 					heroAltText={
 						'Slice UI Kit interface, component code, and browser runtime capabilities shown as one composable React system.'
@@ -176,7 +177,7 @@ export default function SliceProjectDetails() {
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
-					heroOffset={0}
+					standAlone={true}
 					heroAltText={
 						'Comparison between disconnected frontend packages and Slice as a composable foundation for UI, state, browser APIs, and realtime features.'
 					}
@@ -233,7 +234,7 @@ export default function SliceProjectDetails() {
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
-					heroOffset={0}
+					standAlone={true}
 					heroAltText={
 						'Slice build pipeline producing granular JavaScript and TypeScript package entry points for consuming React applications.'
 					}
@@ -256,7 +257,7 @@ export default function SliceProjectDetails() {
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
-					heroOffset={0}
+					standAlone={true}
 					heroAltText={
 						'Slice documentation showing component usage alongside contributor and architecture guidance for extending the library.'
 					}

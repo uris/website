@@ -136,7 +136,7 @@ export default function UrisDesignProjectDetails() {
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
-					heroOffset={0}
+					standAlone={true}
 					heroAltText={
 						'Flow from a visitor question to an assistant response and the relevant case study opened in the workspace.'
 					}
@@ -201,7 +201,7 @@ export default function UrisDesignProjectDetails() {
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
-					heroOffset={0}
+					standAlone={true}
 					heroAltText={
 						"Diagram showing the assistant's bounded actions: portfolio retrieval, view navigation, and selected settings updates."
 					}
@@ -238,7 +238,7 @@ export default function UrisDesignProjectDetails() {
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
-					heroOffset={0}
+					standAlone={true}
 					heroAltText={
 						'Architecture diagram showing structured content, Next.js delivery, realtime tools, and workspace UI state.'
 					}
@@ -260,7 +260,7 @@ export default function UrisDesignProjectDetails() {
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
-					heroOffset={0}
+					standAlone={true}
 					heroAltText={
 						'Portfolio workspace UI paired with the Slice primitives that support its layout, media, and realtime behavior.'
 					}

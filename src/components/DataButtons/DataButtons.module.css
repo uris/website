@@ -1,16 +1,13 @@
-.margin, .nomargin {
+.wrapper {
 	display: grid;
 	width: 100%;
-	max-width: 1024px;
+	max-width: var(--grid-max-width);
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	grid-auto-rows: var(--tile-size);
 	grid-auto-flow: row;
 	gap: 16px;
-	margin: 0 0 64px 0;
-}
-
-.nomargin {
-	margin: 0;
+	margin: var(--grid-margin);
+	padding: var(--grid-padding);
 }
 
 .button {

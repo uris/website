@@ -22,6 +22,7 @@ interface HeroImageProps {
 	dropShadow?: boolean;
 	border?: boolean;
 	heroAltText?: string;
+	standAlone?: boolean;
 }
 
 export function HeroImage(props: Readonly<HeroImageProps>) {
@@ -31,7 +32,7 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 		backgroundColor = 'transparent',
 		heroImage,
 		heroMaxWidth = 1024,
-		heroOffset = 64,
+		heroOffset = 112,
 		heroMargin = 32,
 		dropShadow = true,
 		backgroundFit = 'cover',
@@ -42,6 +43,7 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 		videoPlaying = true,
 		border = true,
 		heroAltText,
+		standAlone = false,
 	} = props;
 
 	// state of video ready to play
@@ -51,13 +53,13 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 	const cssVars = useMemo(() => {
 		return {
 			'--hero-background-color': backgroundColor,
-			'--hero-container-padding': setStyle(heroOffset),
+			'--hero-container-padding': standAlone ? `0 ${setStyle(heroOffset)}` : setStyle(heroOffset),
 			'--hero-container-margin': setStyle(heroMargin),
 			'--hero-image-max-width': setStyle(heroMaxWidth),
 			'--hero-drop-shadow': dropShadow ? 'var(--surface-shadow-soft)' : 'none',
 			'--hero-border': border ? '1px' : '0',
 		} as React.CSSProperties;
-	}, [heroMargin, heroMaxWidth, backgroundColor, heroOffset, border, dropShadow]);
+	}, [heroMargin, heroMaxWidth, backgroundColor, heroOffset, border, dropShadow, standAlone]);
 
 	// set can play when video ready to play (shows hero if not ready and there's a hero defined)
 	const handleCanPlay = useCallback(() => {

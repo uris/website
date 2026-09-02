@@ -31,9 +31,23 @@
 	},
 	"header": {
 		"title": "Making meetings happy again",
-		"subtitle": "At RingCentral I helped rethink then design and implement how people connect with each other to be more productive. Online, in person, and hybrid.",
-		"techStack": [],
-		"links": []
+		"subtitle": "At RingCentral, I helped rethink how people connect across remote, in-person, and hybrid work. The goal was not more meetings. It was clearer communication, better use of people's time, and more confidence about when to participate",
+		"techStack": [
+			"Design Thinking",
+			"User Research",
+			"Product Design",
+			"Visual Design",
+			"Motion Design",
+			"Sound Design"
+		],
+		"links": [
+			{
+				"label": "www.ringcentral.com/video",
+				"href": "https://www.ringcentral.com/video.html",
+				"iconLeft": "globe location",
+				"target": "_blank"
+			}
+		]
 	},
 	"sections": []
 }

@@ -7,9 +7,10 @@
 	letter-spacing: 0.1px;
 	text-align: left;
 	color: var(--core-text-tertiary);
-	margin: 0;
+	margin: var(--text-margin);
 	padding: 0;
 	width: 100%;
+	max-width: var(--text-max-width);
 }
 
 :global([data-slice-theme-scope]) div.textParagraph ul {
