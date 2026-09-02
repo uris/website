@@ -1,0 +1,94 @@
+.wrapper {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 0;
+	box-sizing: border-box;
+	padding: 24px;
+	margin: 0;
+	min-height: var(--project-tile-height);
+	min-width: var(--project-tile-width);
+	max-height: var(--project-tile-height);
+	max-width: var(--project-tile-width);
+	border: 1px solid var(--core-outline-secondary);
+	border-radius: 4px;
+	overflow: hidden;
+	cursor: pointer;
+	opacity: var(--project-tile-opacity);
+	transform: scale(1) translateY(var(--project-tile-translate-y)) translateX(var(--project-tile-translate-x));
+	transition: var(--project-tile-transition);
+	outline: none;
+	z-index:1;
+	&:hover {
+		transform: scale(1.05) translateY(var(--project-tile-translate-y)) translateX(var(--project-tile-translate-x));
+		box-shadow: var(--surface-shadow-soft);
+		border: 0 solid transparent;
+		z-index: 2;
+	}
+}
+
+.tileWide {
+	grid-column: span 2;
+}
+
+.tileLong {
+	grid-row: span 2;
+}
+
+.title {
+	color: var(--project-tile-title-color);
+	font-family: var(--font-family), sans-serif;
+	font-weight: 360;
+	font-size: 20px;
+	line-height: 1.3em;
+	text-decoration: none;
+	letter-spacing: 0.2px;
+	text-align: left;
+	z-index: 1;
+	-webkit-text-stroke: 0px;
+	-webkit-text-stroke-color: rgba(0, 0, 0, 0.15);
+}
+
+.subtitle {
+	font-family: var(--font-family), sans-serif;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.2em;
+	text-decoration: none;
+	letter-spacing: 0.2px;
+	color: var(--project-tile-type-color);
+	text-transform: uppercase;
+	z-index: 1;
+	margin-bottom: 4px;
+}
+
+.heavy {
+	font-weight: 500;
+}
+
+.logo {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	min-height: var(--project-tile-icon-size);
+	min-width: var(--project-tile-icon-size);
+	max-height: var(--project-tile-icon-size);
+	max-width: var(--project-tile-icon-size);
+	z-index: 1;
+	inset: 0;
+	user-select: none;
+	-webkit-user-select: none;
+	margin-bottom: 12px;
+}
+
+.image {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	user-select: none;
+	-webkit-user-select: none;
+}
