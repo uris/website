@@ -10,7 +10,7 @@
 
 **Links:** Slice UI Kit, npm, and GitHub.
 
-**Visual:** `HeroImage` placeholder. Use an editorial composition of a polished Slice-powered interface, a concise code example, and one browser or realtime capability. It should communicate that Slice is a product foundation, not just a component gallery.
+**Visual:** `HeroImage` using the shared Slice placeholder with the cyan bubble background. Replace it with an editorial composition of a polished Slice-powered interface, a concise code example, and one browser or realtime capability. It should communicate that Slice is a product foundation, not just a component gallery.
 
 **Alt text:** Slice UI Kit interface, component code, and browser runtime capabilities shown as one composable React system.
 
@@ -20,23 +20,23 @@
 
 Slice starts with a configurable design language for color, spacing, type, motion, icons, and more. The same system is used by components and layout primitives, so product teams are not re-solving visual consistency at every layer.
 
-**Visual:** `ProjectHighlight` using the core color token visual. Show the token hierarchy and the resulting interface together if possible.
+**Visual:** `ProjectHighlight` using the shared Slice placeholder. Replace it with a visual that shows the token hierarchy and the resulting interface together.
 
 **Alt text:** Slice color tokens and theme controls used to define a consistent interface design language.
 
-### Components for application work
+### Accessible components for application work
 
-Slice includes reusable primitives for inputs, overlays, media, uploads, panels, containers, and grids. The point is not a large component count; it is a coherent set of building blocks for shipping applications.
+Slice includes reusable primitives for inputs, overlays, media, uploads, panels, containers, and grids. Each component is designed and tested to meet accessibility expectations, so keyboard interaction, semantics, and assistive-technology support are part of the component work rather than a follow-up task.
 
-**Visual:** `ProjectHighlight` using the video component visual. Show a composed media component in a real interface context rather than an isolated component demo.
+**Visual:** `ProjectHighlight` using the shared Slice placeholder. Replace it with a composed media component in a real interface context rather than an isolated component demo.
 
-**Alt text:** Slice video component rendered inside an application interface with reusable controls and layout primitives.
+**Alt text:** Slice video component rendered inside an accessible application interface with reusable controls and layout primitives.
 
 ### Server-rendering compatibility without a separate path
 
 The library preserves React client directives through the build and provides the pieces needed for server rendering and client hydration. This lets the same package work naturally in Next.js and Remix applications.
 
-**Visual:** `ProjectHighlight` using the SSR visual. Pair a short code crop with a rendered server-first interface.
+**Visual:** `ProjectHighlight` using the shared Slice placeholder. Replace it with a short code crop paired with a rendered server-first interface.
 
 **Alt text:** Slice server-rendering setup showing React client directives preserved for a Next.js or Remix application.
 
@@ -44,7 +44,7 @@ The library preserves React client directives through the build and provides the
 
 Microphone, camera, screen sharing, WebRTC, WebSocket, SSE, IndexedDB, audio visualization, and recording are exposed as React hooks and Zustand stores. The API hides repetitive lifecycle work without hiding the controls a product needs.
 
-**Visual:** `ProjectHighlight` using the IndexedDB or device-management visual. Highlight the relationship between a browser capability, typed state, and a UI control.
+**Visual:** `ProjectHighlight` using the shared Slice placeholder. Replace it with a visual that highlights the relationship between a browser capability, typed state, and a UI control.
 
 **Alt text:** Slice browser API hooks and stores connecting a device or browser capability to application UI state.
 
@@ -52,7 +52,7 @@ Microphone, camera, screen sharing, WebRTC, WebSocket, SSE, IndexedDB, audio vis
 
 Slice provides building blocks for live audio, video, screen sharing, data channels, and streamed UI. It is designed to make realtime and AI product work easier to compose, not to hide the underlying system entirely.
 
-**Visual:** `ProjectHighlight` using the realtime prompt visual. A short motion loop is ideal here if it can show a live response or stream state changing in the interface.
+**Visual:** `ProjectHighlight` using the shared Slice placeholder. Replace it with a realtime visual; a short motion loop is ideal if it can show a live response or stream state changing in the interface.
 
 **Alt text:** Slice realtime primitives supporting a streamed assistant response and live application state.
 
@@ -60,15 +60,15 @@ Slice provides building blocks for live audio, video, screen sharing, data chann
 
 The package exposes granular import paths so applications can import the pieces they need. Its small peer and optional dependency surface keeps ownership with the consuming application rather than bundling every integration by default.
 
-**Visual:** `ProjectHighlight` using the bundle or export-map visual. Show a focused import example beside the resulting package footprint or export structure.
+**Visual:** `ProjectHighlight` using the shared Slice placeholder. Replace it with a focused import example beside the resulting package footprint or export structure.
 
 **Alt text:** Slice granular imports and export paths allowing an application to include only the modules it uses.
 
-### Designed for responsive application behavior
+### Designed for performance and responsive app behavior
 
 Components are built with fast mount and remount behavior in mind, and the runtime includes worker abstractions for moving expensive work, such as multi-file uploads, off the main thread.
 
-**Visual:** `ProjectHighlight` using the performance visual. Show a focused benchmark or performance trace only when the measurement methodology is available.
+**Visual:** `ProjectHighlight` using the shared Slice placeholder. Replace it with a focused benchmark or performance trace only when the measurement methodology is available.
 
 **Alt text:** Slice performance tooling and component behavior designed to keep responsive application work off the main thread when appropriate.
 
@@ -78,7 +78,7 @@ Most frontend products need the same foundational capabilities: a visual system,
 
 Slice is an attempt to make those seams intentional. It provides a single composable foundation where hooks, stores, components, and theme tokens are designed to work together from the start.
 
-**Visual:** Standalone diagram or before-and-after composition. Contrast a scattered set of disconnected package categories with the Slice model of UI, state, browser APIs, and realtime primitives sharing one system.
+**Visual:** `HeroImage` using the shared Slice placeholder. Replace it with a standalone diagram or before-and-after composition contrasting disconnected package categories with the Slice model of UI, state, browser APIs, and realtime primitives sharing one system.
 
 **Alt text:** Comparison between disconnected frontend packages and Slice as a composable foundation for UI, state, browser APIs, and realtime features.
 
@@ -97,7 +97,7 @@ Slice is not a monolithic framework and it is not a requirement to adopt every l
 
 The useful abstraction is one that removes repeated wiring without making the underlying capability impossible to control. Slice uses shared types so a hook can return exactly the option shape a component expects, turning common browser interactions into direct product code.
 
-**Code example:** List and change the selected microphone using `useMicrophoneStore()` and `Dropdown` props. Keep the existing two-line microphone example here.
+**Code example:** Bind the selected microphone to a dropdown using `useMicrophoneStore()` and `Dropdown` props.
 
 **Visual:** No image required. Let the short code example carry the proof.
 
@@ -107,9 +107,19 @@ For a public SDK, the package boundary matters as much as the API. Slice publish
 
 The build has to preserve React directives, produce matching JavaScript and TypeScript entry points, and keep chunk boundaries predictable across environments. That is more than build tooling; it is part of the developer experience the library delivers.
 
-**Visual:** Standalone build and export-map diagram or an annotated Rollup configuration crop. Show source modules flowing into granular package entry points, then into a consuming application.
+**Visual:** `HeroImage` using the shared Slice placeholder. Replace it with a standalone build and export-map diagram or an annotated Rollup configuration crop showing source modules flowing into granular package entry points, then into a consuming application.
 
 **Alt text:** Slice build pipeline producing granular JavaScript and TypeScript package entry points for consuming React applications.
+
+## Thoroughly documented
+
+Thorough documentation takes time, but it is one of the highest-leverage parts of a public library. A component or hook is only useful when a developer can understand what it does, see how to use it, and make an informed decision about whether it fits their product.
+
+Slice documents the component and API surface, practical examples, and the decisions behind the system. Contributor documentation and architecture notes make the project easier to extend without requiring every new contributor to rediscover the build, export, state, and runtime model from scratch.
+
+**Visual:** `HeroImage` using the shared Slice placeholder. Replace it with a documentation composition pairing a public API or Storybook page with a contributor or architecture document, making the relationship between using Slice and extending Slice clear.
+
+**Alt text:** Slice documentation showing component usage alongside contributor and architecture guidance for extending the library.
 
 ## What I intentionally did not build
 
@@ -121,7 +131,7 @@ The build has to preserve React directives, produce matching JavaScript and Type
 
 ## Lessons learned
 
-The hard part of a public library is not only writing the code. Documentation, examples, Storybook, contributor guidance, export maps, testing, release automation, and clear API boundaries are all part of whether another developer can successfully use it.
+The hard part of a public library is not only writing the code. Documentation, examples, Storybook, contributor guidance, architecture notes, export maps, testing, release automation, and clear API boundaries are all part of whether another developer can successfully use it.
 
 WebRTC was a particularly useful example. Building a good abstraction required understanding ICE negotiation, data-channel lifecycle, and replacing tracks without unnecessary renegotiation. The challenge was to remove the repetitive complexity without taking away the controls a real product needs.
 

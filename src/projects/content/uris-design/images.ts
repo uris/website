@@ -1,4 +1,6 @@
 import heroBG from '@/assets/backgrounds/abstract-bubbles.png';
+import placeholder from '@/assets/placeholders/image-placeholder@3x.png';
+import placeholderLight from '@/assets/placeholders/image-placeholder-light@3x.png';
 import hero from '@/assets/projects/uris-design/uris-design-hero@3x.png';
 import heroLight from '@/assets/projects/uris-design/uris-design-hero-light@3x.png';
 import skills from '@/assets/projects/uris-design/uris-design-skills@3x.png';
@@ -14,6 +16,8 @@ export const images = {
 	hero,
 	heroLight,
 	heroBG,
+	placeholder,
+	placeholderLight,
 } as const;
 
 export const themedImages = {
@@ -21,4 +25,5 @@ export const themedImages = {
 	talk: { image: talk, imageLight: talkLight },
 	hero: { image: hero, imageLight: heroLight },
 	heroBG: { image: heroBG, imageLight: heroBG },
+	placeholder: { image: placeholder, imageLight: placeholderLight },
 };

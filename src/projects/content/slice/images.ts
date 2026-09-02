@@ -1,5 +1,8 @@
 import cameraDemo from '@/assets//projects/slice/slice-camera-demo.png';
 import cameraDemoLight from '@/assets//projects/slice/slice-camera-demo-light.png';
+import heroBG from '@/assets/backgrounds/abstract-bubbles-02.png';
+import placeholder from '@/assets/placeholders/image-placeholder@3x.png';
+import placeholderLight from '@/assets/placeholders/image-placeholder-light@3x.png';
 import bundle from '@/assets/projects/slice/slice-bundlephobia@3x.png';
 import bundleLight from '@/assets/projects/slice/slice-bundlephobia-light@3x.png';
 import themeCoreColors from '@/assets/projects/slice/slice-core-colors@3x.png';
@@ -42,6 +45,9 @@ export const images = {
 	bundleLight,
 	prompt,
 	promptLight,
+	placeholder,
+	placeholderLight,
+	heroBG,
 } as const;
 
 export const themedImages = {
@@ -52,4 +58,6 @@ export const themedImages = {
 	performance: { image: performance, imageLight: performanceLight },
 	bundle: { image: bundle, imageLight: bundleLight },
 	prompt: { image: prompt, imageLight: promptLight },
+	placeholder: { image: placeholder, imageLight: placeholderLight },
+	heroBG: { image: heroBG, imageLight: heroBG },
 };

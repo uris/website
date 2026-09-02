@@ -27,7 +27,7 @@ export default function UrisDesignProjectDetails() {
 				<ProjectTitle>{header.title}</ProjectTitle>
 				<SubTitle margin={false}>{header.subtitle}</SubTitle>
 				<HeroImage
-					heroImage={themedImages.hero}
+					heroImage={themedImages.placeholder}
 					backgroundImage={themedImages.heroBG}
 					border={false}
 					heroAltText={'Realtime portfolio workspace with an assistant conversation beside an opened project view.'}
@@ -53,7 +53,7 @@ export default function UrisDesignProjectDetails() {
 				</LinkList>
 				<InlineTitle title={'Highlights'} />
 				<ProjectHighlight
-					themedImage={themedImages.skills}
+					themedImage={themedImages.placeholder}
 					alt={'Assistant conversation answering a portfolio question about design systems, AI, or realtime work.'}
 				>
 					<TextTitle>Ask better portfolio questions</TextTitle>
@@ -65,7 +65,7 @@ export default function UrisDesignProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.skills}
+					themedImage={themedImages.placeholder}
 					reverse
 					alt={'A portfolio skills or project panel opened in response to an assistant conversation.'}
 				>
@@ -78,7 +78,7 @@ export default function UrisDesignProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.skills}
+					themedImage={themedImages.placeholder}
 					alt={'Voice conversation interface showing microphone controls, a transcript, and an assistant response.'}
 				>
 					<TextTitle>Voice is optional and interruptible</TextTitle>
@@ -90,7 +90,7 @@ export default function UrisDesignProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.skills}
+					themedImage={themedImages.placeholder}
 					reverse
 					alt={
 						"Diagram showing the assistant's bounded actions: portfolio retrieval, view navigation, and selected settings updates."
@@ -105,7 +105,7 @@ export default function UrisDesignProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.skills}
+					themedImage={themedImages.placeholder}
 					nomargin
 					alt={
 						'Architecture diagram connecting structured content, Next.js, realtime tools, and the portfolio workspace.'
@@ -132,7 +132,7 @@ export default function UrisDesignProjectDetails() {
 					visitors a faster way to discover the relevant evidence when they already know what they want to learn.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.hero}
+					heroImage={themedImages.placeholder}
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
@@ -197,7 +197,7 @@ export default function UrisDesignProjectDetails() {
 					reason about and extend.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.hero}
+					heroImage={themedImages.placeholder}
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
@@ -234,7 +234,7 @@ export default function UrisDesignProjectDetails() {
 					without making the entire content experience client-only.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.hero}
+					heroImage={themedImages.placeholder}
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
@@ -256,7 +256,7 @@ export default function UrisDesignProjectDetails() {
 					selection, connection state, streaming content, and changing interface surfaces.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.hero}
+					heroImage={themedImages.placeholder}
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
