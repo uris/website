@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Label, Video, VideoController, type VideoProps } from '@apple-pie/slice';
+import { Button, Label, Video, type VideoProps } from '@apple-pie/slice';
 import { useVideoActions } from '@apple-pie/slice/stores';
 import { DataButton, DataButtonGrid } from '@/components/DataButtons/DataButtons';
 import { HeroImage } from '@/components/HeroImage/HeroImage';
@@ -33,11 +33,6 @@ export default function RcVideo() {
 		window.parent.postMessage({ event: FrameEvent.CHILD_EVENT, type: 'video-started' }, globalThis.location.origin);
 	};
 
-	// tell parent window it's ok to show the close project button now
-	const handleQuitVideo = () => {
-		window.parent.postMessage({ event: FrameEvent.CHILD_EVENT, type: 'video-ended' }, globalThis.location.origin);
-	};
-
 	return (
 		<Wrapper>
 			<Section gradient={false}>
@@ -49,7 +44,7 @@ export default function RcVideo() {
 					backgroundImage={themedImages.heroBG}
 					border={false}
 					heroAltText={
-						'Slice UI Kit interface, component code, and browser runtime capabilities shown as one composable React system.'
+						'RingCentral Video meeting view with three portrait-oriented participants, emphasizing a more personal and human meeting experience.'
 					}
 				/>
 				<TechStack>
@@ -74,7 +69,7 @@ export default function RcVideo() {
 			</Section>
 			<Section>
 				<ProjectTitle>The challenge</ProjectTitle>
-				<SubTitle marginSize={16}>"Huston, we have a problem."</SubTitle>
+				<SubTitle marginSize={16}>"Houston, we have a problem."</SubTitle>
 				<SubTitle marginSize={16}>
 					Post-pandemic video-meeting engagement was declining while phone usage trended in the opposite direction.
 					Video and meetings were still key to strategic positioning and growth beyond phone.
@@ -104,7 +99,7 @@ export default function RcVideo() {
 					themedImage={themedImages.covid}
 					alt={'Chart showing the decline in video meetings post-pandemic.'}
 				>
-					<TextTitle>Return To Office</TextTitle>
+					<TextTitle>Return to Office</TextTitle>
 					<TextParagraph>
 						<p>
 							The return to office changed the role of digital meetings. In-person work brought back the value of quick,
@@ -113,8 +108,15 @@ export default function RcVideo() {
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
-				<ProjectHighlight themedImage={themedImages.placeholder} reverse alt={'User research insights.'}>
-					<TextTitle>Self Inflicted - Poor Usability</TextTitle>
+				<ProjectHighlight
+					themedImage={themedImages.users}
+					reverse
+					alt={
+						'Meeting interface with participant tiles, live notes, reactions, and attendance details showing the complexity of in-meeting coordination.'
+					}
+					imageBackground={'var(--core-surface-primary)'}
+				>
+					<TextTitle>Self-inflicted: poor usability</TextTitle>
 					<TextParagraph marginSize={16}>
 						<p>
 							Video quality, reliability, and awkward interaction patterns can make digital communication feel like an
@@ -122,22 +124,27 @@ export default function RcVideo() {
 						</p>
 					</TextParagraph>
 					<TextLinkList>
-						<InlineButton onClick={() => handleShowVideo(videos.aiSummaries)}>AI Summaries</InlineButton>
-						<InlineButton onClick={() => handleShowVideo(videos.aiAccuracy)}>AI Accuracy</InlineButton>
+						<InlineButton onClick={() => handleShowVideo(videos.aiSummaries)}>AI Summaries [00:35]</InlineButton>
+						<InlineButton onClick={() => handleShowVideo(videos.aiAccuracy)}>AI Accuracy [00:24]</InlineButton>
 					</TextLinkList>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.competition}
+					imageBackground={'var(--core-surface-primary)'}
 					nomargin
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					alt={'Logos for several video-meeting competitors, including Zoom, Teams, Meet, and Around.'}
 				>
 					<TextTitle>Competitive Landscape</TextTitle>
-					<TextParagraph>
+					<TextParagraph marginSize={16}>
 						<p>
-							Through the pandemic, the availability of alternative platforms for conducting digital meetings
-							mushroomed. Some with very relevant value props.
+							Through the pandemic, alternative platforms for digital meetings mushroomed, many with highly relevant
+							value propositions.
 						</p>
 					</TextParagraph>
+					<TextLinkList>
+						<InlineButton onClick={() => handleShowVideo(videos.about)}>About (Miro) [00:35]</InlineButton>
+						<InlineButton onClick={() => handleShowVideo(videos.sessions)}>Sessions [00:52]</InlineButton>
+					</TextLinkList>
 				</ProjectHighlight>
 			</Section>
 			<Section>
@@ -156,12 +163,16 @@ export default function RcVideo() {
 			</Section>
 			<Section>
 				<ProjectTitle>Anti-Meeting</ProjectTitle>
-				<SubTitle>Because sometimes the best meetings are no meetings. More focus and time to get s*#!t done.</SubTitle>
+				<SubTitle>
+					Because sometimes the best meetings are no meetings. More focus and time to get meaningful work done.
+				</SubTitle>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					themedImage={themedImages.sayno}
+					alt={
+						'Meeting details flow for declining attendance while sending an assistant to track selected topics and provide follow-up.'
+					}
 				>
-					<TextTitle>It's ok to say "no"</TextTitle>
+					<TextTitle>It&apos;s okay to say "no"</TextTitle>
 					<TextParagraph>
 						<p>
 							Declining a meeting should not mean falling out of the conversation. A person can send a virtual assistant
@@ -170,17 +181,19 @@ export default function RcVideo() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.record}
 					reverse
 					nomargin
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					alt={
+						'Recording setup that lets someone share a desktop, messages, whiteboard, or part of the screen for async collaboration.'
+					}
 				>
 					<TextTitle>Async Meetings</TextTitle>
 					<TextParagraph>
 						<p>Send out recordings of materials and presentations.</p>
 						<p>
-							Meet async allowing people to scrub through to the points of interest, providing comments, feedback,
-							questions and marking follow up items.
+							Meet async, allowing people to move directly to the moments that matter, leave comments, ask questions,
+							and mark follow-up work.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
@@ -189,8 +202,10 @@ export default function RcVideo() {
 				<ProjectTitle>Pre-meeting</ProjectTitle>
 				<SubTitle>Because success is often the flip side of preparation and setup.</SubTitle>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					themedImage={themedImages.templates}
+					alt={
+						'Meeting calendar beside a gallery of meeting templates for standups, collaboration sessions, presentations, and team socials.'
+					}
 				>
 					<TextTitle>Set up the meeting for the work</TextTitle>
 					<TextParagraph>
@@ -202,9 +217,11 @@ export default function RcVideo() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.prep}
 					reverse
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					alt={
+						'Pre-join screen with portrait video, location, local time, weather, and appearance filters for how someone shows up in a meeting.'
+					}
 				>
 					<TextTitle>Total control over how you show up</TextTitle>
 					<TextParagraph>
@@ -216,9 +233,11 @@ export default function RcVideo() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.novideo}
 					nomargin
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					alt={
+						'Video meeting with a custom no-video status card showing that a participant is following along without being on camera.'
+					}
 				>
 					<TextTitle>No Video? No problem.</TextTitle>
 					<TextParagraph>
@@ -231,12 +250,14 @@ export default function RcVideo() {
 			</Section>
 			<Section>
 				<ProjectTitle>In Meeting</ProjectTitle>
-				<SubTitle>Making the meeting experience more human, focused and more effective.</SubTitle>
+				<SubTitle>Making the meeting experience more human, focused, and effective.</SubTitle>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					themedImage={themedImages.portrait}
+					alt={
+						'Three-person meeting displayed in portrait-oriented video tiles that keep attention on faces rather than backgrounds.'
+					}
 				>
-					<TextTitle>Portrait video.</TextTitle>
+					<TextTitle>Portrait video</TextTitle>
 					<TextParagraph>
 						<p>
 							Show up with the information that helps people communicate effectively, not everything in the background.
@@ -246,11 +267,13 @@ export default function RcVideo() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.floating}
 					reverse
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					alt={
+						'Compact floating meeting window staying visible over a presentation so someone can work while following the call.'
+					}
 				>
-					<TextTitle>Float mode.</TextTitle>
+					<TextTitle>Float mode</TextTitle>
 					<TextParagraph>
 						<p>
 							People often need to follow a meeting while working in another application. A floating view helps them
@@ -259,8 +282,9 @@ export default function RcVideo() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					themedImage={themedImages.express}
+					imageHeight={400}
+					alt={'Meeting interface showing participants reacting expressively even while muted.'}
 				>
 					<TextTitle>Express yourself, even when muted</TextTitle>
 					<TextParagraph>
@@ -272,9 +296,10 @@ export default function RcVideo() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.nightandday}
 					reverse
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					noborder
+					alt={'The same meeting shown in dark and light modes to suit different work environments and times of day.'}
 				>
 					<TextTitle>A meeting that responds to its environment</TextTitle>
 					<TextParagraph>
@@ -283,14 +308,16 @@ export default function RcVideo() {
 							that every meeting happens in a dark interface.
 						</p>
 						<p>
-							And they can automatically follow the time of day to provide cues to others that you might be working
+							They can also automatically follow the time of day to provide cues to others that you might be working
 							overtime.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					themedImage={themedImages.summaries}
+					alt={
+						'Meeting interface with auto-generated notes, attachments, mentions, and reactions organized alongside the call.'
+					}
 				>
 					<TextTitle>Notes and summaries without the burden</TextTitle>
 					<TextParagraph>
@@ -301,9 +328,11 @@ export default function RcVideo() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.hybrid}
 					reverse
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					alt={
+						'Hybrid meeting setup that identifies several in-room participants from a shared conference-room camera.'
+					}
 				>
 					<TextTitle>Hybrid-friendly participation</TextTitle>
 					<TextParagraph>
@@ -317,13 +346,15 @@ export default function RcVideo() {
 			<Section>
 				<ProjectTitle>Post meeting</ProjectTitle>
 				<SubTitle>
-					This could be the beginning of a beautiful conversation … meeting should leave behind clear context, useful
+					This could be the beginning of a beautiful conversation. A meeting should leave behind clear context, useful
 					follow-up, and a path for people who could not attend to catch up quickly.
 				</SubTitle>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.meetingsummary}
 					nomargin
-					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
+					alt={
+						'Meeting summary view with shared notes, transcript details, hashtags, mentions, and a linked team message thread.'
+					}
 				>
 					<TextTitle>Carry the conversation forward</TextTitle>
 					<TextParagraph>
@@ -370,7 +401,6 @@ export default function RcVideo() {
 					it enables connection.
 				</SubTitle>
 			</Section>
-			<VideoController draggable={false} quit={'outside'} onQuit={handleQuitVideo} />
 		</Wrapper>
 	);
 }

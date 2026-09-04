@@ -26,7 +26,7 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	const { projectSlug, projectName } = props;
 	const theme = useTheme().current.name;
 	const dragging = useDraggingSidebar();
-	const setShowCloseProject = useSidebarActions().setShowCloseProject;
+	const setShowOverlays = useSidebarActions().setShowOverlays;
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	const size = useObserveResize(iframeRef, { ignore: 'width' });
 
@@ -48,14 +48,14 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 			if (event.origin !== globalThis.location.origin) return;
 			if (event.data.event === FrameEvent.CHILD_EVENT) {
 				if (event.data.type === 'video-started') {
-					setShowCloseProject(false);
+					setShowOverlays(false);
 				}
 				if (event.data.type === 'video-ended') {
-					setShowCloseProject(true);
+					setShowOverlays(true);
 				}
 			}
 		},
-		[setShowCloseProject],
+		[setShowOverlays],
 	);
 
 	// memo dynamic styles

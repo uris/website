@@ -2,7 +2,7 @@
 	"$schema": "../../project.schema.json",
 	"slug": "rc-video",
 	"tile": {
-		"title": "Rethinking how people meet happy",
+		"title": "Rethinking how people meet",
 		"type": "Productivity",
 		"logo": {
 			"type": "logo",
@@ -31,7 +31,7 @@
 	},
 	"header": {
 		"title": "Making meetings happy again",
-		"subtitle": "At RingCentral, I helped rethink how people connect across remote, in-person, and hybrid work. The goal was not more meetings. It was clearer communication, better use of people's time, and more confidence about when to participate",
+		"subtitle": "At RingCentral, I helped rethink how people connect across remote, in-person, and hybrid work. The goal was not more meetings. It was clearer communication, better use of people's time, and more confidence about when to participate.",
 		"techStack": [
 			"Design Thinking",
 			"User Research",

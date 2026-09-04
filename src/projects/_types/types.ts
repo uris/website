@@ -1,3 +1,4 @@
+import type { VideoProps } from '@apple-pie/slice';
 import type { StaticImageData } from 'next/image';
 import type { ComponentType } from 'react';
 import type { ProjectSlug } from '@/projects/_registry/slugs';
@@ -168,3 +169,5 @@ export type ThemedImage = {
 };
 
 export type ThemedProjectImages = Record<string, { image: StaticImageData; imageLight: StaticImageData }>;
+
+export type ProjectVideos = Record<string, VideoProps>;

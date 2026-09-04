@@ -22,6 +22,8 @@ interface ProjectHighlightProps {
 	alt?: string;
 	loading?: 'eager' | 'lazy';
 	preload?: boolean;
+	imageBackground?: string;
+	noborder?: boolean;
 }
 
 export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
@@ -39,9 +41,11 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 		imageLight,
 		nomargin,
 		themedImage,
+		imageBackground = 'transparent',
 		alt = 'Project highlight image',
 		loading = 'eager',
 		preload = true,
+		noborder = false,
 	} = props;
 
 	// create the bottom margin
@@ -85,6 +89,8 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 			'--highlight-image-height': setStyle(imageHeight),
 			'--highlight-padding-top': alignItemsCenter ? '0' : '64px',
 			'--highlight-margin-bottom': bottomMargin,
+			'--highlight-image-background': imageBackground,
+			'--highlight-border-size': noborder ? '0' : '1px',
 		} as React.CSSProperties;
 	}, [
 		maxContentWidth,
@@ -95,6 +101,8 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 		maxTextWidth,
 		alignItemsCenter,
 		bottomMargin,
+		imageBackground,
+		noborder,
 	]);
 
 	return (

@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { SidebarSurface } from '@/stores/sidebar/_types';
 import {
 	useProject,
-	useShowCloseProject,
+	useShowOverlays,
 	useShowProject,
 	useSidebarActions,
 	useSurface,
@@ -31,7 +31,7 @@ const closeAnimation = {
 
 export function ProjectsHeader() {
 	const project = useProject();
-	const showCloseProject = useShowCloseProject();
+	const showCloseProject = useShowOverlays();
 	const showProject = useShowProject();
 	const isProject = useSurface() === SidebarSurface.Projects;
 	const setShowProject = useSidebarActions().setShowProject;
