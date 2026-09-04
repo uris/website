@@ -81,11 +81,21 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 			'--highlight-align-items': alignItemsCenter ? 'center' : 'flex-start',
 			'--highlight-gap': setStyle(gap),
 			'--highlight-row': reverse ? 'row-reverse' : 'row',
+			'--highlight-image-width': setStyle(resolvedImageSize.width),
 			'--highlight-image-height': setStyle(imageHeight),
 			'--highlight-padding-top': alignItemsCenter ? '0' : '64px',
 			'--highlight-margin-bottom': bottomMargin,
 		} as React.CSSProperties;
-	}, [maxContentWidth, gap, reverse, imageHeight, maxTextWidth, alignItemsCenter, bottomMargin]);
+	}, [
+		maxContentWidth,
+		gap,
+		reverse,
+		resolvedImageSize.width,
+		imageHeight,
+		maxTextWidth,
+		alignItemsCenter,
+		bottomMargin,
+	]);
 
 	return (
 		<div className={styles.container} style={cssVars}>

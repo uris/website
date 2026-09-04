@@ -34,7 +34,7 @@
 }
 
 .highlightImage {
-    width: auto;
+    width: var(--highlight-image-width);
     height: var(--highlight-image-height);
 }
 

@@ -166,3 +166,5 @@ export type ThemedImage = {
 	image: StaticImageData;
 	imageLight: StaticImageData;
 };
+
+export type ThemedProjectImages = Record<string, { image: StaticImageData; imageLight: StaticImageData }>;

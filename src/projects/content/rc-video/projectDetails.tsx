@@ -1,24 +1,42 @@
 'use client';
 
-import { Button, Label } from '@apple-pie/slice';
+import { Button, Label, Video, VideoController, type VideoProps } from '@apple-pie/slice';
+import { useVideoActions } from '@apple-pie/slice/stores';
 import { DataButton, DataButtonGrid } from '@/components/DataButtons/DataButtons';
 import { HeroImage } from '@/components/HeroImage/HeroImage';
+import { InlineButton } from '@/components/InlineButton/InlineButton';
 import { LinkList } from '@/components/LinkList/LinkList';
 import { Logo } from '@/components/Logos/Logos';
+import { FrameEvent } from '@/components/ProjectFrame/ProjectFrame';
 import { ProjectHighlight } from '@/components/ProjectHighlight/ProjectHighlight';
 import { ProjectTitle } from '@/components/ProjectTitle/ProjectTitle';
 import { Section } from '@/components/Section/Section';
 import { SubTitle } from '@/components/SubTitle/SubTitle';
 import { TechStack } from '@/components/TechStack/TechStack';
+import { TextLinkList } from '@/components/TextLinkList/TextLinkList';
 import { TextParagraph } from '@/components/TextParagraph/TextParagraph';
 import { TextTitle } from '@/components/TextTitle/TextTitle';
 import { Wrapper } from '@/projects/_helpers/Wrapper';
 import { themedImages } from '@/projects/content/rc-video/images';
 import { normalizeTarget } from '@/utils/misc';
 import projectJson from './project.json';
+import { videos } from './videos';
 
 export default function RcVideo() {
+	const videoActions = useVideoActions();
 	const header = projectJson.header || {};
+
+	// tell parent to hide the close project button since the video will play as an overlay
+	const handleShowVideo = (props?: VideoProps) => {
+		if (!props) return;
+		videoActions.show({ component: Video, props });
+		window.parent.postMessage({ event: FrameEvent.CHILD_EVENT, type: 'video-started' }, globalThis.location.origin);
+	};
+
+	// tell parent window it's ok to show the close project button now
+	const handleQuitVideo = () => {
+		window.parent.postMessage({ event: FrameEvent.CHILD_EVENT, type: 'video-ended' }, globalThis.location.origin);
+	};
 
 	return (
 		<Wrapper>
@@ -27,7 +45,7 @@ export default function RcVideo() {
 				<ProjectTitle>{header.title}</ProjectTitle>
 				<SubTitle margin={false}>{header.subtitle}</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.hero}
 					backgroundImage={themedImages.heroBG}
 					border={false}
 					heroAltText={
@@ -66,9 +84,9 @@ export default function RcVideo() {
 					made a meeting worth joining, not just what might increase attendance.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.charts}
 					dropShadow={false}
-					border={true}
+					border={false}
 					heroMargin={0}
 					standAlone={true}
 					heroAltText={
@@ -83,7 +101,7 @@ export default function RcVideo() {
 					required looking well beyond the meeting window.
 				</SubTitle>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.covid}
 					alt={'Chart showing the decline in video meetings post-pandemic.'}
 				>
 					<TextTitle>Return To Office</TextTitle>
@@ -97,13 +115,16 @@ export default function RcVideo() {
 				</ProjectHighlight>
 				<ProjectHighlight themedImage={themedImages.placeholder} reverse alt={'User research insights.'}>
 					<TextTitle>Self Inflicted - Poor Usability</TextTitle>
-					<TextParagraph>
+					<TextParagraph marginSize={16}>
 						<p>
 							Video quality, reliability, and awkward interaction patterns can make digital communication feel like an
 							effort rather than a useful way to work together.
 						</p>
-						<p>Availability and connection quality were the most important "features."</p>
 					</TextParagraph>
+					<TextLinkList>
+						<InlineButton onClick={() => handleShowVideo(videos.aiSummaries)}>AI Summaries</InlineButton>
+						<InlineButton onClick={() => handleShowVideo(videos.aiAccuracy)}>AI Accuracy</InlineButton>
+					</TextLinkList>
 				</ProjectHighlight>
 				<ProjectHighlight
 					themedImage={themedImages.placeholder}
@@ -349,6 +370,7 @@ export default function RcVideo() {
 					it enables connection.
 				</SubTitle>
 			</Section>
+			<VideoController draggable={false} quit={'outside'} onQuit={handleQuitVideo} />
 		</Wrapper>
 	);
 }

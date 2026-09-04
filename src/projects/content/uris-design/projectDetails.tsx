@@ -218,8 +218,9 @@ export default function UrisDesignProjectDetails() {
 				</SubTitle>
 				<HeroImage
 					heroImage={themedImages.architecture}
+					imgBackgroundColor={'transparent'}
 					dropShadow={false}
-					border={true}
+					border={false}
 					heroMargin={0}
 					standAlone={true}
 					loading={'lazy'}

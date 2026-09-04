@@ -36,6 +36,7 @@
 	left: 0;
 	right: 4px;
 	z-index: calc(var(--elevation-float) + 50);
+	
 }
 
 .projectsWrapper {

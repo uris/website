@@ -5,7 +5,13 @@ import type { AnimationDefinition, Transition, Variants } from 'motion/react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { SidebarSurface } from '@/stores/sidebar/_types';
-import { useProject, useShowProject, useSidebarActions, useSurface } from '@/stores/sidebar/sidebarStore';
+import {
+	useProject,
+	useShowCloseProject,
+	useShowProject,
+	useSidebarActions,
+	useSurface,
+} from '@/stores/sidebar/sidebarStore';
 import styles from './Projects.module.css';
 
 const variants: Variants = {
@@ -25,6 +31,7 @@ const closeAnimation = {
 
 export function ProjectsHeader() {
 	const project = useProject();
+	const showCloseProject = useShowCloseProject();
 	const showProject = useShowProject();
 	const isProject = useSurface() === SidebarSurface.Projects;
 	const setShowProject = useSidebarActions().setShowProject;
@@ -58,15 +65,17 @@ export function ProjectsHeader() {
 					exit={'exit'}
 					onAnimationStart={handleAnimationStart}
 				>
-					<IconButton
-						icon={'x'}
-						buttonSize={'l'}
-						toggle={false}
-						onClick={handleCloseProject}
-						isToggled={toggled}
-						customAnimations={closeAnimation}
-						bgColorOn={'var(--core-surface-secondary)'}
-					/>
+					{showCloseProject && (
+						<IconButton
+							icon={'x'}
+							buttonSize={'l'}
+							toggle={false}
+							onClick={handleCloseProject}
+							isToggled={toggled}
+							customAnimations={closeAnimation}
+							bgColorOn={'var(--core-surface-secondary)'}
+						/>
+					)}
 				</motion.div>
 			)}
 		</AnimatePresence>

@@ -2,6 +2,7 @@
 
 import { Button, Label } from '@apple-pie/slice';
 import { CodeSnippet } from '@/components/CodeSnippet/CodeSnippet';
+import { DataButton, DataButtonGrid } from '@/components/DataButtons/DataButtons';
 import { FigureTitle } from '@/components/FigureTitle/FigureTitle';
 import { HeroImage } from '@/components/HeroImage/HeroImage';
 import { InlineTitle } from '@/components/InlineTitle/InlineTitle';
@@ -17,8 +18,8 @@ import { TextTitle } from '@/components/TextTitle/TextTitle';
 import { Wrapper } from '@/projects/_helpers/Wrapper';
 import styles from '@/projects/_helpers/Wrapper.module.css';
 import { normalizeLanguage, normalizeTarget } from '@/utils/misc';
-import { themedImages } from '../slice/images';
 import { snippets } from './code-snippets';
+import { themedImages } from './images';
 import projectJson from './project.json';
 
 export default function SliceProjectDetails() {
@@ -31,7 +32,7 @@ export default function SliceProjectDetails() {
 				<ProjectTitle>{header.title}</ProjectTitle>
 				<SubTitle margin={false}>{header.subtitle}</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.quickStart}
 					backgroundImage={themedImages.heroBG}
 					heroOffset={128}
 					border={false}
@@ -60,7 +61,7 @@ export default function SliceProjectDetails() {
 				</LinkList>
 				<InlineTitle title={'Highlights'} />
 				<ProjectHighlight
-					themedImage={themedImages.themeColors}
+					themedImage={themedImages.colors}
 					alt={'Slice color tokens and theme controls used to define a consistent interface design language.'}
 				>
 					<TextTitle>One design language, implemented in code</TextTitle>
@@ -73,7 +74,7 @@ export default function SliceProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.video}
 					reverse
 					alt={
 						'Slice video component rendered inside an accessible application interface with reusable controls and layout primitives.'
@@ -89,7 +90,7 @@ export default function SliceProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.ssr}
 					alt={
 						'Slice server-rendering setup showing React client directives preserved for a Next.js or Remix application.'
 					}
@@ -104,7 +105,7 @@ export default function SliceProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.micHook}
 					reverse
 					alt={'Slice browser API hooks and stores connecting a device or browser capability to application UI state.'}
 				>
@@ -118,7 +119,7 @@ export default function SliceProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.prompt}
 					alt={'Slice realtime primitives supporting a streamed assistant response and live application state.'}
 				>
 					<TextTitle>Realtime and AI-ready primitives</TextTitle>
@@ -131,7 +132,7 @@ export default function SliceProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.import}
 					reverse
 					alt={'Slice granular imports and export paths allowing an application to include only the modules it uses.'}
 				>
@@ -145,7 +146,7 @@ export default function SliceProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.performance}
 					nomargin
 					alt={
 						'Slice performance tooling and component behavior designed to keep responsive application work off the main thread when appropriate.'
@@ -162,26 +163,24 @@ export default function SliceProjectDetails() {
 			</Section>
 			<Section gradient={true}>
 				<ProjectTitle>The integration problem</ProjectTitle>
-				<SubTitle marginSize={16}>
+				<SubTitle>
 					Most frontend products need the same foundational capabilities: a visual system, reliable components,
 					application layout, browser access, state, and increasingly realtime interaction. The usual solution is a
 					collection of separate packages, followed by custom glue to make their types, state, lifecycle, and design
 					rules work together.
 				</SubTitle>
-				<SubTitle>
+				<DataButtonGrid>
+					<DataButton value={'30-50%'} label={'Amount of glue code'} />
+					<DataButton value={'48 hrs +'} label={'Before writing business logic'} />
+					<DataButton value={'1 day +'} label={'Days spent on glue code'} />
+					<DataButton value={'Security'} label={'Hidden package issues'} />
+					<DataButton value={'20% to 30%'} label={'Actual code usage per package'} />
+					<DataButton value={'Conflicts'} label={'Time spent resolving conflicts'} />
+				</DataButtonGrid>
+				<SubTitle margin={false}>
 					Slice is an attempt to make those seams intentional. It provides a single composable foundation where hooks,
 					stores, components, and theme tokens are designed to work together from the start.
 				</SubTitle>
-				<HeroImage
-					heroImage={themedImages.placeholder}
-					dropShadow={false}
-					border={true}
-					heroMargin={0}
-					standAlone={true}
-					heroAltText={
-						'Comparison between disconnected frontend packages and Slice as a composable foundation for UI, state, browser APIs, and realtime features.'
-					}
-				/>
 			</Section>
 			<Section gradient={true}>
 				<ProjectTitle>A single package, designed to stay composable</ProjectTitle>
@@ -230,7 +229,7 @@ export default function SliceProjectDetails() {
 					experience the library delivers.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.exports}
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
@@ -253,7 +252,7 @@ export default function SliceProjectDetails() {
 					contributor to rediscover the build, export, state, and runtime model from scratch.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.documentation}
 					dropShadow={false}
 					border={true}
 					heroMargin={0}

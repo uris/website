@@ -5,11 +5,13 @@ export interface SidebarStore {
 	project: Project | null;
 	showProject: boolean;
 	direction: Direction;
+	showCloseProject: boolean;
 	actions: {
 		setSurface: (surface: SidebarSurface) => void;
 		setProject: (project: Project | null) => void;
 		closeProject: () => void;
 		setShowProject: (showProject: boolean) => void;
+		setShowCloseProject: (showCloseProject: boolean) => void;
 	};
 }
 
