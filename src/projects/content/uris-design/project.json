@@ -16,43 +16,6 @@
 		"layout": "square",
 		"order": 1
 	},
-	"ai": {
-		"summary": "Uris Design is a Next.js portfolio workspace with a live, voice enabled AI assistant that can talk about projects, skills, and implementation details, and can also navigate the site to the relevant section while the conversation unfolds.",
-		"tagline": "A frontend portfolio built as a conversational screening and navigation surface.",
-		"emphasize": [
-			"The portfolio as an interactive workspace, not a brochure",
-			"Frontend engineering depth: App Router, routing, state, realtime events, UI composition",
-			"Live voice conversation as a screening, discovery, and navigation layer",
-			"Use of Slice as the underlying UI and browser runtime library",
-			"Structured tool support for project details, skills awareness, and navigation actions"
-		],
-		"avoid": [
-			"Reducing the project to only a chatbot demo",
-			"Treating it as only a design exercise",
-			"Implying the assistant can perform arbitrary site actions beyond the implemented project, skills, contact, and settings flows"
-		],
-		"audiences": ["Hiring managers", "Recruiters", "Frontend engineers", "Technical founders"],
-		"suggestedQuestions": [
-			"How does the live AI conversation work technically?",
-			"Why use Next.js for this kind of product?",
-			"What makes this different from a normal portfolio site?",
-			"How does the assistant know about projects, skills, and which section to open?"
-		],
-		"capabilities": ["summarize", "explain_architecture", "highlight_tradeoffs", "navigate"],
-		"limitations": [
-			"Do not imply the assistant has arbitrary tool execution beyond the defined project, skills, navigation, and settings actions",
-			"Do not treat the project as only a chatbot demo"
-		],
-		"highlightOrder": [
-			"Conversational screening idea",
-			"Next.js architecture",
-			"Realtime voice interaction",
-			"Workspace UI composition",
-			"Project-aware and navigation-aware assistant behavior"
-		],
-		"relatedProjects": ["slice"],
-		"keywords": ["Next.js", "portfolio", "AI", "WebRTC", "frontend architecture", "screening"]
-	},
 	"header": {
 		"brand": {
 			"type": "logo",
@@ -98,251 +61,75 @@
 			}
 		],
 		"carousel": {
-			"maxImageHeight": 325,
-			"items": [
-				{
-					"title": "AI-first portfolio workspace",
-					"description": "The site is structured as a workspace instead of a brochure: a central AI conversation surface, draggable side panels, project browsing, and settings that support live exploration and guided navigation.",
-					"image": "workspaceOverview",
-					"imagePos": "left"
-				},
-				{
-					"title": "Realtime voice conversation",
-					"description": "WebRTC powers full-duplex voice interaction with a dedicated `oai-events` data channel for model events, transcript updates, and connection-aware UI behavior.",
-					"image": "realtimeConversation"
-				},
-				{
-					"title": "Static project delivery with dynamic loading",
-					"description": "Project routes are generated statically from a central map, while each detail page is loaded on demand so the app stays scalable without shipping every case study up front.",
-					"image": "projectRouting"
-				},
-				{
-					"title": "Store-driven interaction model",
-					"description": "Separate Zustand stores manage connection lifecycle, talking state, response history, and active streaming output so realtime behavior stays predictable as the interface grows.",
-					"image": "stateModel"
-				},
-				{
-					"title": "Built on Slice",
-					"description": "The product reuses my own UI and browser runtime library for theme, layout, media, notifications, and WebRTC primitives, turning the site into a real application of the system rather than a standalone mock.",
-					"image": "sliceFoundation"
-				}
-			]
+			"items": []
 		}
 	},
-	"sections": [
-		{
-			"title": "The Problem",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "paragraph",
-					"text": "Traditional portfolios are mostly static brochures. They show work, but they do not let someone properly screen a candidate, ask follow-up questions, or quickly move from one project to another based on interest."
-				}
-			]
-		},
-		{
-			"title": "The idea",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "paragraph",
-					"text": "Imagine a recruiter, founder, or hiring manager saying \"I want to understand your experience with design systems, AI, or realtime product work\" and getting a direct, guided, conversational path through your work and background, with the site opening the relevant project or skills section as part of that exchange."
-				},
-				{
-					"type": "paragraph",
-					"text": "Imagine that as a candidate you can save simply point an AI at your work (json, site, github, npm) and have the AI automatically support and present your work to anyone interested."
-				}
-			]
-		},
-		{
-			"title": "Why Next.js?",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "paragraph",
-					"text": "This is also a small showcase piece for Next.js fluency. The app uses the App Router, server-rendered layout setup, static generation for project detail routes, route handlers for session orchestration, and a server-side project content store that pre-renders each project page from structured JSON."
-				},
-				{
-					"type": "paragraph",
-					"text": "That matters here because the app has two very different responsibilities: render content quickly like a polished portfolio, and then progressively layer in realtime voice and client state where interactivity is needed."
-				}
-			]
-		},
-		{
-			"title": "Architecture",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "list",
-					"items": [
-						{
-							"label": "Realtime conversation",
-							"text": "WebRTC handles live audio transport with a single `oai-events` data channel for model events. The microphone stream is attached to the connection, and assistant updates arrive as typed data messages that are parsed into state updates and UI callbacks."
-						},
-						{
-							"label": "State orchestration",
-							"text": "`viStore` manages connection lifecycle, talking state, and event callbacks, while `responsesStore` owns the response history and active streaming response shown in the UI."
-						},
-						{
-							"label": "Next.js delivery model",
-							"text": "Project routes are generated statically from a central server registry, while page content is transformed from structured project JSON into UI-ready data for pre-rendered project detail pages."
-						},
-						{
-							"label": "Shared backend boundary",
-							"text": "Session creation is proxied through a dedicated API layer shared across products. That keeps the Next.js app focused on product experience while reusing the same backend integration model elsewhere."
-						}
-					]
-				}
-			]
-		},
-		{
-			"title": "Technical Implementation",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "list",
-					"items": [
-						{
-							"label": "Route generation and delivery",
-							"text": "Project detail pages are generated from known project slugs, with `generateStaticParams()` producing static routes and server-side transformers shaping the same project JSON into page, tile, and AI-specific views."
-						},
-						{
-							"label": "Assistant data awareness",
-							"text": "The assistant is seeded with project summaries on session start and can request structured project and skills data through explicit tools, giving it grounded content to talk about instead of relying on vague prompt-only context."
-						},
-						{
-							"label": "Client and server separation",
-							"text": "Theme resolution and layout bootstrapping happen through the App Router layout, while interactive surfaces such as the AI panel, settings, and project workspace hydrate on the client where stateful behavior is needed."
-						},
-						{
-							"label": "Realtime event handling",
-							"text": "Assistant events like `session.created`, `response.output_audio_transcript.delta`, and `response.output_audio_transcript.done` are routed through a dedicated event handler that updates store state without coupling transport logic to UI components."
-						},
-						{
-							"label": "Navigation actions",
-							"text": "The assistant can trigger browser-side view changes for projects, skills, contact, and selected UI settings, so conversation is tied directly to movement through the site instead of being isolated from the interface."
-						},
-						{
-							"label": "Voice and device control",
-							"text": "Microphone access, input volume, mute state, and device selection are managed through Slice primitives and synchronized back into the WebRTC connection so the live assistant stays in step with the selected input device."
-						},
-						{
-							"label": "Workspace UI composition",
-							"text": "The app is structured as a multi-panel workspace with draggable side surfaces, a central AI thread, settings, toast/tip systems, and project detail rendering instead of a single linear landing page."
-						},
-						{
-							"label": "Shared integration model",
-							"text": "The Next.js route handler acts as an app-facing boundary for session requests, while the reusable backend API handles the external realtime session creation used by this project and others."
-						}
-					]
-				}
-			]
-		},
-		{
-			"title": "What It Demonstrates",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "list",
-					"items": [
-						{
-							"label": "A conversational portfolio model",
-							"text": "The site is built around asking natural questions about skills, projects, and background instead of forcing users through a click-heavy path."
-						},
-						{
-							"label": "Grounded assistant behavior",
-							"text": "The assistant can talk about projects and skills from structured server data rather than acting as a generic voice shell with no awareness of the portfolio content."
-						},
-						{
-							"label": "Realtime interface engineering",
-							"text": "Live voice input, streaming assistant output, and event-driven UI updates coordinated through WebRTC and typed store logic."
-						},
-						{
-							"label": "Conversational navigation",
-							"text": "The model can open the relevant section of the site on request, turning voice conversation into an actual browsing control layer instead of leaving navigation entirely to the user."
-						},
-						{
-							"label": "Practical Next.js architecture",
-							"text": "App Router composition, static route generation, route handlers, and server/client boundaries used for real product reasons."
-						},
-						{
-							"label": "Frontend systems thinking",
-							"text": "The implementation ties routing, realtime state, media/device handling, and interface composition into one coherent product instead of treating them as isolated features."
-						},
-						{
-							"label": "Design system reuse",
-							"text": "The product is built on Slice, my own UI and browser runtime library, which lets the app reuse the same primitives for theme, layout, media, and WebRTC handling."
-						},
-						{
-							"label": "Extensible tool surface",
-							"text": "The current tool layer already supports project detail lookup, skills awareness, view navigation, and selected settings updates, with room to extend the model without rewriting the interface model."
-						}
-					]
-				}
-			]
-		},
-		{
-			"title": "By The Numbers",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "stats",
-					"items": [
-						{
-							"value": "24/7",
-							"label": "Screening surface"
-						},
-						{
-							"value": "1",
-							"label": "Live AI assistant"
-						},
-						{
-							"value": "SSG",
-							"label": "Project routes"
-						},
-						{
-							"value": "WebRTC",
-							"label": "Voice transport"
-						},
-						{
-							"value": "Next 16",
-							"label": "Framework"
-						},
-						{
-							"value": "Slice",
-							"label": "Core UI layer"
-						}
-					]
-				}
-			]
-		},
-		{
-			"title": "Hard Problems",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "paragraph",
-					"text": "Making conversation useful — the hard part is not just connecting to a model. It is shaping the portfolio so conversation becomes a real navigation and discovery layer, not a novelty. The implemented tool surface is what starts turning this from \"chat on a site\" into \"screen this person naturally.\""
-				},
-				{
-					"type": "paragraph",
-					"text": "Balancing fast content with live systems — the app needs to feel like a fast, well-structured website first, while still supporting live audio, connection state, and streaming assistant responses once a user chooses to engage."
-				},
-				{
-					"type": "paragraph",
-					"text": "Keeping boundaries clean — the site, the shared API layer, and the Slice library each have different responsibilities. Keeping those seams intentional is part of the engineering quality, not just the implementation detail."
-				}
-			]
-		},
-		{
-			"title": "My Role",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "paragraph",
-					"text": "End-to-end product and implementation: concept, interaction model, Next.js app architecture, realtime AI integration, state design, UI system usage through Slice, and the shared API boundary used to support this app and other products."
-				}
-			]
-		}
-	]
+	"ai": {
+		"summary": "Uris Design is an AI-native portfolio workspace that lets hiring teams browse projects normally or ask focused questions through Vi, a grounded realtime assistant that can retrieve portfolio context and navigate to relevant evidence.",
+		"tagline": "A design-engineered portfolio where conversation is an optional discovery and navigation layer, not a chat overlay.",
+		"context": [
+			"The product addresses a hiring-review problem: reviewers arrive with specific questions about design systems, AI, realtime work, or frontend depth, while conventional portfolios make them search across disconnected pages.",
+			"Visitors can browse projects, skills, and contact information directly. Vi is optional and helps when someone wants a shortcut, an explanation, or the relevant evidence opened in the workspace.",
+			"The assistant is grounded in structured portfolio and skills data. Its authority is intentionally narrow: it can retrieve project or skills details, open known portfolio views, list projects, and update selected UI settings. It cannot take arbitrary browser or external actions.",
+			"Voice is optional and interruptible. Text and conventional navigation remain first-class paths so the experience does not depend on microphone access or a voice conversation.",
+			"Next.js supports performance in two ways: App Router and static project routes keep the content experience fast by default, while next/image turns high-resolution source imagery, often several megabytes at 3x or 4x resolution, into optimized delivery assets. This matters because visual case-study media is a major part of the portfolio experience.",
+			"Realtime state is separated across connection lifecycle, assistant speech, response history, streaming transcripts, tool calls, and UI callbacks so live interaction remains predictable and extensible.",
+			"Slice is Uris's UI and browser runtime library. This portfolio is a real product proving ground for its theme, layout, notification, media-device, and WebRTC primitives.",
+			"Uris owned the product concept, information architecture, interaction model, UI system, frontend architecture, realtime integration, state model, shared API boundary, and the Slice primitives the workspace uses."
+		],
+		"emphasize": [
+			"The portfolio as an interactive workspace, not a brochure or chat overlay",
+			"Conversation as optional discovery and navigation, alongside conventional browsing",
+			"Grounded assistant behavior and a deliberately bounded tool surface",
+			"Performance-conscious Next.js delivery for both static content and image-heavy case studies",
+			"Design-engineering depth across product thinking, interaction design, frontend architecture, and realtime state",
+			"Slice as a real UI and browser runtime foundation, not just a styling layer"
+		],
+		"avoid": [
+			"Reducing the project to a chatbot demo or treating it as voice-only",
+			"Treating it as only a design exercise or only a frontend implementation",
+			"Implying the assistant can perform arbitrary site, browser, or external actions",
+			"Claiming user, conversion, engagement, or accessibility outcomes that are not evidenced"
+		],
+		"audiences": ["Hiring managers", "Recruiters", "Frontend engineers", "Technical founders"],
+		"suggestedQuestions": [
+			"What makes this different from a typical portfolio or chat widget?",
+			"How does Vi stay grounded in the portfolio content?",
+			"What can the assistant do, and what is it intentionally not allowed to do?",
+			"How does Next.js keep a visual, image-heavy portfolio fast?",
+			"Why use WebRTC for this experience?",
+			"How does Slice support the product?"
+		],
+		"capabilities": ["summarize", "explain_architecture", "highlight_tradeoffs", "navigate"],
+		"limitations": [
+			"Do not imply arbitrary tool execution beyond project details, skills, known views, project listing, and selected UI settings",
+			"Do not imply that voice is required to use the portfolio",
+			"Do not describe the assistant as autonomous or able to manipulate the browser freely",
+			"Do not invent performance, accessibility, adoption, or hiring outcomes"
+		],
+		"highlightOrder": [
+			"The hiring-review problem and workspace interaction model",
+			"Optional voice and conversation-driven navigation",
+			"Grounded data and bounded assistant actions",
+			"Next.js, WebRTC, and state architecture",
+			"Slice as the product foundation",
+			"End-to-end design-engineer ownership"
+		],
+		"relatedProjects": ["slice"],
+		"keywords": [
+			"Next.js",
+			"React",
+			"TypeScript",
+			"WebRTC",
+			"OpenAI Realtime API",
+			"AI-native product design",
+			"design engineer",
+			"conversational navigation",
+			"grounded AI",
+			"frontend architecture",
+			"design system",
+			"Slice"
+		]
+	},
+	"sections": []
 }

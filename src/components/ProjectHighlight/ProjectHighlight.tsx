@@ -19,6 +19,11 @@ interface ProjectHighlightProps {
 	imageLight?: StaticImageData;
 	themedImage?: ThemedImage;
 	nomargin?: boolean;
+	alt?: string;
+	loading?: 'eager' | 'lazy';
+	preload?: boolean;
+	imageBackground?: string;
+	noborder?: boolean;
 }
 
 export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
@@ -36,6 +41,11 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 		imageLight,
 		nomargin,
 		themedImage,
+		imageBackground = 'transparent',
+		alt = 'Project highlight image',
+		loading = 'eager',
+		preload = true,
+		noborder = false,
 	} = props;
 
 	// create the bottom margin
@@ -65,7 +75,7 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 	const resolvedImageSize = useMemo(() => {
 		if (!resolvedImage || !imageHeight) return { height: 0, width: 0 };
 		const ratio = resolvedImage.width / resolvedImage.height;
-		return { height: imageHeight, width: imageHeight * ratio };
+		return { height: imageHeight, width: Math.round(imageHeight * ratio) }; // resolve to nearest full pixel
 	}, [imageHeight, resolvedImage]);
 
 	const cssVars = useMemo(() => {
@@ -75,11 +85,25 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 			'--highlight-align-items': alignItemsCenter ? 'center' : 'flex-start',
 			'--highlight-gap': setStyle(gap),
 			'--highlight-row': reverse ? 'row-reverse' : 'row',
+			'--highlight-image-width': setStyle(resolvedImageSize.width),
 			'--highlight-image-height': setStyle(imageHeight),
 			'--highlight-padding-top': alignItemsCenter ? '0' : '64px',
 			'--highlight-margin-bottom': bottomMargin,
+			'--highlight-image-background': imageBackground,
+			'--highlight-border-size': noborder ? '0' : '1px',
 		} as React.CSSProperties;
-	}, [maxContentWidth, gap, reverse, imageHeight, maxTextWidth, alignItemsCenter, bottomMargin]);
+	}, [
+		maxContentWidth,
+		gap,
+		reverse,
+		resolvedImageSize.width,
+		imageHeight,
+		maxTextWidth,
+		alignItemsCenter,
+		bottomMargin,
+		imageBackground,
+		noborder,
+	]);
 
 	return (
 		<div className={styles.container} style={cssVars}>
@@ -94,10 +118,10 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 							width={resolvedImageSize.width}
 							height={resolvedImageSize.height}
 							sizes={'100vh'}
-							alt={'Image'}
-							loading={'eager'}
+							alt={alt}
+							loading={loading}
 							className={styles.highlightImage}
-							preload={true}
+							preload={preload}
 						/>
 					)}
 				</div>

@@ -7,5 +7,6 @@ export function toProjectSummary(project: ProjectDocument): ProjectSummary {
 		title: project.header.title,
 		summary: project.ai.summary,
 		tagline: project.ai.tagline,
+		techStack: project.header.techStack,
 	};
 }

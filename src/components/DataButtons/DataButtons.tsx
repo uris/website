@@ -1,14 +1,17 @@
 import type { ButtonProps } from '@apple-pie/slice';
-import React from 'react';
+import React, { useMemo } from 'react';
 import styles from './DataButtons.module.css';
 
-interface DataButtonsProps {
+interface DataButtonGridProps {
 	children?: React.ReactNode;
 	margin?: boolean;
+	marginSize?: number;
+	maxWidth?: number;
+	padding?: number;
 }
 
-export function DataButtonGrid(props: Readonly<DataButtonsProps>) {
-	const { children, margin = true } = props;
+export function DataButtonGrid(props: Readonly<DataButtonGridProps>) {
+	const { children, margin = true, maxWidth = 1024, padding = 64, marginSize = 64 } = props;
 
 	const buttons = React.Children.map(children, (child) => {
 		if (!React.isValidElement(child)) return child;
@@ -19,7 +22,19 @@ export function DataButtonGrid(props: Readonly<DataButtonsProps>) {
 		});
 	});
 
-	return <div className={margin ? styles.margin : styles.nomargin}>{buttons}</div>;
+	const cssVars = useMemo(() => {
+		return {
+			'--grid-max-width': `${maxWidth}px`,
+			'--grid-padding': `0 ${padding}px`,
+			'--grid-margin': margin ? `0 0 ${marginSize}px 0` : '0',
+		} as React.CSSProperties;
+	}, [maxWidth, padding, margin, marginSize]);
+
+	return (
+		<div className={styles.wrapper} style={cssVars}>
+			{buttons}
+		</div>
+	);
 }
 
 interface DataButtonProps {

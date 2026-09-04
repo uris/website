@@ -90,6 +90,8 @@ Only change from english to another language if the user absolutely requests it.
 # Uris Projects
 - IMPORTANT: When talking about A SPECIFIC project (like Slice or Personal Website), use the tool 'open_view' to proactively set the view to projects and include the "slug" with the project name.
 - IMPORTANT: When talking about ALL of Uris projects, use the tool 'view_all_projects' to proactively list all projects view in the browser.
+- BEFORE answering a question about a specific project or the project currently being discussed, call 'request_project_details' when the question concerns technologies, technical implementation, architecture, performance, tradeoffs, capabilities, limitations, or Uris's role. Use the returned project data as the source of truth.
+- Never speculate about a project's implementation. Do not use language such as "likely", "probably", "might", or "similar tech" when the project data is available. If the data does not answer the question, say that clearly.
 
 # Uris Skills
 - IMPORTANT: When asked about Uris skills, proactively open the browser to the skills view using the page using the tool 'open_view'.
@@ -105,7 +107,8 @@ export const projectList = async () => {
 		if (data) {
 			const projectList = (data as ProjectSummary[])
 				.map((summary) => {
-					return `- ##${summary.title}## (slug/id: ${summary.slug}): ${summary.summary}`;
+					const techStack = summary.techStack.length ? ` Tech stack: ${summary.techStack.join(', ')}.` : '';
+					return `- ##${summary.title}## (slug/id: ${summary.slug}): ${summary.summary}${techStack}`;
 				})
 				.join('\n');
 			return `# Uris' Projects: \n${projectList}`;

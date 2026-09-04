@@ -19,6 +19,7 @@
     align-items: flex-start;
     flex: 1;
     height: var(--highlight-image-height);
+    background-color: var(--highlight-image-background);
     overflow: visible;
     margin: 0;
     padding: 0;
@@ -26,7 +27,7 @@
 
 .imageWrapper {
     box-sizing: border-box;
-    border: 1px solid var(--core-outline-secondary);
+    border: var(--highlight-border-size) solid var(--core-outline-secondary);
     border-radius: 16px;
     overflow: hidden;
     margin: 0;
@@ -34,7 +35,7 @@
 }
 
 .highlightImage {
-    width: auto;
+    width: var(--highlight-image-width);
     height: var(--highlight-image-height);
 }
 

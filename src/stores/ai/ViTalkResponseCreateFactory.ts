@@ -1,6 +1,5 @@
 import { getWebRTCConnections } from '@apple-pie/slice/stores';
 import { CONN_NAME, EVENTS_DATA_CHANNEL } from '@/src/stores/ai/_data';
-import { viBaseInstructions } from '@/stores/ai/viTalkSessionUpdateFactory';
 import { useHomeLayoutStore } from '@/stores/home-layout/homeLayoutStore';
 import { ToolType } from './ai-tools/_types';
 
@@ -63,7 +62,6 @@ export function sendUserResponseRequest() {
 	const requestResponseEvent = {
 		type: 'response.create',
 		response: {
-			instructions: viBaseInstructions,
 			output_modalities: ['audio'],
 		},
 	};
@@ -110,7 +108,7 @@ export function createToolCallResponseInstructions(tool?: ToolType): string | un
 		case ToolType.ViewAllProjects:
 			return 'Ask if there is a specific project or type of project that the user is interested in knowing more about.';
 		case ToolType.RequestProjectDetails:
-			return 'You response should be very brief and focus on the things to emphasize. Then simply ask the user if they would like you to open up the project details and if there are any areas they would like to know more about.';
+			return "Answer the user's question directly from the returned project data. For technical questions, name the relevant technologies and implementation details explicitly. Do not speculate or use generic filler. Keep the answer concise, then offer to open the project details if useful.";
 		case ToolType.RequestSkills:
 			return 'You response should be very brief and summarize the dual design/front-end developer nature of Uris skill set and background. Then ask if they would like to see the skills page (with all the skills listed), or more details about a specific skill set.';
 		default:

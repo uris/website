@@ -9,13 +9,14 @@ import { Projects } from '@/src/surfaces/projects/projects';
 import { ProjectsHeader } from '@/src/surfaces/projects/projects-header';
 import { Skills } from '@/src/surfaces/skills/skills';
 import { type Direction, SidebarSurface } from '@/stores/sidebar/_types';
-import { useDirection, useSurface } from '@/stores/sidebar/sidebarStore';
+import { useDirection, useShowOverlays, useSurface } from '@/stores/sidebar/sidebarStore';
 import { gradientCover } from '@/utils/styles/styles';
 import styles from './Sidebar.module.css';
 
 export function Content() {
 	const { current } = useTheme();
 	const surfaceColor = current.colors['core-surface-primary-tint'];
+	const showOverlays = useShowOverlays();
 	const surface = useSurface();
 	const direction = useDirection();
 	const ref = useRef<HTMLDivElement>(null);
@@ -36,8 +37,9 @@ export function Content() {
 		return {
 			'--bot-gradient': gradientCover(surfaceColor, 'top'),
 			'--top-gradient': gradientCover(surfaceColor, 'bottom'),
+			'--bot-gradient-opacity': showOverlays ? 1 : 0,
 		} as React.CSSProperties;
-	}, [surfaceColor]);
+	}, [surfaceColor, showOverlays]);
 
 	return (
 		<FlexDiv preset={Preset.FillCenter} ref={ref} style={cssVars}>

@@ -8,6 +8,7 @@ import styles from './HeroImage.module.css';
 
 interface HeroImageProps {
 	backgroundColor?: string;
+	imgBackgroundColor?: string;
 	backgroundImage?: ThemedImage;
 	backgroundFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
 	heroImage?: ThemedImage;
@@ -21,6 +22,10 @@ interface HeroImageProps {
 	videoPlaying?: boolean;
 	dropShadow?: boolean;
 	border?: boolean;
+	heroAltText?: string;
+	standAlone?: boolean;
+	loading?: 'eager' | 'lazy';
+	preload?: boolean;
 }
 
 export function HeroImage(props: Readonly<HeroImageProps>) {
@@ -28,9 +33,10 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 	const {
 		backgroundImage,
 		backgroundColor = 'transparent',
+		imgBackgroundColor = 'var(--core-surface-primary)',
 		heroImage,
 		heroMaxWidth = 1024,
-		heroOffset = 64,
+		heroOffset = 112,
 		heroMargin = 32,
 		dropShadow = true,
 		backgroundFit = 'cover',
@@ -40,6 +46,10 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 		videoMuted = true,
 		videoPlaying = true,
 		border = true,
+		heroAltText,
+		standAlone = false,
+		loading = 'eager',
+		preload = true,
 	} = props;
 
 	// state of video ready to play
@@ -49,13 +59,14 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 	const cssVars = useMemo(() => {
 		return {
 			'--hero-background-color': backgroundColor,
-			'--hero-container-padding': setStyle(heroOffset),
+			'--hero-container-padding': standAlone ? `0 ${setStyle(heroOffset)}` : setStyle(heroOffset),
 			'--hero-container-margin': setStyle(heroMargin),
 			'--hero-image-max-width': setStyle(heroMaxWidth),
 			'--hero-drop-shadow': dropShadow ? 'var(--surface-shadow-soft)' : 'none',
 			'--hero-border': border ? '1px' : '0',
+			'--hero-image-background-color': imgBackgroundColor,
 		} as React.CSSProperties;
-	}, [heroMargin, heroMaxWidth, backgroundColor, heroOffset, border, dropShadow]);
+	}, [heroMargin, heroMaxWidth, backgroundColor, heroOffset, border, dropShadow, standAlone, imgBackgroundColor]);
 
 	// set can play when video ready to play (shows hero if not ready and there's a hero defined)
 	const handleCanPlay = useCallback(() => {
@@ -64,7 +75,6 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 
 	// memo show hero state
 	const showHero = useMemo(() => {
-		console.log({ canPlay });
 		if (videoURL) return heroImage && !canPlay;
 		return !!heroImage;
 	}, [canPlay, heroImage, videoURL]);
@@ -97,8 +107,8 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 					fill={true}
 					sizes={'100vw'}
 					alt={''}
-					loading={'eager'}
-					preload={true}
+					loading={loading}
+					preload={preload}
 					className={styles.backgroundImage}
 					style={{ objectFit: backgroundFit }}
 				/>
@@ -127,10 +137,10 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 							width={resolveHeroImage.width}
 							height={resolveHeroImage.height}
 							sizes={'100vh'}
-							alt={'Image'}
-							loading={'eager'}
+							alt={heroAltText ?? 'Hero Image'}
+							loading={loading}
 							className={styles.heroImage}
-							preload={true}
+							preload={preload}
 						/>
 					)}
 				</div>

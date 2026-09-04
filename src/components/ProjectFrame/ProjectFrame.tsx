@@ -4,6 +4,7 @@ import { useObserveResize, useTheme } from '@apple-pie/slice';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDraggingSidebar } from '@/stores/home-layout/homeLayoutStore';
+import { useSidebarActions } from '@/stores/sidebar/sidebarStore';
 import styles from './ProjectFrame.module.css';
 
 export interface ProjectIframeProps {
@@ -25,6 +26,7 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	const { projectSlug, projectName } = props;
 	const theme = useTheme().current.name;
 	const dragging = useDraggingSidebar();
+	const setShowOverlays = useSidebarActions().setShowOverlays;
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	const size = useObserveResize(iframeRef, { ignore: 'width' });
 
@@ -41,12 +43,20 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	);
 
 	// handle events posted by the child on the parent
-	const handleChildEvents = useCallback((event: MessageEvent) => {
-		if (event.origin !== globalThis.location.origin) return;
-		if (event.data.event === FrameEvent.CHILD_EVENT) {
-			// handle event
-		}
-	}, []);
+	const handleChildEvents = useCallback(
+		(event: MessageEvent) => {
+			if (event.origin !== globalThis.location.origin) return;
+			if (event.data.event === FrameEvent.CHILD_EVENT) {
+				if (event.data.type === 'video-started') {
+					setShowOverlays(false);
+				}
+				if (event.data.type === 'video-ended') {
+					setShowOverlays(true);
+				}
+			}
+		},
+		[setShowOverlays],
+	);
 
 	// memo dynamic styles
 	const cssVars = useMemo(() => {

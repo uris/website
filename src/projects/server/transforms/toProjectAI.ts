@@ -3,7 +3,17 @@ import 'server-only';
 import type { ProjectAIData, ProjectBlock, ProjectDocument, ProjectStatsBlock } from '@/projects/_types/types';
 
 export function toProjectAIData(project: ProjectDocument): ProjectAIData {
-	const stats = project.sections.flatMap((section) => section.blocks.flatMap((block) => extractStats(block)));
+	const context = project.ai.context;
+	const hasContext = !!context?.length;
+	const stats = hasContext
+		? []
+		: project.sections.flatMap((section) => section.blocks.flatMap((block) => extractStats(block)));
+	const sectionSummaries = hasContext
+		? [{ title: 'Current case study context', content: context }]
+		: project.sections.map((section) => ({
+				title: section.title,
+				content: section.blocks.flatMap((block) => summarizeBlock(block)),
+			}));
 
 	return {
 		slug: project.slug,
@@ -21,10 +31,7 @@ export function toProjectAIData(project: ProjectDocument): ProjectAIData {
 		highlightOrder: project.ai.highlightOrder ?? [],
 		suggestedQuestions: project.ai.suggestedQuestions ?? [],
 		relatedProjects: project.ai.relatedProjects ?? [],
-		sectionSummaries: project.sections.map((section) => ({
-			title: section.title,
-			content: section.blocks.flatMap((block) => summarizeBlock(block)),
-		})),
+		sectionSummaries,
 		stats,
 	};
 }

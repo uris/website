@@ -16,41 +16,78 @@
 		"order": 1
 	},
 	"ai": {
-		"summary": "Slice is a React UI SDK and browser runtime library that combines a design system, component library, and abstractions over complex browser and realtime APIs into one composable package.",
-		"tagline": "A single package for theme, UI, browser APIs, and realtime product building.",
+		"summary": "Slice is a composable React UI and browser runtime SDK that brings design tokens, application components, hooks, stores, browser APIs, and realtime primitives into one package without requiring teams to adopt every layer.",
+		"tagline": "A product foundation for React teams that want less integration glue and more intentional composition.",
+		"context": [
+			"Slice addresses an integration problem: frontend applications commonly combine a visual system, components, application layout, state, browser access, and realtime interaction through separate packages, then add custom glue to make types, lifecycle, and design rules work together.",
+			"Slice is a single composable foundation, not a monolithic framework. Consumers can use individual components, hooks, stores, or providers independently, while shared types and theme tokens make those layers fit together when a feature crosses boundaries.",
+			"The design language covers color, spacing, typography, motion, icons, and more. Components and layout primitives use the same visual vocabulary, helping teams maintain consistency across an application.",
+			"Slice components are designed and tested to meet accessibility expectations. Keyboard interaction, semantics, and assistive-technology support are part of the component work rather than a follow-up task. Do not claim a specific certification or standard level unless it is documented.",
+			"The package preserves React client directives through the build and supports server rendering and client hydration so it can work naturally in Next.js and Remix applications without a separate integration path.",
+			"Browser and realtime capabilities including microphone, camera, screen sharing, WebRTC, WebSocket, SSE, IndexedDB, audio visualization, and recording are exposed through React hooks and Zustand stores. The goal is to abstract repetitive lifecycle work without hiding product-level controls.",
+			"Slice provides building blocks for live audio, video, screen sharing, data channels, and streamed UI. It is intended to make realtime and AI product work easier to compose, not to hide the underlying system entirely.",
+			"Distribution is part of the product: granular export paths let consumers import the components, hooks, stores, and utilities they need. The build preserves React directives, produces matching JavaScript and TypeScript entry points, and keeps chunk boundaries predictable.",
+			"Documentation is a core part of the developer experience. Slice includes component and API documentation, practical examples, contributor guidance, and architecture notes so developers can use and extend the system without rediscovering its build, export, state, and runtime model.",
+			"Uris is the sole author and maintainer of Slice, covering product direction, component and API design, theme, browser and realtime abstractions, build engineering, documentation, testing, CI/CD, and npm publishing. Slice has been published through 34 releases and is used as a real foundation in Uris Design."
+		],
 		"emphasize": [
-			"Composability across UI, stores, hooks, and browser APIs",
-			"Single-package design system and runtime model",
-			"Granular export strategy and build engineering",
-			"SSR and framework compatibility",
-			"Real-world authoring and maintenance work, not just component demos"
+			"Composability across design tokens, components, hooks, stores, browser APIs, and realtime primitives",
+			"Single-package foundation with granular, optional adoption rather than a monolithic framework",
+			"Accessible component design and testing as part of the product system",
+			"SSR compatibility and React directive preservation for Next.js and Remix",
+			"Granular exports, build engineering, and documentation as core developer experience work",
+			"Real-world use in Uris Design, not only isolated component demos"
 		],
 		"avoid": [
-			"Describing it as only a component library",
-			"Reducing the project to visuals without mentioning architecture",
-			"Overstating maturity beyond the current pre-1.0 state"
+			"Describing Slice as only a component library, only a design system, or only a WebRTC wrapper",
+			"Describing the single package as a required all-or-nothing framework or a large bundled dependency",
+			"Claiming specific accessibility certifications, performance benchmarks, adoption, or scale without documented evidence",
+			"Overstating maturity beyond the current actively maintained pre-1.0 state"
 		],
-		"audiences": ["Frontend engineers", "Hiring managers", "Technical founders"],
+		"audiences": ["Frontend engineers", "Design engineers", "Hiring managers", "Technical founders"],
 		"suggestedQuestions": [
-			"What problem does Slice solve better than combining multiple libraries?",
-			"How does the export map and build system work?",
-			"What makes the theming model different?",
-			"How does Slice handle browser APIs and WebRTC?"
+			"What problem does Slice solve better than combining several frontend libraries?",
+			"How can teams adopt Slice without committing to a monolithic framework?",
+			"How does Slice make components accessible by default?",
+			"How does Slice work with Next.js, Remix, and React server rendering?",
+			"How do the browser and realtime APIs compose with UI state?",
+			"Why do granular exports and the build system matter to consumers?",
+			"How do documentation and contributor guidance make Slice easier to extend?"
 		],
 		"capabilities": ["summarize", "explain_architecture", "highlight_tradeoffs", "compare"],
 		"limitations": [
-			"Do not imply production scale beyond what is explicitly documented",
-			"Do not invent components or API features not present in the project content"
+			"Do not imply production scale, adoption, or guarantees beyond what is explicitly documented",
+			"Do not invent components, API features, accessibility certifications, or performance results not present in the project content",
+			"Do not imply that all Slice layers or dependencies are required for every consumer",
+			"Do not describe the pre-1.0 package as a finished or fully mature platform"
 		],
 		"highlightOrder": [
-			"Single-package model",
-			"Composable API surface",
-			"Granular exports and build system",
-			"Realtime and browser APIs",
-			"SSR compatibility"
+			"The frontend integration problem",
+			"Composable adoption across the design system, UI, hooks, stores, and runtime",
+			"Accessible components and server-rendering compatibility",
+			"Browser, realtime, and AI-ready primitives",
+			"Granular exports and build engineering",
+			"Documentation, contributor guidance, and architecture notes",
+			"Sole-author ownership and real-world use in Uris Design"
 		],
 		"relatedProjects": ["uris-design"],
-		"keywords": ["React", "design system", "component library", "WebRTC", "Rollup", "SSR"]
+		"keywords": [
+			"React",
+			"TypeScript",
+			"design system",
+			"component library",
+			"design engineer",
+			"accessibility",
+			"WebRTC",
+			"browser APIs",
+			"realtime",
+			"Rollup",
+			"SSR",
+			"Next.js",
+			"Remix",
+			"developer experience",
+			"open source"
+		]
 	},
 	"header": {
 		"brand": {
@@ -61,7 +98,7 @@
 			"margin": "0 0 32px 0"
 		},
 		"title": "React UI SDK",
-		"subtitle": "Design language, component library, and browser API layer — all in one npm package. \"Because piecing together multiple libraries to ship one feature stopped making sense.\"",
+		"subtitle": "A React SDK that brings a design system, UI components, browser APIs, and realtime primitives into one composable package, so teams spend less time wiring libraries together and more time building product.",
 		"techStack": [
 			"React 18/19",
 			"TypeScript",
@@ -98,183 +135,8 @@
 			}
 		],
 		"carousel": {
-			"maxImageHeight": 325,
-			"items": [
-				{
-					"title": "Realtime right out-of-the box",
-					"description": "Production-ready abstractions over WebRTC, WebSocket, and SSE — video, audio, screen sharing, and live data streams without the boilerplate.",
-					"image": "cameraDemo",
-					"imageLight": "cameraDemoLight"
-				},
-				{
-					"title": "Complete design system",
-					"description": "A design language built into a single React provider. Fully customizable token system across colors, spacing, motion, typography, icons, and more.",
-					"image": "themeColors",
-					"imageLight": "themeColorsLight",
-					"imagePos": "left"
-				},
-				{
-					"title": "Everything composes",
-					"description": "Types flow between layers so the pieces fit together. Hooks return types the components already expect — less wiring, less glue code, more product.",
-					"image": "sliceCode"
-				},
-				{
-					"title": "Built to be lean",
-					"description": "98 granular export paths mean your bundle only includes what you actually use. Import from the root or go granular — tree-shaking handles the rest.",
-					"image": "sliceRollupCode"
-				},
-				{
-					"title": "SSR ready, zero config",
-					"description": "Full SSR and static rendering support for Next.js and Remix, out of the box. No wrappers, no workarounds — it just works.",
-					"image": "sliceSSR"
-				}
-			]
+			"items": []
 		}
 	},
-	"sections": [
-		{
-			"title": "The Problem",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "paragraph",
-					"text": "Most frontend projects need the same things: a design system, a component library, and abstractions over complex APIs like WebRTC, etc. The typical answer - use multiple packages, none of which \"speak\" each other."
-				},
-				{
-					"type": "paragraph",
-					"text": "Result? Wasted time (often days) wiring them together, wrangling types, writing glue code — before actually producing product logic."
-				}
-			]
-		},
-		{
-			"title": "Philosophy",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "paragraph",
-					"text": "Composability. Everything is designed to interlock. Types flow from one layer to the next, stores abstract boiler plate, and hooks bind elements auto-magically."
-				},
-				{
-					"type": "code",
-					"language": "typescript",
-					"title": "List and choose a microphone device in 2 lines",
-					"snippet": "addMic"
-				}
-			]
-		},
-		{
-			"title": "What's in the package",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "list",
-					"items": [
-						{
-							"label": "Complete theme system",
-							"text": "Design language coded into a single React provider, with a fully customizable token system across colors, spacing, motion, icons, type ..."
-						},
-						{
-							"label": "40+ components",
-							"text": "inputs, layout, media, overlays, and upload handling with a shared theme token system (colors, spacing, motion, type)"
-						},
-						{
-							"label": "Real-time communication layer",
-							"text": "production-grade abstractions over WebRTC, WebSocket, and SSE. ICE negotiation, reconnection logic, and typed event handlers handled for you"
-						},
-						{
-							"label": "Browser API hooks",
-							"text": "microphone, camera, screen share, IndexedDB, and audio visualisation, audio recording, each exposing clean React interfaces with automatic cleanup"
-						},
-						{
-							"label": "SSR compatible",
-							"text": "full React 18/19 RSC support, with 'use client' directives preserved through the build so Next.js and Remix apps work without configuration"
-						},
-						{
-							"label": "Performance optimized",
-							"text": "Abstracted web workers for threading uploads and components designed with fast mount / re-mount times of no more than 2 ms."
-						}
-					]
-				}
-			]
-		},
-		{
-			"title": "A hard problem - the build system",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "paragraph",
-					"text": "The package ships 98 granular export paths so consumers only pay for what they use. Getting that to work — dual CJS/ESM output, matching TypeScript definitions, and correct chunk splitting — required writing custom Rollup config that generates every entry point dynamically."
-				},
-				{
-					"type": "paragraph",
-					"text": "Tradeoff: longer build times but dramatically smaller footprint on the consuming side. Worth it."
-				},
-				{
-					"type": "code",
-					"language": "typescript",
-					"title": "Granular imports",
-					"snippet": "granularExports"
-				}
-			]
-		},
-		{
-			"title": "By The Numbers",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "stats",
-					"items": [
-						{
-							"value": "40+",
-							"label": "Components"
-						},
-						{
-							"value": "98",
-							"label": "Export paths"
-						},
-						{
-							"value": "34",
-							"label": "npm releases"
-						},
-						{
-							"value": "13+",
-							"label": "Custom hooks"
-						},
-						{
-							"value": "3",
-							"label": "RT protocols"
-						},
-						{
-							"value": "v0.1",
-							"label": "Active / pre-1.0"
-						}
-					]
-				}
-			]
-		},
-		{
-			"title": "Lessons learned",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "paragraph",
-					"text": "Abstracting WebRTC properly meant understanding it deeply first — ICE negotiation, track replacement without renegotiation, data channel lifecycle. The API surface had to hide that complexity without hiding control. Getting that balance right took several iterations."
-				},
-				{
-					"type": "paragraph",
-					"text": "I also underestimated how much of the work in a public package is the documentation and DX, not the code. The Storybook site, documentation, the contributor guides, the export map — that's more than half the work."
-				}
-			]
-		},
-		{
-			"title": "My Role",
-			"icon": "moon full",
-			"blocks": [
-				{
-					"type": "paragraph",
-					"text": "Sole author and maintainer — component API design, build engineering, documentation, CI/CD, and the npm publishing lifecycle across 34 releases."
-				}
-			]
-		}
-	]
+	"sections": []
 }

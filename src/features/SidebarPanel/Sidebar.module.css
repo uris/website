@@ -29,4 +29,5 @@
 .bot {
 	bottom: 0;
 	background: var(--bot-gradient);
+	opacity: var(--bot-gradient-opacity);
 }

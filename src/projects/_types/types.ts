@@ -1,3 +1,4 @@
+import type { VideoProps } from '@apple-pie/slice';
 import type { StaticImageData } from 'next/image';
 import type { ComponentType } from 'react';
 import type { ProjectSlug } from '@/projects/_registry/slugs';
@@ -91,6 +92,7 @@ export type ProjectSection = {
 export type ProjectAI = {
 	summary: string;
 	tagline?: string;
+	context?: string[];
 	emphasize?: string[];
 	avoid?: string[];
 	audiences?: string[];
@@ -128,6 +130,7 @@ export type ProjectSummary = {
 	title: string;
 	summary: string;
 	tagline?: string;
+	techStack: string[];
 };
 
 export type ProjectPageData = {
@@ -164,3 +167,7 @@ export type ThemedImage = {
 	image: StaticImageData;
 	imageLight: StaticImageData;
 };
+
+export type ThemedProjectImages = Record<string, { image: StaticImageData; imageLight: StaticImageData }>;
+
+export type ProjectVideos = Record<string, VideoProps>;
