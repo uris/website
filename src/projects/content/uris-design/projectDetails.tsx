@@ -27,7 +27,7 @@ export default function UrisDesignProjectDetails() {
 				<ProjectTitle>{header.title}</ProjectTitle>
 				<SubTitle margin={false}>{header.subtitle}</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.hero}
 					backgroundImage={themedImages.heroBG}
 					border={false}
 					heroAltText={'Realtime portfolio workspace with an assistant conversation beside an opened project view.'}
@@ -53,7 +53,9 @@ export default function UrisDesignProjectDetails() {
 				</LinkList>
 				<InlineTitle title={'Highlights'} />
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.viQuestion}
+					loading={'lazy'}
+					preload={false}
 					alt={'Assistant conversation answering a portfolio question about design systems, AI, or realtime work.'}
 				>
 					<TextTitle>Ask better portfolio questions</TextTitle>
@@ -65,8 +67,10 @@ export default function UrisDesignProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.viSkills}
 					reverse
+					loading={'lazy'}
+					preload={false}
 					alt={'A portfolio skills or project panel opened in response to an assistant conversation.'}
 				>
 					<TextTitle>Conversation helps drive the interface</TextTitle>
@@ -78,7 +82,9 @@ export default function UrisDesignProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.viInterruptable}
+					loading={'lazy'}
+					preload={false}
 					alt={'Voice conversation interface showing microphone controls, a transcript, and an assistant response.'}
 				>
 					<TextTitle>Voice is optional and interruptible</TextTitle>
@@ -90,32 +96,17 @@ export default function UrisDesignProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.viBounds}
 					reverse
-					alt={
-						"Diagram showing the assistant's bounded actions: portfolio retrieval, view navigation, and selected settings updates."
-					}
+					loading={'lazy'}
+					preload={false}
+					alt={'Assistant conversation changing a user sound-level preference through a known UI control.'}
 				>
 					<TextTitle>AI with clear boundaries</TextTitle>
 					<TextParagraph>
 						<p>
 							The assistant works from structured portfolio data and a small set of defined actions, rather than being
 							given broad, opaque authority.
-						</p>
-					</TextParagraph>
-				</ProjectHighlight>
-				<ProjectHighlight
-					themedImage={themedImages.placeholder}
-					nomargin
-					alt={
-						'Architecture diagram connecting structured content, Next.js, realtime tools, and the portfolio workspace.'
-					}
-				>
-					<TextTitle>A real system behind the interface</TextTitle>
-					<TextParagraph>
-						<p>
-							The experience combines static delivery, realtime WebRTC events, stateful UI, and reusable design-system
-							primitives in one application.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
@@ -132,11 +123,13 @@ export default function UrisDesignProjectDetails() {
 					visitors a faster way to discover the relevant evidence when they already know what they want to learn.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.viQuestion}
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
 					standAlone={true}
+					loading={'lazy'}
+					preload={false}
 					heroAltText={
 						'Flow from a visitor question to an assistant response and the relevant case study opened in the workspace.'
 					}
@@ -196,16 +189,6 @@ export default function UrisDesignProjectDetails() {
 					<strong>Auditable interaction:</strong> Typed events and bounded callbacks keep realtime behavior easier to
 					reason about and extend.
 				</SubTitle>
-				<HeroImage
-					heroImage={themedImages.placeholder}
-					dropShadow={false}
-					border={true}
-					heroMargin={0}
-					standAlone={true}
-					heroAltText={
-						"Diagram showing the assistant's bounded actions: portfolio retrieval, view navigation, and selected settings updates."
-					}
-				/>
 			</Section>
 			<Section gradient={true}>
 				<ProjectTitle>Architecture shaped around the experience</ProjectTitle>
@@ -234,11 +217,13 @@ export default function UrisDesignProjectDetails() {
 					without making the entire content experience client-only.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.architecture}
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
 					standAlone={true}
+					loading={'lazy'}
+					preload={false}
 					heroAltText={
 						'Architecture diagram showing structured content, Next.js delivery, realtime tools, and workspace UI state.'
 					}
@@ -256,11 +241,13 @@ export default function UrisDesignProjectDetails() {
 					selection, connection state, streaming content, and changing interface surfaces.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.sliceWelcome}
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
 					standAlone={true}
+					loading={'lazy'}
+					preload={false}
 					heroAltText={
 						'Portfolio workspace UI paired with the Slice primitives that support its layout, media, and realtime behavior.'
 					}

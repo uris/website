@@ -97,7 +97,7 @@
 			"size": 32,
 			"margin": "0 0 32px 0"
 		},
-		"title": "Composable React UI and browser runtime",
+		"title": "React UI SDK",
 		"subtitle": "A React SDK that brings a design system, UI components, browser APIs, and realtime primitives into one composable package, so teams spend less time wiring libraries together and more time building product.",
 		"techStack": [
 			"React 18/19",

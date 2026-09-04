@@ -18,7 +18,7 @@ import sliceRollupCode from '@/assets/projects/slice/slice-rollup-code.png';
 import ssr from '@/assets/projects/slice/slice-ssr@3x.png';
 import ssrLight from '@/assets/projects/slice/slice-ssr-light@3x.png';
 import sliceSSR from '@/assets/projects/slice/slice-ssr-provider-code.png';
-import themeColors from '@/assets/projects/slice/slice-theme-colors.png';
+import themeColors from '@/assets/projects/slice/slice-theme-colors-dark.png';
 import themeColorsLight from '@/assets/projects/slice/slice-theme-colors-light.png';
 import videoPlayer from '@/assets/projects/slice/slice-video-player@3x.png';
 import videoPlayerLight from '@/assets/projects/slice/slice-video-player-light@3x.png';
@@ -60,4 +60,5 @@ export const themedImages = {
 	prompt: { image: prompt, imageLight: promptLight },
 	placeholder: { image: placeholder, imageLight: placeholderLight },
 	heroBG: { image: heroBG, imageLight: heroBG },
+	themeColors: { image: themeColors, imageLight: themeColorsLight },
 };

@@ -60,7 +60,7 @@ export default function SliceProjectDetails() {
 				</LinkList>
 				<InlineTitle title={'Highlights'} />
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.themeColors}
 					alt={'Slice color tokens and theme controls used to define a consistent interface design language.'}
 				>
 					<TextTitle>One design language, implemented in code</TextTitle>

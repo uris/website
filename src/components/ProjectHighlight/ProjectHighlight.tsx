@@ -20,6 +20,8 @@ interface ProjectHighlightProps {
 	themedImage?: ThemedImage;
 	nomargin?: boolean;
 	alt?: string;
+	loading?: 'eager' | 'lazy';
+	preload?: boolean;
 }
 
 export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
@@ -38,6 +40,8 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 		nomargin,
 		themedImage,
 		alt = 'Project highlight image',
+		loading = 'eager',
+		preload = true,
 	} = props;
 
 	// create the bottom margin
@@ -97,9 +101,9 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 							height={resolvedImageSize.height}
 							sizes={'100vh'}
 							alt={alt}
-							loading={'eager'}
+							loading={loading}
 							className={styles.highlightImage}
-							preload={true}
+							preload={preload}
 						/>
 					)}
 				</div>
