@@ -70,6 +70,7 @@ export function ProjectGrid(props: Readonly<ProjectGridProps>) {
 							project={project}
 							width={tileSize}
 							height={tileSize}
+							backgroundColor={project.backgroundColor}
 						/>
 					);
 				})}

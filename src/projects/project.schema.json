@@ -93,6 +93,9 @@
 				"typeColor": {
 					"type": "string"
 				},
+				"backgroundColor": {
+					"type": "string"
+				},
 				"layout": {
 					"enum": ["square", "wide", "long"]
 				},

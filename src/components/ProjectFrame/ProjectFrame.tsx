@@ -1,8 +1,8 @@
 'use client';
 
-import { useObserveResize, useTheme } from '@apple-pie/slice';
+import { ProgressIndicator, useObserveResize, useTheme } from '@apple-pie/slice';
 import type React from 'react';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDraggingSidebar } from '@/stores/home-layout/homeLayoutStore';
 import { useSidebarActions } from '@/stores/sidebar/sidebarStore';
 import styles from './ProjectFrame.module.css';
@@ -29,6 +29,13 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	const setShowOverlays = useSidebarActions().setShowOverlays;
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	const size = useObserveResize(iframeRef, { ignore: 'width' });
+	const [isLoading, setIsLoading] = useState(true);
+
+	// callback ref fired when iframe element is attached or removed from dom
+	const setIframeRef = useCallback((node: HTMLIFrameElement | null) => {
+		iframeRef.current = node;
+		if (node) setIsLoading(true);
+	}, []);
 
 	// post state based on tracked theme (add other state items as needed)
 	const postState = useCallback(
@@ -71,26 +78,35 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 		return () => window.removeEventListener('message', handleChildEvents);
 	}, [handleChildEvents]);
 
-	// handle frame finished loading
+	// handle frame finished loading posting the init event and setting loaded to remove spinner
 	const handleOnLoad = useCallback(() => {
 		postState(FrameEvent.INIT);
-		// setShouldReload(false)
+		setIsLoading(false);
 	}, [postState]);
 
 	// post state updates automatically
 	useEffect(() => postState(), [postState]);
 
 	if (!projectSlug) return null;
+	const projectUrl = `/projects/${projectSlug}?theme=${theme}`;
 	return (
-		<iframe
-			className={styles.frame}
-			title={`Project Summary: ${projectName}`}
-			style={cssVars}
-			ref={iframeRef}
-			src={`/projects/${projectSlug}?theme=${theme}`}
-			onLoad={handleOnLoad}
-			width="100%"
-			height="100%"
-		/>
+		<div className={styles.frameContainer} aria-busy={isLoading}>
+			{isLoading && (
+				<div className={styles.loadingOverlay} role="status">
+					<ProgressIndicator inline show size={32} stroke={1} />
+				</div>
+			)}
+			<iframe
+				key={projectUrl}
+				className={styles.frame}
+				title={`Project Summary: ${projectName}`}
+				style={cssVars}
+				ref={setIframeRef}
+				src={projectUrl}
+				onLoad={handleOnLoad}
+				width="100%"
+				height="100%"
+			/>
+		</div>
 	);
 }

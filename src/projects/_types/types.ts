@@ -115,6 +115,7 @@ export type ProjectTileData = {
 	layout?: 'square' | 'wide' | 'long';
 	heavy?: boolean;
 	order?: number;
+	backgroundColor?: string;
 };
 
 export type ProjectDocument = {

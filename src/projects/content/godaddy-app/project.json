@@ -13,6 +13,7 @@
 		"image": "/projects/gdappbg.png",
 		"titleColor": "#000000",
 		"typeColor": "rgba(0,0,0,0.5)",
+		"backgroundColor": "#fae4e2",
 		"order": 1,
 		"layout": "long"
 	},

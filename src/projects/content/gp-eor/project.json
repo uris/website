@@ -13,6 +13,7 @@
 		"image": "/projects/gpeorbg.png",
 		"titleColor": "#ffffff",
 		"typeColor": "rgba(255,255,255,0.5)",
+		"backgroundColor": "#cd2d98",
 		"order": 1,
 		"layout": "square"
 	},

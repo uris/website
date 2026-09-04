@@ -13,6 +13,7 @@
 		"image": "/projects/rcphonebg.png",
 		"titleColor": "#000000",
 		"typeColor": "rgba(0,0,0,0.5)",
+		"backgroundColor": "var(--core-surface-primary)",
 		"order": 1,
 		"layout": "square"
 	},
