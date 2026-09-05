@@ -20,15 +20,15 @@
 	"ai": {
 		"summary": "",
 		"tagline": "",
-		"emphasize": [""],
-		"avoid": [""],
-		"audiences": [""],
-		"suggestedQuestions": [""],
-		"capabilities": [""],
-		"limitations": [""],
-		"highlightOrder": [""],
-		"relatedProjects": [""],
-		"keywords": [""]
+		"emphasize": [],
+		"avoid": [],
+		"audiences": [],
+		"suggestedQuestions": [],
+		"capabilities": [],
+		"limitations": [],
+		"highlightOrder": [],
+		"relatedProjects": [],
+		"keywords": []
 	},
 	"header": {
 		"title": "Making work, less work",

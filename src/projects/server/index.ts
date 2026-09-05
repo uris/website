@@ -25,11 +25,13 @@ export function getProjectPageData(slug: string): ProjectPageData | null {
 
 export function getProjectAIData(slug: string): ProjectAIData | null {
 	const project = getProjectDocument(slug);
-	return project ? toProjectAIData(project) : null;
+	return project?.ai.summary.trim() ? toProjectAIData(project) : null;
 }
 
 export function getProjectSummaries(): ProjectSummary[] {
-	return getAllProjectDocuments().map(toProjectSummary);
+	return getAllProjectDocuments()
+		.filter((project) => project.ai.summary.trim())
+		.map(toProjectSummary);
 }
 
 export function getKnownProjectSlugs(): ProjectSlug[] {
