@@ -4,6 +4,7 @@ import { ProgressIndicator, useObserveResize, useTheme } from '@apple-pie/slice'
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDraggingSidebar } from '@/stores/home-layout/homeLayoutStore';
+import { SidebarSurface } from '@/stores/sidebar/_types';
 import { useSidebarActions } from '@/stores/sidebar/sidebarStore';
 import styles from './ProjectFrame.module.css';
 
@@ -27,6 +28,7 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	const theme = useTheme().current.name;
 	const dragging = useDraggingSidebar();
 	const setShowOverlays = useSidebarActions().setShowOverlays;
+	const setSurface = useSidebarActions().setSurface;
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	const size = useObserveResize(iframeRef, { ignore: 'width' });
 	const [isLoading, setIsLoading] = useState(true);
@@ -60,9 +62,12 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 				if (event.data.type === 'video-ended') {
 					setShowOverlays(true);
 				}
+				if (event.data.type === 'navigate-contact') {
+					setSurface(SidebarSurface.Contact);
+				}
 			}
 		},
-		[setShowOverlays],
+		[setShowOverlays, setSurface],
 	);
 
 	// memo dynamic styles
