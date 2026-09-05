@@ -122,6 +122,7 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 							loading={loading}
 							className={styles.highlightImage}
 							preload={preload}
+							placeholder={'blur'}
 						/>
 					)}
 				</div>

@@ -12,43 +12,32 @@ import { TechStack } from '@/components/TechStack/TechStack';
 import { TextParagraph } from '@/components/TextParagraph/TextParagraph';
 import { TextTitle } from '@/components/TextTitle/TextTitle';
 import { Wrapper } from '@/projects/_helpers/Wrapper';
+import projectJson from '@/projects/content/gp-gia/project.json';
 import { themedImages } from './images';
 
-const techStack = [
-	'User Research',
-	'Product Design',
-	'React',
-	'Node.js BFF',
-	'Redis',
-	'DynamoDB',
-	'WebSockets',
-	'Collaborative Editing',
-];
-
 export default function GPGiaProjectDetails() {
+	const header = projectJson.header || {};
+
 	return (
 		<Wrapper>
 			<Section gradient={false}>
 				<Logo name={'gp'} color={'var(--core-icon-primary)'} size={64} margin={'0 0 64px 0'} />
-				<ProjectTitle>Trusted HR expertise, turned into action</ProjectTitle>
-				<SubTitle margin={false}>
-					Gia is an AI-native, global HR workspace fluent across 50+ countries. Its guidance is built and reviewed by
-					in-market legal and HR professionals, then turned into work teams can inspect, refine, and use.
-				</SubTitle>
+				<ProjectTitle>{header.title}</ProjectTitle>
+				<SubTitle margin={false}>{header.subtitle}</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.hero}
 					backgroundImage={themedImages.heroBG}
 					border={false}
 					heroAltText={'Gia workspace showing an HR question, sourced guidance, and a generated document.'}
 				/>
 				<TechStack>
-					{techStack.map((item) => (
+					{header.techStack.map((item) => (
 						<Label key={item}>{item}</Label>
 					))}
 				</TechStack>
 				<InlineTitle title={'Highlights'} />
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.source}
 					alt={'Gia answer with visible citations and approved source material.'}
 				>
 					<TextTitle>Trust has to be visible</TextTitle>
@@ -61,7 +50,7 @@ export default function GPGiaProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.artifact}
 					reverse
 					alt={'Gia research guidance transformed into an editable HR document.'}
 				>
@@ -74,7 +63,7 @@ export default function GPGiaProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.artifact}
 					alt={'Gia workspace combining conversation, source material, and a working document.'}
 				>
 					<TextTitle>A workspace, not a prompt box</TextTitle>
@@ -86,7 +75,7 @@ export default function GPGiaProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.collaborate}
 					reverse
 					alt={'Team reviewing or collaboratively editing a generated HR artifact in Gia.'}
 				>
@@ -99,7 +88,8 @@ export default function GPGiaProjectDetails() {
 					</TextParagraph>
 				</ProjectHighlight>
 				<ProjectHighlight
-					themedImage={themedImages.placeholder}
+					themedImage={themedImages.monitor}
+					nomargin
 					alt={
 						'Gia compliance monitor showing a regulatory update, its potential impact on company HR policy, and the next action to review.'
 					}
@@ -109,23 +99,6 @@ export default function GPGiaProjectDetails() {
 						<p>
 							Gia is not limited to waiting for a question. It can assess relevant regulatory updates against a
 							team&apos;s HR content, documents, and contracts, then surface where current policy may need attention.
-						</p>
-					</TextParagraph>
-				</ProjectHighlight>
-				<ProjectHighlight
-					themedImage={themedImages.placeholder}
-					reverse
-					nomargin
-					alt={
-						'Conceptual Gia architecture connecting the workspace, BFF, source services, realtime updates, and collaborative documents.'
-					}
-				>
-					<TextTitle>Trustworthy interaction needs a dependable system</TextTitle>
-					<TextParagraph>
-						<p>
-							The product paired a polished React workspace with a Node.js BFF, durable data and cache layers, realtime
-							updates, and collaborative document editing. The technical foundation existed to make the product feel
-							clear and dependable at every step.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
@@ -148,7 +121,7 @@ export default function GPGiaProjectDetails() {
 					professional research and move work forward, with the evidence, uncertainty, and human judgment still visible?
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.verified}
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
@@ -196,21 +169,11 @@ export default function GPGiaProjectDetails() {
 					information required to make it responsibly, review the relevant material, then either generate a response or
 					ask for the additional context needed to proceed.
 				</SubTitle>
-				<SubTitle>
+				<SubTitle margin={false}>
 					That feedback loop improved how Gia approached country-specific HR questions, including when the right next
 					step was to ask for more information, acknowledge it did not have suitable information, or direct a user to
 					useful resources rather than produce an overconfident answer.
 				</SubTitle>
-				<HeroImage
-					heroImage={themedImages.placeholder}
-					dropShadow={false}
-					border={true}
-					heroMargin={0}
-					standAlone={true}
-					heroAltText={
-						'Conceptual Teach Gia workflow showing in-market experts using real HR scenarios to evaluate questions, review evidence, generate or request context, and improve Gia responses.'
-					}
-				/>
 			</Section>
 			<Section gradient={true}>
 				<ProjectTitle>From research to action</ProjectTitle>
@@ -219,20 +182,10 @@ export default function GPGiaProjectDetails() {
 					understanding, verification, creation, collaboration, and action without losing the context that made the work
 					trustworthy.
 				</SubTitle>
-				<SubTitle>
+				<SubTitle margin={false}>
 					<strong>Ask - Understand - Verify - Create - Collaborate - Act.</strong> This progression became the
 					organizing principle for both the product experience and the underlying system.
 				</SubTitle>
-				<HeroImage
-					heroImage={themedImages.placeholder}
-					dropShadow={false}
-					border={true}
-					heroMargin={0}
-					standAlone={true}
-					heroAltText={
-						'Gia workflow from question through sourced research, document creation, collaboration, and action.'
-					}
-				/>
 			</Section>
 			<Section gradient={true}>
 				<ProjectTitle>Compliance monitoring turns change into a next step</ProjectTitle>
@@ -257,12 +210,12 @@ export default function GPGiaProjectDetails() {
 					<strong>Understand the impact:</strong> The user can see why the change may matter and which current material
 					warrants attention.
 				</SubTitle>
-				<SubTitle margin={false}>
+				<SubTitle marginSize={32}>
 					<strong>Move into action:</strong> The output becomes a concrete review or follow-up path, not a generic
 					alert.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.monitor}
 					dropShadow={false}
 					border={true}
 					heroMargin={0}
@@ -279,14 +232,15 @@ export default function GPGiaProjectDetails() {
 					DynamoDB, WebSockets, and collaborative document editing. This is intentionally a conceptual view of the
 					system, not a disclosure of proprietary internals.
 				</SubTitle>
-				<SubTitle>
+				<SubTitle marginSize={16}>
 					The architecture supported a responsive workspace where source-aware answers, working documents, and team
 					edits could stay coordinated as the user moved from exploration into action.
 				</SubTitle>
 				<HeroImage
-					heroImage={themedImages.placeholder}
+					heroImage={themedImages.architecture}
+					imgBackgroundColor={'transparent'}
 					dropShadow={false}
-					border={true}
+					border={false}
 					heroMargin={0}
 					standAlone={true}
 					heroAltText={

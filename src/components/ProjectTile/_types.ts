@@ -14,4 +14,5 @@ export interface ProjectTileProps {
 	onAnimationEnd?: (index: number) => void;
 	onClick?: (slug: ProjectSlug) => void;
 	index?: number;
+	backgroundColor?: string;
 }

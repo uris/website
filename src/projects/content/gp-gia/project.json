@@ -2,7 +2,7 @@
 	"$schema": "../../project.schema.json",
 	"slug": "gp-gia",
 	"tile": {
-		"title": "HR Expertise at the speed of AI",
+		"title": "Gia: HR Expertise at the speed of AI",
 		"type": "AI + Product Design & Dev",
 		"logo": {
 			"type": "logo",
@@ -13,26 +13,108 @@
 		"image": "/projects/gpgiabg.png",
 		"titleColor": "#ffffff",
 		"typeColor": "rgba(255,255,255,0.5)",
+		"backgroundColor": "#23233d",
 		"order": 1,
 		"layout": "square"
 	},
 	"ai": {
-		"summary": "",
-		"tagline": "",
-		"emphasize": [""],
-		"avoid": [""],
-		"audiences": [""],
-		"suggestedQuestions": [""],
-		"capabilities": [""],
-		"limitations": [""],
-		"highlightOrder": [""],
-		"relatedProjects": [""],
-		"keywords": [""]
+		"summary": "Gia is an AI-native global HR workspace for turning expert-grounded guidance into work teams can inspect, refine, collaborate on, and use. It was designed for high-stakes, country-specific HR work across 50+ countries, where trust depends on visible sources, appropriate uncertainty, and professional judgment rather than a fluent answer alone.",
+		"tagline": "An expert-grounded HR workspace that carries people from a question to sourced guidance, collaborative artifacts, and action.",
+		"context": [
+			"Gia addresses professional HR and legal-adjacent questions where policy, compliance, and country-specific context materially affect the answer. It is fluent across 50+ countries, so local context is a core product requirement rather than an edge case.",
+			"The product was intentionally designed as a workspace, not a generic chatbot. A question, the supporting evidence, generated work, and next steps stay connected so users can research and act without losing the context that makes the work trustworthy.",
+			"Gia's knowledge foundation is material written and reviewed by in-market legal and HR professionals. Citations and source material remain visible so people can inspect the basis of guidance and investigate further.",
+			"When suitable information is unavailable for a confident answer, Gia should ask for needed context, acknowledge the gap, or direct the user to helpful resources instead of inventing certainty.",
+			"Research can become an editable HR artifact for review and collaboration. Generated work is a starting point for a team, not a final handoff or a replacement for professional judgment.",
+			"The internal Teach Gia tool let in-market experts use real HR scenarios and seed questions to clarify decisions, identify required information, review evidence, and evaluate whether Gia should answer, request more context, or redirect a user. That feedback loop improved behavior for country-specific HR questions.",
+			"Compliance monitoring extends the experience beyond reactive questions: regulatory updates can be assessed against customer HR policies, documents, and contracts in a knowledge base, then connected to material that warrants review and a concrete next action.",
+			"The documented implementation is a conceptual, product-facing architecture: a React frontend and Node.js BFF paired with Redis, DynamoDB, WebSockets, and collaborative document editing. Do not infer proprietary service topology, data models, credentials, or undisclosed integrations.",
+			"Uris owned user research, concept design, early prototyping and testing, the design language, and full UI/UX, then led implementation of the React frontend and Node.js BFF, including realtime and collaborative document-editing workflows."
+		],
+		"emphasize": [
+			"Trust as a product feature: expert-reviewed knowledge, visible citations, transparent guardrails, and professional control",
+			"Global HR guidance where country-specific context across 50+ countries is fundamental to the experience",
+			"The workflow from Ask to Understand, Verify, Create, Collaborate, and Act",
+			"Guidance becoming an editable, reviewable, collaborative work artifact",
+			"Proactive compliance monitoring that connects regulatory change to a customer's own HR content and next steps",
+			"Cross-disciplinary ownership spanning research, product design, UI/UX, frontend, BFF, realtime behavior, and collaborative editing"
+		],
+		"avoid": [
+			"Reducing Gia to a generic HR chatbot or presenting it as a prompt-only experience",
+			"Claiming Gia replaces legal, HR, or other professional judgment",
+			"Suggesting that Gia fabricates answers when suitable information or context is missing",
+			"Presenting generated documents as final or unreviewed outputs rather than collaborative starting points",
+			"Claiming specific business results, adoption, accuracy metrics, model internals, or launch scope not documented in the case study",
+			"Disclosing or inventing proprietary implementation details beyond the conceptual React, Node.js BFF, Redis, DynamoDB, WebSockets, and collaborative-editing architecture"
+		],
+		"audiences": [
+			"Hiring managers",
+			"Product and design leaders",
+			"HR technology and compliance teams",
+			"AI product designers",
+			"Design engineers and frontend engineers"
+		],
+		"suggestedQuestions": [
+			"What made trust a product feature in Gia?",
+			"How does Gia keep expert evidence and citations connected to an AI answer?",
+			"Why is global and country-specific context important for this HR product?",
+			"How does the product move from research to an actionable HR artifact?",
+			"What happens when Gia lacks enough information for a confident answer?",
+			"What was the purpose of the internal Teach Gia tool?",
+			"How does compliance monitoring turn regulatory change into a next step?",
+			"What was Uris's role in the product and implementation?",
+			"What technologies supported the realtime collaborative workflow?"
+		],
+		"capabilities": ["summarize", "explain_problem_framing", "explain_architecture", "highlight_tradeoffs", "compare"],
+		"limitations": [
+			"Do not provide HR or legal advice as though the assistant itself is Gia or a qualified professional",
+			"Do not claim that the case study documents a proprietary production architecture in full",
+			"Do not imply every concept, workflow, or visualization was a publicly launched feature unless the project content explicitly says so",
+			"Keep the distinction between expert-grounded guidance and final human decision-making clear",
+			"Do not invent compliance outcomes, customer data, regulatory coverage details, or performance metrics"
+		],
+		"highlightOrder": [
+			"The high trust threshold for global, legal-adjacent HR work",
+			"Expert-built knowledge, visible citations, guardrails, and professional control",
+			"Teaching Gia with in-market experts and real HR scenarios",
+			"The Ask, Understand, Verify, Create, Collaborate, Act workflow",
+			"Compliance monitoring from regulatory update to review action",
+			"The conceptual React, Node.js BFF, realtime, data, and collaborative-editing architecture",
+			"Uris's end-to-end research, design, and engineering role"
+		],
+		"relatedProjects": ["gp-eor", "hiring", "people"],
+		"keywords": [
+			"Globalization Partners",
+			"Gia",
+			"global HR",
+			"AI product design",
+			"trusted AI",
+			"expert-reviewed knowledge",
+			"citations",
+			"HR compliance",
+			"compliance monitoring",
+			"collaborative editing",
+			"React",
+			"Node.js BFF",
+			"Redis",
+			"DynamoDB",
+			"WebSockets",
+			"design engineering"
+		]
 	},
 	"header": {
-		"title": "Beloved apps you use every day",
-		"subtitle": "At RingCentral I completely revamped the core communications and productivity apps we call MVP (message, video, phone). MVP is a desktop, mobile and web app that helps people and teams interact and get work done.",
-		"techStack": [],
+		"title": "Gia: Trusted HR expertise, turned into action",
+		"subtitle": "Gia is an AI-native, global HR workspace fluent across 50+ countries. Its guidance is built and reviewed by in-market legal and HR professionals, then turned into work teams can inspect, refine, and use.",
+		"techStack": [
+			"User Research",
+			"Product Design",
+			"React",
+			"Node.js BFF",
+			"Redis",
+			"DynamoDB",
+			"WebSockets",
+			"Collaborative Editing"
+		],
 		"links": []
 	},
 	"sections": []

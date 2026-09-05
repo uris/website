@@ -20,6 +20,7 @@
 	transform: scale(1) translateY(var(--project-tile-translate-y)) translateX(var(--project-tile-translate-x));
 	transition: var(--project-tile-transition);
 	outline: none;
+	background-color: var(--project-tile-background-color);
 	z-index:1;
 	&:hover {
 		transform: scale(1.05) translateY(var(--project-tile-translate-y)) translateX(var(--project-tile-translate-x));

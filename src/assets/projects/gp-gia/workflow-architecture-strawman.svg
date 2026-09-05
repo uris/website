@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">Gia architecture in service of the workflow</title>
+  <desc id="description">A conceptual architecture diagram showing the HR workflow from asking a question through action, supported by a React workspace, Node.js BFF, AI and source services, collaborative documents, compliance monitoring, SpiceDB permissions, Redis, DynamoDB, and WebSockets.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6f4ec"/><stop offset="1" stop-color="#e6eff1"/></linearGradient>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#183942"/><stop offset="1" stop-color="#255965"/></linearGradient>
+    <linearGradient id="coral" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e36d4c"/><stop offset="1" stop-color="#b94b46"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-30%" width="140%" height="170%"><feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#18333c" flood-opacity=".14"/></filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto"><path d="M 1 1 L 11 6 L 1 11 z" fill="#547078"/></marker>
+    <style>
+      .eyebrow { font: 700 17px 'Avenir Next', 'Trebuchet MS', sans-serif; letter-spacing: 3px; }
+      .heading { font: 700 47px 'Avenir Next', 'Trebuchet MS', sans-serif; }
+      .sub { font: 400 21px 'Avenir Next', 'Trebuchet MS', sans-serif; }
+      .step { font: 700 20px 'Avenir Next', 'Trebuchet MS', sans-serif; }
+      .kicker { font: 700 14px 'Avenir Next', 'Trebuchet MS', sans-serif; letter-spacing: 1.7px; }
+      .name { font: 700 25px 'Avenir Next', 'Trebuchet MS', sans-serif; }
+      .copy { font: 400 18px 'Avenir Next', 'Trebuchet MS', sans-serif; }
+      .note { font: 600 16px 'Avenir Next', 'Trebuchet MS', sans-serif; }
+    </style>
+  </defs>
+  <rect width="1600" height="900" rx="40" fill="url(#bg)"/><circle cx="1470" cy="100" r="195" fill="#f2bd8c" opacity=".3"/><circle cx="100" cy="835" r="270" fill="#9accd1" opacity=".22"/>
+  <text x="100" y="104" class="eyebrow" fill="#267470">GIA / WORKFLOW ARCHITECTURE</text><text x="100" y="164" class="heading" fill="#18333c">Architecture in service of the work, not the other way around.</text><text x="100" y="204" class="sub" fill="#526870">A conceptual map of the system behind a professional HR workflow.</text>
+
+  <g filter="url(#shadow)"><rect x="100" y="270" width="1400" height="116" rx="28" fill="#fff"/></g>
+  <text x="132" y="312" class="kicker" fill="#307574">THE WORKFLOW</text>
+  <g fill="#18333c"><circle cx="250" cy="337" r="27" fill="#e3f0ee"/><circle cx="472" cy="337" r="27" fill="#e3f0ee"/><circle cx="694" cy="337" r="27" fill="#e3f0ee"/><circle cx="916" cy="337" r="27" fill="#e3f0ee"/><circle cx="1138" cy="337" r="27" fill="#e3f0ee"/><circle cx="1360" cy="337" r="27" fill="#e3f0ee"/></g>
+  <text x="224" y="344" class="step">Ask</text><text x="420" y="344" class="step">Understand</text><text x="648" y="344" class="step">Verify</text><text x="882" y="344" class="step">Create</text><text x="1082" y="344" class="step">Collaborate</text><text x="1325" y="344" class="step">Act</text>
+  <path d="M277 337 H443 M499 337 H665 M721 337 H887 M943 337 H1109 M1165 337 H1331" stroke="#79a3a4" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)"><rect x="100" y="450" width="390" height="284" rx="28" fill="url(#navy)"/><rect x="566" y="450" width="468" height="284" rx="28" fill="url(#coral)"/><rect x="1110" y="450" width="390" height="284" rx="28" fill="#fff"/></g>
+  <text x="136" y="496" class="kicker" fill="#bce8e4">PRODUCT SURFACE</text><text x="136" y="544" class="name" fill="#fff">React workspace</text><text x="136" y="580" class="copy" fill="#e5f6f3">Research, citations, artifacts,</text><text x="136" y="608" class="copy" fill="#e5f6f3">and review stay in context.</text><rect x="136" y="640" width="310" height="2" fill="#72a8aa"/><text x="136" y="678" class="note" fill="#bce8e4">One interface across the full workflow</text>
+  <text x="602" y="496" class="kicker" fill="#ffe0d2">ORCHESTRATION</text><text x="602" y="544" class="name" fill="#fff">Node.js BFF</text><text x="602" y="580" class="copy" fill="#fff0eb">Connects the user journey to product</text><text x="602" y="608" class="copy" fill="#fff0eb">services without exposing their complexity.</text><rect x="602" y="640" width="364" height="2" fill="#f0a789"/><text x="602" y="678" class="note" fill="#ffe0d2">The application-facing workflow boundary</text>
+  <text x="1146" y="496" class="kicker" fill="#307574">CONTINUITY</text><text x="1146" y="544" class="name" fill="#18333c">Realtime collaboration</text><text x="1146" y="580" class="copy" fill="#526870">WebSockets keep shared documents</text><text x="1146" y="608" class="copy" fill="#526870">and interface updates coordinated.</text><rect x="1146" y="640" width="310" height="2" fill="#9cc4c4"/><text x="1146" y="678" class="note" fill="#307574">Work can move from draft to decision</text>
+  <path d="M490 592 H566" stroke="#547078" stroke-width="5" marker-end="url(#arrow)"/><path d="M1034 592 H1110" stroke="#547078" stroke-width="5" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)"><rect x="100" y="790" width="260" height="62" rx="20" fill="#fff"/><rect x="382" y="790" width="260" height="62" rx="20" fill="#fff"/><rect x="664" y="790" width="260" height="62" rx="20" fill="#173a43"/><rect x="946" y="790" width="260" height="62" rx="20" fill="#fff"/><rect x="1228" y="790" width="272" height="62" rx="20" fill="#fff"/></g>
+  <text x="126" y="827" class="note" fill="#18333c">AI + expert source services</text><text x="408" y="827" class="note" fill="#18333c">Compliance monitor</text><text x="690" y="827" class="note" fill="#e5f6f3">SpiceDB permissions</text><text x="972" y="827" class="note" fill="#18333c">Redis + DynamoDB</text><text x="1254" y="827" class="note" fill="#18333c">Collaborative documents</text>
+  <path d="M230 790 V 754 H800 V734 M512 790 V 754 H800 M794 790 V 734 M1076 790 V 754 H800 M1364 790 V 754 H800" fill="none" stroke="#6d888f" stroke-width="3" stroke-dasharray="9 9"/>
+</svg>

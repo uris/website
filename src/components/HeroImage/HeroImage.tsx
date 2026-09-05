@@ -141,6 +141,7 @@ export function HeroImage(props: Readonly<HeroImageProps>) {
 							loading={loading}
 							className={styles.heroImage}
 							preload={preload}
+							placeholder={'blur'}
 						/>
 					)}
 				</div>

@@ -13,6 +13,7 @@
 		"image": "/projects/slicebg.png",
 		"titleColor": "#ffffff",
 		"typeColor": "rgba(0,0,0,0.3)",
+		"backgroundColor": "#4aa5be",
 		"order": 1
 	},
 	"ai": {

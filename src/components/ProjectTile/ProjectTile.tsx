@@ -21,6 +21,7 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 		index = 0,
 		onAnimationEnd,
 		onClick,
+		backgroundColor = 'var(--core-surface-primary)',
 	} = props;
 	const { layout, heavy, title, type, titleColor, logo, image, typeColor } = project;
 	const [hasEntered, setHasEntered] = useState<boolean>(false);
@@ -105,8 +106,9 @@ export function ProjectTile(props: Readonly<ProjectTileProps>) {
 			'--project-tile-translate-x': `${transform.x}px`,
 			'--project-tile-opacity': didAnimate || hasEntered ? '1' : '0',
 			'--project-tile-transition': `all 0.25s ease-in-out ${delay}s`,
+			'--project-tile-background-color': backgroundColor,
 		} as React.CSSProperties;
-	}, [resolvedSize, titleColor, typeColor, delay, transform, hasEntered, didAnimate]);
+	}, [resolvedSize, titleColor, typeColor, delay, transform, hasEntered, didAnimate, backgroundColor]);
 
 	// memo styles
 	const styleNames = useMemo(() => {

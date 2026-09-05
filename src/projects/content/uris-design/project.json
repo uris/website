@@ -13,6 +13,7 @@
 		"image": "/projects/urisbg.png",
 		"titleColor": "#1f262d",
 		"typeColor": "rgba(0,0,0,0.5)",
+		"backgroundColor": "var(--core-surface-primary)",
 		"layout": "square",
 		"order": 1
 	},
