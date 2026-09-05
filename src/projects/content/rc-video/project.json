@@ -18,17 +18,83 @@
 		"layout": "long"
 	},
 	"ai": {
-		"summary": "",
-		"tagline": "",
-		"emphasize": [""],
-		"avoid": [""],
-		"audiences": [""],
-		"suggestedQuestions": [""],
-		"capabilities": [""],
-		"limitations": [""],
-		"highlightOrder": [""],
-		"relatedProjects": [""],
-		"keywords": [""]
+		"summary": "RC Video is a RingCentral case study about rethinking meetings across the full lifecycle, from deciding whether to attend, to preparation, in-meeting interaction, and post-meeting follow-up. The goal was not maximizing meeting volume, but making communication clearer, more respectful of time, and more effective across remote, in-person, and hybrid work.",
+		"tagline": "A collaboration product exploration that questions whether a meeting should happen at all, then designs the experience around attention, preparation, and useful follow-through.",
+		"context": [
+			"The work starts from a product-strategy problem: after the pandemic, meeting engagement was declining while phone usage moved in the opposite direction. The question was not just how to increase meeting attendance, but what actually makes a meeting worth joining.",
+			"Research suggested the real problem extended beyond the live call window. Meeting value is shaped before the meeting, during the interaction, and after it ends, so the experience was reframed around the entire meeting lifecycle.",
+			"A major theme is reducing wasted time. The project challenges the assumption that more meetings are inherently better and instead treats productive communication, clarity, and confidence as the outcomes worth optimizing for.",
+			"Several concepts intentionally reduce or replace live attendance when that is the better choice, including declining a meeting while sending an assistant in your place, async recordings with comments and follow-up, and stronger post-meeting summaries.",
+			"Pre-meeting concepts focus on preparation and context: templates for different meeting types, controls for how someone appears before joining, and clearer states for participating without video.",
+			"In-meeting ideas focus on making communication feel more human and less fatiguing, including portrait video, float mode, expressive reactions, time-aware light and dark themes, AI-assisted notes, and hybrid-friendly participation for people sharing a room camera.",
+			"Post-meeting ideas focus on continuity: summaries, notes, decisions, mentions, and follow-up should flow into the broader team conversation rather than staying trapped inside a single call.",
+			"This is a product and experience design case study, not a claim that every concept shipped. Describe the work as exploration, reframing, and design direction unless the project content explicitly says a feature launched.",
+			"Uris's role spans research and problem framing, product and interaction design, visual design, motion and sound exploration, and early implementation work."
+		],
+		"emphasize": [
+			"Reframing the brief from increasing meetings to improving communication quality",
+			"The full meeting lifecycle: pre-meeting, in-meeting, post-meeting, and even anti-meeting scenarios",
+			"Respect for time, attention, and social comfort in collaboration products",
+			"Hybrid, remote, and in-person contexts treated as first-class",
+			"Design concepts that make no-video, async participation, and meeting decline more legitimate and useful",
+			"Cross-disciplinary product design spanning research, UX, visual, motion, and sound"
+		],
+		"avoid": [
+			"Reducing the project to a cosmetic video UI redesign",
+			"Claiming the goal was simply to drive attendance, watch time, or more meetings",
+			"Presenting every concept as a shipped RingCentral feature unless explicitly documented",
+			"Framing the work as remote-only or ignoring in-person and hybrid collaboration needs",
+			"Overstating AI as the main story instead of one supporting part of the meeting experience"
+		],
+		"audiences": [
+			"Hiring managers",
+			"Product leaders",
+			"Design leaders",
+			"UX designers",
+			"Collaboration-product teams"
+		],
+		"suggestedQuestions": [
+			"How did this project redefine the problem beyond declining meeting usage?",
+			"Why does the case study focus on the full meeting lifecycle instead of just the meeting window?",
+			"What does 'anti-meeting' mean in this project?",
+			"How does the work support remote, hybrid, and in-person communication differently?",
+			"Which concepts were designed to reduce wasted time in meetings?",
+			"How did AI show up in the meeting experience without becoming the whole story?",
+			"What was Uris's role on this RingCentral work?"
+		],
+		"capabilities": ["summarize", "explain_problem_framing", "highlight_tradeoffs", "compare"],
+		"limitations": [
+			"Do not claim specific business results, adoption, or launch status that are not documented in the project content",
+			"Do not imply that every concept shown became a production feature",
+			"Do not describe the project as optimizing for more meetings at any cost",
+			"Do not reduce the work to AI summaries or a single in-meeting feature when the case study is about the broader collaboration experience"
+		],
+		"highlightOrder": [
+			"The post-pandemic meeting-engagement problem and why the brief was reframed",
+			"The idea that better communication matters more than more meetings",
+			"Time wasted in meetings and the anti-meeting concepts",
+			"Pre-meeting preparation and control over how people show up",
+			"In-meeting interaction improvements for human, expressive, hybrid-friendly participation",
+			"Post-meeting continuity through summaries, notes, and follow-up",
+			"Uris's cross-disciplinary role across research, product design, visual, motion, sound, and early implementation"
+		],
+		"relatedProjects": ["rc-phone"],
+		"keywords": [
+			"RingCentral",
+			"video meetings",
+			"collaboration design",
+			"product design",
+			"user research",
+			"hybrid work",
+			"remote work",
+			"async communication",
+			"meeting summaries",
+			"interaction design",
+			"motion design",
+			"sound design",
+			"design strategy",
+			"meeting fatigue"
+		]
 	},
 	"header": {
 		"title": "Making meetings happy again",
