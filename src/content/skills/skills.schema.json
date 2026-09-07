@@ -6,6 +6,7 @@
 	"additionalProperties": false,
 	"required": ["slug", "title", "columns"],
 	"properties": {
+		"$schema": "string",
 		"slug": {
 			"type": "string"
 		},

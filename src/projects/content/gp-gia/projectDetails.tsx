@@ -247,6 +247,17 @@ export default function GPGiaProjectDetails() {
 						'Conceptual Gia architecture from React workspace through a Node.js BFF to source services, Redis, DynamoDB, WebSockets, and collaborative documents.'
 					}
 				/>
+				<HeroImage
+					heroImage={themedImages.colabArch}
+					imgBackgroundColor={'transparent'}
+					dropShadow={false}
+					border={false}
+					heroMargin={0}
+					standAlone={true}
+					heroAltText={
+						'Conceptual Gia architecture from React workspace through a Node.js BFF to source services, Redis, DynamoDB, WebSockets, and collaborative documents.'
+					}
+				/>
 			</Section>
 			<Section gradient={true}>
 				<ProjectTitle>What I intentionally did not build</ProjectTitle>
