@@ -59,6 +59,27 @@ export default function SliceProjectDetails() {
 						);
 					})}
 				</LinkList>
+			</Section>
+			<Section gradient={true}>
+				<ProjectTitle>The integration problem</ProjectTitle>
+				<SubTitle>
+					Most frontend products need the same foundational capabilities: a visual system, reliable components,
+					application layout, browser access, state, and increasingly realtime interaction. The usual solution is a
+					collection of separate packages, followed by custom glue to make their types, state, lifecycle, and design
+					rules work together.
+				</SubTitle>
+				<DataButtonGrid>
+					<DataButton value={'30-50%'} label={'Amount of glue code'} />
+					<DataButton value={'48 hrs +'} label={'Before writing business logic'} />
+					<DataButton value={'1 day +'} label={'Days spent on glue code'} />
+					<DataButton value={'Security'} label={'Hidden package issues'} />
+					<DataButton value={'20% to 30%'} label={'Actual code usage per package'} />
+					<DataButton value={'Conflicts'} label={'Time spent resolving conflicts'} />
+				</DataButtonGrid>
+				<SubTitle margin={false}>
+					Slice is an attempt to make those seams intentional. It provides a single composable foundation where hooks,
+					stores, components, and theme tokens are designed to work together from the start.
+				</SubTitle>
 				<InlineTitle title={'Highlights'} />
 				<ProjectHighlight
 					themedImage={themedImages.colors}
@@ -160,27 +181,6 @@ export default function SliceProjectDetails() {
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
-			</Section>
-			<Section gradient={true}>
-				<ProjectTitle>The integration problem</ProjectTitle>
-				<SubTitle>
-					Most frontend products need the same foundational capabilities: a visual system, reliable components,
-					application layout, browser access, state, and increasingly realtime interaction. The usual solution is a
-					collection of separate packages, followed by custom glue to make their types, state, lifecycle, and design
-					rules work together.
-				</SubTitle>
-				<DataButtonGrid>
-					<DataButton value={'30-50%'} label={'Amount of glue code'} />
-					<DataButton value={'48 hrs +'} label={'Before writing business logic'} />
-					<DataButton value={'1 day +'} label={'Days spent on glue code'} />
-					<DataButton value={'Security'} label={'Hidden package issues'} />
-					<DataButton value={'20% to 30%'} label={'Actual code usage per package'} />
-					<DataButton value={'Conflicts'} label={'Time spent resolving conflicts'} />
-				</DataButtonGrid>
-				<SubTitle margin={false}>
-					Slice is an attempt to make those seams intentional. It provides a single composable foundation where hooks,
-					stores, components, and theme tokens are designed to work together from the start.
-				</SubTitle>
 			</Section>
 			<Section gradient={true}>
 				<ProjectTitle>A single package, designed to stay composable</ProjectTitle>
