@@ -1,4 +1,5 @@
 import type { ProjectTileData } from '@/projects/_types/types';
+import type { SidebarSurface } from '@/stores/sidebar/_types';
 
 export type HomeLayoutStore = {
 	sidebarOpen: boolean;
@@ -21,5 +22,6 @@ export type HomeLayoutStore = {
 		setShowTalkToViLabel: (showTalkToViLabel: boolean) => void;
 		setProjects: (projects: ProjectTileData[]) => void;
 		setDraggingSidebar: (draggingSidebar: boolean) => void;
+		pushHistory: (options?: { sidebar?: SidebarSurface; slug?: string }) => void;
 	};
 };

@@ -1,5 +1,8 @@
 import { create } from 'zustand';
+import { isProjectSlug } from '@/projects/_registry/slugs';
 import type { ProjectTileData } from '@/projects/_types/types';
+import type { SidebarSurface } from '@/stores/sidebar/_types';
+import { sidebarActions } from '@/stores/sidebar/sidebarStore';
 import type { HomeLayoutStore } from './_types';
 
 // check the local store exists before server side rendering
@@ -56,6 +59,14 @@ export const useHomeLayoutStore = create<HomeLayoutStore>((set, get) => ({
 		},
 		setDraggingSidebar: (draggingSidebar: boolean) => {
 			set({ draggingSidebar });
+		},
+		pushHistory: (options?: { sidebar?: SidebarSurface; slug?: string }) => {
+			let sidebar = `/${sidebarActions().resolveSurfaceToParam(options?.sidebar)}`;
+			const slug = isProjectSlug(options?.slug ?? '') ? `/${options?.slug}` : '';
+			if (slug !== '') sidebar = '/work';
+			if (globalThis.history) {
+				globalThis.history.pushState(null, '', `${sidebar}${slug}`);
+			}
 		},
 	},
 }));

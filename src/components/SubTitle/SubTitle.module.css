@@ -10,7 +10,7 @@
 	margin: 0 0 var(--subtitle-margin-bottom) 0;
 	padding: 0;
 	width: 100%;
-	max-width: 600px;
+	max-width: var(--subtitle-max-width);
 }
 
 :global([data-slice-theme-scope]) .subtitle strong {

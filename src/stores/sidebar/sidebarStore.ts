@@ -26,6 +26,28 @@ export const useSidebarContentStore = create<SidebarStore>((set, get) => ({
 		setShowOverlays: (showOverlays: boolean) => {
 			set({ showOverlays });
 		},
+		resolveParamToSurface: (param?: string): SidebarSurface => {
+			switch (param) {
+				case 'skills':
+					return SidebarSurface.Skills;
+				case 'contact':
+					return SidebarSurface.Contact;
+				default: // processes 'work'
+					return SidebarSurface.Projects;
+			}
+		},
+		resolveSurfaceToParam: (surface?: SidebarSurface) => {
+			switch (surface) {
+				case SidebarSurface.Projects:
+					return 'work';
+				case SidebarSurface.Skills:
+					return 'skills';
+				case SidebarSurface.Contact:
+					return 'contact';
+				default:
+					return 'work';
+			}
+		},
 	},
 }));
 
@@ -35,3 +57,6 @@ export const useProject = () => useSidebarContentStore((state) => state.project)
 export const useDirection = () => useSidebarContentStore((state) => state.direction);
 export const useShowProject = () => useSidebarContentStore((state) => state.showProject);
 export const useShowOverlays = () => useSidebarContentStore((state) => state.showOverlays);
+
+// non-reactive imperative export of actions for use outside react components and hooks
+export const sidebarActions = () => useSidebarContentStore.getState().actions;

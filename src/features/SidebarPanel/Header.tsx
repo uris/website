@@ -1,13 +1,18 @@
 import { FlexDiv, Preset, TabBar, type TabOption } from '@apple-pie/slice';
 import { sidebarTabs } from '@/features/SidebarPanel/_consts';
 import { useSidebarActions, useSurface } from '@/src/stores/sidebar/sidebarStore';
+import { useHomeLayout } from '@/stores/home-layout/homeLayoutStore';
 
 export function Header() {
 	const setSurface = useSidebarActions().setSurface;
+	const setShowProject = useSidebarActions().setShowProject;
 	const surface = useSurface();
+	const pushHistory = useHomeLayout().pushHistory;
 
 	const handleChangeSurface = (option: TabOption) => {
 		setSurface(option.value);
+		setShowProject(false);
+		pushHistory({ sidebar: option.value });
 	};
 
 	return (
