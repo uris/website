@@ -16,6 +16,7 @@ export function Sidebar() {
 	const setSidebar = useHomeLayout().toggleSideBar;
 	const setProject = useSidebarActions().setProject;
 	const setShowProject = useSidebarActions().setShowProject;
+	const pushHistory = useHomeLayout().pushHistory;
 
 	// handle Vi view requests
 	const handleViViewRequest = useCallback(
@@ -34,11 +35,12 @@ export function Sidebar() {
 				setSurface(SidebarSurface[view]); // set a sidebar to projects
 				if (slug) setProject(slug as any); // set the project to the slug
 				if (slug) setShowProject(true); // show the project
+				pushHistory({ sidebar: SidebarSurface[view], slug }); // keep url in sync
 				result = { view, project: slug, success: true };
 			}
 			if (id) sendToolCallResultsItem(result, id, true, ToolType.OpenView);
 		},
-		[setProject, setShowProject, setSidebar, setSurface],
+		[setProject, setShowProject, setSidebar, setSurface, pushHistory],
 	);
 
 	// listen for vi view requests

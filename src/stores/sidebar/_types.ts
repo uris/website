@@ -12,6 +12,8 @@ export interface SidebarStore {
 		closeProject: () => void;
 		setShowProject: (showProject: boolean) => void;
 		setShowOverlays: (showOverlays: boolean) => void;
+		resolveParamToSurface: (param?: string) => SidebarSurface;
+		resolveSurfaceToParam: (surface?: SidebarSurface) => string;
 	};
 }
 

@@ -2,21 +2,31 @@
 
 import { DraggablePanel, FlexDiv, ModalController, Preset, Tip, Toast, useToolTip } from '@apple-pie/slice';
 import { useWindow } from '@apple-pie/slice/hooks';
-import { useTip, useToast } from '@apple-pie/slice/stores';
-import { useEffect, useRef } from 'react';
+import { type Toast as MessageToast, useTip, useToast, useToastActions } from '@apple-pie/slice/stores';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { AIPanel } from '@/features/AIPanel/AIPanel';
 import { SettingsPanel } from '@/features/SettingsPanel/SettingsPanel';
 import { Sidebar } from '@/features/SidebarPanel/Sidebar';
+import type { ProjectSlug } from '@/projects/_registry/slugs';
+import { usePop } from '@/src/hooks/usePop/usePop';
 import { SETTINGS_CONSTRAINTS, SIDEBAR_CONSTRAINTS } from '@/stores/home-layout/_defaults';
 import { useHomeLayout, useSettingsOpen, useSidebarOpen } from '@/stores/home-layout/homeLayoutStore';
+import type { SidebarSurface } from '@/stores/sidebar/_types';
+import { useSidebarActions } from '@/stores/sidebar/sidebarStore';
 
 interface HomeProps {
 	projects: any[];
+	surface?: SidebarSurface;
+	project?: ProjectSlug;
+	message?: MessageToast;
 }
 
 export default function Home(props: Readonly<HomeProps>) {
-	const { projects } = props;
+	const { projects, surface, project, message } = props;
 	const { height } = useWindow();
+	const sidebar = useSidebarActions();
+	const [resolved, setResolved] = useState<boolean>(false);
+	const [msgContext, setMsgContext] = useState<'parent' | 'window'>('parent');
 	const viewRef = useRef<HTMLDivElement>(null);
 	const tipRef = useRef<HTMLDivElement>(null);
 	const tip = useTip();
@@ -26,53 +36,81 @@ export default function Home(props: Readonly<HomeProps>) {
 	const toast = useToast();
 	const loadProjects = useHomeLayout().setProjects;
 	const setDraggingSidebar = useHomeLayout().setDraggingSidebar;
+	const showMessage = useToastActions().push;
+
+	// register popstate listener
+	usePop();
+
+	// reset toast context to parent
+	const resetToastContext = useCallback(() => {
+		setMsgContext((prev) => {
+			return prev === 'window' ? 'parent' : prev;
+		});
+	}, []);
 
 	// load initial projects data
 	useEffect(() => loadProjects(projects), [loadProjects, projects]);
 
+	// set initial state
+	useEffect(() => {
+		if (resolved) return;
+		if (surface !== undefined) sidebar.setSurface(surface);
+		if (project) sidebar.setProject(project);
+		if (project) sidebar.setShowProject(true);
+		if (message) {
+			setMsgContext('window');
+			showMessage(message);
+		}
+		setResolved(true);
+	}, [surface, project, sidebar, resolved, message, showMessage]);
+
 	// base app layout
 	return (
 		<FlexDiv preset={Preset.Window} height={height} justify={'start'} align={'center'} ref={viewRef}>
-			<FlexDiv preset={Preset.Draggable}>
-				<DraggablePanel
-					drags={'right'}
-					sizeConstraints={SETTINGS_CONSTRAINTS}
-					isClosed={!settingsOpen}
-					dragHandle={false}
-				>
-					<FlexDiv
-						preset={Preset.FillStart}
-						scrollBox
-						background={'var(--core-surface-primary-tint)'}
-						style={{ minWidth: 280 }}
-					>
-						<SettingsPanel />
+			{resolved && (
+				<>
+					<FlexDiv preset={Preset.Draggable}>
+						<DraggablePanel
+							drags={'right'}
+							sizeConstraints={SETTINGS_CONSTRAINTS}
+							isClosed={!settingsOpen}
+							dragHandle={false}
+						>
+							<FlexDiv
+								preset={Preset.FillStart}
+								scrollBox
+								background={'var(--core-surface-primary-tint)'}
+								style={{ minWidth: 280 }}
+							>
+								<SettingsPanel />
+							</FlexDiv>
+						</DraggablePanel>
 					</FlexDiv>
-				</DraggablePanel>
-			</FlexDiv>
-			<FlexDiv preset={Preset.FillCenter} scrollBox style={{ minWidth: 360 }}>
-				<AIPanel />
-				<Toast key={toast?.notifId} {...toast} container={'parent'} />
-			</FlexDiv>
-			<FlexDiv preset={Preset.Draggable}>
-				<DraggablePanel
-					drags={'left'}
-					sizeConstraints={SIDEBAR_CONSTRAINTS}
-					isClosed={!sideBarOpen}
-					containerRef={viewRef}
-					onResizeStart={() => setDraggingSidebar(true)}
-					onResizeEnd={() => setDraggingSidebar(false)}
-				>
-					<FlexDiv
-						preset={Preset.FillStart}
-						scrollBox
-						background={'var(--core-surface-primary-tint)'}
-						style={{ maxWidth: 'calc(100vw - 360px)' }}
-					>
-						<Sidebar />
+					<FlexDiv preset={Preset.FillCenter} scrollBox style={{ minWidth: 360 }}>
+						<AIPanel />
+						<Toast key={toast?.notifId} {...toast} container={msgContext} didHide={resetToastContext} />
 					</FlexDiv>
-				</DraggablePanel>
-			</FlexDiv>
+					<FlexDiv preset={Preset.Draggable}>
+						<DraggablePanel
+							drags={'left'}
+							sizeConstraints={SIDEBAR_CONSTRAINTS}
+							isClosed={!sideBarOpen}
+							containerRef={viewRef}
+							onResizeStart={() => setDraggingSidebar(true)}
+							onResizeEnd={() => setDraggingSidebar(false)}
+						>
+							<FlexDiv
+								preset={Preset.FillStart}
+								scrollBox
+								background={'var(--core-surface-primary-tint)'}
+								style={{ maxWidth: 'calc(100vw - 360px)' }}
+							>
+								<Sidebar />
+							</FlexDiv>
+						</DraggablePanel>
+					</FlexDiv>
+				</>
+			)}
 			<Tip tip={tip} coords={coords} ref={tipRef} />
 			<ModalController dragConstraintsRef={viewRef} draggable={true} />
 		</FlexDiv>

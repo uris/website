@@ -4,6 +4,7 @@ import { AnimationType, type ButtonAnimation, IconButton } from '@apple-pie/slic
 import type { AnimationDefinition, Transition, Variants } from 'motion/react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
+import { useHomeLayout } from '@/stores/home-layout/homeLayoutStore';
 import { SidebarSurface } from '@/stores/sidebar/_types';
 import {
 	useProject,
@@ -35,6 +36,7 @@ export function ProjectsHeader() {
 	const showProject = useShowProject();
 	const isProject = useSurface() === SidebarSurface.Projects;
 	const setShowProject = useSidebarActions().setShowProject;
+	const pushHistory = useHomeLayout().pushHistory;
 	const [toggled, setToggled] = useState(false);
 	const delay = project ? 0.35 : 0.1;
 	const transition: Transition = { duration: 0.25, ease: 'easeInOut', delay };
@@ -49,6 +51,7 @@ export function ProjectsHeader() {
 	const handleCloseProject = () => {
 		setToggled(false);
 		setShowProject(false);
+		pushHistory({ sidebar: SidebarSurface.Projects });
 	};
 
 	if (!isProject) return null;
