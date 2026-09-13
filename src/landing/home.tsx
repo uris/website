@@ -2,7 +2,13 @@
 
 import { DraggablePanel, FlexDiv, ModalController, Preset, Tip, Toast, useToolTip } from '@apple-pie/slice';
 import { useWindow } from '@apple-pie/slice/hooks';
-import { type Toast as MessageToast, useTip, useToast, useToastActions } from '@apple-pie/slice/stores';
+import {
+	type Toast as MessageToast,
+	useBrowserChannelActions,
+	useTip,
+	useToast,
+	useToastActions,
+} from '@apple-pie/slice/stores';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AIPanel } from '@/features/AIPanel/AIPanel';
 import { SettingsPanel } from '@/features/SettingsPanel/SettingsPanel';
@@ -24,6 +30,7 @@ interface HomeProps {
 export default function Home(props: Readonly<HomeProps>) {
 	const { projects, surface, project, message } = props;
 	const { height } = useWindow();
+	const { addChannel, removeChannel } = useBrowserChannelActions();
 	const sidebar = useSidebarActions();
 	const [resolved, setResolved] = useState<boolean>(false);
 	const [msgContext, setMsgContext] = useState<'parent' | 'window'>('parent');
@@ -41,7 +48,7 @@ export default function Home(props: Readonly<HomeProps>) {
 	// register popstate listener
 	usePop();
 
-	// reset toast context to parent
+	// reset toast context to parent on exit
 	const resetToastContext = useCallback(() => {
 		setMsgContext((prev) => {
 			return prev === 'window' ? 'parent' : prev;
@@ -60,6 +67,12 @@ export default function Home(props: Readonly<HomeProps>) {
 		if (message) showMessage(message);
 		setResolved(true);
 	}, [surface, project, sidebar, resolved, message, showMessage]);
+
+	// set up 'work' channel to send/receive messages with project iframe
+	useEffect(() => {
+		addChannel({ name: 'work', origin: 'parent' });
+		return () => void removeChannel('chat');
+	}, [addChannel, removeChannel]);
 
 	// base app layout
 	return (

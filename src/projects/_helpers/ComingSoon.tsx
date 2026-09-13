@@ -1,15 +1,21 @@
 import { Button, Icon } from '@apple-pie/slice';
-import { FrameEvent } from '@/components/ProjectFrame/ProjectFrame';
+import { useBrowserChannelActions, useIsActiveChannel } from '@apple-pie/slice/stores';
+import { useCallback } from 'react';
+import { FrameEvent, type WorkChannelMessage } from '@/components/ProjectFrame/ProjectFrame';
 import { ProjectTitle } from '@/components/ProjectTitle/ProjectTitle';
 import { Section } from '@/components/Section/Section';
 import { SubTitle } from '@/components/SubTitle/SubTitle';
 import { Wrapper } from '@/projects/_helpers/Wrapper';
 
 export default function ComingSoon() {
+	const post = useBrowserChannelActions().post;
+	const isWorkActive = useIsActiveChannel('work');
+
 	// tell parent window to navigate to contacts
-	const handleNotify = () => {
-		window.parent.postMessage({ event: FrameEvent.CHILD_EVENT, type: 'navigate-contact' }, globalThis.location.origin);
-	};
+	const handleNotify = useCallback(() => {
+		const message: WorkChannelMessage = { event: FrameEvent.CHILD_EVENT, type: 'navigate-contact' };
+		if (isWorkActive) post('work', message);
+	}, [post, isWorkActive]);
 
 	return (
 		<Wrapper>

@@ -1,6 +1,8 @@
 import { FlexDiv, VideoController } from '@apple-pie/slice';
+import { useBrowserChannelActions, useIsActiveChannel } from '@apple-pie/slice/stores';
 import type React from 'react';
-import { FrameEvent } from '@/components/ProjectFrame/ProjectFrame';
+import { useEffect } from 'react';
+import { FrameEvent, type WorkChannelMessage } from '@/components/ProjectFrame/ProjectFrame';
 import styles from './Wrapper.module.css';
 
 interface WrapperProps {
@@ -8,11 +10,21 @@ interface WrapperProps {
 }
 export function Wrapper(props: Readonly<WrapperProps>) {
 	const { children } = props;
+	const { addChannel, removeChannel, post } = useBrowserChannelActions();
+	const isWorkActive = useIsActiveChannel('work');
 
 	// tell parent window it's ok to show the close project button now
 	const handleQuitVideo = () => {
-		window.parent.postMessage({ event: FrameEvent.CHILD_EVENT, type: 'video-ended' }, globalThis.location.origin);
+		const message: WorkChannelMessage = { event: FrameEvent.CHILD_EVENT, type: 'video-ended' };
+		if (isWorkActive) post('work', message);
 	};
+
+	// set up work channel to send/receive messages and post project-loaded message to parent
+	useEffect(() => {
+		addChannel({ name: 'work', origin: 'project-frame' });
+		post('work', { event: FrameEvent.CHILD_EVENT, type: 'project-loaded' });
+		return () => void removeChannel('work');
+	}, [addChannel, removeChannel, post]);
 
 	return (
 		<FlexDiv

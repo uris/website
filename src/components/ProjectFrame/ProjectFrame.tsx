@@ -1,6 +1,7 @@
 'use client';
 
 import { ProgressIndicator, useObserveResize, useTheme } from '@apple-pie/slice';
+import { useBrowserChannelActions, useBrowserChannelMessage, useIsActiveChannel } from '@apple-pie/slice/stores';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDraggingSidebar } from '@/stores/home-layout/homeLayoutStore';
@@ -20,8 +21,12 @@ export enum FrameEvent {
 	CHILD_EVENT = 'CHILD_EVENT',
 }
 
-// check for client browser
-const hasWindow = globalThis.window !== undefined;
+export type WorkChannelMessage = {
+	event: FrameEvent;
+	theme?: string;
+	height?: number;
+	type?: string;
+};
 
 export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	const { projectSlug, projectName } = props;
@@ -32,43 +37,9 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	const size = useObserveResize(iframeRef, { ignore: 'width' });
 	const [isLoading, setIsLoading] = useState(true);
-
-	// callback ref fired when iframe element is attached or removed from dom
-	const setIframeRef = useCallback((node: HTMLIFrameElement | null) => {
-		iframeRef.current = node;
-		if (node) setIsLoading(true);
-	}, []);
-
-	// post state based on tracked theme (add other state items as needed)
-	const postState = useCallback(
-		(event?: FrameEvent) => {
-			if (!hasWindow) return;
-			iframeRef.current?.contentWindow?.postMessage(
-				{ event: event ?? FrameEvent.STATE_CHANGE, theme: theme, height: size.height },
-				globalThis.location.origin,
-			);
-		},
-		[theme, size.height],
-	);
-
-	// handle events posted by the child on the parent
-	const handleChildEvents = useCallback(
-		(event: MessageEvent) => {
-			if (event.origin !== globalThis.location.origin) return;
-			if (event.data.event === FrameEvent.CHILD_EVENT) {
-				if (event.data.type === 'video-started') {
-					setShowOverlays(false);
-				}
-				if (event.data.type === 'video-ended') {
-					setShowOverlays(true);
-				}
-				if (event.data.type === 'navigate-contact') {
-					setSurface(SidebarSurface.Contact);
-				}
-			}
-		},
-		[setShowOverlays, setSurface],
-	);
+	const isWorkActive = useIsActiveChannel('work');
+	const workMessage = useBrowserChannelMessage<WorkChannelMessage>('work');
+	const post = useBrowserChannelActions().post;
 
 	// memo dynamic styles
 	const cssVars = useMemo(() => {
@@ -77,20 +48,46 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 		} as React.CSSProperties;
 	}, [dragging]);
 
-	// set listener for child events
+	// memo state updates for work channel messages
+	const stateUpdate = useMemo(
+		(event?: FrameEvent): WorkChannelMessage => {
+			return { event: event ?? FrameEvent.STATE_CHANGE, theme, height: size.height };
+		},
+		[theme, size.height],
+	);
+
+	// callback ref fired when iframe element is attached or removed from dom
+	const setIframeRef = useCallback((node: HTMLIFrameElement | null) => {
+		iframeRef.current = node;
+		if (node) setIsLoading(true);
+	}, []);
+
+	// handle messages received on the "work" chanel shared with iframe
 	useEffect(() => {
-		window.addEventListener('message', handleChildEvents);
-		return () => window.removeEventListener('message', handleChildEvents);
-	}, [handleChildEvents]);
+		if (!workMessage?.content) return;
+		if (typeof workMessage.content === 'string') return;
+		switch (workMessage.content.type) {
+			case 'video-started':
+				setShowOverlays(false);
+				break;
+			case 'video-ended':
+				setShowOverlays(true);
+				break;
+			case 'navigate-contact':
+				setSurface(SidebarSurface.Contact);
+				break;
+			case 'project-loaded': {
+				const message: WorkChannelMessage = { ...stateUpdate, event: FrameEvent.INIT };
+				post('work', message);
+				break;
+			}
+		}
+	}, [workMessage, setShowOverlays, setSurface, post, stateUpdate]);
 
-	// handle frame finished loading posting the init event and setting loaded to remove spinner
-	const handleOnLoad = useCallback(() => {
-		postState(FrameEvent.INIT);
-		setIsLoading(false);
-	}, [postState]);
-
-	// post state updates automatically
-	useEffect(() => postState(), [postState]);
+	// post further state updates to child automatically
+	useEffect(() => {
+		if (isWorkActive) post('work', stateUpdate);
+	}, [stateUpdate, post, isWorkActive]);
 
 	if (!projectSlug) return null;
 	const projectUrl = `/projects/${projectSlug}?theme=${theme}`;
@@ -108,7 +105,7 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 				style={cssVars}
 				ref={setIframeRef}
 				src={projectUrl}
-				onLoad={handleOnLoad}
+				onLoad={() => setIsLoading(false)}
 				width="100%"
 				height="100%"
 			/>
