@@ -1,13 +1,10 @@
 'use client';
 
-import { Button, Label, Video, type VideoProps } from '@apple-pie/slice';
-import { useVideoActions } from '@apple-pie/slice/stores';
+import { Button, Label } from '@apple-pie/slice';
 import { DataButton, DataButtonGrid } from '@/components/DataButtons/DataButtons';
 import { HeroImage } from '@/components/HeroImage/HeroImage';
-import { InlineButton } from '@/components/InlineButton/InlineButton';
 import { LinkList } from '@/components/LinkList/LinkList';
 import { Logo } from '@/components/Logos/Logos';
-import { FrameEvent } from '@/components/ProjectFrame/ProjectFrame';
 import { ProjectHighlight } from '@/components/ProjectHighlight/ProjectHighlight';
 import { ProjectTitle } from '@/components/ProjectTitle/ProjectTitle';
 import { Section } from '@/components/Section/Section';
@@ -16,6 +13,7 @@ import { TechStack } from '@/components/TechStack/TechStack';
 import { TextLinkList } from '@/components/TextLinkList/TextLinkList';
 import { TextParagraph } from '@/components/TextParagraph/TextParagraph';
 import { TextTitle } from '@/components/TextTitle/TextTitle';
+import { VideoButton } from '@/components/VideoButton/VideoButton';
 import { Wrapper } from '@/projects/_helpers/Wrapper';
 import { themedImages } from '@/projects/content/rc-video/images';
 import { normalizeTarget } from '@/utils/misc';
@@ -23,15 +21,7 @@ import projectJson from './project.json';
 import { videos } from './videos';
 
 export default function RcVideo() {
-	const videoActions = useVideoActions();
 	const header = projectJson.header || {};
-
-	// tell parent to hide the close project button since the video will play as an overlay
-	const handleShowVideo = (props?: VideoProps) => {
-		if (!props) return;
-		videoActions.show({ component: Video, props });
-		window.parent.postMessage({ event: FrameEvent.CHILD_EVENT, type: 'video-started' }, globalThis.location.origin);
-	};
 
 	return (
 		<Wrapper>
@@ -124,8 +114,8 @@ export default function RcVideo() {
 						</p>
 					</TextParagraph>
 					<TextLinkList>
-						<InlineButton onClick={() => handleShowVideo(videos.aiSummaries)}>AI Summaries [00:35]</InlineButton>
-						<InlineButton onClick={() => handleShowVideo(videos.aiAccuracy)}>AI Accuracy [00:24]</InlineButton>
+						<VideoButton videoProps={videos.aiSummaries}>AI Summaries [00:35]</VideoButton>
+						<VideoButton videoProps={videos.aiAccuracy}>AI Accuracy [00:24]</VideoButton>
 					</TextLinkList>
 				</ProjectHighlight>
 				<ProjectHighlight
@@ -142,8 +132,8 @@ export default function RcVideo() {
 						</p>
 					</TextParagraph>
 					<TextLinkList>
-						<InlineButton onClick={() => handleShowVideo(videos.about)}>About (Miro) [00:35]</InlineButton>
-						<InlineButton onClick={() => handleShowVideo(videos.sessions)}>Sessions [00:52]</InlineButton>
+						<VideoButton videoProps={videos.about}>About (Miro) [00:35]</VideoButton>
+						<VideoButton videoProps={videos.sessions}>Sessions [00:52]</VideoButton>
 					</TextLinkList>
 				</ProjectHighlight>
 			</Section>

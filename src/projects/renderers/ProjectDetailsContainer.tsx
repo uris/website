@@ -1,28 +1,22 @@
 'use client';
 
 import { FlexDiv, Preset } from '@apple-pie/slice';
-import { type PropsWithChildren, useCallback, useEffect, useState } from 'react';
-import { FrameEvent } from '@/components/ProjectFrame/ProjectFrame';
+import { useBrowserChannelMessage } from '@apple-pie/slice/stores';
+import { type PropsWithChildren, useEffect, useState } from 'react';
+import type { WorkChannelMessage } from '@/components/ProjectFrame/ProjectFrame';
 
 // render project details inside a container with its height set to the observed iFrame height
 export function ProjectDetailsContainer({ children }: Readonly<PropsWithChildren>) {
 	const [height, setHeight] = useState<string | number>('100vh');
+	const workMessage = useBrowserChannelMessage<WorkChannelMessage>('work');
 
-	// handler for messages received from parent window
-	const handleParentMessage = useCallback((event: MessageEvent) => {
-		if (event.origin !== window.location.origin) return; // ignore messages from other origins
-		if (!event.data?.event || event.data.event === FrameEvent.CHILD_EVENT) return; // ignore non-events or child events
-		if (event.data.height !== undefined) {
-			const nextHeight = event.data.height;
-			setHeight(nextHeight === 0 ? '100vh' : nextHeight);
-		}
-	}, []);
-
-	// listen for event data to update size height
+	// set frame height based on parents' report of the height
 	useEffect(() => {
-		window.addEventListener('message', handleParentMessage);
-		return () => window.removeEventListener('message', handleParentMessage);
-	}, [handleParentMessage]);
+		if (!workMessage?.content) return;
+		if (typeof workMessage.content === 'string') return;
+		const nextHeight = workMessage.content.height ?? 0;
+		setHeight(nextHeight === 0 ? '100vh' : nextHeight);
+	}, [workMessage]);
 
 	return (
 		<FlexDiv preset={Preset.Window} height={height} justify="center" align="center">
