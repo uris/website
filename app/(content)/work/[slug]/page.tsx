@@ -18,6 +18,7 @@ const slugNotValid = (slug: string): Toast => {
 		message: `No project matches "${slug}"`,
 		position: 'top',
 		type: ToastType.Warning,
+		container: 'window',
 	};
 };
 

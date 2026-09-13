@@ -57,10 +57,7 @@ export default function Home(props: Readonly<HomeProps>) {
 		if (surface !== undefined) sidebar.setSurface(surface);
 		if (project) sidebar.setProject(project);
 		if (project) sidebar.setShowProject(true);
-		if (message) {
-			setMsgContext('window');
-			showMessage(message);
-		}
+		if (message) showMessage(message);
 		setResolved(true);
 	}, [surface, project, sidebar, resolved, message, showMessage]);
 
@@ -88,7 +85,12 @@ export default function Home(props: Readonly<HomeProps>) {
 					</FlexDiv>
 					<FlexDiv preset={Preset.FillCenter} scrollBox style={{ minWidth: 360 }}>
 						<AIPanel />
-						<Toast key={toast?.notifId} {...toast} container={msgContext} didHide={resetToastContext} />
+						<Toast
+							key={toast?.notifId}
+							{...toast}
+							container={toast?.container ?? msgContext}
+							didHide={resetToastContext}
+						/>
 					</FlexDiv>
 					<FlexDiv preset={Preset.Draggable}>
 						<DraggablePanel
