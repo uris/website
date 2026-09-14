@@ -4,7 +4,7 @@ import { ProgressIndicator, useObserveResize, useTheme } from '@apple-pie/slice'
 import { useBrowserChannelActions, useBrowserChannelMessage, useIsActiveChannel } from '@apple-pie/slice/stores';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useDraggingSidebar } from '@/stores/home-layout/homeLayoutStore';
+import { useDraggingSidebar, useWindowId } from '@/stores/home-layout/homeLayoutStore';
 import { SidebarSurface } from '@/stores/sidebar/_types';
 import { useSidebarActions } from '@/stores/sidebar/sidebarStore';
 import styles from './ProjectFrame.module.css';
@@ -37,6 +37,7 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 	const size = useObserveResize(iframeRef, { ignore: 'width' });
 	const [isLoading, setIsLoading] = useState(true);
+	const windowId = useWindowId();
 	const isWorkActive = useIsActiveChannel('work');
 	const workMessage = useBrowserChannelMessage<WorkChannelMessage>('work');
 	const post = useBrowserChannelActions().post;
@@ -64,9 +65,10 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 
 	// handle messages received on the "work" chanel shared with iframe
 	useEffect(() => {
-		if (!workMessage?.content) return;
-		if (typeof workMessage.content === 'string') return;
-		switch (workMessage.content.type) {
+		/* only process messages from children windows */
+		if (workMessage?.origin.split('.')[0] !== windowId) return;
+		console.log(origin);
+		switch (workMessage?.content?.type) {
 			case 'video-started':
 				setShowOverlays(false);
 				break;
@@ -82,7 +84,7 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 				break;
 			}
 		}
-	}, [workMessage, setShowOverlays, setSurface, post, stateUpdate]);
+	}, [workMessage, setShowOverlays, setSurface, post, stateUpdate, windowId]);
 
 	// post further state updates to child automatically
 	useEffect(() => {
@@ -90,7 +92,7 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	}, [stateUpdate, post, isWorkActive]);
 
 	if (!projectSlug) return null;
-	const projectUrl = `/projects/${projectSlug}?theme=${theme}`;
+	const projectUrl = `/projects/${projectSlug}?theme=${theme}&windowId=${windowId}`;
 	return (
 		<div className={styles.frameContainer} aria-busy={isLoading}>
 			{isLoading && (
