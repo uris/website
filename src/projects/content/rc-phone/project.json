@@ -31,9 +31,19 @@
 		"keywords": []
 	},
 	"header": {
-		"title": "Making work, less work",
+		"title": "Making work, less work ...",
 		"subtitle": "At RingCentral I completely revamped the core communications and productivity apps we call MVP (message, video, phone). MVP is a desktop, mobile and web app that helps people and teams interact and get work done.",
-		"techStack": [],
+		"techStack": [
+			"User Research",
+			"UX Design",
+			"Visual Design",
+			"Sound Design",
+			"Icon design",
+			"Prototyping",
+			"Design System",
+			"React",
+			"Electron"
+		],
 		"links": []
 	},
 	"sections": []

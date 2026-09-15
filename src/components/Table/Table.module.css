@@ -1,0 +1,17 @@
+.wrapper {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 var(--table-padding) var(--table-margin) var(--table-padding);
+    margin: 0;
+    width: 100%;
+    gap: 16px;
+}
+
+.caption {
+    margin:0;
+    padding: 0;
+    color: var(--core-text-secondary);
+}
