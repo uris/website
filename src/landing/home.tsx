@@ -16,7 +16,7 @@ import { Sidebar } from '@/features/SidebarPanel/Sidebar';
 import type { ProjectSlug } from '@/projects/_registry/slugs';
 import { usePop } from '@/src/hooks/usePop/usePop';
 import { SETTINGS_CONSTRAINTS, SIDEBAR_CONSTRAINTS } from '@/stores/home-layout/_defaults';
-import { useHomeLayout, useSettingsOpen, useSidebarOpen } from '@/stores/home-layout/homeLayoutStore';
+import { useHomeLayout, useSettingsOpen, useSidebarOpen, useWindowId } from '@/stores/home-layout/homeLayoutStore';
 import type { SidebarSurface } from '@/stores/sidebar/_types';
 import { useSidebarActions } from '@/stores/sidebar/sidebarStore';
 
@@ -43,7 +43,9 @@ export default function Home(props: Readonly<HomeProps>) {
 	const toast = useToast();
 	const loadProjects = useHomeLayout().setProjects;
 	const setDraggingSidebar = useHomeLayout().setDraggingSidebar;
+	const setWindowId = useHomeLayout().setWindowId;
 	const showMessage = useToastActions().push;
+	const windowId = useWindowId();
 
 	// register popstate listener
 	usePop();
@@ -70,9 +72,10 @@ export default function Home(props: Readonly<HomeProps>) {
 
 	// set up 'work' channel to send/receive messages with project iframe
 	useEffect(() => {
-		addChannel({ name: 'work', origin: 'parent' });
+		if (!windowId) setWindowId(Date.now().toString());
+		else addChannel({ name: 'work', origin: windowId });
 		return () => void removeChannel('chat');
-	}, [addChannel, removeChannel]);
+	}, [addChannel, removeChannel, windowId, setWindowId]);
 
 	// base app layout
 	return (

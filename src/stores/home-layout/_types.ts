@@ -12,6 +12,7 @@ export type HomeLayoutStore = {
 	showTalkToViLabel: boolean;
 	projects: ProjectTileData[];
 	draggingSidebar: boolean;
+	windowId: string | null;
 	actions: {
 		toggleSideBar: (open?: boolean) => void;
 		toggleSettings: (open?: boolean) => void;
@@ -23,5 +24,6 @@ export type HomeLayoutStore = {
 		setProjects: (projects: ProjectTileData[]) => void;
 		setDraggingSidebar: (draggingSidebar: boolean) => void;
 		pushHistory: (options?: { sidebar?: SidebarSurface; slug?: string }) => void;
+		setWindowId: (windowId: string) => void;
 	};
 };

@@ -1,7 +1,7 @@
 import { SidebarSurface } from '@/stores/sidebar/_types';
 import { EAction } from '@/utils/consts/consts';
 
-export const introMessageMd = `# 👋 Hi. Uris here.
+export const introMessageMd = `#### 👋 Hi. Uris here.
 
 I'm a $$Frontend dev.$$Product designer$$Maker$$Craftsman$$Coder$$Leader$$Follower$$Diver$$Motard$$ that loves making simple, intuitive products people use to$$Connect$$Be productive$$Have fun$$GSD$$Live life$$Be better$$Learn$$Be healthy$$.
 

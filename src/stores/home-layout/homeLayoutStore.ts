@@ -19,6 +19,7 @@ export const useHomeLayoutStore = create<HomeLayoutStore>((set, get) => ({
 	showTalkToViLabel: false,
 	projects: [],
 	draggingSidebar: false,
+	windowId: null,
 	actions: {
 		toggleSideBar: (open) => {
 			const sidebarOpen = open ?? !get().sidebarOpen;
@@ -68,6 +69,9 @@ export const useHomeLayoutStore = create<HomeLayoutStore>((set, get) => ({
 				globalThis.history.pushState(null, '', `${sidebar}${slug}`);
 			}
 		},
+		setWindowId: (windowId: string | null) => {
+			set({ windowId });
+		},
 	},
 }));
 
@@ -82,3 +86,4 @@ export const useDidAnimateProjects = () => useHomeLayoutStore((state) => state.d
 export const useShowTalkToViLabel = () => useHomeLayoutStore((state) => state.showTalkToViLabel);
 export const useProjects = () => useHomeLayoutStore((state) => state.projects);
 export const useDraggingSidebar = () => useHomeLayoutStore((state) => state.draggingSidebar);
+export const useWindowId = () => useHomeLayoutStore((state) => state.windowId);
