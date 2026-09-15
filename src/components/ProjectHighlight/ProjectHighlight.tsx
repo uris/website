@@ -1,7 +1,7 @@
-import { useTheme } from '@apple-pie/slice';
+import { type CustomVideoControls, useTheme, Video } from '@apple-pie/slice';
 import Image, { type StaticImageData } from 'next/image';
 import type React from 'react';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { ThemedImage } from '@/projects/_types/types';
 import { setStyle } from '@/utils/styles/styles';
 import styles from './ProjectHighlight.module.css';
@@ -24,6 +24,16 @@ interface ProjectHighlightProps {
 	preload?: boolean;
 	imageBackground?: string;
 	noborder?: boolean;
+	videoURL?: string;
+	videoControls?: 'default' | 'simple' | 'custom' | 'none';
+	videoMuted?: boolean;
+	videoLoop?: boolean;
+	videoPlaying?: boolean;
+	customControls?: CustomVideoControls;
+	padding?: number | string;
+	coverUpTop?: number;
+	coverUpLeft?: number;
+	borderRadius?: number | string;
 }
 
 export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
@@ -46,7 +56,25 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 		loading = 'eager',
 		preload = true,
 		noborder = false,
+		videoURL,
+		videoControls = 'simple',
+		videoLoop = false,
+		videoMuted = true,
+		videoPlaying = true,
+		customControls,
+		padding = 0,
+		coverUpTop,
+		coverUpLeft,
+		borderRadius = 16,
 	} = props;
+
+	// state of video ready to play
+	const [canPlay, setCanPlay] = useState(false);
+
+	// set can play when video ready to play (shows hero if not ready and there's a hero defined)
+	const handleCanPlay = useCallback(() => {
+		setCanPlay(true);
+	}, []);
 
 	// create the bottom margin
 	const bottomMargin = useMemo(() => {
@@ -78,6 +106,12 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 		return { height: imageHeight, width: Math.round(imageHeight * ratio) }; // resolve to nearest full pixel
 	}, [imageHeight, resolvedImage]);
 
+	// memo show hero state
+	const showHero = useMemo(() => {
+		if (videoURL) return resolvedImage && !canPlay;
+		return !!resolvedImage;
+	}, [canPlay, resolvedImage, videoURL]);
+
 	const cssVars = useMemo(() => {
 		return {
 			'--highlight-max-width': setStyle(maxContentWidth),
@@ -91,6 +125,10 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 			'--highlight-margin-bottom': bottomMargin,
 			'--highlight-image-background': imageBackground,
 			'--highlight-border-size': noborder ? '0' : '1px',
+			'--highlight-padding': setStyle(padding),
+			'--cover-left': coverUpLeft ? setStyle(coverUpLeft) : 0,
+			'--cover-top': coverUpTop ? setStyle(coverUpTop) : 0,
+			'--highlight-border-radius': setStyle(borderRadius),
 		} as React.CSSProperties;
 	}, [
 		maxContentWidth,
@@ -103,6 +141,10 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 		bottomMargin,
 		imageBackground,
 		noborder,
+		padding,
+		coverUpLeft,
+		coverUpTop,
+		borderRadius,
 	]);
 
 	return (
@@ -110,7 +152,7 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 			<div className={styles.textContainer}>{children}</div>
 			<div className={styles.imageContainer}>
 				<div className={styles.imageWrapper}>
-					{resolvedImage && (
+					{showHero && resolvedImage && (
 						<Image
 							key={resolvedImageKey}
 							quality={80}
@@ -125,6 +167,23 @@ export function ProjectHighlight(props: Readonly<ProjectHighlightProps>) {
 							placeholder={'blur'}
 						/>
 					)}
+					{videoURL && (
+						<div className={styles.heroWrapper}>
+							<Video
+								src={videoURL}
+								borderRadius={16}
+								loop={videoLoop}
+								muted={videoMuted}
+								playing={videoPlaying}
+								controls={videoControls}
+								onCanPlay={handleCanPlay}
+								customControls={customControls}
+								volume={0.5}
+							/>
+						</div>
+					)}
+					{coverUpLeft && <div className={styles.coverUpLeft} />}
+					{coverUpTop && <div className={styles.coverUpTop} />}
 				</div>
 			</div>
 		</div>

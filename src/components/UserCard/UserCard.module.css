@@ -1,0 +1,92 @@
+.wrapper {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--card-height);
+    max-height: var(--card-height);
+    min-width: var(--card-width);
+    max-width: var(--card-width);
+    overflow: hidden;
+    padding: 24px;
+    border: 1px solid var(--core-outline-secondary);
+    border-radius: 8px;
+    flex: 1;
+    background: var(--core-surface-primary);
+    transition: all 0.25s var(--motion-water) 0s;
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: var(--surface-shadow-soft);
+        z-index: 2;
+    }
+}
+
+.info {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    flex:1;
+}
+
+.profile {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 16px;
+    width: 100%;
+}
+
+.bio {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 4px;
+    flex: 1;
+}
+
+.name {
+    margin: 0;
+    padding: 0;
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-regular);
+    color: var(--core-text-special);
+}
+
+.role {
+    margin: 0;
+    padding: 0;
+    font-size: var(--font-size-h6);
+    font-weight: var(--font-weight-regular);
+    color: var(--core-text-primary);
+}
+
+.company {
+    margin: 0;
+    padding: 0;
+    font-size: var(--font-size-s);
+    font-weight: var(--font-weight-regular);
+    color: var(--core-text-disabled);
+}
+
+.grid {
+    display: grid;
+    width: 100%;
+    min-width: Calc((var(--card-width) * 2) + var(--grid-gap));
+    max-width: Calc((var(--card-width) * var(--grid-max-tiles)) + (var(--grid-gap) * (var(--grid-max-tiles) - 1)));
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(var(--card-width), var(--card-width)));
+    grid-auto-rows: var(--card-height);
+    grid-auto-flow: row dense;
+    gap: var(--grid-gap);
+    margin: 0 0 var(--grid-margin) 0;
+}

@@ -18,20 +18,28 @@ const defaultVideoProps: Partial<VideoProps> = {
 };
 
 export const videos: ProjectVideos = {
-	aiSummaries: {
+	heroVideo: {
 		...defaultVideoProps,
-		src: 'https://player.vimeo.com/progressive_redirect/playback/823460592/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=b6e554141dffd2ffa25aac9a1dadb86bd0d3d59e1d4bb3fbfe07496cd7917482',
+		src: 'https://player.vimeo.com/progressive_redirect/playback/820209897/rendition/720p/file.mp4?loc=external&signature=c00f8afbe14f534d24d7fc1fcc5d86345ecf0c6b9df7831dfd9c8287c4ed0f57',
 	},
-	aiAccuracy: {
+	natural: {
 		...defaultVideoProps,
-		src: 'https://player.vimeo.com/progressive_redirect/playback/823460564/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=6ce63ad410b75703415fec5a668ad1ae5cb0b05b6b292c465f791c6788586290',
+		src: 'https://player.vimeo.com/progressive_redirect/playback/820415024/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=545719652702986c1c1fc48ee885aef40b0555c6f5d40c567ec69e46361c01b5',
 	},
-	about: {
+	resize: {
 		...defaultVideoProps,
-		src: 'https://player.vimeo.com/progressive_redirect/playback/823459439/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=0121baf6a930629086e7cfbadf4a47b2972a0b26356797af4bc3201d5db2e908',
+		src: 'https://player.vimeo.com/progressive_redirect/playback/820415098/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=74e0b011f49e84ab9abcadf4ba057903e5b1ca267c2329f6b63fb8e342d3b0b0',
 	},
-	sessions: {
+	popout: {
 		...defaultVideoProps,
-		src: 'https://player.vimeo.com/progressive_redirect/playback/823459394/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=bc081bcb4a5667ade7c6a54b517c5348a6829ae6d2fa102c8d0f64e0b0cb2845',
+		src: 'https://player.vimeo.com/progressive_redirect/playback/820415068/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=908b8bac26ff1e04832679826cf6c73173aa6d0077fe71f6318b327affba14f5',
+	},
+	hud: {
+		...defaultVideoProps,
+		src: 'https://player.vimeo.com/progressive_redirect/playback/820417313/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=066aa426377ed829164b48d868ddf118dca01493a40f7ae9a1b5615b42fe00ed',
+	},
+	outcomes: {
+		...defaultVideoProps,
+		src: 'https://player.vimeo.com/progressive_redirect/playback/821043477/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=784fd229592fd2cca566a0414ed1c6db02ab239820f979a843e9db3562443b12',
 	},
 };

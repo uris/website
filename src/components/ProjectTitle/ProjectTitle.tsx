@@ -20,7 +20,7 @@ export function ProjectTitle(props: Readonly<ProjectTitleProps>) {
 	}, [nowrap, maxWidth]);
 
 	return (
-		<h1 className={styles.title} style={cssVars}>
+		<h1 className={styles.title} style={{ ...cssVars, color: 'var(--core-text-primary)' }}>
 			{children ?? title}
 		</h1>
 	);

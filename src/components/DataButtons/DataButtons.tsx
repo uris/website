@@ -8,10 +8,11 @@ interface DataButtonGridProps {
 	marginSize?: number;
 	maxWidth?: number;
 	padding?: number;
+	maxButtons?: number;
 }
 
 export function DataButtonGrid(props: Readonly<DataButtonGridProps>) {
-	const { children, margin = true, maxWidth = 1024, padding = 64, marginSize = 64 } = props;
+	const { children, margin = true, maxWidth = 1024, padding = 64, marginSize = 64, maxButtons = 3 } = props;
 
 	const buttons = React.Children.map(children, (child) => {
 		if (!React.isValidElement(child)) return child;
@@ -27,8 +28,9 @@ export function DataButtonGrid(props: Readonly<DataButtonGridProps>) {
 			'--grid-max-width': `${maxWidth}px`,
 			'--grid-padding': `0 ${padding}px`,
 			'--grid-margin': margin ? `0 0 ${marginSize}px 0` : '0',
+			'--grid-max-buttons': maxButtons,
 		} as React.CSSProperties;
-	}, [maxWidth, padding, margin, marginSize]);
+	}, [maxWidth, padding, margin, marginSize, maxButtons]);
 
 	return (
 		<div className={styles.wrapper} style={cssVars}>

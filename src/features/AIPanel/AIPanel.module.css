@@ -140,6 +140,10 @@
 	padding: 0;
 }
 
+.body .content :global(h4) {
+	color:var(--core-text-primary);
+}
+
 .responseSeparator {
 	display: flex;
 	box-sizing: border-box;

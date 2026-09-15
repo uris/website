@@ -12,6 +12,7 @@
 }
 
 .imageContainer {
+    position: relative;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -19,19 +20,20 @@
     align-items: flex-start;
     flex: 1;
     height: var(--highlight-image-height);
-    background-color: var(--highlight-image-background);
     overflow: visible;
     margin: 0;
-    padding: 0;
+    padding:0;
 }
 
 .imageWrapper {
+    position: relative;
     box-sizing: border-box;
     border: var(--highlight-border-size) solid var(--core-outline-secondary);
-    border-radius: 16px;
+    background-color: var(--highlight-image-background);
+    border-radius: var(--highlight-border-radius);
     overflow: hidden;
     margin: 0;
-    padding: 0;
+    padding: var(--highlight-padding);
 }
 
 .highlightImage {
@@ -50,4 +52,22 @@
     min-width: var(--highlight-max-text-width);
     gap: 0;
     padding-top: var(--highlight-padding-top);
+}
+
+.coverUpLeft {
+    position: absolute;
+    width: 4px;
+    left:var(--cover-left);
+    top:0;
+    bottom: 0;
+    background: white;
+}
+
+.coverUpTop {
+    position: absolute;
+    height: 4px;
+    left:0;
+    right:0;
+    top: var(--cover-top);
+    background: white;
 }
