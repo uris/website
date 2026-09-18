@@ -44,9 +44,9 @@ export function SettingsSectionTitle(props: Readonly<SettingsSectionTitleProps>)
 				<IconButton
 					toggle={false}
 					icon={'help'}
-					bgColor={'none'}
-					bgColorHover={'none'}
-					bgColorOn={'none'}
+					backgroundColor={'none'}
+					backgroundColorHover={'none'}
+					backgroundColorOn={'none'}
 					iconColor={'var(--core-text-disabled)'}
 					iconColorHover={'var(--core-text-special)'}
 					tooltip={info.tip}

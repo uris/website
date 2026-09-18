@@ -12,7 +12,7 @@ export function TechStack({ children }: Readonly<TechStackProps>) {
 		const label = child as React.ReactElement<LabelProps>;
 
 		return React.cloneElement(label, {
-			bgColor: 'var(--array-sea-label)',
+			backgroundColor: 'var(--array-sea-label)',
 			textColor: 'var(--core-text-light)',
 			borderSize: 0,
 			borderRadius: 16,

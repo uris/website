@@ -103,7 +103,7 @@ const TextAreaBarBase = (props: Readonly<TextAreaBarProps>) => {
 						icon={'chevron down'}
 						tooltip={'Hide Text Field'}
 						onToolTip={setTip}
-						bgColor={'var(--core-surface-primary)'}
+						backgroundColor={'var(--core-surface-primary)'}
 						border={true}
 						onClick={() => toggleInputBar(false)}
 					/>
@@ -118,7 +118,7 @@ const TextAreaBarBase = (props: Readonly<TextAreaBarProps>) => {
 							onToolTip={setTip}
 							fill
 							onChange={handleMicToggle}
-							bgColor={'var(--core-surface-primary)'}
+							backgroundColor={'var(--core-surface-primary)'}
 							border={true}
 						/>
 					)}

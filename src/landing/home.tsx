@@ -113,6 +113,7 @@ export default function Home(props: Readonly<HomeProps>) {
 							drags={'left'}
 							sizeConstraints={SIDEBAR_CONSTRAINTS}
 							isClosed={!sideBarOpen}
+							transitionDurationOnInit={0}
 							containerRef={viewRef}
 							onResizeStart={() => setDraggingSidebar(true)}
 							onResizeEnd={() => setDraggingSidebar(false)}

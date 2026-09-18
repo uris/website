@@ -17,7 +17,7 @@ export function AppChip(props: Readonly<AppChipProps>) {
 			borderSize={1}
 			color={'var(--core-text-secondary)'}
 			borderColor={'var(--core-outline-secondary)'}
-			bgColor={'var(--core-surface-primary)'}
+			backgroundColor={'var(--core-surface-primary)'}
 			variant={'normal'}
 		/>
 	);
