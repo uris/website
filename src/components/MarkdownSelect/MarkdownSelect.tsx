@@ -49,7 +49,7 @@ export function MarkdownSelect(props: Readonly<MarkdownSelectProps>) {
 			paddingBottom={2}
 			paddingTop={2}
 			paddingLeft={16}
-			size={'l'}
+			textSize={'l'}
 			iconColor={'var(--core-link-primary)'}
 		/>
 	);

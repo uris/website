@@ -100,8 +100,8 @@ export function ViTalkButton(props: Readonly<ViTalkButtonProps>) {
 				tooltip={setToolTip}
 				onToolTip={(tip) => (showLabel ? null : setTip(tip))}
 				isToggled={viState === ViTalkState.Active}
-				bgColor={viState === ViTalkState.Connecting ? 'var(--core-outline-primary)' : background}
-				bgColorOn={'var(--core-link-primary)'}
+				backgroundColor={viState === ViTalkState.Connecting ? 'var(--core-outline-primary)' : background}
+				backgroundColorOn={'var(--core-link-primary)'}
 				iconColorOn={'var(--core-surface-primary)'}
 				border={border}
 				onClick={handleClick}

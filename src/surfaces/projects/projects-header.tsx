@@ -106,7 +106,7 @@ export function ProjectsHeader() {
 								toggle={false}
 								isToggled={toggled}
 								customAnimations={shareAnimation}
-								bgColorOn={'var(--core-surface-secondary)'}
+								backgroundColorOn={'var(--core-surface-secondary)'}
 								tooltip={'Share link'}
 								onClick={handleShare}
 								onToolTip={pushTip}
@@ -118,7 +118,7 @@ export function ProjectsHeader() {
 								onClick={handleCloseProject}
 								isToggled={toggled}
 								customAnimations={closeAnimation}
-								bgColorOn={'var(--core-surface-secondary)'}
+								backgroundColorOn={'var(--core-surface-secondary)'}
 								tooltip={'Close'}
 								onToolTip={pushTip}
 							/>

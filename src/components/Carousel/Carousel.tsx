@@ -118,8 +118,8 @@ export function Carousel(props: Readonly<ProjectImageProps>) {
 			</AnimatePresence>
 			<div className={styles.pagerWrapper}>
 				<IconButton
-					bgColor={'none'}
-					bgColorHover={'var(--core-surface-primary)'}
+					backgroundColor={'none'}
+					backgroundColorHover={'var(--core-surface-primary)'}
 					icon={'arrow left'}
 					onClick={() => handlePageChange(selected - 1)}
 				/>
@@ -133,8 +133,8 @@ export function Carousel(props: Readonly<ProjectImageProps>) {
 					gap={8}
 				/>
 				<IconButton
-					bgColor={'none'}
-					bgColorHover={'var(--core-surface-primary)'}
+					backgroundColor={'none'}
+					backgroundColorHover={'var(--core-surface-primary)'}
 					icon={'arrow right'}
 					onClick={() => handlePageChange(selected + 1)}
 				/>
