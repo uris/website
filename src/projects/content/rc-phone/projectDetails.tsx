@@ -13,6 +13,7 @@ import { TechStack } from '@/components/TechStack/TechStack';
 import { TextParagraph } from '@/components/TextParagraph/TextParagraph';
 import { TextTitle } from '@/components/TextTitle/TextTitle';
 import { UserGrid } from '@/components/UserCard/UserCard';
+import { VideoButton } from '@/components/VideoButton/VideoButton';
 import { Wrapper } from '@/projects/_helpers/Wrapper';
 import {
 	performanceData,
@@ -33,7 +34,11 @@ export default function RcPhone() {
 			<Section gradient={false}>
 				<Logo name={'rc'} color={'var(--core-icon-primary)'} size={64} margin={'0 0 64px 0'} />
 				<ProjectTitle>{header.title}</ProjectTitle>
-				<SubTitle margin={false}>{header.subtitle}</SubTitle>
+				<SubTitle margin={false}>
+					At RingCentral I led the redesign of the core communications and productivity app we call MVP (message, video,
+					phone). The first release focused on a responsive, phone-first desktop experience, offered to eligible
+					customers on an opt-in basis.
+				</SubTitle>
 				<HeroImage
 					videoURL={videos.heroVideo.src}
 					videoControls={'simple'}
@@ -41,9 +46,7 @@ export default function RcPhone() {
 					videoPlaying={true}
 					backgroundImage={themedImages.heroBG}
 					border={false}
-					heroAltText={
-						'RingCentral Video meeting view with three portrait-oriented participants, emphasizing a more personal and human meeting experience.'
-					}
+					heroAltText={'RingCentral phone app redesign showing the responsive communications workspace.'}
 				/>
 				<TechStack>
 					{header.techStack.map((item) => {
@@ -54,11 +57,12 @@ export default function RcPhone() {
 			<Section>
 				<ProjectTitle>Foundational insights.</ProjectTitle>
 				<SubTitle>
-					Our work was rooted by customer needs and pain points. Through direct observation and one-on-one
+					Our work was rooted in customer needs and pain points. Through direct observation and one-on-one
 					conversations, we got insight into the blockers and inhibitors of getting work done with RingCentral. We also
 					discovered work accelerators.
 				</SubTitle>
-				<UserGrid cards={userCards} showVideo={false} cardHeight={300} />
+				<UserGrid cards={userCards} showVideo={false} cardHeight={300} marginSize={32} />
+				<VideoButton label={`Preview Dale's story [2:41]`} videoProps={videos.dale} margin={true} />
 				<SubTitle>
 					The team also reviewed and synthesized customer feedback and analytics in the form of NPS feedback, usage
 					analytics and behavior as well as user testing.
@@ -73,13 +77,13 @@ export default function RcPhone() {
 			<Section>
 				<ProjectTitle>Emerging themes</ProjectTitle>
 				<SubTitle>
-					While there was a wealth os information, data surprisingly coalesced around a few things indicating a clear
+					While there was a wealth of information, data surprisingly coalesced around a few things indicating a clear
 					signal from customers on what needed to improve.
 				</SubTitle>
 				<SubTitle marginSize={24}>
 					<h5 style={{ margin: 0, color: 'var(--core-text-special)' }}>1. Make work less work.</h5>
-					Navigation is complex, not well organized and click wasteful. It takes too much time to learn and to move
-					around. The app takes too much space for what i use it for.
+					Navigation is complex, not well organized, and requires too many clicks. It takes too much time to learn and
+					to move around. The app takes too much space for what I use it for.
 				</SubTitle>
 				<SubTitle marginSize={24}>
 					<h5 style={{ margin: 0, color: 'var(--core-text-special)' }}>2. One size doesn't fit ... well.</h5>
@@ -88,13 +92,13 @@ export default function RcPhone() {
 				</SubTitle>
 				<SubTitle marginSize={24}>
 					<h5 style={{ margin: 0, color: 'var(--core-text-special)' }}>3. Reduce the noise.</h5>
-					Confusing options, duplication, irrelevant features packed into every screen creates complexity and is
-					overwhelming. Diminishing marginal discoverability and usability.
+					Confusing options, duplication, and irrelevant features packed into every screen create complexity and can
+					feel overwhelming, reducing discoverability and usability.
 				</SubTitle>
 				<SubTitle marginSize={24}>
 					<h5 style={{ margin: 0, color: 'var(--core-text-special)' }}>4. Don't interrupt! Pixels are precious.</h5>
-					In meetings, on the phone, or even heads down, customers are always multi-tasking many times using multiple
-					screens to layout out work. Our current app demands real-estate and interrupts flow.
+					In meetings, on the phone, or even heads down, customers are always multitasking, often using multiple screens
+					to lay out work. Our current app demands real estate and interrupts flow.
 				</SubTitle>
 				<SubTitle marginSize={64}>
 					<h5 style={{ margin: 0, color: 'var(--core-text-special)' }}>5. Old and quirky ...</h5>
@@ -107,18 +111,24 @@ export default function RcPhone() {
 					border={false}
 					heroMargin={0}
 					standAlone={true}
-					heroAltText={'The ring central desktop apps then current state'}
+					heroAltText={'RingCentral desktop app before the redesign.'}
 				/>
 			</Section>
 			<Section>
 				<ProjectTitle>Adaptive. Modular.</ProjectTitle>
+				<TextParagraph>
+					<p>
+						These examples show the broader design effort, not just the first release. Video, internal team messaging,
+						tasks, fax, and the switchboard-style phone experience were deferred from that release.
+					</p>
+				</TextParagraph>
 				<SubTitle marginSize={24}>
 					A workspace set up to focus on what you need and to lay it all out just the way you need it.
 				</SubTitle>
 				<SubTitle>
-					Everyone has their own way or organizing and setting up their work flow. And most of the time, when you do the
-					same things 100s of times a day, it's the small things that can block or accelerate productivity, that mark
-					the difference between delight and frustration.
+					Everyone has their own way of organizing and setting up their workflow. And most of the time, when you do the
+					same things 100s of times a day, it's the small things that can block or accelerate productivity and mark the
+					difference between delight and frustration.
 				</SubTitle>
 				<HeroImage
 					heroImage={themedImages.adaptive}
@@ -127,33 +137,33 @@ export default function RcPhone() {
 					border={false}
 					heroMargin={0}
 					standAlone={true}
-					heroAltText={'The ring central desktop apps then current state'}
+					heroAltText={'Modular RingCentral phone workspace arranged in compact windows.'}
 				/>
 			</Section>
 			<Section>
 				<ProjectTitle>Familiar and uncluttered</ProjectTitle>
 				<SubTitle marginSize={24}>
 					Reduction of complexity with intuitive organization and progressive discovery of features and options as you
-					need them in context of the task at hand.
+					need them in the context of the task at hand.
 				</SubTitle>
 				<SubTitle>
 					The new experience removes irrelevant options from view and progressively discloses what you need when and
-					where you need. Use of overflow and context menus bring buried options into context without increasing over
-					all complexity.
+					where you need them. Overflow and context menus bring buried options into context without increasing overall
+					complexity.
 				</SubTitle>
 				<ProjectHighlight
 					themedImage={themedImages.effortless}
 					noborder
-					alt={'Slice color tokens and theme controls used to define a consistent interface design language.'}
+					alt={'Uncluttered RingCentral phone interface with frequent tasks in focus.'}
 				>
 					<TextTitle>Effortless.</TextTitle>
 					<TextParagraph>
 						<p>
-							Work flows naturally and effortlessly with a ui that is immediately recognizable, uncluttered and clear.
+							Work flows naturally and effortlessly with a UI that is immediately recognizable, uncluttered and clear.
 						</p>
 						<p>
-							For a customer base focused on phone, making phone the primary focus seemed like master of the obvious.
-							Sometimes a space is just a spade.
+							For a customer base focused on phone, making phone the primary focus seemed obvious. Sometimes a spade is
+							just a spade.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
@@ -167,14 +177,14 @@ export default function RcPhone() {
 					padding={'0 16px 16px 16px'}
 					coverUpLeft={13}
 					nomargin
-					alt={'Slice color tokens and theme controls used to define a consistent interface design language.'}
+					alt={'Prototype demonstrating drag-and-drop call interactions.'}
 				>
 					<TextTitle>Natural and physical.</TextTitle>
 					<TextParagraph>
 						<p>
 							Objects and spaces of the app have a familiar sense of physicality. They can be dragged together and react
-							to each other in intuitive ways. Like drag-n-drop to start a call, adding callers or meeting participants,
-							merging calls and even forwarding calls.
+							to each other in intuitive ways. Like drag-and-drop to start a call, adding callers or meeting
+							participants, merging calls and even forwarding calls.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
@@ -182,8 +192,8 @@ export default function RcPhone() {
 			<Section>
 				<ProjectTitle>Created for the multi-tasker.</ProjectTitle>
 				<SubTitle marginSize={24}>
-					The new RingCentral embraces the fact it is simply on of the many tools people to get stuff done, and that
-					dynamic switching of focus from one app to another is a constant.
+					The new RingCentral embraces the fact it is simply one of the many tools people use to get stuff done, and
+					that dynamic switching of focus from one app to another is a constant.
 				</SubTitle>
 				<ProjectHighlight
 					videoURL={videos.resize.src}
@@ -195,12 +205,12 @@ export default function RcPhone() {
 					coverUpTop={10}
 					coverUpLeft={10}
 					nomargin
-					alt={'Slice color tokens and theme controls used to define a consistent interface design language.'}
+					alt={'RingCentral phone layout resizing to fit the available workspace.'}
 				>
 					<TextTitle>Responsive to fit any workspace.</TextTitle>
 					<TextParagraph>
 						<p>
-							We created an interactive framework that can shrink and grow, helping manage limited screen real-estate
+							We created an interactive framework that can shrink and grow, helping manage limited screen real estate
 							for maximum efficiency.
 						</p>
 					</TextParagraph>
@@ -214,14 +224,14 @@ export default function RcPhone() {
 					padding={'0 8px 16px 16px'}
 					coverUpLeft={14}
 					coverUpTop={-2}
-					alt={'Slice color tokens and theme controls used to define a consistent interface design language.'}
+					alt={'Phone tools arranged in separate pop-out windows.'}
 					nomargin
 				>
 					<TextTitle>Pop-out framework to help focus and simplify choices.</TextTitle>
 					<TextParagraph>
 						<p>
-							By creating modules that disassemble, we hit both simplicity and the ability to remove the clutter of this
-							features you don't need.
+							By creating modules that disassemble, we hit both simplicity and the ability to remove the clutter of
+							those features you don't need.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
@@ -234,9 +244,9 @@ export default function RcPhone() {
 					padding={14}
 					coverUpLeft={14}
 					nomargin
-					alt={'Slice color tokens and theme controls used to define a consistent interface design language.'}
+					alt={'Expanded phone workspace concept for handling more information.'}
 				>
-					<TextTitle>Scaling up for max space and mx efficiency.</TextTitle>
+					<TextTitle>Scaling up for maximum space and efficiency.</TextTitle>
 					<TextParagraph>
 						<p>
 							The experience scales down, but it also scales up for the situation where more information and data boost
@@ -254,13 +264,13 @@ export default function RcPhone() {
 					nomargin
 					themedImage={themedImages.portable}
 					noborder
-					alt={'Slice color tokens and theme controls used to define a consistent interface design language.'}
+					alt={'Phone interface concepts across devices and third-party apps.'}
 				>
 					<TextTitle>On mobile, desktop, web and 3rd party, it all works the same way.</TextTitle>
 					<TextParagraph>
 						<p>
-							Whether you're making calls from MSFT teams, or viewing customer information on Salesforce, Dialing from
-							your browser or using any RingCentral app.
+							Whether you're making calls from Microsoft Teams, or viewing customer information on Salesforce, dialing
+							from your browser, or using a RingCentral app, the aim is a familiar experience.
 						</p>
 					</TextParagraph>
 				</ProjectHighlight>
@@ -269,25 +279,24 @@ export default function RcPhone() {
 				<ProjectTitle>Modern and progressive.</ProjectTitle>
 				<SubTitle>
 					A design language that brings the familiar and intuitive design elements of consumer experiences to the
+					workplace.
 				</SubTitle>
 				<HeroImage
 					heroImage={themedImages.modern}
 					dropShadow={false}
 					heroMargin={0}
 					standAlone={true}
-					heroAltText={
-						'RingCentral Video meeting view with three portrait-oriented participants, emphasizing a more personal and human meeting experience.'
-					}
+					heroAltText={'RingCentral phone app redesign showing the responsive communications workspace.'}
 				/>
 			</Section>
 			<Section>
 				<ProjectTitle>Outcomes</ProjectTitle>
 				<SubTitle>
-					We measured user performance for both the current and new app versions of MVP from a usability perspective. We
-					also measured preference vs competitors and our own legacy apps. The outcomes speak for themselves.
+					We measured usability and preference for the existing app and the proposed experience. Most tasks improved,
+					though sending a message took slightly longer and calling by name averaged more errors.
 				</SubTitle>
 				<Table
-					caption={'User Performance (N = 56, P > 0.05)'}
+					caption={'User Performance (N = 56)'}
 					tableData={performanceData}
 					columnDefinitions={performanceDefinitions}
 				/>
@@ -304,7 +313,7 @@ export default function RcPhone() {
 					heroMargin={0}
 					standAlone={true}
 					videoPlaying={false}
-					heroAltText={'The ring central desktop apps then current state'}
+					heroAltText={'Customer feedback on the redesigned RingCentral phone experience.'}
 				/>
 			</Section>
 		</Wrapper>

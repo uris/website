@@ -38,6 +38,10 @@ export const videos: ProjectVideos = {
 		...defaultVideoProps,
 		src: 'https://player.vimeo.com/progressive_redirect/playback/820417313/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=066aa426377ed829164b48d868ddf118dca01493a40f7ae9a1b5615b42fe00ed',
 	},
+	dale: {
+		...defaultVideoProps,
+		src: 'https://player.vimeo.com/progressive_redirect/playback/1228652972/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=29d873bdda5166a7dbfcdfc086e28aa97476abf3a4993177107cbdb140d2d4c0',
+	},
 	outcomes: {
 		...defaultVideoProps,
 		src: 'https://player.vimeo.com/progressive_redirect/playback/821043477/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=784fd229592fd2cca566a0414ed1c6db02ab239820f979a843e9db3562443b12',
