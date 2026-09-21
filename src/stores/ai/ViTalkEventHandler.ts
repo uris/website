@@ -9,12 +9,13 @@ import { viTalkToolCallHandler } from '@/stores/ai/viTalkToolCallHandler';
 
 export async function realtimeDataEventHandler(
 	event: MessageEvent<any> | Event | RTCErrorEvent,
+	isCurrent: () => boolean = () => true,
 ): Promise<{ event?: CallbackEvent; state?: Partial<ViStoreState>; data?: unknown } | undefined> {
 	const eventType = event.type;
 	switch (eventType) {
 		case 'message': {
 			if ('data' in event && typeof event.data === 'string' && event.data !== '') {
-				return await handleMessageEvent(safeJsonParse(event.data));
+				return await handleMessageEvent(safeJsonParse(event.data), isCurrent);
 			}
 			return;
 		}
@@ -34,17 +35,20 @@ export async function realtimeDataEventHandler(
  */
 export async function handleMessageEvent(
 	data: any,
+	isCurrent: () => boolean = () => true,
 ): Promise<{ event?: CallbackEvent; state?: Partial<ViStoreState>; data?: unknown } | undefined> {
 	// protect for message event shape
-	if (!data || typeof data !== 'object' || !('type' in data) || typeof data.type !== 'string') return;
+	if (!isCurrent() || !data || typeof data !== 'object' || !('type' in data) || typeof data.type !== 'string') return;
 
-	console.log(data.type, { data });
 	// handle the different types of events
 	switch (data.type) {
 		// *** signals the start of a new voice session
 		case CallbackEvent.SessionCreated: {
+			if (typeof data.session?.id !== 'string' || !data.session.id) return;
+			if (useViResponsesStore.getState().responses.some((response) => response.id === data.session.id)) return;
 			// update the session with the instructions
 			await updateSessionInstructions();
+			if (!isCurrent()) return;
 
 			// and tools the model can use
 			updateSessionTools();
@@ -69,7 +73,8 @@ export async function handleMessageEvent(
 
 		// *** model generated a response yet to be buffered
 		case CallbackEvent.ResponseCreated: {
-			const id = data.response.id;
+			const id = data.response?.id;
+			if (typeof id !== 'string' || !id) return;
 			viResponsesActions.handleResponseStart(id, ResponseType.Audio);
 			return { event: CallbackEvent.ResponseCreated, data };
 		}
@@ -93,6 +98,7 @@ export async function handleMessageEvent(
 
 		// *** assistant audio - transcription delta
 		case CallbackEvent.TranscriptDelta: {
+			if (typeof data.response_id !== 'string' || typeof data.delta !== 'string') return;
 			// provides each token of the streaming audio transcript
 			viResponsesActions.handleResponseDelta(data.response_id, data.delta);
 			return { event: CallbackEvent.TranscriptDelta, data };
@@ -174,6 +180,7 @@ export async function handleMessageEvent(
 		// repose item is done responds with any tool calls
 		// if there are tools calls process them
 		case CallbackEvent.ResponseItemDone: {
+			if (!data.item) return;
 			const type = data.item.type;
 			const isToolCall = type && type === 'function_call';
 			if (isToolCall) {
@@ -182,15 +189,25 @@ export async function handleMessageEvent(
 				const name = data.item.name;
 				const id = data.response_id; // response id, not the item id
 				const call_id = data.item.call_id;
-				const argsObject = typeof args === 'string' ? JSON.parse(args) : undefined;
+				const argsObject = typeof args === 'string' ? safeJsonParse(args) : undefined;
 
 				// protect for id and tool name
-				if (name && id) {
+				if (
+					typeof name === 'string' &&
+					name &&
+					typeof id === 'string' &&
+					id &&
+					typeof call_id === 'string' &&
+					call_id &&
+					argsObject &&
+					typeof argsObject === 'object' &&
+					!Array.isArray(argsObject)
+				) {
 					// update the message to a system message type
 					await viResponsesActions.handleToolCallMessage(id);
 
 					// call tool handler
-					await viTalkToolCallHandler({ id, name, args: argsObject, call_id });
+					await viTalkToolCallHandler({ id, name, args: argsObject, call_id }, isCurrent);
 				}
 			}
 			return { event: CallbackEvent.ResponseItemDone, data };

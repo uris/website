@@ -19,6 +19,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 		 */
 		handleSessionStart: (id: string) => {
 			const currentResponses = get().responses;
+			if (!id || currentResponses.some((response) => response.id === id)) return;
 			const sessionStart = {
 				id,
 				type: ResponseType.SessionStart,
@@ -41,6 +42,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 			// get current state
 			const currentLastResponse = get().lastResponse;
 			const currentResponses = get().responses;
+			if (!id || currentLastResponse?.id === id || currentResponses.some((response) => response.id === id)) return;
 
 			// the start of the new response pushes the last response to the response history
 			const updatedResponses = currentLastResponse ? [...currentResponses, currentLastResponse] : currentResponses;
@@ -69,7 +71,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 		handleResponseDelta: (id: string, delta: string) => {
 			// get current delta / last response
 			const lastResponseCurrent = get().lastResponse;
-			if (!lastResponseCurrent) return;
+			if (!lastResponseCurrent?.active) return;
 
 			// get values
 			const { id: activeId, value } = lastResponseCurrent;
@@ -127,7 +129,8 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 		 */
 		handleNewUserMessage: (message: UserMessage) => {
 			const { id, content_type, text, transcript } = message;
-			if (!id || !content_type) return;
+			if (!id || (content_type !== UserMessageType.Text && content_type !== UserMessageType.Audio)) return;
+			if (get().responses.some((response) => response.id === id)) return;
 			const type = content_type === UserMessageType.Text ? ResponseType.Text : ResponseType.Audio;
 			const value = content_type === UserMessageType.Text ? (text ?? '') : (transcript ?? '');
 			const active = content_type === UserMessageType.Audio && !transcript;
@@ -152,7 +155,7 @@ export const useViResponsesStore = create<ViResponsesStore>((set, get) => ({
 		 */
 		handleUpdateUserMessage: (message: Partial<UserMessage>) => {
 			const { id, transcript } = message;
-			if (!id || !transcript) return;
+			if (!id || typeof transcript !== 'string') return;
 			const current = get().responses;
 			const responses = current.map((response) => {
 				if (response.id === id) return { ...response, value: transcript, active: false };
