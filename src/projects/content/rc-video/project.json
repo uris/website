@@ -21,18 +21,25 @@
 		"summary": "RC Video is a RingCentral case study about rethinking meetings across the full lifecycle, from deciding whether to attend, to preparation, in-meeting interaction, and post-meeting follow-up. The goal was not maximizing meeting volume, but making communication clearer, more respectful of time, and more effective across remote, in-person, and hybrid work.",
 		"tagline": "A collaboration product exploration that questions whether a meeting should happen at all, then designs the experience around attention, preparation, and useful follow-through.",
 		"context": [
-			"The work starts from a product-strategy problem: after the pandemic, meeting engagement was declining while phone usage moved in the opposite direction. The question was not just how to increase meeting attendance, but what actually makes a meeting worth joining.",
+			"The work starts from a product-strategy problem: after the pandemic, meeting engagement was declining while phone usage moved in the opposite direction. Video and meetings still mattered for strategic positioning and growth beyond phone. The team questioned what makes a meeting worth joining rather than treating attendance as the outcome.",
 			"Research suggested the real problem extended beyond the live call window. Meeting value is shaped before the meeting, during the interaction, and after it ends, so the experience was reframed around the entire meeting lifecycle.",
+			"Root causes included the return to office and renewed informal face-to-face communication, poor usability and friction around video quality and reliability, and a growing competitive landscape with distinct value propositions. The page includes clips labeled AI Summaries and AI Accuracy under usability, and About (Miro) and Sessions under competition; their labels alone do not establish technical details or measured results.",
 			"A major theme is reducing wasted time. The project challenges the assumption that more meetings are inherently better and instead treats productive communication, clarity, and confidence as the outcomes worth optimizing for.",
+			"The page presents problem-framing figures of 24 billion hours wasted in meetings, 65% of employees saying meetings prevent work, 55% saying meetings could have been an email, 75% of remote workers unable to collaborate effectively, and 42% of employees experiencing meeting fatigue. Sources, dates, and study populations are not supplied in the page text. Treat these as figures presented in the case study, not verified current statistics, RingCentral customer measurements, or outcomes of this design.",
 			"Several concepts intentionally reduce or replace live attendance when that is the better choice, including declining a meeting while sending an assistant in your place, async recordings with comments and follow-up, and stronger post-meeting summaries.",
 			"Pre-meeting concepts focus on preparation and context: templates for different meeting types, controls for how someone appears before joining, and clearer states for participating without video.",
 			"In-meeting ideas focus on making communication feel more human and less fatiguing, including portrait video, float mode, expressive reactions, time-aware light and dark themes, AI-assisted notes, and hybrid-friendly participation for people sharing a room camera.",
 			"Post-meeting ideas focus on continuity: summaries, notes, decisions, mentions, and follow-up should flow into the broader team conversation rather than staying trapped inside a single call.",
 			"This is a product and experience design case study, not a claim that every concept shipped. Describe the work as exploration, reframing, and design direction unless the project content explicitly says a feature launched.",
-			"Uris's role spans research and problem framing, product and interaction design, visual design, motion and sound exploration, and early implementation work."
+			"Uris's role spans research and problem framing, product and interaction design, visual design, motion and sound exploration, and early implementation work.",
+			"Pre-meeting concepts include templates for stand-ups, one-on-ones, and social sessions, plus custom team rituals. Appearance controls and personal context such as location, time zone, and weather help people feel recognizable and prepared. Clear video-off states reduce ambiguity and anxiety without requiring camera use.",
+			"In-meeting details include portrait video suited to SMB customers working outside the office, a compact floating view for multitasking, animated reactions, and smart reaction concepts that detect laughter or clapping while muted. Light and dark modes can follow time of day and signal overtime; voice-recognition note suggestions reduce the burden of taking notes while participating. These are design concepts, not documented AI architecture or accuracy claims.",
+			"The interaction model makes considerate meeting behavior easier through participation choices and controls. No-video participation, declining with assistant follow-up, and async recordings are legitimate ways to remain part of the conversation.",
+			"RC Video documents exploration and design direction, with no quantified post-launch results or feature-by-feature launch status. The related RC Phone study documents a separate phone-first desktop release and usability/preference studies; those results and that release scope must not be attributed to RC Video."
 		],
 		"emphasize": [
 			"Reframing the brief from increasing meetings to improving communication quality",
+			"Root causes spanning return to office, usability and reliability, and competition",
 			"The full meeting lifecycle: pre-meeting, in-meeting, post-meeting, and even anti-meeting scenarios",
 			"Respect for time, attention, and social comfort in collaboration products",
 			"Hybrid, remote, and in-person contexts treated as first-class",
@@ -60,14 +67,19 @@
 			"How does the work support remote, hybrid, and in-person communication differently?",
 			"Which concepts were designed to reduce wasted time in meetings?",
 			"How did AI show up in the meeting experience without becoming the whole story?",
-			"What was Uris's role on this RingCentral work?"
+			"What was Uris's role on this RingCentral work?",
+			"What root causes contributed to declining meeting engagement?",
+			"How do participation controls make considerate meeting behavior easier?"
 		],
 		"capabilities": ["summarize", "explain_problem_framing", "highlight_tradeoffs", "compare"],
 		"limitations": [
 			"Do not claim specific business results, adoption, or launch status that are not documented in the project content",
 			"Do not imply that every concept shown became a production feature",
 			"Do not describe the project as optimizing for more meetings at any cost",
-			"Do not reduce the work to AI summaries or a single in-meeting feature when the case study is about the broader collaboration experience"
+			"Do not reduce the work to AI summaries or a single in-meeting feature when the case study is about the broader collaboration experience",
+			"Meeting-fatigue and wasted-time figures are contextual figures shown on the page, with no supplied sources, dates, or populations; do not present them as project outcomes or verified current research.",
+			"Do not infer AI implementation, accuracy, or video-clip testimony from feature names, clip labels, or visuals.",
+			"RC Phone's opt-in release and usability/preference results do not establish RC Video's release status or impact."
 		],
 		"highlightOrder": [
 			"The post-pandemic meeting-engagement problem and why the brief was reframed",

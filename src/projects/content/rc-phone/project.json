@@ -18,17 +18,87 @@
 		"layout": "square"
 	},
 	"ai": {
-		"summary": "",
-		"tagline": "",
-		"emphasize": [],
-		"avoid": [],
-		"audiences": [],
-		"suggestedQuestions": [],
-		"capabilities": [],
-		"limitations": [],
-		"highlightOrder": [],
-		"relatedProjects": [],
-		"keywords": []
+		"summary": "Uris led the redesign of RingCentral MVP (message, video, phone), grounding a simpler, responsive communications workspace in customer research. The first release was a phone-first desktop experience offered to eligible customers on an opt-in basis; the broader design explored modular windows, natural call interactions, and consistent experiences across devices and integrations. Usability and preference studies favored much of the proposed experience, with specific task-level tradeoffs.",
+		"tagline": "Making work less work through a phone-first, adaptive workspace designed around real customer workflows.",
+		"context": [
+			"Uris led the redesign of RingCentral's core MVP communications and productivity app. The first release focused on a responsive, phone-first desktop experience, offered to eligible customers on an opt-in basis. MVP here means message, video, phone.",
+			"The case study distinguishes the broader design effort from the first release. Video, internal team messaging, tasks, fax, and the switchboard-style phone experience were deferred from that release. Do not infer that every demonstrated interaction or cross-platform concept shipped.",
+			"Research combined direct observation, one-on-one customer conversations, NPS/review feedback, usage analytics, behavior analysis, and usability testing. The page reports 1,000+ feedback comments, 400+ users and customers engaged, 100+ testing and usability sessions, and 100+ hours of customer conversations; these are research activities, not adoption metrics.",
+			"Five themes shaped the design: navigation required too many clicks; a one-size-fits-all app exposed capabilities most people did not use; duplicate and irrelevant options created noise; a large app footprint interrupted multitasking; and dated, inconsistent patterns made the experience feel clunky. Customers described layering apps across screens, relying on connected contacts and other work tools, and needing quick access to extensions and availability.",
+			"The adaptive, modular workspace lets people organize tools around their workflows. Phone becomes the primary focus for a phone-oriented customer base. Progressive disclosure, overflow menus, and context menus expose relevant actions at the point of use while reducing clutter.",
+			"Natural interaction prototypes explore dragging objects together to start calls, add callers or meeting participants, merge calls, and forward calls. These examples show the broader design direction and are not evidence that every interaction was in the first release.",
+			"The multitasking framework shrinks and grows to fit limited screen space, separates tools into pop-out windows, and scales up when more information helps people work faster. The larger switchboard-style phone experience was deferred from the first release.",
+			"The broader portability goal was familiar interactions across mobile, desktop, web, and third-party contexts such as Microsoft Teams and Salesforce. A modern design language brought familiar consumer interaction patterns into workplace software. The listed disciplines and technologies include user research, UX, visual, sound and icon design, prototyping, design systems, React, and Electron; detailed implementation architecture is not documented.",
+			"User performance testing (N = 56) compared the existing app with the proposed experience. Values below are existing to proposed; time is mean seconds and errors are the table's reported mean number of errors, not percentages. Call by name: success 95.31% to 100%, time 13.53 to 12.53, errors 6 to 8. Call by digit: success 100% to 100%, time 6.23 to 5.69, errors 1 to 0. View/call missed: success 95.31% to 97.69%, time 15.60 to 4.86, errors 46 to 2.",
+			"In the same performance study, listen to voicemail: success 79.17% to 100%, time 27.40 to 13.94 seconds, errors 49 to 3. Multi Call: success 81.96% to 100%, time 12.67 to 3.94 seconds, errors 48 to 13. Read message: success 90.10% to 100%, time 12.05 to 2.88 seconds, errors 23 to 14. Send message: success unchanged at 97.65%, time 3.94 to 4.07 seconds, errors 24 to 5. Most tasks improved, but calling by name had more errors and sending a message took slightly longer.",
+			"User preference testing (N = 102) used an overall rating scale of 1 to 5. Non-customers rated the existing app 3.11 and the proposed experience 4.36; customers rated them 3.13 and 4.43. These are study ratings, not NPS scores, production adoption, revenue impact, or proof of statistical significance.",
+			"RC Phone and RC Video are related RingCentral case studies. RC Phone focuses on the core communications workspace and its phone-first release; RC Video explores the meeting lifecycle. Do not transfer RC Phone's study results or release status to RC Video."
+		],
+		"emphasize": [
+			"Research connecting customer workflows to design decisions",
+			"Phone-first prioritization and the explicit boundaries of the first release",
+			"Adaptive layouts, pop-out tools, progressive disclosure, and multitasking",
+			"Consistency across form factors and third-party contexts as a broader design goal",
+			"Measured usability and preference improvements alongside task-level regressions",
+			"Uris's leadership of the redesign"
+		],
+		"avoid": [
+			"Presenting the full MVP redesign as shipped across all platforms",
+			"Claiming video, internal team messaging, tasks, fax, or the switchboard shipped in the first release",
+			"Claiming every task improved or treating study results as production business outcomes",
+			"Reducing the work to a visual refresh",
+			"Inventing implementation architecture or attributing all research and engineering solely to Uris"
+		],
+		"audiences": [
+			"Hiring managers",
+			"Product leaders",
+			"Design leaders",
+			"UX designers",
+			"Collaboration-product teams"
+		],
+		"suggestedQuestions": [
+			"What customer research shaped the RingCentral redesign?",
+			"What shipped in the first release and what was deferred?",
+			"How did the workspace support multitasking and limited screen space?",
+			"How did progressive disclosure simplify the phone experience?",
+			"What did usability and preference testing show, including the tradeoffs?",
+			"What was Uris's role in the redesign?",
+			"How does RC Phone relate to RC Video?"
+		],
+		"capabilities": ["summarize", "explain_problem_framing", "highlight_tradeoffs", "compare"],
+		"limitations": [
+			"The first release was an opt-in, phone-first desktop experience for eligible customers, not a universal rollout of every concept.",
+			"Usability N = 56 and preference N = 102 are separate studies; cohort sizes, statistical significance, and long-term business impact are not provided.",
+			"Performance errors are reported as mean number of errors, not error-rate percentages.",
+			"Do not infer detailed React/Electron architecture, launch dates, adoption, revenue, or shipped integrations from the listed stack and design examples."
+		],
+		"highlightOrder": [
+			"Customer research and the five recurring pain points",
+			"Phone-first prioritization, opt-in desktop release, and deferred scope",
+			"Adaptive modular workspace and progressive disclosure",
+			"Natural call interactions, responsive layouts, and pop-out tools",
+			"Cross-platform consistency and modern design language",
+			"Usability results, preference ratings, and the two task-level regressions"
+		],
+		"relatedProjects": ["rc-video"],
+		"keywords": [
+			"RingCentral",
+			"MVP",
+			"message video phone",
+			"phone-first",
+			"communications",
+			"product design",
+			"user research",
+			"usability testing",
+			"progressive disclosure",
+			"responsive design",
+			"modular workspace",
+			"multitasking",
+			"pop-out windows",
+			"design system",
+			"React",
+			"Electron"
+		]
 	},
 	"header": {
 		"title": "Making work, less work ...",
