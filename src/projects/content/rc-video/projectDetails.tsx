@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Label } from '@apple-pie/slice';
+import { useState } from 'react';
 import { DataButton, DataButtonGrid } from '@/components/DataButtons/DataButtons';
 import { HeroImage } from '@/components/HeroImage/HeroImage';
 import { LinkList } from '@/components/LinkList/LinkList';
@@ -22,9 +23,10 @@ import { videos } from './videos';
 
 export default function RcVideo() {
 	const header = projectJson.header || {};
+	const [workChannel, setWorkChannel] = useState<string>('');
 
 	return (
-		<Wrapper>
+		<Wrapper getChannelName={setWorkChannel}>
 			<Section gradient={false}>
 				<Logo name={'rc'} color={'var(--core-icon-primary)'} size={64} margin={'0 0 64px 0'} />
 				<ProjectTitle>{header.title}</ProjectTitle>
@@ -114,8 +116,12 @@ export default function RcVideo() {
 						</p>
 					</TextParagraph>
 					<TextLinkList>
-						<VideoButton videoProps={videos.aiSummaries}>AI Summaries [00:35]</VideoButton>
-						<VideoButton videoProps={videos.aiAccuracy}>AI Accuracy [00:24]</VideoButton>
+						<VideoButton channelName={workChannel} videoProps={videos.aiSummaries}>
+							AI Summaries [00:35]
+						</VideoButton>
+						<VideoButton channelName={workChannel} videoProps={videos.aiAccuracy}>
+							AI Accuracy [00:24]
+						</VideoButton>
 					</TextLinkList>
 				</ProjectHighlight>
 				<ProjectHighlight
@@ -132,8 +138,12 @@ export default function RcVideo() {
 						</p>
 					</TextParagraph>
 					<TextLinkList>
-						<VideoButton videoProps={videos.about}>About (Miro) [00:35]</VideoButton>
-						<VideoButton videoProps={videos.sessions}>Sessions [00:52]</VideoButton>
+						<VideoButton channelName={workChannel} videoProps={videos.about}>
+							About (Miro) [00:35]
+						</VideoButton>
+						<VideoButton channelName={workChannel} videoProps={videos.sessions}>
+							Sessions [00:52]
+						</VideoButton>
 					</TextLinkList>
 				</ProjectHighlight>
 			</Section>

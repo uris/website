@@ -1,6 +1,7 @@
 'use client';
 
 import { Label } from '@apple-pie/slice';
+import { useState } from 'react';
 import { DataButton, DataButtonGrid } from '@/components/DataButtons/DataButtons';
 import { HeroImage } from '@/components/HeroImage/HeroImage';
 import { Logo } from '@/components/Logos/Logos';
@@ -28,9 +29,10 @@ import { videos } from '@/projects/content/rc-phone/videos';
 
 export default function RcPhone() {
 	const header = projectJson.header || {};
+	const [workChannel, setWorkChannel] = useState<string>('');
 
 	return (
-		<Wrapper>
+		<Wrapper getChannelName={setWorkChannel}>
 			<Section gradient={false}>
 				<Logo name={'rc'} color={'var(--core-icon-primary)'} size={64} margin={'0 0 64px 0'} />
 				<ProjectTitle>{header.title}</ProjectTitle>
@@ -62,7 +64,12 @@ export default function RcPhone() {
 					discovered work accelerators.
 				</SubTitle>
 				<UserGrid cards={userCards} showVideo={false} cardHeight={300} marginSize={32} />
-				<VideoButton label={`Preview Dale's story [2:41]`} videoProps={videos.dale} margin={true} />
+				<VideoButton
+					label={`Preview Dale's story [2:41]`}
+					videoProps={videos.dale}
+					channelName={workChannel}
+					margin={true}
+				/>
 				<SubTitle>
 					The team also reviewed and synthesized customer feedback and analytics in the form of NPS feedback, usage
 					analytics and behavior as well as user testing.

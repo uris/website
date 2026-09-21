@@ -73,7 +73,7 @@ export default function Home(props: Readonly<HomeProps>) {
 	// set up 'work' channel to send/receive messages with project iframe
 	useEffect(() => {
 		if (!windowId) setWindowId(Date.now().toString());
-		else addChannel({ name: 'work', origin: windowId });
+		else addChannel({ name: `work.${windowId}`, origin: windowId });
 		return () => void removeChannel('chat');
 	}, [addChannel, removeChannel, windowId, setWindowId]);
 

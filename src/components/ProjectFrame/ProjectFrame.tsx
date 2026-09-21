@@ -1,7 +1,7 @@
 'use client';
 
 import { ProgressIndicator, useObserveResize, useTheme } from '@apple-pie/slice';
-import { useBrowserChannelActions, useBrowserChannelMessage, useIsActiveChannel } from '@apple-pie/slice/stores';
+import { useBrowserChannelActions, useIsActiveChannel, useParentMessage } from '@apple-pie/slice/stores';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDraggingSidebar, useWindowId } from '@/stores/home-layout/homeLayoutStore';
@@ -38,8 +38,10 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 	const size = useObserveResize(iframeRef, { ignore: 'width' });
 	const [isLoading, setIsLoading] = useState(true);
 	const windowId = useWindowId();
-	const isWorkActive = useIsActiveChannel('work');
-	const workMessage = useBrowserChannelMessage<WorkChannelMessage>('work');
+	const channelName = `work.${windowId}`;
+	const isWorkActive = useIsActiveChannel(channelName);
+	const workMessage = useParentMessage<WorkChannelMessage>(channelName, windowId);
+	const currentMessage = useRef(workMessage);
 	const post = useBrowserChannelActions().post;
 
 	// memo dynamic styles
@@ -51,9 +53,7 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 
 	// memo state updates for work channel messages
 	const stateUpdate = useMemo(
-		(event?: FrameEvent): WorkChannelMessage => {
-			return { event: event ?? FrameEvent.STATE_CHANGE, theme, height: size.height };
-		},
+		(): WorkChannelMessage => ({ event: FrameEvent.STATE_CHANGE, theme, height: size.height }),
 		[theme, size.height],
 	);
 
@@ -65,9 +65,11 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 
 	// handle messages received on the "work" chanel shared with iframe
 	useEffect(() => {
-		/* only process messages from children windows */
-		if (workMessage?.origin.split('.')[0] !== windowId) return;
-		console.log(origin);
+		// A retained message belongs to the previous frame; only handle new arrivals.
+		if (!workMessage || workMessage === currentMessage.current) return;
+		currentMessage.current = workMessage;
+
+		// handle message types
 		switch (workMessage?.content?.type) {
 			case 'video-started':
 				setShowOverlays(false);
@@ -80,16 +82,16 @@ export function ProjectFrame(props: Readonly<ProjectIframeProps>) {
 				break;
 			case 'project-loaded': {
 				const message: WorkChannelMessage = { ...stateUpdate, event: FrameEvent.INIT };
-				post('work', message);
+				post(channelName, message);
 				break;
 			}
 		}
-	}, [workMessage, setShowOverlays, setSurface, post, stateUpdate, windowId]);
+	}, [workMessage, setShowOverlays, setSurface, post, stateUpdate, channelName]);
 
 	// post further state updates to child automatically
 	useEffect(() => {
-		if (isWorkActive) post('work', stateUpdate);
-	}, [stateUpdate, post, isWorkActive]);
+		if (isWorkActive) post(channelName, stateUpdate);
+	}, [stateUpdate, post, isWorkActive, channelName]);
 
 	if (!projectSlug) return null;
 	const projectUrl = `/projects/${projectSlug}?theme=${theme}&windowId=${windowId}`;

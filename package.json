@@ -20,7 +20,7 @@
 		"test:install": "playwright install chromium"
 	},
 	"dependencies": {
-		"@apple-pie/slice": "^0.1.54",
+		"@apple-pie/slice": "file:../uikit/pack/apple-pie-slice-0.1.54.tgz",
 		"motion": "^12.38.0",
 		"next": "^16.2.1",
 		"react": "^19.2.0",
