@@ -39,6 +39,7 @@
 			"Zustand",
 			"@apple-pie/slice",
 			"Shared API Layer",
+			"PostHog Analytics",
 			"Biome"
 		],
 		"links": [

@@ -1,3 +1,4 @@
+import { trackViRequestSubmitted, trackViSessionStarted } from '@/src/analytics/viAnalytics';
 import { safeJsonParse } from '@/src/lib/shared/utils';
 import { CallbackEvent, type ViStoreState } from '@/src/stores/ai/_types';
 import { sendCreateIntroMessage } from '@/src/stores/ai/ViTalkResponseCreateFactory';
@@ -62,6 +63,7 @@ export async function handleMessageEvent(
 
 			// send the connected notification
 			viNotification('Connected');
+			trackViSessionStarted();
 
 			// return state updates to be processed
 			return {
@@ -146,11 +148,13 @@ export async function handleMessageEvent(
 			if (content_type) {
 				// if this is input audio simply trigger the call back event for any listeners
 				if (content_type === 'input_audio') {
+					trackViRequestSubmitted(id, 'voice');
 					return { event: CallbackEvent.UserAudioMessageAdded, data };
 				}
 
 				// if text message, trigger new message creation in the stack with the new conversation item
 				if (content_type === 'input_text') {
+					trackViRequestSubmitted(id, 'text');
 					viResponsesActions.handleNewUserMessage({ id, text, transcript, content_type });
 					return { event: CallbackEvent.UserTextMessageAdded, data };
 				}

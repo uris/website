@@ -43,6 +43,7 @@
 						{ "name": "React 18 / 19", "value": 95, "level": "principal" },
 						{ "name": "State (Zustand / Redux)", "value": 95, "level": "principal" },
 						{ "name": "Next.js", "value": 80, "level": "advanced" },
+						{ "name": "PostHog / Google Analytics", "value": 75, "level": "proficient" },
 						{ "name": "Interaction architecture", "value": 95, "level": "principal" },
 						{ "name": "Performance", "value": 95, "level": "advanced" },
 						{ "name": "Animation & Polish", "value": 80, "level": "advanced" },

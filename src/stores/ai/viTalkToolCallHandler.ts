@@ -1,4 +1,5 @@
 import { isProjectSlug } from '@/projects/_registry/slugs';
+import { registerViToolCall } from '@/src/analytics/viAnalytics';
 import { CallbackEvent, type ViEventMessage } from '@/stores/ai/_types';
 import UIView, { ToolType, UITheme } from '@/stores/ai/ai-tools/_types';
 import { sendToolCallResultsItem } from '@/stores/ai/ViTalkCreateConvoItemFactory';
@@ -12,6 +13,13 @@ export async function viTalkToolCallHandler(
 	if (!params.id || !params.call_id || !isCurrent()) return;
 	const args = params.args;
 	if (!args || typeof args !== 'object' || Array.isArray(args)) return;
+	// Settings can return two separate UI results for one tool call.
+	const expected =
+		params.name === ToolType.UpdateUiSettings
+			? Number('theme' in args) +
+				Number('volume' in args && typeof args.volume === 'number' && args.volume >= 0 && args.volume <= 1)
+			: 1;
+	registerViToolCall(params.call_id, params.name, Math.max(1, expected));
 	switch (params.name) {
 		case ToolType.UpdateUiSettings:
 			if ('theme' in args) handleThemeChange(args.theme, params.call_id);

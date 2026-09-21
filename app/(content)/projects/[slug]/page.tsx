@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { ProjectDetailsContainer } from '@/projects/renderers/ProjectDetailsContainer';
 import { getKnownProjectSlugs } from '@/projects/server';
 import { loadProjectComponent } from '@/projects/server/loadProjectComponent';
+import { ProjectViewTracker } from '@/src/analytics/ProjectViewTracker';
 
 // map of all params - let's next generate static pages for each
 export function generateStaticParams() {
@@ -19,6 +20,7 @@ export default async function ProjectDetailsPage({ params }: Readonly<{ params: 
 	// render the project details component matching the requested slug
 	return (
 		<ProjectDetailsContainer>
+			<ProjectViewTracker projectSlug={slug} presentation="standalone" />
 			<ProjectDetails />
 		</ProjectDetailsContainer>
 	);

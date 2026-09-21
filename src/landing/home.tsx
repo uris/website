@@ -14,6 +14,7 @@ import { AIPanel } from '@/features/AIPanel/AIPanel';
 import { SettingsPanel } from '@/features/SettingsPanel/SettingsPanel';
 import { Sidebar } from '@/features/SidebarPanel/Sidebar';
 import type { ProjectSlug } from '@/projects/_registry/slugs';
+import { WorkspaceProjectViewTracker } from '@/src/analytics/ProjectViewTracker';
 import { usePop } from '@/src/hooks/usePop/usePop';
 import { SETTINGS_CONSTRAINTS, SIDEBAR_CONSTRAINTS } from '@/stores/home-layout/_defaults';
 import { useHomeLayout, useSettingsOpen, useSidebarOpen, useWindowId } from '@/stores/home-layout/homeLayoutStore';
@@ -82,6 +83,7 @@ export default function Home(props: Readonly<HomeProps>) {
 		<FlexDiv preset={Preset.Window} height={height} justify={'start'} align={'center'} ref={viewRef}>
 			{resolved && (
 				<>
+					<WorkspaceProjectViewTracker />
 					<FlexDiv preset={Preset.Draggable}>
 						<DraggablePanel
 							drags={'right'}

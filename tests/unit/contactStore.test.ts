@@ -2,6 +2,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { contactForm, ValidationType } from '@/stores/contact/_types';
 import { useContactStore } from '@/stores/contact/contactStore';
 
+const { capture } = vi.hoisted(() => ({ capture: vi.fn() }));
+vi.mock('@/src/analytics/trackAppEvent', () => ({ trackAppEvent: capture }));
+
 const { push } = vi.hoisted(() => ({ push: vi.fn() }));
 vi.mock('@apple-pie/slice', () => ({ ToastType: { Success: 'success', Warning: 'warning' } }));
 vi.mock('@apple-pie/slice/stores', () => ({ useToastStore: { getState: () => ({ actions: { push } }) } }));
@@ -103,11 +106,13 @@ describe('contact submission', () => {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ from: 'person@example.com', text: 'Hello there' }),
 		});
+		expect(capture).not.toHaveBeenCalled();
 		deferred.resolve(Response.json({ success: true }));
 		await pending;
 		expect(useContactStore.getState()).toMatchObject({ sending: false, errors: [] });
 		expect(useContactStore.getState().formValues.size).toBe(0);
 		expect(push).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ message: 'Message sent' }));
+		expect(capture).toHaveBeenCalledExactlyOnceWith('contact_submitted', null);
 	});
 	it.each(['application failure', 'HTTP failure', 'malformed body', 'network failure'])(
 		'retains input and supports retry after %s',
@@ -124,6 +129,7 @@ describe('contact submission', () => {
 			expect(push).toHaveBeenLastCalledWith(
 				expect.objectContaining({ message: 'Unable to send your message. Please try again later.' }),
 			);
+			expect(capture).not.toHaveBeenCalled();
 			fetchMock.mockResolvedValueOnce(Response.json({ success: true }));
 			await actions.send();
 			expect(fetchMock).toHaveBeenCalledTimes(2);

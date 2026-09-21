@@ -36,6 +36,8 @@ export default defineConfig({
 						'zustand',
 						'motion/react',
 						'vitest-browser-react',
+						'posthog-js',
+						'@posthog/react',
 					],
 				},
 				test: {
