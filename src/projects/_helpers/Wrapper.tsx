@@ -7,11 +7,11 @@ import styles from './Wrapper.module.css';
 
 interface WrapperProps {
 	children: React.ReactNode;
+	getChannelName?: (name: string) => void;
 }
 export function Wrapper(props: Readonly<WrapperProps>) {
-	const { children } = props;
+	const { children, getChannelName } = props;
 	const { addChannel, removeChannel, post } = useBrowserChannelActions();
-	const isWorkActive = useIsActiveChannel('work');
 
 	// memoize parent window from search params
 	const parentWindowId = useMemo(() => {
@@ -19,18 +19,27 @@ export function Wrapper(props: Readonly<WrapperProps>) {
 		return new URLSearchParams(window.location.search).get('windowId');
 	}, []);
 
+	const channelName = parentWindowId ? `work.${parentWindowId}` : '';
+	const isWorkActive = useIsActiveChannel(channelName);
+
 	// tell parent window it's ok to show the close project button now
 	const handleQuitVideo = () => {
 		const message: WorkChannelMessage = { event: FrameEvent.CHILD_EVENT, type: 'video-ended' };
-		if (isWorkActive) post('work', message);
+		if (isWorkActive) post(channelName, message);
 	};
 
 	// set up work channel to send/receive messages and post project-loaded message to parent
 	useEffect(() => {
-		addChannel({ name: 'work', origin: `${parentWindowId}.project-frame` });
-		post('work', { event: FrameEvent.CHILD_EVENT, type: 'project-loaded' });
-		return () => void removeChannel('work');
-	}, [addChannel, removeChannel, post, parentWindowId]);
+		if (!channelName) return;
+		addChannel({ name: channelName, origin: `${parentWindowId}.project-frame` });
+		post(channelName, { event: FrameEvent.CHILD_EVENT, type: 'project-loaded' });
+		return () => void removeChannel(channelName);
+	}, [addChannel, removeChannel, post, parentWindowId, channelName]);
+
+	// Expose the channel after rendering, so callers can safely store it in state.
+	useEffect(() => {
+		getChannelName?.(channelName);
+	}, [channelName, getChannelName]);
 
 	return (
 		<FlexDiv

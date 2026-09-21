@@ -1,6 +1,6 @@
 import { Button, Icon } from '@apple-pie/slice';
 import { useBrowserChannelActions, useIsActiveChannel } from '@apple-pie/slice/stores';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { FrameEvent, type WorkChannelMessage } from '@/components/ProjectFrame/ProjectFrame';
 import { ProjectTitle } from '@/components/ProjectTitle/ProjectTitle';
 import { Section } from '@/components/Section/Section';
@@ -9,13 +9,21 @@ import { Wrapper } from '@/projects/_helpers/Wrapper';
 
 export default function ComingSoon() {
 	const post = useBrowserChannelActions().post;
-	const isWorkActive = useIsActiveChannel('work');
+
+	// memoize parent window from search params
+	const parentWindowId = useMemo(() => {
+		if (typeof window === 'undefined') return undefined;
+		return new URLSearchParams(window.location.search).get('windowId');
+	}, []);
+
+	const channelName = parentWindowId ? `work.${parentWindowId}` : '';
+	const isWorkActive = useIsActiveChannel(channelName);
 
 	// tell parent window to navigate to contacts
 	const handleNotify = useCallback(() => {
 		const message: WorkChannelMessage = { event: FrameEvent.CHILD_EVENT, type: 'navigate-contact' };
-		if (isWorkActive) post('work', message);
-	}, [post, isWorkActive]);
+		if (isWorkActive) post(channelName, message);
+	}, [post, isWorkActive, channelName]);
 
 	return (
 		<Wrapper>
