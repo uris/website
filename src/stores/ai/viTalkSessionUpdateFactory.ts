@@ -52,6 +52,7 @@ export async function updateSessionInstructions() {
 
 	// get the list of projects
 	const projects = await projectList();
+	if (getWebRTCConnections(CONN_NAME) !== rtc) return;
 
 	// create the session update object
 	const sessionUpdate = {
@@ -101,19 +102,20 @@ Only change from english to another language if the user absolutely requests it.
  * Fetches the complete list of project summaries to seed Vi with a high level overview of the work
  */
 export const projectList = async () => {
-	const response = await fetch('/server/projects/summaries');
-	if (response.ok) {
+	try {
+		const response = await fetch('/server/projects/summaries');
+		if (!response.ok) return '';
 		const { data } = await response.json();
-		if (data) {
-			const projectList = (data as ProjectSummary[])
-				.map((summary) => {
-					const techStack = summary.techStack.length ? ` Tech stack: ${summary.techStack.join(', ')}.` : '';
-					return `- ##${summary.title}## (slug/id: ${summary.slug}): ${summary.summary}${techStack}`;
-				})
-				.join('\n');
-			return `# Uris' Projects: \n${projectList}`;
-		}
+		if (!Array.isArray(data)) return '';
+		const projects = (data as ProjectSummary[])
+			.map((summary) => {
+				const techStack = summary.techStack.length ? ` Tech stack: ${summary.techStack.join(', ')}.` : '';
+				return `- ##${summary.title}## (slug/id: ${summary.slug}): ${summary.summary}${techStack}`;
+			})
+			.join('\n');
+		return `# Uris' Projects: \n${projects}`;
+	} catch {
+		// A temporary content failure should not prevent the voice session from starting.
+		return '';
 	}
-	console.log('no project summaries to add to session update instructions');
-	return '';
 };

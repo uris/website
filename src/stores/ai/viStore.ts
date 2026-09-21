@@ -10,6 +10,7 @@ import {
 import { create } from 'zustand';
 import { viConnectionNotification } from '@/src/content/notifications/notifications';
 import type { BaseResponse } from '@/src/lib/shared/types';
+import { safeJsonParse } from '@/src/lib/shared/utils';
 import { CONN_NAME, CONN_URL, EVENTS_DATA_CHANNEL, INITIAL_MIC_VOLUME } from '@/src/stores/ai/_data';
 import {
 	CallbackEvent,
@@ -22,7 +23,14 @@ import { sendUserMessage } from '@/src/stores/ai/ViTalkCreateConvoItemFactory';
 import { realtimeDataEventHandler } from '@/src/stores/ai/ViTalkEventHandler';
 import { requestResponseStop, sendUserResponseRequest } from '@/src/stores/ai/ViTalkResponseCreateFactory';
 import { useHomeLayoutStore } from '@/stores/home-layout/homeLayoutStore';
+import { useViResponsesStore } from '@/stores/responses/responsesStore';
 import { bestGuessNoiseReduction } from '@/utils/misc';
+
+// Do not reuse the named transport while a cancelled microphone/RTC request is still settling.
+let pendingConnection = false;
+let connectionGeneration = 0;
+let sessionRequest: AbortController | null = null;
+const seenEvents = new Set<string>();
 
 export const useAIStore = create<ViStore>((set, get) => ({
 	connected: false,
@@ -44,75 +52,63 @@ export const useAIStore = create<ViStore>((set, get) => ({
 		 * Establish a connection to the realtime session and WebRTC connection
 		 */
 		connect: async (talk?: boolean) => {
-			// if already connected or connecting return
-			if (get().connected || get().connecting) return;
-
-			// set connecting true, disconnecting false, and talk based on param
+			if (get().connected || get().connecting || pendingConnection) return;
+			const generation = ++connectionGeneration;
+			const isCurrent = () => generation === connectionGeneration;
+			const controller = new AbortController();
+			sessionRequest = controller;
+			pendingConnection = true;
+			seenEvents.clear();
 			set({ connecting: true, talk: talk ?? get().talk });
 			viNotification('Connecting');
-
-			// check for microphone
-			const microphoneActive = await micIsConnected();
-
-			// request mic access if not already active
-			if (!microphoneActive) {
-				const requestMic = await requestMicAccess();
-				if (requestMic.error) {
-					set({ connected: false, connecting: false });
-					viNotification('Failed');
-					return;
+			try {
+				if (!getMicrophoneState().micStream.current) {
+					const microphone = await requestMicAccess();
+					// getUserMedia cannot always be aborted; release a stream granted after cancellation.
+					if (!isCurrent()) {
+						stopMicrophone();
+						return;
+					}
+					if (!microphone.success) throw new Error('Microphone unavailable');
 				}
-			}
-
-			// request ephemeral token for a realtime session
-			const session = await createRealtimeSession();
-
-			// if unable to create the session, notify the user
-			if (!session.success) {
-				set({ connected: false, connecting: false });
+				const session = await createRealtimeSession(controller.signal);
+				if (!isCurrent()) return;
+				if (!session.success || typeof session.data?.value !== 'string' || !session.data.value) {
+					throw new Error('Session unavailable');
+				}
+				const connection = await createRTCConnection(session.data.value, isCurrent);
+				if (!isCurrent()) return;
+				if (!connection.success) throw new Error('Connection unavailable');
+				processEventCallbacks(CallbackEvent.ViConnect, { event: CallbackEvent.ViConnect });
+				if (isCurrent()) useHomeLayoutStore.getState().actions.setShowTalkToViLabel(false);
+			} catch {
+				if (!isCurrent()) return;
+				++connectionGeneration;
+				set({ connected: false, connecting: false, viTalking: false, live: false });
+				releaseConnection();
+				finishActiveResponse();
 				viNotification('Failed');
-				return;
+			} finally {
+				pendingConnection = false;
+				if (sessionRequest === controller) sessionRequest = null;
 			}
-
-			// extract token to use for RTC connection
-			const token = session.data.value;
-
-			// create the RTC connection with the token used as bearer header
-			const connection = await createRTCConnection(token);
-
-			// check for connection errors
-			if (connection.error) {
-				set({ connected: false, connecting: false });
-				viNotification('Failed');
-				return;
-			}
-
-			// emit the connected event so listeners can fire
-			processEventCallbacks(CallbackEvent.ViConnect, { event: CallbackEvent.ViConnect });
-
-			// set vi label display to false as already connected
-			useHomeLayoutStore.getState().actions.setShowTalkToViLabel(false);
 		},
 
 		/**
 		 * Disconnect from the realtime session and WebRTC connection
 		 */
 		disconnect: () => {
-			// if already disconnecting or not connected, return
-			if (!get().connected) return;
-
-			// disconnect the RTC connectio
-			disconnectRTC();
-			stopMicrophone();
-
-			// emit the disconnected event so listeners can fire
+			if (!get().connected && !get().connecting) return;
+			++connectionGeneration;
+			sessionRequest?.abort();
+			seenEvents.clear();
+			// Invalidate callbacks before closing channels, which can synchronously emit close events.
+			set({ connected: false, connecting: false, viTalking: false, live: false });
+			releaseConnection();
 			processEventCallbacks(CallbackEvent.ViDisconnect, { event: CallbackEvent.ViDisconnect });
-
-			// set connecting false, connected false
-			set({ connected: false, connecting: false });
+			// Let mounted UI listeners preserve their displayed transcript before settling it.
+			finishActiveResponse();
 			viNotification('Disconnected');
-
-			// set vi label display to true
 			useHomeLayoutStore.getState().actions.setShowTalkToViLabel(true);
 		},
 
@@ -120,22 +116,32 @@ export const useAIStore = create<ViStore>((set, get) => ({
 		 * First line handler for data events on the RTC connection
 		 */
 		handleDataEvents: async (channel, event, eventData) => {
-			// filter out data events not part of the WebRTC data channel list
-			if (!channel.includes(EVENTS_DATA_CHANNEL)) return;
-
-			if (event === 'message') {
-				// handle the realtime event and get updates
-				const updates = await realtimeDataEventHandler(eventData);
-				const { event, state, data } = updates ?? {};
-
-				// process any state updates
-				if (state) set(state);
-
-				// emit event to any listeners
-				if (event) processEventCallbacks(event, { id: undefined, event, data });
-			} else {
-				// log other events for now
-				console.log({ event, eventData });
+			if (channel !== EVENTS_DATA_CHANNEL || (!get().connected && !get().connecting)) return;
+			if (event === 'close' || event === 'error') {
+				get().actions.disconnect();
+				return;
+			}
+			if (event !== 'message') return;
+			const generation = connectionGeneration;
+			const isCurrent = () => generation === connectionGeneration;
+			const payload = 'data' in eventData && typeof eventData.data === 'string' ? safeJsonParse(eventData.data) : null;
+			const eventId = payload?.event_id;
+			if (typeof eventId === 'string') {
+				if (seenEvents.has(eventId)) return;
+				seenEvents.add(eventId);
+				// Keep memory bounded during long conversations.
+				if (seenEvents.size > 1000) {
+					const oldest = seenEvents.values().next().value;
+					if (oldest !== undefined) seenEvents.delete(oldest);
+				}
+			}
+			try {
+				const updates = await realtimeDataEventHandler(eventData, isCurrent);
+				if (!isCurrent()) return;
+				if (updates?.state) set(updates.state);
+				if (updates?.event) processEventCallbacks(updates.event, { event: updates.event, data: updates.data });
+			} catch {
+				if (isCurrent()) get().actions.disconnect();
 			}
 		},
 
@@ -174,7 +180,8 @@ export const useAIStore = create<ViStore>((set, get) => ({
 
 			// update the handlers and set state
 			nextHandlers.delete(handler);
-			nextListeners.set(event, nextHandlers);
+			if (nextHandlers.size) nextListeners.set(event, nextHandlers);
+			else nextListeners.delete(event);
 			set({ viListeners: nextListeners });
 		},
 	},
@@ -189,13 +196,14 @@ export const useViActions = () => useAIStore((state) => state.actions);
 /**
  * gets a realtime session client secret key
  */
-async function createRealtimeSession() {
+async function createRealtimeSession(signal: AbortSignal) {
 	// best guess noise reduction
 	const micLabel = getCurrentMicDeviceLabel() ?? 'Unknown';
 	const noiseReduction = bestGuessNoiseReduction(micLabel);
 
 	// get a client secret key for realtime api
 	const response = await fetch('/server/openai/realtime/session/request', {
+		signal,
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -215,7 +223,7 @@ async function createRealtimeSession() {
 /**
  * create RTC connection and add to RTC store using realtime client secret
  */
-async function createRTCConnection(bearerToken: string, connectionName = CONN_NAME) {
+async function createRTCConnection(bearerToken: string, isCurrent: () => boolean, connectionName = CONN_NAME) {
 	try {
 		// access mic and volume stores for mic stream and current volume level to add to the connection
 		const micStream = getMicrophoneState().micStream;
@@ -232,7 +240,7 @@ async function createRTCConnection(bearerToken: string, connectionName = CONN_NA
 			volume,
 			dataChannels: [EVENTS_DATA_CHANNEL],
 			onDataChannelEvent: (channel, event, eventData) => {
-				useAIStore.getState().actions.handleDataEvents(channel, event, eventData);
+				if (isCurrent()) return useAIStore.getState().actions.handleDataEvents(channel, event, eventData);
 			},
 		});
 
@@ -254,8 +262,20 @@ async function createRTCConnection(bearerToken: string, connectionName = CONN_NA
 /**
  * Helper to disconnect from the WebRTC store
  */
-function disconnectRTC(connectionName = CONN_NAME) {
-	useWebRTCActions.removeConnection(connectionName);
+function releaseConnection() {
+	try {
+		useWebRTCActions.removeConnection(CONN_NAME);
+	} catch {
+		// Microphone cleanup must still run if transport teardown fails.
+	} finally {
+		stopMicrophone();
+	}
+}
+
+function finishActiveResponse() {
+	const actions = useViResponsesStore.getState().actions;
+	actions.handleDisconnectCleanUp();
+	actions.setBufferStreaming(false);
 }
 
 /**
@@ -287,13 +307,6 @@ function stopMicrophone() {
 }
 
 /**
- * Helper function to check for current microphone
- */
-async function micIsConnected() {
-	return getMicrophoneState().micStream.current !== null;
-}
-
-/**
  * Notification helper
  */
 export function viNotification(type: MessageType) {
@@ -314,6 +327,10 @@ export function processEventCallbacks(event: CallbackEvent, message?: ViEventMes
 	// iterate handlers and call them
 	const handlerArray = Array.from(handlers);
 	for (const handler of handlerArray) {
-		handler(message);
+		try {
+			handler(message);
+		} catch (error) {
+			console.error('Vi event listener failed', error);
+		}
 	}
 }

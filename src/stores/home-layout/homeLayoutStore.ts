@@ -28,6 +28,7 @@ export const useHomeLayoutStore = create<HomeLayoutStore>((set, get) => ({
 		},
 		toggleSettings: (open) => {
 			const settingsOpen = open ?? !get().settingsOpen;
+			if (settingsOpen === get().settingsOpen) return;
 			// if opening settings, store the sidebar value
 			if (settingsOpen) {
 				const storedSidebarOpen = get().sidebarOpen ? true : null;

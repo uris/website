@@ -1,101 +1,73 @@
+import { isProjectSlug } from '@/projects/_registry/slugs';
 import { CallbackEvent, type ViEventMessage } from '@/stores/ai/_types';
 import UIView, { ToolType, UITheme } from '@/stores/ai/ai-tools/_types';
 import { sendToolCallResultsItem } from '@/stores/ai/ViTalkCreateConvoItemFactory';
 import { processEventCallbacks } from '@/stores/ai/viStore';
 
-/**
- * Core handler for tool calls
- * Note: for UI Actions, the UI layer will send results of the tool call back to the model since
- * this needs to provide a success / failure and any relevant data like resulting volume, etc.
- */
-export async function viTalkToolCallHandler(params: { id: string; name: any; args: any; call_id: string }) {
+/** UI tools complete through their UI listeners; data tools return a result even on failure. */
+export async function viTalkToolCallHandler(
+	params: { id: string; name: string; args: unknown; call_id: string },
+	isCurrent: () => boolean = () => true,
+) {
+	if (!params.id || !params.call_id || !isCurrent()) return;
+	const args = params.args;
+	if (!args || typeof args !== 'object' || Array.isArray(args)) return;
 	switch (params.name) {
-		// *** UPDATE UI Settings: volume, theme, etc.
-		case ToolType.UpdateUiSettings: {
-			console.log({ params });
-			if (typeof params.args === 'object') {
-				if ('theme' in params.args) handleThemeChange(params.args.theme, params.call_id);
-				if ('volume' in params.args) handleVolumeChange(params.args.volume, params.call_id);
+		case ToolType.UpdateUiSettings:
+			if ('theme' in args) handleThemeChange(args.theme, params.call_id);
+			if ('volume' in args) handleVolumeChange(args.volume, params.call_id);
+			return;
+		case ToolType.RequestProjectDetails:
+			if ('slug' in args && typeof args.slug === 'string' && isProjectSlug(args.slug)) {
+				await sendData(`/server/projects/${args.slug}`, params.call_id, ToolType.RequestProjectDetails, isCurrent);
+			} else {
+				sendToolCallResultsItem({ success: false, message: 'Invalid project identifier' }, params.call_id);
 			}
-			break;
-		}
-
-		// *** GET PROJECT DETAILS
-		case ToolType.RequestProjectDetails: {
-			if (typeof params.args === 'object' && 'slug' in params.args) {
-				const response = await fetch(`/server/projects/${params.args.slug}`);
-				if (response.ok) {
-					const { data } = await response.json();
-					if (data) {
-						sendToolCallResultsItem(data, params.call_id, true, ToolType.RequestProjectDetails);
-					}
-				}
-			}
-			break;
-		}
-
-		// *** GET SKILLS
-		case ToolType.RequestSkills: {
-			const response = await fetch(`/server/skills`);
-			if (response.ok) {
-				const { data } = await response.json();
-				if (data) {
-					sendToolCallResultsItem(data, params.call_id, true, ToolType.RequestSkills);
-				}
-			}
-			break;
-		}
-
-		// *** OPEN A BROWSER VIEW
+			return;
+		case ToolType.RequestSkills:
+			await sendData('/server/skills', params.call_id, ToolType.RequestSkills, isCurrent);
+			return;
 		case ToolType.OpenView: {
-			console.log('open view', { params });
-			if (typeof params.args === 'object' && 'view' in params.args) {
-				// get params for the view / project to open
-				let action_value: ViEventMessage['action_value'];
-				switch (params.args.view) {
-					case UIView.Projects:
-						action_value = { slug: params.args.slug, view: params.args.view };
-						break;
-					default:
-						action_value = { view: params.args.view };
-						break;
-				}
-				// emit event to open the selected project
-				processEventCallbacks(CallbackEvent.ViOpenView, {
-					event: CallbackEvent.ViOpenView,
-					id: params.call_id,
-					action_value,
-				});
+			if (!('view' in args) || !Object.values(UIView).includes(args.view as UIView)) return;
+			const view = args.view as UIView;
+			const action_value: ViEventMessage['action_value'] = { view };
+			if (view === UIView.Projects && 'slug' in args && typeof args.slug === 'string' && isProjectSlug(args.slug)) {
+				action_value.slug = args.slug;
 			}
-			break;
+			processEventCallbacks(CallbackEvent.ViOpenView, {
+				event: CallbackEvent.ViOpenView,
+				id: params.call_id,
+				action_value,
+			});
+			return;
 		}
-
-		// *** OPEN ALL PROJECTS
-		case ToolType.ViewAllProjects: {
-			console.log('view all projects', { params });
-			// emit event to open the selected project
+		case ToolType.ViewAllProjects:
 			processEventCallbacks(CallbackEvent.ViOpenView, {
 				event: CallbackEvent.ViOpenView,
 				id: params.call_id,
 				action_value: { view: UIView.Projects },
 			});
-			break;
-		}
-
-		default: {
-			break;
-		}
 	}
 }
 
-/**
- * Request a theme change
- */
+async function sendData(url: string, callId: string, tool: ToolType, isCurrent: () => boolean) {
+	let result: unknown = { success: false, message: 'Requested data is unavailable' };
+	try {
+		const response = await fetch(url);
+		if (response.ok) {
+			const body = await response.json();
+			if (body?.data && body.success !== false) result = body.data;
+		}
+	} catch {
+		// Complete the tool call with an error so the model can explain the failure.
+	}
+	if (isCurrent()) sendToolCallResultsItem(result, callId, true, tool);
+}
+
 export function handleThemeChange(theme: unknown, call_id: string) {
 	let sliceTheme: UITheme = UITheme.System;
-	if (typeof theme === 'string' && theme === 'darkMode') sliceTheme = UITheme.DarkMode;
-	else if (typeof theme === 'string' && theme === 'lightMode') sliceTheme = UITheme.LightMode;
-	// emit the requested theme to listeners
+	if (theme === 'darkMode') sliceTheme = UITheme.DarkMode;
+	else if (theme === 'lightMode') sliceTheme = UITheme.LightMode;
 	processEventCallbacks(CallbackEvent.ViThemeChange, {
 		event: CallbackEvent.ViThemeChange,
 		id: call_id,
@@ -103,12 +75,8 @@ export function handleThemeChange(theme: unknown, call_id: string) {
 	});
 }
 
-/**
- * Request a volume change
- */
 export function handleVolumeChange(volume: unknown, call_id: string) {
 	if (typeof volume === 'number' && volume >= 0 && volume <= 1) {
-		// emit the requested volume to listeners
 		processEventCallbacks(CallbackEvent.ViVolumeChange, {
 			event: CallbackEvent.ViVolumeChange,
 			id: call_id,
