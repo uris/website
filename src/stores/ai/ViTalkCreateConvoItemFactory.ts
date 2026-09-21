@@ -1,4 +1,5 @@
 import { getWebRTCConnections } from '@apple-pie/slice/stores';
+import { trackViToolCompleted } from '@/src/analytics/viAnalytics';
 import { CONN_NAME, EVENTS_DATA_CHANNEL } from '@/src/stores/ai/_data';
 import { sendResponseRequest } from '@/stores/ai/ViTalkResponseCreateFactory';
 import type { ToolType } from './ai-tools/_types';
@@ -56,6 +57,13 @@ export function sendToolCallResultsItem(data: any, call_id: string, requestRespo
 
 	// send it
 	connection.connection.sendMessage(EVENTS_DATA_CHANNEL, event);
+	const part =
+		data && typeof data === 'object' && 'theme' in data
+			? 'theme'
+			: data && typeof data === 'object' && 'volumeChange' in data
+				? 'volume'
+				: 'result';
+	trackViToolCompleted(call_id, data?.success !== false, part);
 
 	// and then immediately prompt for the model to react and respond to the data
 	// if flagged for requesting a response

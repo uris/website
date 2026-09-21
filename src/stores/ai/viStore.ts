@@ -8,6 +8,8 @@ import {
 	useWebRTCActions,
 } from '@apple-pie/slice/stores';
 import { create } from 'zustand';
+import type { ViFailureStage } from '@/src/analytics/events';
+import { trackViSessionAttempted, trackViSessionEnded, trackViSessionFailed } from '@/src/analytics/viAnalytics';
 import { viConnectionNotification } from '@/src/content/notifications/notifications';
 import type { BaseResponse } from '@/src/lib/shared/types';
 import { safeJsonParse } from '@/src/lib/shared/utils';
@@ -53,6 +55,9 @@ export const useAIStore = create<ViStore>((set, get) => ({
 		 */
 		connect: async (talk?: boolean) => {
 			if (get().connected || get().connecting || pendingConnection) return;
+			trackViSessionAttempted();
+			if (typeof window !== 'undefined') window.addEventListener('pagehide', handlePageExit);
+			let failureStage: ViFailureStage = 'microphone';
 			const generation = ++connectionGeneration;
 			const isCurrent = () => generation === connectionGeneration;
 			const controller = new AbortController();
@@ -71,11 +76,13 @@ export const useAIStore = create<ViStore>((set, get) => ({
 					}
 					if (!microphone.success) throw new Error('Microphone unavailable');
 				}
+				failureStage = 'token';
 				const session = await createRealtimeSession(controller.signal);
 				if (!isCurrent()) return;
 				if (!session.success || typeof session.data?.value !== 'string' || !session.data.value) {
 					throw new Error('Session unavailable');
 				}
+				failureStage = 'webrtc';
 				const connection = await createRTCConnection(session.data.value, isCurrent);
 				if (!isCurrent()) return;
 				if (!connection.success) throw new Error('Connection unavailable');
@@ -83,6 +90,8 @@ export const useAIStore = create<ViStore>((set, get) => ({
 				if (isCurrent()) useHomeLayoutStore.getState().actions.setShowTalkToViLabel(false);
 			} catch {
 				if (!isCurrent()) return;
+				trackViSessionFailed(failureStage);
+				trackViSessionEnded();
 				++connectionGeneration;
 				set({ connected: false, connecting: false, viTalking: false, live: false });
 				releaseConnection();
@@ -101,6 +110,7 @@ export const useAIStore = create<ViStore>((set, get) => ({
 			if (!get().connected && !get().connecting) return;
 			++connectionGeneration;
 			sessionRequest?.abort();
+			trackViSessionEnded();
 			seenEvents.clear();
 			// Invalidate callbacks before closing channels, which can synchronously emit close events.
 			set({ connected: false, connecting: false, viTalking: false, live: false });
@@ -118,6 +128,8 @@ export const useAIStore = create<ViStore>((set, get) => ({
 		handleDataEvents: async (channel, event, eventData) => {
 			if (channel !== EVENTS_DATA_CHANNEL || (!get().connected && !get().connecting)) return;
 			if (event === 'close' || event === 'error') {
+				if (get().connecting) trackViSessionFailed('webrtc');
+				trackViSessionEnded(event === 'close' ? 'connection_closed' : 'connection_error');
 				get().actions.disconnect();
 				return;
 			}
@@ -141,7 +153,11 @@ export const useAIStore = create<ViStore>((set, get) => ({
 				if (updates?.state) set(updates.state);
 				if (updates?.event) processEventCallbacks(updates.event, { event: updates.event, data: updates.data });
 			} catch {
-				if (isCurrent()) get().actions.disconnect();
+				if (isCurrent()) {
+					if (get().connecting) trackViSessionFailed('session_setup');
+					trackViSessionEnded('handler_error');
+					get().actions.disconnect();
+				}
 			}
 		},
 
@@ -262,7 +278,13 @@ async function createRTCConnection(bearerToken: string, isCurrent: () => boolean
 /**
  * Helper to disconnect from the WebRTC store
  */
+function handlePageExit() {
+	trackViSessionEnded('page_exit');
+	useAIStore.getState().actions.disconnect();
+}
+
 function releaseConnection() {
+	if (typeof window !== 'undefined') window.removeEventListener('pagehide', handlePageExit);
 	try {
 		useWebRTCActions.removeConnection(CONN_NAME);
 	} catch {

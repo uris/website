@@ -2,6 +2,8 @@ import type { ErrorMessage } from '@apple-pie/slice';
 import { useToastStore } from '@apple-pie/slice/stores';
 import { create } from 'zustand';
 import { messageSent } from '@/content/notifications/notifications';
+import { AppEvent } from '@/src/analytics/events';
+import { trackAppEvent } from '@/src/analytics/trackAppEvent';
 import { isContactMessage, isValidContactEmail, isValidContactText } from '@/src/lib/contact-validation';
 import {
 	type ContactStore,
@@ -26,6 +28,7 @@ export const useContactStore = create<ContactStore>()((set, get) => ({
 			try {
 				set({ sending: true });
 				await sendEmailMessage(message);
+				trackAppEvent(AppEvent.ContactSubmitted, null);
 				get().actions.clear();
 				useToastStore.getState().actions.push(messageSent(true));
 			} catch {

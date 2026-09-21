@@ -5,6 +5,9 @@ import { ToolType } from '@/stores/ai/ai-tools/_types';
 import { useAIStore } from '@/stores/ai/viStore';
 import { useViResponsesStore } from '@/stores/responses/responsesStore';
 
+const { capture } = vi.hoisted(() => ({ capture: vi.fn() }));
+vi.mock('@/src/analytics/trackAppEvent', () => ({ trackAppEvent: capture }));
+
 const transport = vi.hoisted(() => ({
 	get: vi.fn(),
 	add: vi.fn(),
@@ -138,4 +141,84 @@ describe('simulated AI session through real website handlers', () => {
 		expect(output()).toEqual([]);
 		expect(useViResponsesStore.getState().responses).toEqual([]);
 	});
+});
+
+it('records accepted voice/text turns once and links them to the successful session without content', async () => {
+	await actions.connect();
+	await actions.connect();
+	const sessionId = capture.mock.calls[0][1].vi_session_id;
+	expect(capture.mock.calls.slice(0, 2)).toEqual([
+		['vi_session_attempted', { vi_session_id: sessionId }],
+		['vi_session_started', { vi_session_id: sessionId }],
+	]);
+	for (const [id, type] of [
+		['voice-item', 'input_audio'],
+		['text-item', 'input_text'],
+	]) {
+		const item = { id, role: 'user', type: 'message', content: [{ type, text: 'Private content' }] };
+		await deliver('conversation.item.added', { item });
+		await deliver('conversation.item.added', { item });
+	}
+	expect(capture.mock.calls.slice(2)).toEqual([
+		['vi_request_submitted', { vi_session_id: sessionId, input_mode: 'voice' }],
+		['vi_request_submitted', { vi_session_id: sessionId, input_mode: 'text' }],
+	]);
+});
+
+it.each([true, false])('records actual data tool outcome once: %s', async (success) => {
+	await actions.connect();
+	if (success) fetchMock.mockResolvedValue(Response.json({ success: true, data: { skills: ['private data'] } }));
+	await deliver(CallbackEvent.ResponseCreated, { response: { id: 'tool-response' } });
+	const result = {
+		response_id: 'tool-response',
+		item: {
+			type: 'function_call',
+			name: ToolType.RequestSkills,
+			arguments: '{}',
+			call_id: 'skills-call',
+		},
+	};
+	await deliver(CallbackEvent.ResponseItemDone, result);
+	await deliver(CallbackEvent.ResponseItemDone, result);
+	expect(capture.mock.calls.filter(([name]) => name === 'vi_tool_completed')).toEqual([
+		['vi_tool_completed', { vi_session_id: expect.any(String), tool: ToolType.RequestSkills, success }],
+	]);
+});
+
+it('records token failures without declaring a session started', async () => {
+	fetchMock.mockRejectedValue(new Error('private provider error'));
+	await actions.connect();
+	expect(capture.mock.calls.map(([name]) => name)).toEqual(['vi_session_attempted', 'vi_session_failed']);
+	expect(capture.mock.calls[1][1]).toEqual({ vi_session_id: expect.any(String), stage: 'token' });
+});
+
+it.each(['close', 'error'])('records session end once on channel %s', async (event) => {
+	await actions.connect();
+	await channel(EVENTS_DATA_CHANNEL, event, new MessageEvent(event));
+	actions.disconnect();
+	expect(capture.mock.calls.filter(([name]) => name === 'vi_session_ended')).toEqual([
+		[
+			'vi_session_ended',
+			{
+				vi_session_id: expect.any(String),
+				duration_seconds: expect.any(Number),
+				reason: event === 'close' ? 'connection_closed' : 'connection_error',
+			},
+		],
+	]);
+});
+
+it('records page exit and closes the connection without a duplicate end', async () => {
+	const windowEvents = new EventTarget();
+	vi.stubGlobal('window', windowEvents);
+	await actions.connect();
+	windowEvents.dispatchEvent(new Event('pagehide'));
+	windowEvents.dispatchEvent(new Event('pagehide'));
+	expect(useAIStore.getState().connected).toBe(false);
+	expect(capture.mock.calls.filter(([name]) => name === 'vi_session_ended')).toEqual([
+		[
+			'vi_session_ended',
+			{ vi_session_id: expect.any(String), duration_seconds: expect.any(Number), reason: 'page_exit' },
+		],
+	]);
 });
