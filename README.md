@@ -4,7 +4,7 @@ An interactive portfolio and AI workspace built with Next.js App Router, React, 
 
 ## Requirements
 
-- Node.js 20 or later
+- Node.js 24 recommended (also supported: 20.19+ or 22.12+)
 - npm
 - Docker and Docker Compose for production deployment
 
@@ -27,6 +27,30 @@ The site is available at `http://localhost:3000`.
 - `npm run check` runs Biome and TypeScript checks without changing files.
 - `npm run lint` runs Biome with automatic fixes.
 - `npm run format` formats files with Biome.
+
+## Tests
+
+Install Chromium once after installing npm dependencies:
+
+```sh
+npm run test:install
+npm run test:run
+```
+
+On Linux CI, use `npx playwright install --with-deps chromium` to install browser system dependencies as well. Run the install command again after upgrading Playwright.
+
+- `npm test` watches both test projects.
+- `npm run test:unit` runs Node tests for logic, stores, and route handlers.
+- `npm run test:browser` renders React components in headless Chromium through Vitest's Playwright provider.
+- `npm run test:browser:headed` watches browser tests in a visible browser.
+- `npm run test:ui` opens the Vitest UI.
+- `npm run test:coverage` (or `npm run coverage`) runs both projects and writes HTML, JSON, and LCOV reports to `reports/coverage/`.
+
+Unit tests live in `tests/unit/**/*.test.ts`; browser component tests live in `tests/browser/**/*.test.tsx`. Both resolve the aliases from `tsconfig.json`. Browser tests load the application and Slice styles and automatically unmount React trees after each test. Reset stores, storage, timers, and mocks explicitly when a suite changes them.
+
+These component tests run through Vite, without starting Next.js or contacting the private backend. Full Next.js routing, server rendering, hydration, and image optimization need separate end-to-end tests; see the local [testing and coverage plan](docs/TESTING.md) (not tracked in Git).
+
+The Website Tests GitHub Actions workflow runs checks and combined coverage on pull requests and pushes to `main`, and uploads reports. Coverage currently establishes a baseline without enforcing percentage thresholds. The existing deployment workflow runs independently; tests do not yet gate deployment.
 
 ## Server rendering
 

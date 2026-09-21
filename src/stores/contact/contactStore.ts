@@ -2,6 +2,7 @@ import type { ErrorMessage } from '@apple-pie/slice';
 import { useToastStore } from '@apple-pie/slice/stores';
 import { create } from 'zustand';
 import { messageSent } from '@/content/notifications/notifications';
+import { isContactMessage, isValidContactEmail, isValidContactText } from '@/src/lib/contact-validation';
 import {
 	type ContactStore,
 	contactForm,
@@ -16,15 +17,14 @@ export const useContactStore = create<ContactStore>()((set, get) => ({
 	sending: false,
 	actions: {
 		clear: () => {
-			const formValues = get().formValues;
-			formValues.clear();
-			set({ formValues, errors: [] });
+			set({ formValues: new Map(), errors: [] });
 		},
 		send: async () => {
+			if (get().sending) return;
+			const message = createMessage(get().formValues);
+			if (!isContactMessage(message)) return;
 			try {
 				set({ sending: true });
-				const formValues = get().formValues;
-				const message = createMessage(formValues);
 				await sendEmailMessage(message);
 				get().actions.clear();
 				useToastStore.getState().actions.push(messageSent(true));
@@ -35,7 +35,7 @@ export const useContactStore = create<ContactStore>()((set, get) => ({
 			}
 		},
 		setFormValue: (fieldName: string, entry: FormEntryInput) => {
-			const formValues = get().formValues;
+			const formValues = new Map(get().formValues);
 			const isValid = entryIsValid(entry.value, entry.validationType);
 			const initialized = formValues.get(fieldName)?.initialized ?? false;
 			const updatedEntry: FormEntry = {
@@ -49,7 +49,7 @@ export const useContactStore = create<ContactStore>()((set, get) => ({
 			set({ formValues, errors });
 		},
 		setFieldInitialized: (fieldName: string) => {
-			const formValues = get().formValues;
+			const formValues = new Map(get().formValues);
 			const entry = formValues.get(fieldName);
 			if (!entry) return;
 			formValues.set(fieldName, { ...entry, initialized: true });
@@ -99,10 +99,8 @@ async function sendEmailMessage(message: { from: string; text: string }) {
 		body: JSON.stringify(message),
 	});
 	const data = await response.json();
-	const { success, error } = data;
-
-	if (success) return data;
-	else throw new Error(error);
+	if (response.ok && data?.success === true) return data;
+	throw new Error('Unable to send message');
 }
 
 /**
@@ -111,11 +109,10 @@ async function sendEmailMessage(message: { from: string; text: string }) {
 function entryIsValid(value: string, validationType: ValidationType) {
 	switch (validationType) {
 		case ValidationType.email: {
-			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-			return emailRegex.test(value);
+			return isValidContactEmail(value);
 		}
 		case ValidationType.text: {
-			return value.length > 3;
+			return isValidContactText(value);
 		}
 		default:
 			return true;

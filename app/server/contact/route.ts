@@ -1,16 +1,25 @@
 import { NextResponse } from 'next/server';
+import { isContactMessage } from '@/src/lib/contact-validation';
 import { getPrivateApiUrl } from '@/src/lib/server-env';
 
-export async function POST(req: Request) {
-	const message = await req.json();
-	const { from, text } = message;
+function failure(status: number, message = 'Unable to send message') {
+	return NextResponse.json({ success: false, data: null, message, status }, { status });
+}
 
-	// protect for valid message parts
-	if (!from || !text) {
-		const message = 'Message needs from and text fields';
-		const status = 400;
-		return NextResponse.json({ success: false, data: null, message, status }, { status });
+export async function POST(req: Request) {
+	let body: unknown;
+	try {
+		body = await req.json();
+	} catch {
+		return failure(400, 'Invalid JSON body');
 	}
+	if (!isContactMessage(body)) {
+		return failure(
+			400,
+			'Provide a valid email and a message of at least four characters, excluding surrounding whitespace',
+		);
+	}
+	const message = { from: body.from, text: body.text };
 
 	try {
 		const response = await fetch(getPrivateApiUrl('/sendgrid/contact-uris'), {
@@ -18,13 +27,12 @@ export async function POST(req: Request) {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(message),
 		});
-
-		// return response (note could be not successful)
-		const data = await response.json();
-		const { success, status } = data;
-		return NextResponse.json({ success, data: message, status }, { status });
-	} catch (err) {
-		const errorMessage = err instanceof Error ? err.message : 'Internal server error';
-		return NextResponse.json({ success: false, data: null, error: errorMessage, status: 500 }, { status: 500 });
+		// The backend carries status in HTTP, not in its JSON envelope.
+		if (!response.ok) return failure(response.status);
+		const data = await response.json().catch(() => null);
+		if (data?.success !== true) return failure(502);
+		return NextResponse.json({ success: true, data: message, status: response.status }, { status: response.status });
+	} catch {
+		return failure(500);
 	}
 }

@@ -45,6 +45,7 @@ export function ContactFooter() {
 						iconLeft={'x'}
 						size={'large'}
 						label={'Clear'}
+						aria-label="Clear"
 						onClick={contactActions.clear}
 					/>
 					<Button
@@ -53,6 +54,7 @@ export function ContactFooter() {
 						size={'large'}
 						iconRight={'arrow right'}
 						label={'Send'}
+						aria-label="Send"
 						onClick={contactActions.send}
 						working={sending}
 					/>
