@@ -100,10 +100,10 @@ export const performanceDefinitions: ColumnDefinition<UsabilityData>[] = [
 	},
 	{
 		id: 'col-4',
-		key: 'time',
+		key: 'errors',
 		title: 'Error Rate',
 		justify: 'start',
-		renderHeader: (ctx) => <HeaderRender top={ctx.column.title} bottom={'mean num. errors'} />,
+		renderHeader: (ctx) => <HeaderRender top={ctx.column.title} bottom={'mean number of errors'} />,
 		renderCell: ({ row }) => <PerfRenderer current={row.errors.current} new={row.errors.new} positive={'less'} />,
 	},
 ];
@@ -121,7 +121,7 @@ export const preferenceDefinitions: ColumnDefinition<PreferenceData>[] = [
 	{
 		id: 'col-2',
 		key: 'nonCustomers',
-		title: 'Non Customers',
+		title: 'Non-customers',
 		justify: 'start',
 		renderHeader: (ctx) => <HeaderRender top={ctx.column.title} />,
 		renderCell: ({ row }) => (
