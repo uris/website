@@ -35,5 +35,5 @@ jobs:
             
             # Rebuild container (using docker-compose with hyphen)
             cd ~/projects
-            docker-compose up -d --build website
+            docker-compose --env-file /etc/website/website.env up -d --build website
             docker image prune -f
